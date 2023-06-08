@@ -1,0 +1,77 @@
+$nav-color: #FFFFFF;
+$back-color: #F0F0F0;
+$container-color:#3B55D9;
+$test-color1:#FEBEBE;
+$test-color2:#FFCE35;
+$text-color1:#2F2F2F;
+$text-color2:#FFFFFF;
+
+@import url("https://fonts.googleapis.com/css?family=Corben:700");
+
+
+@media only screen and (min-width: 2400px) {
+  html {
+    font-size: 32px;
+  }
+}
+
+@media only screen and (min-width: 1100px) and (max-width: 2400px) {
+  html {
+    font-size: 16px;
+  }
+}
+@media only screen and (min-width: 700px) and (max-width: 1100px) {
+  html {
+    font-size: 12px;
+  }
+}
+@media only screen and (min-width: 400px) and (max-width: 700px) {
+  html {
+    font-size: 10px;
+  }
+}
+@media only screen and (max-width: 400px) {
+  html {
+    font-size: 8px;
+  }
+}
+
+h1 {
+  font-family: "Corben", cursive;
+  font-size: 6rem;
+  letter-spacing: 0.1rem;
+  text-shadow: 0px 3px 3px rgba(0, 0, 0, 0.66);
+}
+
+body{
+  background-color: $back-color;
+  color: $text-color1;
+}
+
+button {
+  background-color: $nav-color;
+  font-size: 2rem;
+  border-radius: 20px;
+  cursor: inherit;
+  padding: 5px;
+  margin: 10px;
+}
+.go-back-button {
+  letter-spacing: 0.1rem;
+  text-shadow: 0px 3px 3px rgba(0, 0, 0, 0.66);
+  border: none;
+  cursor: pointer;
+}
+
+.App {
+  text-align: center;
+}
+.navbar{
+  background-color: $nav-color;
+  width: 100%;
+  height: 6%;
+  position: fixed;
+  display: flex;
+  justify-content: space-between;
+}
+
