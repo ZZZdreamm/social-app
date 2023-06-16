@@ -18,7 +18,7 @@ export default function Login() {
       const response = await sendCredentials(credentials, "login")
       saveToken(response.token);
       update(getClaims());
-      saveProfile(response.user.id, response.user.email)
+      saveProfile(response.user.id, response.user.email, response.user.profileImage)
       if(response){
         navigate("/");
         navigate(0);

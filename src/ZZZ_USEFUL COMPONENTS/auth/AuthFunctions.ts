@@ -2,7 +2,7 @@ import { serverURL } from "../apiPaths";
 import { userCredentials } from "./auth.models";
 
 export const sendCredentials =(credentials:userCredentials, functionName:string) => {
-    const request = new Request(`${serverURL}${functionName}`, {
+    const request = new Request(`${serverURL}/${functionName}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

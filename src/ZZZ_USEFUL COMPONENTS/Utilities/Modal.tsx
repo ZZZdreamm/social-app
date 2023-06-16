@@ -2,10 +2,10 @@ import Modal from "styled-react-modal";
 
 const StyledModal = Modal.styled`
   width: 30rem;
-  height: 30rem;
+  height: 40rem;
   display: flex;
   align-items: center;
-  background-color: #fff0a5;
+  background-color: #ffffff;
   flex-direction: column;
 `;
 

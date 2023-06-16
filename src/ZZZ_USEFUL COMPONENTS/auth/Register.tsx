@@ -19,7 +19,7 @@ export default function Register() {
       const response = await sendCredentials(credentials, "register");
       saveToken(response.token);
       update(getClaims());
-      saveProfile(response.user.id, response.user.email);
+      saveProfile(response.user.id, response.user.email, response.user.profileImage);
 
       if (response) {
         navigate("/");
@@ -33,7 +33,6 @@ export default function Register() {
   return (
     <>
       <h1>Register</h1>
-      <DisplayErrors errors={errors} />
       <AuthForm
         model={{ email: "", password: "" }}
         onSubmit={async (values) => await register(values)}

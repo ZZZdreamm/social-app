@@ -10,5 +10,5 @@ export const removeItemFromState = async (itemToRemoveIndex: number, setItems: a
 };
 
 export const addItemToState = async (itemToAdd:any, setItems:any) => {
-  setItems((prevItems:any) => [...prevItems, itemToAdd])
+  setItems((prevItems:any) => [itemToAdd, ...prevItems])
 }

@@ -15,7 +15,7 @@ export default function LogoutButton() {
         navigate("/");
         navigate(0);
       }}
-      style={{height:'fit-content'}}
+      style={{height:'fit-content', marginRight:'2rem'}}
     >
       Logout
     </button>

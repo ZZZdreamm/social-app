@@ -22,7 +22,7 @@ export default function AuthForm(props: authFormProps, ifRegister: boolean) {
     onSubmit
   });
   return (
-    <form autoComplete="off" onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} style={{display:'flex', flexDirection:'column', alignItems:'center'}}>
       <label htmlFor="email">Email</label>
       <input
         style={{ textAlign: "left" }}
@@ -47,7 +47,7 @@ export default function AuthForm(props: authFormProps, ifRegister: boolean) {
         placeholder="Enter your password"
       />
       {touched.password && errors.password && <div className="error">{errors.password}</div>}
-      <button disabled={submission} type="submit">Submit</button>
+      <button disabled={submission} type="submit" style={{marginTop:'50px'}}>Submit</button>
     </form>
   );
 }
