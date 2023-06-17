@@ -24,7 +24,6 @@ export default function LandingPage() {
 
   var scrolledPageBottom = useIsInViewport(endOfPostsRef, "1000px");
   useEffect(() => {
-    console.log(scrolledPageBottom)
     if (scrolledPageBottom) {
       getPosts();
     }

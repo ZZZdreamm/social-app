@@ -14,11 +14,12 @@ import { postDataToServer } from "../Firebase/FirebaseFunctions";
 import useEffectAfterSecondRender from "../ZZZ_USEFUL COMPONENTS/Utilities/useEffectAfterSecondRender";
 import useIsInViewport from "../ZZZ_USEFUL COMPONENTS/Utilities/IsInViewPort";
 import { removeOnlyText } from "../ZZZ_USEFUL COMPONENTS/Utilities/DivControl";
+import { openCallWindow } from "../WebRTC/CallFunctions";
 
 export default function ChatWithFriend({ friend }: ChatWithFriendProps) {
   const { openedChats, updateOpenedChats } = useContext(OpenedChatsContext);
   const { myProfile } = useContext(ProfileContext);
-  const [messages, setMessages] = useState<message[]>([]);
+  const [messages, setMessages] = useState<any[]>([]);
   const [textToSend, setTextToSend] = useState("");
   const [choosenImage, setChoosenImage] = useState("");
   const [file, setFile] = useState<File>();
@@ -31,11 +32,13 @@ export default function ChatWithFriend({ friend }: ChatWithFriendProps) {
   const newestMessagesRef = useRef<HTMLElement | null>(null);
   const inputMessageRef = useRef<HTMLDivElement | null>(null);
 
+  const [scrollPosition, setScrollPosition] = useState(0)
+
   useEffect(() => {
     if (!newestMessagesRef.current) return;
     newestMessagesRef.current.scrollIntoView();
   }, [newestMessagesRef, chatOpen]);
-  var scrolledPageBottom = useIsInViewport(messagesEndRef, "200px");
+  var scrolledPageBottom = useIsInViewport(messagesEndRef, "400px");
   useEffect(() => {
     if (scrolledPageBottom) {
       getMessages();
@@ -51,7 +54,9 @@ export default function ChatWithFriend({ friend }: ChatWithFriendProps) {
             return [...messages, message];
           });
           setTimeout(() => {
-            newestMessagesRef.current!.scrollIntoView();
+            if(newestMessagesRef.current){
+              newestMessagesRef.current.scrollIntoView();
+            }
           }, 400);
         }
       });
@@ -72,8 +77,23 @@ export default function ChatWithFriend({ friend }: ChatWithFriendProps) {
       setFetchedAllMessages(true)
     }
     setChatOpen(true);
-    setMessages(messes.reverse());
+    const newMesses :any[] = []
+    messes.forEach((message:any, index:number) => {
+      if(messages?.length == index+1){
+        newMesses.push("empty")
+      }
+      newMesses.push(message)
+    });
+    setMessages(newMesses.reverse());
   }
+  useEffect(()=>{
+    const scrollableSpan = document.getElementById('scrollable-span')
+    if(scrollableSpan){
+      scrollableSpan.scrollIntoView()
+    }
+  },[messages])
+
+
   async function sendMessage() {
     let messageToSend = {
       SenderId: myProfile.Id,
@@ -108,6 +128,10 @@ export default function ChatWithFriend({ friend }: ChatWithFriendProps) {
   }
   const inputSize = textToSend != "" || choosenImage != "" ? "80%" : "50%";
 
+  function eraseChoosenImage(){
+    setChoosenImage("");
+    setFile(undefined);
+  }
   return (
     <section className="chat">
       <div className="chat-header">
@@ -115,14 +139,17 @@ export default function ChatWithFriend({ friend }: ChatWithFriendProps) {
           <img className="chat-header-userProfile-image" src={image} />
           {friend.Email}
         </span>
+        <img className="chat-header-call" src={`${ReadyImagesURL}/video-call.png`} onClick={()=> {
+          socket.emit('create-join-room', {userId:myProfile.Id, friendId:friend.Id})
+          openCallWindow(myProfile, friend, "call-friend")}}/>
         <img
           className="chat-header-close"
           src={`${ReadyImagesURL}/redX.png`}
           onClick={closeChat}
         />
-        
+
       </div>
-      <div className="chat-body">
+      <div id={`chat-body/${friend.Id}`} className="chat-body">
         <div className="chat-body-start">
           <img src={image} />
           <h5>{friend.Email}</h5>
@@ -141,13 +168,25 @@ export default function ChatWithFriend({ friend }: ChatWithFriendProps) {
         )}
         <div className="chat-footer-container" style={{ width: inputSize }}>
           <div
-            ref={inputMessageRef}
+            // ref={inputMessageRef}
             className="chat-footer-input"
+            // contentEditable={true}
+            // onInput={(e: any) => setTextToSend(e.target.innerText)}
+          >
+            <div
+            ref={inputMessageRef}
+            style={{height:'100%', width:'100%'}}
             contentEditable={true}
             onInput={(e: any) => setTextToSend(e.target.innerText)}
-          >
+
+            >
+
+            </div>
             {choosenImage && (
-              <img className="chat-footer-input-image" src={choosenImage} />
+              <div className="chat-footer-input-image">
+              <img style={{height:'100%', width:'100%', outline:'none'}} src={choosenImage} />
+              <img className="erase-image" src={`${ReadyImagesURL}/redX.png`} onClick={eraseChoosenImage}/>
+              </div>
             )}
           </div>
         </div>

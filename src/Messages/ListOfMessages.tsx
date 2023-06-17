@@ -8,10 +8,16 @@ export default function ListOfMessages({ messages }: ListOfMessagesProps) {
     <div className="listOfMessages">
       {messages ? (
         messages.map((message) => (
-          <Message message={message} key={message.Id} />
+          <>
+            {message.Id ? (
+              <Message message={message} key={message.Id} />
+            ) : (
+              <span id="scrollable-span"></span>
+            )}
+          </>
         ))
       ) : (
-        <span style={{padding:'0.5rem'}}>Loading messages...</span>
+        <span style={{ padding: "0.5rem" }}>Loading messages...</span>
       )}
     </div>
   );

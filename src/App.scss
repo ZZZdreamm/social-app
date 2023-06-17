@@ -392,7 +392,7 @@ label {
     padding: 5px;
     display: flex;
     width: inherit;
-    border-bottom: 1px solid black;
+    border-bottom: 1px solid #bbb;
     align-items: center;
     gap: 1rem;
     img {
@@ -780,6 +780,9 @@ label {
 .friend-profile {
   width: 23%;
   aspect-ratio: 1;
+  background-color: $text-color2;
+  border-bottom-left-radius: 1rem;
+  border-bottom-right-radius: 1rem;
   cursor: pointer;
   img {
     width: 100%;
@@ -847,6 +850,12 @@ label {
         border-radius: 50%;
       }
     }
+    &-call {
+      cursor: pointer;
+      height: 50%;
+      padding: 0.5rem;
+      border-radius: 50%;
+    }
     &-close {
       cursor: pointer;
       height: 50%;
@@ -909,6 +918,9 @@ label {
         background-color: $container-color;
         width: 3rem;
         aspect-ratio: 1;
+        user-select: none;
+        position: relative;
+        margin-bottom: 0.3rem;
       }
     }
     &-send {
@@ -923,7 +935,7 @@ label {
   .chat {
     height: 40rem;
     width: 30rem;
-    &-footer-input{
+    &-footer-input {
       bottom: 1.5rem;
     }
   }
@@ -932,10 +944,12 @@ label {
 .listOfMessages {
   display: flex;
   flex-direction: column;
+  position: relative;
   gap: 0.7rem;
   padding: 1rem 0.1rem;
 }
 .message {
+  position: relative;
   max-width: 80%;
   display: flex;
   text-align: left;
@@ -956,4 +970,65 @@ label {
       cursor: pointer;
     }
   }
+}
+
+.call {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: black;
+  z-index: 100;
+  .video {
+    position: absolute;
+    right: 3rem;
+    top: 3rem;
+    height: 50vh;
+    background-color: black;
+    aspect-ratio: 0.75;
+  }
+  .friendVideo {
+    height: 100%;
+    width: 100%;
+  }
+  &-options {
+    display: flex;
+    position: absolute;
+    bottom: 6rem;
+    left: 45%;
+    z-index: 101;
+    height: 3rem;
+    border-radius: 50%;
+    gap: 4rem;
+    &-option {
+      height: 3rem;
+      width: 3rem;
+      background-color: $text-color2;
+      border-radius: 50%;
+      padding: 0.5rem;
+      cursor: pointer;
+      &:hover {
+        background-color: $test-color2;
+      }
+      &:active {
+        background-color: $container-color;
+      }
+    }
+  }
+}
+
+.call-image {
+  height: 3rem;
+  aspect-ratio: 1;
+  cursor: pointer;
+}
+
+.erase-image {
+  position: absolute;
+  right: 0.2rem;
+  top: 0.2rem;
+  height: 1rem;
+  aspect-ratio: 1;
+  cursor: pointer;
 }

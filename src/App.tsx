@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react";
+import { ReactElement, useEffect, useState } from "react";
 import "./App.scss";
-import { ModalProvider } from "styled-react-modal";
+import Modal, { ModalProvider } from "styled-react-modal";
 import AuthenticationContext from "./ZZZ_USEFUL COMPONENTS/auth/AuthenticationContext";
 import { claim } from "./ZZZ_USEFUL COMPONENTS/auth/auth.models";
 import { getClaims } from "./ZZZ_USEFUL COMPONENTS/auth/HandleJWT";
@@ -23,6 +23,8 @@ import { postDataToServer } from "./Firebase/FirebaseFunctions";
 import OpenedChats from "./Messages/OpenedChats";
 import { socketURL } from "./ZZZ_USEFUL COMPONENTS/apiPaths";
 import { io } from "socket.io-client";
+import CallModal from "./WebRTC/CallModal";
+import { openCallWindow } from "./WebRTC/CallFunctions";
 
 export const socket = io(socketURL);
 
@@ -37,6 +39,7 @@ function App() {
     profileDTO[] | undefined
   >();
   const [openedChats, setOpenedChats] = useState<profileDTO[]>([]);
+  const [call, setCall] = useState<ReactElement>(<></>);
 
   const [online, setOnline] = useState(true);
   const [gotClaims, setGotClaims] = useState(false);
@@ -56,6 +59,17 @@ function App() {
   useEffect(() => {
     if (!profile) return;
     if (!profile.Id) return;
+    socket.on(`calling/${profile.Id}`, async (callerId) => {
+      const caller = await postDataToServer({ name: callerId }, "get-user");
+      console.log(caller)
+      setCall(
+        <CallModal
+          onSubmit={() => openCallWindow(profile, caller, "call-accept")}
+          friend={caller}
+          setCall={setCall}
+        />
+      );
+    });
     getFriends();
     getFriendRequests();
     getSentFriendRequests();
@@ -120,6 +134,7 @@ function App() {
                         <Authorized isAuthorized={<LeftBar />} />
 
                         <OpenedChats openedChats={openedChats} />
+                        {call}
 
                         <section className="landing-page">
                           <Routes>

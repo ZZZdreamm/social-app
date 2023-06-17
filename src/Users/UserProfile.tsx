@@ -171,6 +171,7 @@ export default function UserProfile() {
           <div className="profile-down">
             {content == "posts" && (
               <>
+                <h2>Posts</h2>
                 <PostsList posts={posts} />
                 <span ref={endOfPostsRef}></span>
                 {allPostsFetched && <h2>You have reached end of internet.</h2>}
