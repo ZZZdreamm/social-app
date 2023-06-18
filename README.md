@@ -16,3 +16,7 @@ TODO:
 - add creating chats with multiple users and many people video calls
 
 Link to the website - https://zzzdreamm.github.io/social-app/
+
+EXAMPLE ACCOUNT TO TEST APP:
+- e-mail: example@gmail.com
+- password: example1@
