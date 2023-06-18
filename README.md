@@ -12,4 +12,7 @@ Posts and messages are not downloaded all but just newest 10 and when you are cl
 Things I'm proud of:
 - possibility to do video calls between certain users
 
+TODO:
+- add creating chats with multiple users and many people video calls
+
 Link to the website - https://zzzdreamm.github.io/social-app/
