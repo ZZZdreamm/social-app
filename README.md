@@ -10,7 +10,8 @@ As database serves me Firebase Cloud Firestore and Firebase Storage (firestore f
 Posts and messages are not downloaded all but just newest 10 and when you are close to reaching end of page or end of chat IntersectionObserver fires event to download next 10 objects.
 
 Things I'm proud of:
-- possibility to do video calls between certain users
+- possibility to do video calls between certain users (even though there are some problems with closing connections currently but will
+repair it soon)
 
 TODO:
 - add creating chats with multiple users and many people video calls
