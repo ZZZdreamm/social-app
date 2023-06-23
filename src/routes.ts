@@ -3,8 +3,7 @@ import UserFriendRequests from "./Users/UserFriendRequests";
 import UserFriends from "./Users/UserFriends";
 import UserProfile from "./Users/UserProfile";
 import UserSentFriendRequests from "./Users/UserSentFriendRequests";
-import VideoCallReceiver from "./WebRTC/VideoCallReceiver";
-import VideoCall from "./WebRTC/VideoCallSender";
+import Calling from "./WebRTC/Calling";
 import Login from "./ZZZ_USEFUL COMPONENTS/auth/Login";
 import Register from "./ZZZ_USEFUL COMPONENTS/auth/Register";
 
@@ -15,8 +14,7 @@ const routes = [
     {path:'/user-friends/:id', component:UserFriends},
     {path:'/user-friend-requests/:id', component:UserFriendRequests},
     {path:'/user-sent-friend-requests/:id', component:UserSentFriendRequests},
-    {path:'/call-friend/:userId/:friendId', component:VideoCall},
-    {path:'/call-accept/:userId/:friendId', component:VideoCallReceiver},
+    {path:'/call/:who/:userId/:friendId/:roomId', component:Calling},
 
 
 

@@ -4,5 +4,6 @@ export interface message{
     ReceiverId:string;
     TextContent:string;
     MediaFile:string;
+    VoiceFile:string;
     Date:Date;
 }

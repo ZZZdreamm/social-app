@@ -18,7 +18,7 @@ export default function Friend({ friend }: FriendProps) {
     <div className="friend">
       <img src={friend.ProfileImage || `${ReadyImagesURL}/noProfile.jpg`} onClick={()=> navigate(`/user-profile/${friend.Id}`)}/>
       <span className="friend-info">
-        <span onClick={()=> navigate(`/user-profile/${friend.Id}`)}>Name: {friend.Email}</span>
+        <span>Name: {friend.Email}</span>
         <button className="friend-remove" onClick={removeFriend}>Remove friend</button>
       </span>
     </div>

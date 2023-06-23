@@ -1,5 +1,5 @@
 import { ReactElement, useEffect, useState } from "react";
-import "./App.scss";
+import "./Styles.scss";
 import Modal, { ModalProvider } from "styled-react-modal";
 import AuthenticationContext from "./ZZZ_USEFUL COMPONENTS/auth/AuthenticationContext";
 import { claim } from "./ZZZ_USEFUL COMPONENTS/auth/auth.models";
@@ -59,14 +59,18 @@ function App() {
   useEffect(() => {
     if (!profile) return;
     if (!profile.Id) return;
-    socket.on(`calling/${profile.Id}`, async (callerId) => {
-      const caller = await postDataToServer({ name: callerId }, "get-user");
-      console.log(caller)
+    socket.on(`calling/${profile.Id}`, async (data) => {
+      const caller = await postDataToServer({ name: data.userId }, "get-user");
       setCall(
         <CallModal
-          onSubmit={() => openCallWindow(profile, caller, "call-accept")}
+          onSubmit={() =>
+            openCallWindow(profile, caller, data.roomId, "receiver")
+          }
           friend={caller}
           setCall={setCall}
+          onClose={() => {
+            socket.emit("leave-call", { friendId: caller.Id });
+          }}
         />
       );
     });
@@ -130,6 +134,7 @@ function App() {
                   <div className="App">
                     {online ? (
                       <>
+                        <div className="navbar-placeholder"></div>
                         <Menu />
                         <Authorized isAuthorized={<LeftBar />} />
 

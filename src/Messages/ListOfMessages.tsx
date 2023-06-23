@@ -12,7 +12,7 @@ export default function ListOfMessages({ messages }: ListOfMessagesProps) {
             {message.Id ? (
               <Message message={message} key={message.Id} />
             ) : (
-              <span id="scrollable-span"></span>
+              <span id={`scrollable-span/${message.ReceiverId}`}></span>
             )}
           </>
         ))

@@ -32,6 +32,9 @@ export default function LeftBar() {
   } else if (smallPage) {
     barStyling = {
       width: "10vw",
+      backgroundColor:'white',
+    boxShadow: '8px 0px 10px -12px rgba(0, 0, 0, 0.75)'
+
     };
     elementsStyling = {
       padding: "0.3rem 0.3rem",
@@ -40,6 +43,9 @@ export default function LeftBar() {
   } else {
     barStyling = {
       width: "5vw",
+      backgroundColor:'white',
+    boxShadow: '8px 0px 10px -12px rgba(0, 0, 0, 0.75)'
+
     };
     elementsStyling = {
       padding: "0.3rem 0.3rem",

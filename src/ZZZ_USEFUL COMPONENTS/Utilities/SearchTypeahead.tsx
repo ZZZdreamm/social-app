@@ -2,9 +2,9 @@ import { useEffect, useState } from "react";
 import { AsyncTypeahead } from "react-bootstrap-typeahead";
 
 const typeaheadStyle = {
-  borderRadius: "15px",
-  margin: "10px",
-  padding: "5px",
+  borderRadius: "1rem",
+  margin: "0.3rem",
+  padding: "0.1rem",
 };
 
 export default function SearchTypeahead({

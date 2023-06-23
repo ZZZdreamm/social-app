@@ -17,12 +17,13 @@ export default function Message({ message }: MessageProps) {
       setFromFriend(true);
     }
   }, [myProfile]);
-  const contentBackgroundColor = fromFriend ? '#89CFF0' : ''
+  const contentBackgroundColor = fromFriend ? '' : '#89CFF0'
   return (
     <div className="message" style={styling}>
       <div className="message-content" style={{backgroundColor:contentBackgroundColor}}>
         {message.TextContent}
         {message.MediaFile && <img src={message.MediaFile}/>}
+        {message.VoiceFile && <audio className="message-content-audio" src={message.VoiceFile} controls={true}/>}
       </div>
     </div>
   );

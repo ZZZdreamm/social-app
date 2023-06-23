@@ -13,6 +13,7 @@ import { storageRef } from "../Firebase/FirebaseConfig";
 import { uploadBytes } from "firebase/storage";
 import uuid4 from "uuid4";
 import { addItemToState } from "../ZZZ_USEFUL COMPONENTS/Utilities/StateModifications";
+import FileDropElement from "./FileDropElement";
 
 export default function PostForm({ setPosts }: PostFormProps) {
   const navigate = useNavigate();
@@ -84,6 +85,7 @@ export default function PostForm({ setPosts }: PostFormProps) {
                     setText(e.target.innerHTML);
                   }}
                 />
+                <FileDropElement/>
                 {choosenImage && (
                   <>
                     {imageOrVideo == "Images" && (

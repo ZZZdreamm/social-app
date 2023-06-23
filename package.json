@@ -2,6 +2,7 @@
   "name": "social-app",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://zzzdreamm.github.io/social-app/",
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
@@ -14,6 +15,7 @@
     "formik": "^2.4.1",
     "material-components-web": "^14.0.0",
     "react": "^18.2.0",
+    "react-audio-voice-recorder": "^1.2.1",
     "react-bootstrap-typeahead": "^6.2.2",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.12.1",
@@ -31,6 +33,8 @@
   },
   "scripts": {
     "start": "react-scripts start",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
@@ -56,6 +60,7 @@
   "devDependencies": {
     "@types/simple-peer": "^9.11.5",
     "@types/styled-react-modal": "^1.2.2",
-    "@types/uuid4": "^2.0.0"
+    "@types/uuid4": "^2.0.0",
+    "gh-pages": "^5.0.0"
   }
 }

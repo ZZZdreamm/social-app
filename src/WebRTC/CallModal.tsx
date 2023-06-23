@@ -15,7 +15,7 @@ const StyledModal = Modal.styled`
 `;
 
 //@ts-ignore
-export default function CallModal({ friend, onSubmit, setCall }: MyModalProps) {
+export default function CallModal({ friend, onSubmit, setCall, onClose }: MyModalProps) {
   const [isOpen, setIsOpen] = useState(true);
   function toggleModal() {
     setIsOpen(!isOpen);
@@ -40,7 +40,10 @@ export default function CallModal({ friend, onSubmit, setCall }: MyModalProps) {
         <img
         className="call-image"
           src={`${ReadyImagesURL}/leave-call.png`}
-          onClick={toggleModal}
+          onClick={()=>{
+            onClose()
+            toggleModal()
+          }}
         />
       </div>
     </StyledModal>
@@ -51,4 +54,5 @@ interface MyModalProps {
   friend: profileDTO;
   setCall:any;
   onSubmit: any;
+  onClose:any;
 }

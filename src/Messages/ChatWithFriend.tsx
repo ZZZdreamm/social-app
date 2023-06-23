@@ -15,6 +15,7 @@ import useEffectAfterSecondRender from "../ZZZ_USEFUL COMPONENTS/Utilities/useEf
 import useIsInViewport from "../ZZZ_USEFUL COMPONENTS/Utilities/IsInViewPort";
 import { removeOnlyText } from "../ZZZ_USEFUL COMPONENTS/Utilities/DivControl";
 import { openCallWindow } from "../WebRTC/CallFunctions";
+import RecordMessager from "./RecordMessager";
 
 export default function ChatWithFriend({ friend }: ChatWithFriendProps) {
   const { openedChats, updateOpenedChats } = useContext(OpenedChatsContext);
@@ -23,16 +24,19 @@ export default function ChatWithFriend({ friend }: ChatWithFriendProps) {
   const [textToSend, setTextToSend] = useState("");
   const [choosenImage, setChoosenImage] = useState("");
   const [file, setFile] = useState<File>();
+  const [audioURL, setAudioURL] = useState("");
+  const [voiceMessage, setVoiceMessage] = useState<Blob>();
+  const [removedVoiceMes, setRemovedVoiceMes] = useState(false);
+
   const [chatOpen, setChatOpen] = useState(false);
-  const [fetchedAllMessages, setFetchedAllMessages] = useState(false)
+  const [fetchedAllMessages, setFetchedAllMessages] = useState(false);
   const image = friend.ProfileImage || `${ReadyImagesURL}/noProfile.jpg`;
   let numberOfMessages = 10;
 
   const messagesEndRef = useRef(null);
   const newestMessagesRef = useRef<HTMLElement | null>(null);
   const inputMessageRef = useRef<HTMLDivElement | null>(null);
-
-  const [scrollPosition, setScrollPosition] = useState(0)
+  const wholeMessageRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     if (!newestMessagesRef.current) return;
@@ -54,7 +58,7 @@ export default function ChatWithFriend({ friend }: ChatWithFriendProps) {
             return [...messages, message];
           });
           setTimeout(() => {
-            if(newestMessagesRef.current){
+            if (newestMessagesRef.current) {
               newestMessagesRef.current.scrollIntoView();
             }
           }, 400);
@@ -63,7 +67,7 @@ export default function ChatWithFriend({ friend }: ChatWithFriendProps) {
     }
   }, [myProfile, newestMessagesRef]);
   async function getMessages() {
-    if(fetchedAllMessages) return
+    if (fetchedAllMessages) return;
     const messagesToGet = messages?.length + numberOfMessages;
     const messes = await postDataToServer(
       {
@@ -73,26 +77,27 @@ export default function ChatWithFriend({ friend }: ChatWithFriendProps) {
       },
       "get-chat-messages"
     );
-    if(messes && messages && messes.length == messages.length){
-      setFetchedAllMessages(true)
+    if (messes && messages && messes.length == messages.length) {
+      setFetchedAllMessages(true);
     }
     setChatOpen(true);
-    const newMesses :any[] = []
-    messes.forEach((message:any, index:number) => {
-      if(messages?.length == index+1){
-        newMesses.push("empty")
+    const newMesses: any[] = [];
+    messes.forEach((message: any, index: number) => {
+      if (messages?.length == index + 1) {
+        newMesses.push("empty");
       }
-      newMesses.push(message)
+      newMesses.push(message);
     });
     setMessages(newMesses.reverse());
   }
-  useEffect(()=>{
-    const scrollableSpan = document.getElementById('scrollable-span')
-    if(scrollableSpan){
-      scrollableSpan.scrollIntoView()
+  useEffect(() => {
+    const scrollableSpan = document.getElementById(
+      `scrollable-span/${friend.Id}`
+    );
+    if (scrollableSpan) {
+      scrollableSpan.scrollIntoView();
     }
-  },[messages])
-
+  }, [messages]);
 
   async function sendMessage() {
     let messageToSend = {
@@ -100,6 +105,7 @@ export default function ChatWithFriend({ friend }: ChatWithFriendProps) {
       ReceiverId: friend.Id,
       TextContent: textToSend,
       MediaFile: "",
+      VoiceFile: "",
       Date: Date.now(),
     };
     if (file) {
@@ -110,13 +116,22 @@ export default function ChatWithFriend({ friend }: ChatWithFriendProps) {
       const url = await imageRef.getDownloadURL();
       messageToSend.MediaFile = url;
     }
+    if (voiceMessage) {
+      const voiceRef = storageRef.child(`/messageVoices/${uuid4()}`);
+      await voiceRef.put(voiceMessage!);
+      const url = await voiceRef.getDownloadURL();
+      messageToSend.VoiceFile = url;
+    }
     socket.emit("send-message", messageToSend);
     setTimeout(() => {
       setChoosenImage("");
       setFile(undefined);
+      setVoiceMessage(undefined);
+      setAudioURL("");
+      setRemovedVoiceMes(true);
       setTextToSend("");
       removeOnlyText(inputMessageRef);
-      if(newestMessagesRef.current){
+      if (newestMessagesRef.current) {
         newestMessagesRef.current.scrollIntoView();
       }
     }, 500);
@@ -126,12 +141,18 @@ export default function ChatWithFriend({ friend }: ChatWithFriendProps) {
     const chats = openedChats.filter((chat) => chat.Id != friend.Id);
     updateOpenedChats(chats);
   }
-  const inputSize = textToSend != "" || choosenImage != "" ? "80%" : "50%";
+  const inputSize =
+    textToSend != "" || choosenImage != "" || audioURL != "" ? "80%" : "30%";
 
-  function eraseChoosenImage(){
+  function eraseChoosenImage() {
     setChoosenImage("");
     setFile(undefined);
   }
+
+  useEffect(() => {
+    console.log(audioURL);
+  }, [audioURL]);
+
   return (
     <section className="chat">
       <div className="chat-header">
@@ -139,15 +160,24 @@ export default function ChatWithFriend({ friend }: ChatWithFriendProps) {
           <img className="chat-header-userProfile-image" src={image} />
           {friend.Email}
         </span>
-        <img className="chat-header-call" src={`${ReadyImagesURL}/video-call.png`} onClick={()=> {
-          socket.emit('create-join-room', {userId:myProfile.Id, friendId:friend.Id})
-          openCallWindow(myProfile, friend, "call-friend")}}/>
+        <img
+          className="chat-header-call"
+          src={`${ReadyImagesURL}/video-call.png`}
+          onClick={() => {
+            const roomId = uuid4();
+            socket.emit("create-join-room", {
+              myId: myProfile.Id,
+              friendId: friend.Id,
+              roomId: roomId,
+            });
+            openCallWindow(myProfile, friend, roomId, "caller");
+          }}
+        />
         <img
           className="chat-header-close"
           src={`${ReadyImagesURL}/redX.png`}
           onClick={closeChat}
         />
-
       </div>
       <div id={`chat-body/${friend.Id}`} className="chat-body">
         <div className="chat-body-start">
@@ -159,41 +189,61 @@ export default function ChatWithFriend({ friend }: ChatWithFriendProps) {
         <span ref={newestMessagesRef}></span>
       </div>
       <div className="chat-footer">
-        {textToSend == "" && (
-          <FileInput
-            imageFunction={setChoosenImage}
-            fileFunction={setFile}
-            callback={() => {}}
-          />
+        {textToSend == "" && !voiceMessage && choosenImage == "" && (
+          <div style={{ width: "3rem", height: "3rem", padding:'0.2rem' }}>
+            <FileInput
+              imageFunction={setChoosenImage}
+              fileFunction={setFile}
+              callback={() => {}}
+            />
+          </div>
         )}
+        <RecordMessager
+          setVoiceMessage={setVoiceMessage}
+          setAudioURL={setAudioURL}
+          voiceMessage={voiceMessage}
+          removedVoiceMes={removedVoiceMes}
+          setRemovedVoiceMes={setRemovedVoiceMes}
+        />
         <div className="chat-footer-container" style={{ width: inputSize }}>
-          <div
-            // ref={inputMessageRef}
-            className="chat-footer-input"
-            // contentEditable={true}
-            // onInput={(e: any) => setTextToSend(e.target.innerText)}
-          >
+          <div ref={wholeMessageRef} className="chat-footer-input">
             <div
-            ref={inputMessageRef}
-            style={{height:'100%', width:'100%'}}
-            contentEditable={true}
-            onInput={(e: any) => setTextToSend(e.target.innerText)}
-
-            >
-
-            </div>
+              ref={inputMessageRef}
+              style={{ height: "100%", width: "100%", outline: "none" }}
+              contentEditable={true}
+              onInput={(e: any) => setTextToSend(e.target.innerText)}
+            ></div>
             {choosenImage && (
-              <div className="chat-footer-input-image">
-              <img style={{height:'100%', width:'100%', outline:'none'}} src={choosenImage} />
-              <img className="erase-image" src={`${ReadyImagesURL}/redX.png`} onClick={eraseChoosenImage}/>
-              </div>
+              <span style={{ display: "flex", gap: "0.3rem" }}>
+                <div style={{ width: "3rem", height: "3rem" }}>
+                  <FileInput
+                    imageFunction={setChoosenImage}
+                    fileFunction={setFile}
+                    callback={() => {}}
+                  />
+                </div>
+                <div className="chat-footer-input-image">
+                  <img
+                    style={{ height: "100%", width: "100%", outline: "none" }}
+                    src={choosenImage}
+                  />
+                  <img
+                    className="erase-image"
+                    src={`${ReadyImagesURL}/redX.png`}
+                    onClick={eraseChoosenImage}
+                  />
+                </div>
+              </span>
+            )}
+            {voiceMessage && audioURL && (
+              <audio style={{ width: "100%" }} src={audioURL} controls={true} />
             )}
           </div>
         </div>
         <img
           className="chat-footer-send"
           src={
-            !textToSend && !file
+            !textToSend && !file && !voiceMessage
               ? `${ReadyImagesURL}/like.png`
               : `${ReadyImagesURL}/sendBtn.png`
           }

@@ -8,7 +8,13 @@ $text-color2: #ffffff;
 
 @import url("https://fonts.googleapis.com/css?family=Corben:700");
 
-@media only screen and (min-width: 2400px) {
+@media only screen and (min-width: 4000px) {
+  html {
+    font-size: 56px;
+  }
+}
+
+@media only screen and (min-width: 2400px) and (max-width: 4000px) {
   html {
     font-size: 32px;
   }
@@ -65,6 +71,9 @@ h1 {
   letter-spacing: 0.1rem;
   text-shadow: 0px 3px 3px rgba(0, 0, 0, 0.66);
 }
+h5{
+  margin: 1.5rem 0;
+}
 
 body {
   background-color: $back-color;
@@ -78,7 +87,7 @@ button {
   font-size: 2rem;
   border-radius: 1rem;
   cursor: pointer;
-  padding: 5px;
+  padding: 0.5rem;
   margin: 10px;
   transition: background-color 0.3s;
   &:hover {
@@ -92,7 +101,7 @@ button {
   width: fit-content;
 }
 label {
-  margin: 10% 0;
+  margin: 5% 0;
   text-align: center;
   display: flex;
 }
@@ -112,10 +121,11 @@ label {
 
 .App {
   text-align: center;
+  position: relative;
+  z-index: -1;
 }
 .landing-page {
-  position: absolute;
-  top: 6%;
+  position: relative;
   min-height: 93.9vh;
   min-width: 100vw;
   max-width: 100vw;
@@ -128,20 +138,26 @@ label {
 .navbar {
   background-color: $nav-color;
   width: 100%;
-  height: 6%;
+  height: 6vh;
   position: fixed;
+  top: 0;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  z-index: 15;
   button {
     border: none;
     background-color: $nav-color;
   }
 }
 
+.navbar-placeholder {
+  display: flex;
+  width: 100%;
+  height: 6vh;
+}
+
 .typeaheadContainer {
-  position: relative;
-  right: 5%;
   width: 30%;
   height: 60%;
   display: flex;
@@ -213,7 +229,7 @@ label {
 .profile {
   position: relative;
   top: 0;
-  left: 5vw;
+  left: 3vw;
   display: flex;
   justify-content: center;
   align-items: flex-start;
@@ -225,7 +241,7 @@ label {
     flex-direction: column;
     background-color: $text-color2;
     height: fit-content;
-    width: 95vw;
+    width: 100%;
     overflow: hidden;
     margin: 0 auto;
     &-image {
@@ -277,7 +293,7 @@ label {
         width: 100%;
         height: 30%;
         button {
-          height: calc(100% - 2rem);
+          height: calc(100% - 1rem);
           padding: 0 0.5rem;
           width: fit-content;
           border: none;
@@ -296,22 +312,40 @@ label {
     align-items: center;
     flex-direction: column;
     height: fit-content;
-    width: 70vw;
+    width: 50vw;
     margin: 0 auto;
+  }
+}
+@media screen and (max-width:600px) {
+  .profile{
+    left:5vw;
+  }
+}
+
+@media screen and (min-width:2000px) {
+  .profile{
+    left:1vw;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .profile-down{
+    width: 86vw;
   }
 }
 
 .bar {
   position: fixed;
-  height: 94vh;
+  height: 100%;
   background-color: $back-color;
-  top: 6%;
+  top: 6vh;
   &-left {
     left: 0;
   }
   &-right {
     right: 0;
     width: 20vw;
+
   }
   ul {
     padding: 0 0.5rem;
@@ -329,6 +363,8 @@ label {
 
       img {
         height: 80%;
+        aspect-ratio: 1;
+        border-radius: 50%;
       }
       span {
         font-size: 1rem;
@@ -348,7 +384,7 @@ label {
   flex-direction: column;
   margin: 0 auto;
   width: 50vw;
-  padding: 5vw;
+  padding: 2vw 5vw 5vw 5vw;
 }
 .friends {
   position: relative;
@@ -362,8 +398,8 @@ label {
 @media only screen and (max-width: 700px) {
   .middle-content {
     position: relative;
-    left: 8vw;
-    width: 80vw;
+    left: 4vw;
+    width: 84vw;
     justify-content: center;
     align-items: center;
     padding: 1vw;
@@ -382,17 +418,20 @@ label {
 }
 .post-form {
   width: calc(100% - 2rem);
-  height: 15vh;
-  border-radius: 1rem;
-  background-color: $text-color2;
+  // height: 15vh;
+  height: 8vh;
   display: grid;
-  grid-template-rows: 50% 50%;
+  // grid-template-rows: 50% 50%;
+  grid-template-rows: 100%;
   padding: 1rem;
   &-up {
-    padding: 5px;
+    padding: 0.3rem;
     display: flex;
-    width: inherit;
-    border-bottom: 1px solid #bbb;
+    width: calc(100% - 0.6rem);
+    // border-bottom: 1px solid #bbb;
+    background-color: $text-color2;
+  border-radius: 1rem;
+
     align-items: center;
     gap: 1rem;
     img {
@@ -407,7 +446,7 @@ label {
       border-radius: 1rem;
       height: fit-content;
       text-align: left;
-      padding: 0.3rem;
+      padding: 0.6rem;
       color: #555;
       background-color: #eee;
       cursor: pointer;
@@ -468,6 +507,14 @@ label {
     aspect-ratio: 1;
   }
 }
+body {
+  position: relative;
+  z-index: -1;
+}
+#root {
+  position: relative;
+  z-index: -1;
+}
 .modal-image {
   width: 90%;
   height: 8%;
@@ -481,9 +528,9 @@ label {
 }
 
 .custom-file-input {
-  height: 80%;
+  height: 100%;
   aspect-ratio: 1;
-  margin: 0 0.5rem;
+  // margin: 0 0.5rem;
   display: flex;
   align-items: center;
 }
@@ -492,7 +539,7 @@ label {
   visibility: hidden;
 }
 .custom-file-input::before {
-  background-image: url("http://localhost:3000/question-image.png");
+  background-image: url("https://zzzdreamm.github.io/social-app/question-image.png");
   background-size: cover;
   content: "";
   background: linear-gradient(top, #f9f9f9, #e3e3e3);
@@ -566,7 +613,7 @@ label {
     }
     &-bottom {
       width: calc(100% - 2rem);
-      height: 8rem;
+      height: 10rem;
       padding: 0 1rem;
       .option {
         display: flex;
@@ -595,9 +642,9 @@ label {
         align-items: center;
 
         button {
-          width: 50%;
+          max-width: 50%;
           border: none;
-          margin: 0;
+          margin: 0.5rem;
           &:hover {
             background-color: $test-color2;
           }
@@ -630,6 +677,7 @@ label {
       resize: none;
     }
     button {
+      padding: 0.7rem;
     }
   }
   &-comments {
@@ -650,7 +698,7 @@ label {
   width: calc(100% - 1rem);
   padding: 0.5rem;
   display: block;
-  background-color: $test-color1;
+  background-color: #eee;
   border-radius: 1rem;
   &-profile {
     display: flex;
@@ -682,37 +730,48 @@ label {
   color: red;
   cursor: pointer;
 }
-
+@media screen and (max-width: 600px) {
+  .listOfFriends{
+    display: flex;
+  }
+}
+@media screen and (min-width: 600px) {
+  .listOfFriends{
+    display: grid;
+    grid-template-columns: 23% 23% 23% 23%;
+  }
+}
 .listOfFriends {
-  display: grid;
   width: calc(100% - 2rem);
   margin: 0 auto;
   gap: 2rem;
-  grid-template-columns: 30% 30% 30%;
   row-gap: 3rem;
   padding-bottom: 2rem;
+
   .friend {
-    border-bottom-left-radius: 2rem;
-    border-bottom-right-radius: 2rem;
+    flex:1;
     display: flex;
     flex-direction: column;
     img {
       width: 100%;
       aspect-ratio: 1;
-      background-color: $text-color2;
+      background-color: #89CFF0;
+
       cursor: pointer;
     }
     &-info {
+      padding: 1rem;
       display: flex;
-      width: 100%;
+      width: calc(100% - 2rem);
       height: 10vh;
-      background-color: $text-color2;
+      background-color: #89CFF0;
       font-weight: bold;
       font-size: 1rem;
       flex-direction: column;
+      border-bottom-left-radius: 2rem;
+      border-bottom-right-radius: 2rem;
       span {
         word-break: break-all;
-        cursor: pointer;
       }
     }
     &-remove {
@@ -745,7 +804,7 @@ label {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background-color: $test-color1;
+    background-color: #89CFF0;
     border-radius: 1rem;
     padding: 1rem;
     &-profile {
@@ -780,7 +839,8 @@ label {
 .friend-profile {
   width: 23%;
   aspect-ratio: 1;
-  background-color: $text-color2;
+  padding: 1rem;
+  background-color: #89CFF0;
   border-bottom-left-radius: 1rem;
   border-bottom-right-radius: 1rem;
   cursor: pointer;
@@ -886,21 +946,22 @@ label {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    width: 100%;
+    width: calc(100% - 0.4rem);
     height: 15%;
+    padding: 0 0.2rem;
     box-shadow: 0 -1px 3px rgba(0, 0, 0, 0.3);
     &-container {
       position: relative;
       height: 15rem;
       padding: 0 1rem;
-      min-width: 40%;
+      min-width: 30%;
       max-width: 70%;
       align-self: flex-end;
     }
     &-input {
       position: absolute;
       bottom: 1rem;
-      max-height: 200px;
+      max-height: 100%;
       width: calc(100% - 3rem);
       border: 1px solid #bbb;
       border-radius: 1rem;
@@ -917,7 +978,7 @@ label {
       &-image {
         background-color: $container-color;
         width: 3rem;
-        aspect-ratio: 1;
+        height: 3rem;
         user-select: none;
         position: relative;
         margin-bottom: 0.3rem;
@@ -969,6 +1030,22 @@ label {
       aspect-ratio: 1;
       cursor: pointer;
     }
+  }
+}
+
+.message-content-audio {
+  width: 100%;
+  min-width: 10rem;
+  padding: 0.5rem 0;
+}
+@media screen and (max-width: 600px) {
+  .message-content-audio {
+    min-width: 20rem;
+  }
+}
+@media screen and (min-width: 600px) and (max-width: 1000px) {
+  .message-content-audio {
+    min-width: 12rem;
   }
 }
 
@@ -1031,4 +1108,78 @@ label {
   height: 1rem;
   aspect-ratio: 1;
   cursor: pointer;
+}
+
+.recordMessager {
+  height: 80%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  cursor: pointer;
+  padding: 0.2rem;
+  img {
+    height: 100%;
+    aspect-ratio: 1;
+  }
+  &:hover {
+    background-color: $test-color2;
+  }
+}
+
+
+
+
+
+
+
+#form-file-upload {
+  height: 16rem;
+  width: 28rem;
+  max-width: 100%;
+  text-align: center;
+  position: relative;
+}
+
+#input-file-upload {
+  display: none;
+}
+
+#label-file-upload {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-width: 2px;
+  border-radius: 1rem;
+  border-style: dashed;
+  border-color: #cbd5e1;
+  background-color: #f8fafc;
+  margin: 1rem 0 ;
+}
+
+#label-file-upload.drag-active {
+  background-color: #ffffff;
+}
+
+.upload-button {
+  cursor: pointer;
+  padding: 0.25rem;
+  font-size: 1rem;
+  border: none;
+  font-family: 'Oswald', sans-serif;
+  background-color: transparent;
+}
+
+.upload-button:hover {
+  text-decoration-line: underline;
+}
+
+#drag-file-element {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 1rem;
+  top: 0px;
+  right: 0px;
+  bottom: 0px;
+  left: 0px;
 }
