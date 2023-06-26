@@ -1,5 +1,6 @@
 import { ReactElement, useEffect, useState } from "react";
 import "./Styles.scss";
+import "./StylesMobile.scss";
 import Modal, { ModalProvider } from "styled-react-modal";
 import AuthenticationContext from "./ZZZ_USEFUL COMPONENTS/auth/AuthenticationContext";
 import { claim } from "./ZZZ_USEFUL COMPONENTS/auth/auth.models";
@@ -41,19 +42,19 @@ function App() {
   const [openedChats, setOpenedChats] = useState<profileDTO[]>([]);
   const [call, setCall] = useState<ReactElement>(<></>);
 
-  const [online, setOnline] = useState(true);
+  const [online, setOnline] = useState(false);
   const [gotClaims, setGotClaims] = useState(false);
 
   useEffect(() => {
     setProfile(getProfile());
     setClaims(getClaims());
-    setOnline(navigator.onLine);
   }, []);
 
   useEffect(() => {
     setProfile(getProfile());
     setClaims(getClaims());
     setGotClaims(true);
+    setOnline(navigator.onLine);
   }, [localStorage]);
 
   useEffect(() => {

@@ -8,7 +8,7 @@ export default function FriendInProfile({ friend }: FriendProps) {
   return (
     <div className="friend-profile" onClick={()=> navigate(`/user-profile/${friend.Id}`)}>
         <img src={image}/>
-        <span style={{wordBreak:'break-all', padding:'0.5rem'}}>{friend.Email}</span>
+        <span className="large-font" style={{wordBreak:'break-all', padding:'0.5rem'}}>{friend.Email}</span>
     </div>
   )
 }

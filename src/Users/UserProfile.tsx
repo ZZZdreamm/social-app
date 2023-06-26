@@ -7,7 +7,7 @@ import {
 import { profileDTO } from "../ZZZ_USEFUL COMPONENTS/Profile/profiles.models";
 import Waiting from "../ZZZ_USEFUL COMPONENTS/Utilities/Waiting";
 import { ReadyImagesURL } from "../ZZZ_USEFUL COMPONENTS/appUrls";
-import ProfileContext from "../ZZZ_USEFUL COMPONENTS/Profile/ProfileContext";
+import ProfileContext, { FriendRequestsContext, ProfileFriendsContext, SentFriendRequestsContext } from "../ZZZ_USEFUL COMPONENTS/Profile/ProfileContext";
 import FileInput from "../ZZZ_USEFUL COMPONENTS/Utilities/FileInput";
 import { storageRef } from "../Firebase/FirebaseConfig";
 import uuid4 from "uuid4";
@@ -20,6 +20,10 @@ import ListOfFriendsInProfile from "./ListOfFriendsInProfile";
 export default function UserProfile() {
   const { id } = useParams();
   const { myProfile, updateProfile } = useContext(ProfileContext);
+  const {myFriends, updateFriends} = useContext(ProfileFriendsContext)
+  const {myFriendRequests,updateFriendRequests} = useContext(FriendRequestsContext)
+  const {mySentRequests, updateSentFriendRequests} = useContext(SentFriendRequestsContext)
+
   const [userProfile, setUserProfile] = useState<profileDTO>();
   const [content, setContent] = useState("posts");
   const [relationship, setRelationship] = useState<string>();
@@ -77,17 +81,22 @@ export default function UserProfile() {
 
   async function sendFriendRequest() {
     setRelationship("inFriendRequests");
-    await postDataToServer(
+    const friend = await postDataToServer(
       { userId: myProfile.Id, friendId: userProfile!.Id },
       "send-friend-request"
     );
+    //@ts-ignore
+    updateSentFriendRequests((prev: profileDTO[])=>[friend, ...prev])
+
   }
   async function cancelFriendRequest() {
     setRelationship("stranger");
-    await postDataToServer(
+    const {Id} = await postDataToServer(
       { userId: myProfile.Id, friendId: userProfile!.Id },
-      "remove-friend-request/user"
+      "cancel-friend-request/user"
     );
+    const newFriends = mySentRequests!.filter((tempFriend) => tempFriend.Id != Id)
+    updateSentFriendRequests(newFriends)
   }
 
   async function checkIfInFriends() {
@@ -121,6 +130,15 @@ export default function UserProfile() {
       ProfileImage: url,
     });
   }
+
+  async function acceptFriendRequest() {
+    const addedFriend = await postDataToServer({userId:myProfile.Id, friendId:userProfile!.Id}, "accept-friend-request")
+    const newFriendRequests = myFriendRequests!.filter((tempFriend) => tempFriend.Id != userProfile!.Id)
+    updateFriendRequests(newFriendRequests)
+    let newFriends = [...myFriends!]
+    newFriends.push(addedFriend)
+    updateFriends(newFriends)
+  }
   return (
     <>
       {userProfile ? (
@@ -152,17 +170,27 @@ export default function UserProfile() {
                 <h4>{userProfile.Email}</h4>
               </span>
               <span className="profile-up-options-down">
-                <button onClick={() => setContent("posts")}>Posts</button>
-                <button onClick={() => setContent("friends")}>Friends</button>
+                <button className="large-font" onClick={() => setContent("posts")}>Posts</button>
+                <button className="large-font" onClick={() => setContent("friends")}>Friends</button>
                 {relationship == "stranger" && (
-                  <button onClick={sendFriendRequest}>Add to friends</button>
+                  <button className="large-font" onClick={sendFriendRequest}>Add friend</button>
                 )}
                 {relationship == "inFriendRequests" && (
                   <button
+                  className="large-font"
                     style={{ backgroundColor: "#89CFF0" }}
                     onClick={cancelFriendRequest}
                   >
-                    Cancel friend request
+                    Cancel request
+                  </button>
+                )}
+                {relationship == "pendingRequest" && (
+                  <button
+                  className="large-font"
+                    style={{ backgroundColor: "#89CFF0" }}
+                    onClick={acceptFriendRequest}
+                  >
+                    Accept request
                   </button>
                 )}
               </span>

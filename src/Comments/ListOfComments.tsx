@@ -2,6 +2,12 @@ import GenericList from "../ZZZ_USEFUL COMPONENTS/Utilities/GenericList";
 import Waiting from "../ZZZ_USEFUL COMPONENTS/Utilities/Waiting";
 import Comment from "./Comment";
 
+
+interface ListOfCommentsProps {
+  comments: commentsDTO[];
+}
+
+
 export default function ListOfComments({ comments }: ListOfCommentsProps) {
   return (
     <GenericList list={comments} emptyListUI={<></>}>
@@ -26,6 +32,3 @@ export default function ListOfComments({ comments }: ListOfCommentsProps) {
   );
 }
 
-interface ListOfCommentsProps {
-  comments: commentsDTO[];
-}

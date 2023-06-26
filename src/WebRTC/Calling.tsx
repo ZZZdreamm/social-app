@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 import ReactDOM from "react-dom";
 import { ReadyImagesURL } from "../ZZZ_USEFUL COMPONENTS/appUrls";
 import Waiting from "../ZZZ_USEFUL COMPONENTS/Utilities/Waiting";
+import Portal from "../ZZZ_USEFUL COMPONENTS/Utilities/Portal";
 
 const config = {
   //   iceServers: [{ urls: ["stun.commpeak.com:3478", "stun.comtube.com:3478"] }],
@@ -292,9 +293,4 @@ export default function Calling() {
   );
 }
 
-export function Portal({ children }: any) {
-  if (typeof document == "undefined") {
-    return <>{children}</>;
-  }
-  return ReactDOM.createPortal(children, document.body);
-}
+

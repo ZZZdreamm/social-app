@@ -1,0 +1,94 @@
+$nav-color: #ffffff;
+$back-color: #f0f2f5;
+$container-color: #3b55d9;
+$test-color1: #febebe;
+$test-color2: #bbb;
+$text-color1: #2f2f2f;
+$text-color2: #ffffff;
+$test-color3: #89cff0;
+$blue-color: #0084ff;
+$shadow-1: rgba(0, 0, 0, 0.1);
+$shadow-2: rgba(0, 0, 0, 0.2);
+$shadow-inset: rgba(255, 255, 255, 0.5);
+$hover-color: #e4e6e9;
+$border-color: #ccc;
+
+@media (min-width: 320px) and (max-width: 480px) {
+  #messager {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+  .whole-page{
+    .messager-chat{
+        .message-content{
+            font-size: 2rem;
+        }
+    }
+  }
+  .messager-mobile {
+    &-header {
+      height: 5%;
+      width: calc(100% - 2rem);
+      gap: 1rem;
+      padding: 0 1rem;
+      justify-content: flex-start;
+      img {
+        height: 90%;
+        aspect-ratio: 1;
+        border-radius: 50%;
+        cursor: pointer;
+      }
+    }
+    &-options {
+        height: 15%;
+      width: calc(100% - 2rem);
+      padding: 1rem;
+      gap: 1rem;
+      display: flex;
+      flex-direction: column;
+      &-friends {
+        display: flex;
+        gap: 1rem;
+        overflow-x: auto;
+        overflow-y: hidden;
+      }
+    }
+    &-body {
+      height: 74%;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      overflow-y: auto;
+    }
+    &-footer {
+      border-top: 1px solid $border-color;
+      height: 6%;
+      width: 100%;
+    }
+    &-icon {
+      width: 5rem;
+      flex-direction: column;
+      cursor: pointer;
+      &-image {
+        width: 100%;
+        aspect-ratio: 1;
+        border-radius: 50%;
+      }
+      &-name {
+        width: 100%;
+        text-align: center;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+    }
+  }
+  .mobile-friend {
+    height: 8rem;
+    font-size: 2rem;
+    gap: 0.5rem;
+  }
+}

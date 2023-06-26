@@ -14,44 +14,66 @@ import { uploadBytes } from "firebase/storage";
 import uuid4 from "uuid4";
 import { addItemToState } from "../ZZZ_USEFUL COMPONENTS/Utilities/StateModifications";
 import FileDropElement from "./FileDropElement";
+import React from "react";
+import MultipleFileInput from "./MultipleFileInput";
 
 export default function PostForm({ setPosts }: PostFormProps) {
-  const navigate = useNavigate();
   const { myProfile } = useContext(ProfileContext);
   const [isOpen, setIsOpen] = useState(false);
-
   const [text, setText] = useState("");
-  const [file, setFile] = useState<File>();
-  const [choosenImage, setChoosenImage] = useState("");
+  const [filesArray, setFilesArray] = useState<[File, string][]>([]);
 
   function toggleModal(isOpen: any, setIsOpen: any) {
     setIsOpen(!isOpen);
   }
 
-  const disableSubmit = !text && !choosenImage ? true : false;
+  const disableSubmit = !text && !filesArray ? true : false;
   const onFormSubmit = async () => {
-    let post = {
+    const post: postCreationDTO = {
       AutorName: myProfile.Email,
-      AmountOfLikes: 0,
-      AmountOfComments: 0,
       TextContent: text,
-      MediaFile: "",
+      MediaFiles: [],
       Date: Date.now(),
     };
-    if (file) {
-      const imageRef = storageRef.child(`/post${imageOrVideo}/${file?.name}+${uuid4()}`);
-      await imageRef.put(file!);
-      const url = await imageRef.getDownloadURL();
-      post.MediaFile = url;
+    let filesUrls :any = []
+    if (filesArray.length > 0) {
+      filesUrls = filesArray.map(async ([file, _]) => {
+        const imageOrVideo = file?.type.includes("image") ? "Images" : "Videos";
+        const imageRef = storageRef.child(
+          `/post${imageOrVideo}/${file?.name}+${uuid4()}`
+        );
+        await imageRef.put(file!);
+        const url = await imageRef.getDownloadURL();
+        return url
+      });
     }
-    const newPost = await postDataToServer(post, "post-post");
-    addItemToState(newPost, setPosts);
+    post.MediaFiles = await Promise.all(filesUrls)
+    postDataToServer(post, "post-post").then((newPost) => {
+      addItemToState(newPost, setPosts);
+    });
   };
-  const imageOrVideo =
-    choosenImage && choosenImage.includes("data:image") ? "Images" : "Videos";
+
+  const handleFileChange = (file: File) => {
+    const reader = new FileReader();
+    reader.onload = () => {
+      const base64Data = reader.result;
+      //@ts-ignore
+      setFilesArray((filesArray: [File, string][]) => {
+        return [...filesArray, [file, base64Data]];
+      });
+    };
+    if (file) {
+      reader.readAsDataURL(file);
+    }
+  };
+
+  function eraseChoosenFile(name: string) {
+    const newFilesArray = filesArray.filter(([file, _]) => file.name != name);
+    setFilesArray(newFilesArray);
+  }
   return (
-    <div className="post-form">
-      <span className="post-form-up">
+    <div className="post-form ">
+      <span className="post-form-up shadow-around">
         <img src={myProfile.ProfileImage} />
         <div
           className="post-form-up-placeholder"
@@ -67,7 +89,7 @@ export default function PostForm({ setPosts }: PostFormProps) {
           toggleModal={() => {
             toggleModal(isOpen, setIsOpen);
             setText("");
-            setChoosenImage('');
+            setFilesArray([]);
           }}
           children={
             <>
@@ -85,26 +107,45 @@ export default function PostForm({ setPosts }: PostFormProps) {
                     setText(e.target.innerHTML);
                   }}
                 />
-                <FileDropElement/>
-                {choosenImage && (
-                  <>
-                    {imageOrVideo == "Images" && (
-                      <img className="modal-body-image" src={choosenImage} />
-                    )}
-                    {imageOrVideo == "Videos" && (
-                      <video controls>
-                        <source src={choosenImage} type="video/mp4" />
-                      </video>
-                    )}
-                  </>
-                )}
+                {filesArray &&
+                  filesArray.map(([file, displayedFile], index) => {
+                    const imageOrVideo =
+                      displayedFile && displayedFile.includes("data:image")
+                        ? "Images"
+                        : "Videos";
+                    return (
+                      <div
+                        style={{
+                          width: "100%",
+                          aspectRatio: "1",
+                          position: "relative",
+                        }}
+                        key={index}
+                      >
+                        {imageOrVideo == "Images" && (
+                          <img
+                            className="modal-body-image"
+                            src={displayedFile}
+                          />
+                        )}
+                        {imageOrVideo == "Videos" && (
+                          <video controls>
+                            <source src={displayedFile} type="video/mp4" />
+                          </video>
+                        )}
+                        <img
+                          className="erase-image"
+                          style={{height:'2rem'}}
+                          src={`${ReadyImagesURL}/redX.png`}
+                          onClick={() => eraseChoosenFile(file.name)}
+                        />
+                      </div>
+                    );
+                  })}
+                <FileDropElement handleFileChange={handleFileChange} />
               </div>
               <div className="modal-image">
-                <FileInput
-                  imageFunction={setChoosenImage}
-                  fileFunction={setFile}
-                  callback={() => {}}
-                />
+                <MultipleFileInput handleFileChange={handleFileChange}/>
               </div>
             </>
           }

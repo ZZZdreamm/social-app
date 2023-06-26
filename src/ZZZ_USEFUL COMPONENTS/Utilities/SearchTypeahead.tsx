@@ -3,7 +3,7 @@ import { AsyncTypeahead } from "react-bootstrap-typeahead";
 
 const typeaheadStyle = {
   borderRadius: "1rem",
-  margin: "0.3rem",
+  margin: "0 auto",
   padding: "0.1rem",
 };
 
@@ -14,10 +14,11 @@ export default function SearchTypeahead({
   bonusClassName,
 }: SearchTypeaheadProps) {
   const [dataList, setDataList] = useState(listOfData);
+  const visible = dataList.length > 0 ? "flex" : "none";
   return (
     <>
       <div
-        className="typeaheadContainer"
+        className={`typeaheadContainer ${bonusClassName}`}
         style={typeaheadStyle}
         onBlur={() => {
           setTimeout(() => {
@@ -30,7 +31,16 @@ export default function SearchTypeahead({
           onChange={(e: any) => handleSearch(e.target.value, setDataList)}
           onFocus={(e: any) => handleSearch(e.target.value, setDataList)}
         />
-        {dataList.map((data) => itemChildren(data))}
+        {dataList && dataList.length > 0 && (
+          <div
+            className="typeahead-options big-shadow-around"
+            style={{ display: visible }}
+          >
+            {dataList.map((data) => (
+              <span onClick={() => setDataList([])}>{itemChildren(data)}</span>
+            ))}
+          </div>
+        )}
       </div>
     </>
   );

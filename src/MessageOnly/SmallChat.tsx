@@ -1,34 +1,25 @@
-import { useContext, useEffect, useRef, useState } from "react";
+import uuid4 from "uuid4";
+import ListOfMessages from "../Messages/ListOfMessages";
+import { openCallWindow } from "../WebRTC/CallFunctions";
 import { profileDTO } from "../ZZZ_USEFUL COMPONENTS/Profile/profiles.models";
 import { ReadyImagesURL } from "../ZZZ_USEFUL COMPONENTS/appUrls";
-import ProfileContext, {
-  OpenedChatsContext,
-} from "../ZZZ_USEFUL COMPONENTS/Profile/ProfileContext";
-import { messageDTO, messageCreationDTO } from "./message.models";
-import ListOfMessages from "./ListOfMessages";
 import { socket } from "../App";
-import { storageRef } from "../Firebase/FirebaseConfig";
-import uuid4 from "uuid4";
-import FileInput from "../ZZZ_USEFUL COMPONENTS/Utilities/FileInput";
-import { postDataToServer } from "../Firebase/FirebaseFunctions";
-import useEffectAfterSecondRender from "../ZZZ_USEFUL COMPONENTS/Utilities/useEffectAfterSecondRender";
-import useIsInViewport from "../ZZZ_USEFUL COMPONENTS/Utilities/IsInViewPort";
-import { removeOnlyText } from "../ZZZ_USEFUL COMPONENTS/Utilities/DivControl";
-import { openCallWindow } from "../WebRTC/CallFunctions";
-import RecordMessager from "./RecordMessager";
-import FileInput2 from "../Posts/MultipleFileInput";
 import MultipleFileInput from "../Posts/MultipleFileInput";
+import RecordMessager from "../Messages/RecordMessager";
+import { removeOnlyText } from "../ZZZ_USEFUL COMPONENTS/Utilities/DivControl";
+import { storageRef } from "../Firebase/FirebaseConfig";
+import { messageCreationDTO, messageDTO } from "../Messages/message.models";
+import { useEffect, useRef, useState, useContext } from "react";
+import { postDataToServer } from "../Firebase/FirebaseFunctions";
+import useIsInViewport from "../ZZZ_USEFUL COMPONENTS/Utilities/IsInViewPort";
+import ProfileContext from "../ZZZ_USEFUL COMPONENTS/Profile/ProfileContext";
 
+interface MessagerChatProps {
+    friend: profileDTO;
+  }
 
-
-interface ChatWithFriendProps {
-  friend: profileDTO;
-}
-
-
-export default function ChatWithFriend({ friend }: ChatWithFriendProps) {
-  const { openedChats, updateOpenedChats } = useContext(OpenedChatsContext);
-  const { myProfile } = useContext(ProfileContext);
+export default function SmallChat({friend}: MessagerChatProps){
+    const { myProfile } = useContext(ProfileContext);
   const [messages, setMessages] = useState<any[]>([]);
   const [textToSend, setTextToSend] = useState("");
   const [audioURL, setAudioURL] = useState("");
@@ -36,7 +27,7 @@ export default function ChatWithFriend({ friend }: ChatWithFriendProps) {
   const [removedVoiceMes, setRemovedVoiceMes] = useState(false);
 
   const [chatOpen, setChatOpen] = useState(false);
-  const [fetchedAllMessages, setFetchedAllMessages] = useState(false);
+  const [fetchedAllMessages, setFetchedAllMessages] = useState<boolean | string>(false);
   const [filesArray, setFilesArray] = useState<[File, string][]>([]);
   const image = friend.ProfileImage || `${ReadyImagesURL}/noProfile.jpg`;
   let numberOfMessages = 10;
@@ -69,47 +60,48 @@ export default function ChatWithFriend({ friend }: ChatWithFriendProps) {
             if (newestMessagesRef.current) {
               newestMessagesRef.current.scrollIntoView();
             }
-          }, 400);
+          }, 1000);
         }
       });
     }
   }, [myProfile, newestMessagesRef, friend.Id]);
   async function getMessages() {
-    if (fetchedAllMessages) return;
+    if (fetchedAllMessages == friend.Id) return;
     const messagesToGet = messages?.length + numberOfMessages;
-    const messes = await postDataToServer(
+    // const messes =
+    postDataToServer(
       {
         userId: myProfile.Id,
         friendId: friend.Id,
         numberOfMessages: messagesToGet,
       },
       "get-chat-messages"
-    );
-    if (messes && messages && messes.length == messages.length) {
-      setFetchedAllMessages(true);
-    }
-    setChatOpen(true);
-    const newMesses: any[] = [];
-    messes.forEach((message: any, index: number) => {
-      if (messages?.length == index + 1) {
-        newMesses.push("empty");
+    ).then((messes) => {
+      if (messes && messages && messes.length == messages.length) {
+        setFetchedAllMessages(friend.Id);
       }
-      newMesses.push(message);
+      setChatOpen(true);
+      const newMesses: any[] = [];
+      messes.forEach((message: any, index: number) => {
+        if (messages?.length == index + 1) {
+          newMesses.push("empty");
+        }
+        newMesses.push(message);
+      });
+      setMessages(newMesses.reverse());
     });
-    setMessages(newMesses.reverse());
   }
+
   useEffect(() => {
-    if(!friend.Id) return;
-    const scrollableSpan = document.getElementById(
-      `scrollable-span`
-    );
+    if (!friend.Id) return;
+    const scrollableSpan = document.getElementById(`scrollable-span`);
     if (scrollableSpan) {
       scrollableSpan.scrollIntoView();
     }
   }, [messages, friend.Id]);
 
   async function sendMessage() {
-    let messageToSend : messageCreationDTO = {
+    let messageToSend: messageCreationDTO = {
       SenderId: myProfile.Id,
       ReceiverId: friend.Id,
       TextContent: textToSend,
@@ -151,10 +143,6 @@ export default function ChatWithFriend({ friend }: ChatWithFriendProps) {
     }, 500);
   }
 
-  function closeChat() {
-    const chats = openedChats.filter((chat) => chat.Id != friend.Id);
-    updateOpenedChats(chats);
-  }
   const inputSize =
     textToSend != "" || filesArray.length > 0 || audioURL != "" ? "80%" : "30%";
 
@@ -178,14 +166,14 @@ export default function ChatWithFriend({ friend }: ChatWithFriendProps) {
   }
 
   return (
-    <section className="chat">
-      <div className="chat-header">
-        <span className="chat-header-userProfile">
-          <img className="chat-header-userProfile-image" src={image} />
+    <section className="messager-small-chat">
+      <div className="messager-chat-header shadow-beneath">
+        <span className="messager-chat-header-userProfile">
+          <img className="messager-chat-header-userProfile-image" src={image} />
           {friend.Email}
         </span>
         <img
-          className="chat-header-call"
+          className="messager-chat-header-call"
           src={`${ReadyImagesURL}/video-call.png`}
           onClick={() => {
             const roomId = uuid4();
@@ -197,14 +185,9 @@ export default function ChatWithFriend({ friend }: ChatWithFriendProps) {
             openCallWindow(myProfile, friend, roomId, "caller");
           }}
         />
-        <img
-          className="chat-header-close"
-          src={`${ReadyImagesURL}/redX.png`}
-          onClick={closeChat}
-        />
       </div>
-      <div id={`chat-body/${friend.Id}`} className="chat-body">
-        <div className="chat-body-start">
+      <div id={`chat-body/${friend.Id}`} className="messager-chat-body">
+        <div className="messager-chat-body-start">
           <img src={image} />
           <h5>{friend.Email}</h5>
         </div>
@@ -212,21 +195,31 @@ export default function ChatWithFriend({ friend }: ChatWithFriendProps) {
         <ListOfMessages messages={messages} />
         <span ref={newestMessagesRef}></span>
       </div>
-      <div className="chat-footer">
-        {textToSend == "" && !voiceMessage && filesArray.length <= 0 && (
-          <div style={{ width: "3rem", height: "3rem", padding: "0.2rem" }}>
+      <div className="messager-chat-footer shadow-above">
+        <span
+          style={{
+            display: "flex",
+            height: "80%",
+            alignItems: "center",
+            gap: "0.5rem",
+          }}
+        >
+          {textToSend == "" && !voiceMessage && filesArray.length <= 0 && (
             <MultipleFileInput handleFileChange={handleFileChange} />
-          </div>
-        )}
-        <RecordMessager
-          setVoiceMessage={setVoiceMessage}
-          setAudioURL={setAudioURL}
-          voiceMessage={voiceMessage}
-          removedVoiceMes={removedVoiceMes}
-          setRemovedVoiceMes={setRemovedVoiceMes}
-        />
-        <div className="chat-footer-container" style={{ width: inputSize }}>
-          <div ref={wholeMessageRef} className="chat-footer-input">
+          )}
+          <RecordMessager
+            setVoiceMessage={setVoiceMessage}
+            setAudioURL={setAudioURL}
+            voiceMessage={voiceMessage}
+            removedVoiceMes={removedVoiceMes}
+            setRemovedVoiceMes={setRemovedVoiceMes}
+          />
+        </span>
+        <div
+          className="messager-chat-footer-container"
+          style={{ width: inputSize }}
+        >
+          <div ref={wholeMessageRef} className="messager-chat-footer-input">
             <div
               ref={inputMessageRef}
               style={{ height: "100%", width: "100%", outline: "none" }}
@@ -234,12 +227,12 @@ export default function ChatWithFriend({ friend }: ChatWithFriendProps) {
               onInput={(e: any) => setTextToSend(e.target.innerText)}
             ></div>
             {filesArray && filesArray.length > 0 && (
-              <span className="chat-footer-input-images-container">
-                <div style={{ width: "3rem", height: "3rem" }}>
+              <span className="messager-chat-footer-input-images-container">
+                <div style={{ width: "5rem", height: "5rem" }}>
                   <MultipleFileInput handleFileChange={handleFileChange} />
                 </div>
                 {filesArray.map(([file, displayFile]) => (
-                  <div className="chat-footer-input-image">
+                  <div className="messager-chat-footer-input-image">
                     <img
                       style={{ height: "100%", width: "100%", outline: "none" }}
                       src={displayFile}
@@ -259,7 +252,7 @@ export default function ChatWithFriend({ friend }: ChatWithFriendProps) {
           </div>
         </div>
         <img
-          className="chat-footer-send"
+          className="messager-chat-footer-send"
           src={
             !textToSend && filesArray.length == 0 && !voiceMessage
               ? `${ReadyImagesURL}/like.png`
@@ -271,4 +264,3 @@ export default function ChatWithFriend({ friend }: ChatWithFriendProps) {
     </section>
   );
 }
-

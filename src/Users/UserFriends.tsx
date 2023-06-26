@@ -6,7 +6,6 @@ import { postDataToServer } from "../Firebase/FirebaseFunctions";
 import FriendsList from "./FriendsList";
 
 export default function UserFriends() {
-  const { myProfile } = useContext(ProfileContext);
   const {myFriends} = useContext(ProfileFriendsContext)
 
   return (

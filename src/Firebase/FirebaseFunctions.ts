@@ -1,6 +1,5 @@
 import { createFormData } from "../ZZZ_USEFUL COMPONENTS/Utilities/HandleFormData";
 import { serverURL } from "../ZZZ_USEFUL COMPONENTS/apiPaths";
-import { userCredentials } from "../ZZZ_USEFUL COMPONENTS/auth/auth.models";
 
 export const postDataToServer =(data:any, functionName:string) => {
     const request = new Request(`${serverURL}/${functionName}`, {

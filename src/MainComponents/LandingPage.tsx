@@ -9,6 +9,7 @@ import PostsList from "../Posts/PostsList";
 import useIsInViewport from "../ZZZ_USEFUL COMPONENTS/Utilities/IsInViewPort";
 import { ReadyImagesURL } from "../ZZZ_USEFUL COMPONENTS/appUrls";
 import Login from "../ZZZ_USEFUL COMPONENTS/auth/Login";
+import { reconnectFunction } from "../ZZZ_USEFUL COMPONENTS/Utilities/UsefulFunctions";
 
 export default function LandingPage() {
   const navigate = useNavigate();
@@ -41,12 +42,12 @@ export default function LandingPage() {
   }, [window.innerWidth]);
 
   async function getPosts() {
-    const postsToGet = posts ? posts?.length + numberOfPosts: numberOfPosts;
+    const postsToGet = posts ? posts?.length + numberOfPosts : numberOfPosts;
     const newPosts = await postDataToServer(
       { numberOfPosts: postsToGet },
       "get-posts"
     );
-    if (newPosts) {
+    if (newPosts.length != 0) {
       if (posts && newPosts.length == posts.length) {
         setAllPostsFetched(true);
       } else {
@@ -65,20 +66,25 @@ export default function LandingPage() {
               <PostForm setPosts={setPosts} />
               <PostsList posts={posts} />
               <span ref={endOfPostsRef}></span>
-              {allPostsFetched && (
-                <h2>You have reached end of internet.</h2>
-              )}
+              {allPostsFetched && <h2>You have reached end of internet.</h2>}
             </div>
             {showRightBar && <RightBar />}
           </>
         }
-        notAuthorized={<div className="notLogged">
-            <img src={`${ReadyImagesURL}/logo.png`}/>
+        notAuthorized={
+          <div className="notLogged">
+            <img src={`${ReadyImagesURL}/logo.png`} />
             <span className="notLogged-logging">
-              <Login/>
-              <div>No account? <span className="link" onClick={()=>navigate('/register')}>Register here!</span></div>
+              <Login />
+              <div>
+                No account?{" "}
+                <span className="link" onClick={() => navigate("/register")}>
+                  Register here!
+                </span>
+              </div>
             </span>
-        </div>}
+          </div>
+        }
       />
     </>
   );

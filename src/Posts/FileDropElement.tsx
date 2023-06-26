@@ -1,6 +1,8 @@
 import { useState, useRef } from "react";
 
-export default function FileDropElement() {
+export default function FileDropElement({
+  handleFileChange,
+}: FileDropElementProps) {
   // drag state
   const [dragActive, setDragActive] = useState(false);
   const inputRef = useRef<HTMLInputElement | null>(null);
@@ -20,17 +22,20 @@ export default function FileDropElement() {
     e.stopPropagation();
     setDragActive(false);
     if (e.dataTransfer.files && e.dataTransfer.files[0]) {
-        console.log(e.dataTransfer.files);
-      // at least one file has been dropped so do something
-      // handleFiles(e.dataTransfer.files);
+      for (var i = 0; i < e.dataTransfer.files.length; i++) {
+        var file = e.dataTransfer.files[i];
+        handleFileChange(file);
+      }
     }
   };
 
   const handleChange = function (e: any) {
     e.preventDefault();
     if (e.target.files && e.target.files[0]) {
-      // at least one file has been selected so do something
-      // handleFiles(e.target.files);
+      for (var i = 0; i < e.target.files.length; i++) {
+        var file = e.target.files[i];
+        handleFileChange(file);
+      }
     }
   };
 
@@ -45,9 +50,10 @@ export default function FileDropElement() {
       onSubmit={(e) => e.preventDefault()}
     >
       <input
-      ref={inputRef}
+        ref={inputRef}
         type="file"
         id="input-file-upload"
+        accept=".jpg,.jpeg,.png,.mp4"
         multiple={true}
         onChange={handleChange}
       />
@@ -58,7 +64,9 @@ export default function FileDropElement() {
       >
         <div>
           <p>Drag and drop your file here or</p>
-          <button className="upload-button" onClick={onButtonClick}>Upload a file</button>
+          <button className="upload-button" onClick={onButtonClick}>
+            Upload a file
+          </button>
         </div>
       </label>
       {dragActive && (
@@ -72,4 +80,8 @@ export default function FileDropElement() {
       )}
     </form>
   );
+}
+
+interface FileDropElementProps {
+  handleFileChange: (file: File) => void;
 }

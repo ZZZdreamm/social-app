@@ -1,4 +1,5 @@
 import LandingPage from "./MainComponents/LandingPage";
+import Messager from "./MessageOnly/Messager";
 import UserFriendRequests from "./Users/UserFriendRequests";
 import UserFriends from "./Users/UserFriends";
 import UserProfile from "./Users/UserProfile";
@@ -15,7 +16,7 @@ const routes = [
     {path:'/user-friend-requests/:id', component:UserFriendRequests},
     {path:'/user-sent-friend-requests/:id', component:UserSentFriendRequests},
     {path:'/call/:who/:userId/:friendId/:roomId', component:Calling},
-
+    {path:'/messaging-only/:id', component:Messager},
 
 
     { path: "/", component: LandingPage },

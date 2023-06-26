@@ -1,7 +1,11 @@
 import GenericList from "../ZZZ_USEFUL COMPONENTS/Utilities/GenericList";
 import Waiting from "../ZZZ_USEFUL COMPONENTS/Utilities/Waiting";
 import Message from "./Message";
-import { message } from "./message.models";
+import { messageDTO } from "./message.models";
+
+interface ListOfMessagesProps {
+  messages: messageDTO[] | undefined;
+}
 
 export default function ListOfMessages({ messages }: ListOfMessagesProps) {
   return (
@@ -12,7 +16,7 @@ export default function ListOfMessages({ messages }: ListOfMessagesProps) {
             {message.Id ? (
               <Message message={message} key={message.Id} />
             ) : (
-              <span id={`scrollable-span/${message.ReceiverId}`}></span>
+              <span id={`scrollable-span`}></span>
             )}
           </>
         ))
@@ -23,6 +27,4 @@ export default function ListOfMessages({ messages }: ListOfMessagesProps) {
   );
 }
 
-interface ListOfMessagesProps {
-  messages: message[] | undefined;
-}
+

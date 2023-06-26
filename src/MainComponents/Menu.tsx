@@ -8,64 +8,20 @@ import LogoutButton from "../ZZZ_USEFUL COMPONENTS/auth/LogoutButton";
 import { postDataToServer } from "../Firebase/FirebaseFunctions";
 import { ReadyImagesURL } from "../ZZZ_USEFUL COMPONENTS/appUrls";
 import ProfileContext from "../ZZZ_USEFUL COMPONENTS/Profile/ProfileContext";
+import SearchOption from "../Users/SearchOption";
+import UserSearchTypeahead from "../Users/UserSearchTypeahead";
 
 export default function Menu() {
   const navigate = useNavigate();
   const { myProfile } = useContext(ProfileContext);
-  function typeaheadChildren(profile: profileDTO): React.ReactElement {
-    return (
-      <>
-        {myProfile.Email != profile.Email && (
-          <div
-          key={profile.Id}
-            className="data-option"
-            onClick={() => {
-              navigate(`user-profile/${profile.Id}`);
-              const typeahead = document.getElementById(
-                "user-search-typeahead"
-              ) as HTMLInputElement;
-              typeahead.value = "";
-            }}
-          >
-            <span style={{ display: "flex", alignItems: "center" }}>
-              <img
-                className="data-option-part image"
-                src={
-                  profile.ProfileImage || `${ReadyImagesURL}/noProfile.jpg`
-                }
-              />
-              <span className="data-option-part">{profile.Email}</span>
-            </span>
-          </div>
-        )}
-      </>
-    );
-  }
 
-  async function searchProfiles(
-    query: string,
-    setProfiles: (profiles: profileDTO[]) => void
-  ) {
-    if (query) {
-      const response = await postDataToServer({ name: query }, "search-users");
-      const searchedUsers = response.users.slice(0, 5);
-      setProfiles(searchedUsers);
-    } else {
-      setProfiles([]);
-    }
-  }
   return (
-    <div className="navbar">
+    <nav className="navbar">
       <GoToMenuButton appName={"FriendLink"} />
       <Authorized
         isAuthorized={
           <>
-            <SearchTypeahead
-              listOfData={[]}
-              itemChildren={typeaheadChildren}
-              handleSearch={searchProfiles}
-              bonusClassName="navbar-typeahead"
-            />
+            <UserSearchTypeahead/>
             <span style={{height:"80%", display:'flex', alignItems:'center', padding:'0 0.5rem', marginRight:'1rem'}}>
               <LogoutButton />
               <img className="small-profile-image" src={myProfile && myProfile.ProfileImage} onClick={()=>navigate(`/user-profile/${myProfile.Id}`)}/>
@@ -79,6 +35,6 @@ export default function Menu() {
           </span>
         }
       />
-    </div>
+    </nav>
   );
 }

@@ -7,6 +7,8 @@ const StyledModal = Modal.styled`
   align-items: center;
   background-color: #ffffff;
   flex-direction: column;
+  border-radius: 1rem;
+  box-shadow: 0 12px 28px 0 rgba(0, 0, 0, 0.6), 0 2px 4px 0 rgba(0, 0, 0, 0.4), inset 0 0 0 1px rgba(255, 255, 255, 0.5);
 `;
 
 //@ts-ignore

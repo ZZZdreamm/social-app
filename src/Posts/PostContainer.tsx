@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { ReadyImagesURL } from "../ZZZ_USEFUL COMPONENTS/appUrls";
 import ProfileContext from "../ZZZ_USEFUL COMPONENTS/Profile/ProfileContext";
 import {
@@ -24,6 +24,14 @@ export default function PostContainer({ post }: PostContainerProps) {
 
   const [textOverflown, setTextOverflown] = useState(false);
   const [partOfTextContent, setPartOfTextContent] = useState<string>("");
+
+  const filesContainerRef = useRef<HTMLDivElement | null>(null);
+  const leftScrollRef = useRef<HTMLDivElement | null>(null);
+  const rightScrollRef = useRef<HTMLDivElement | null>(null);
+
+  const [isScrolledToEnd, setIsScrolledToEnd] = useState(false);
+  const [isScrollAtStart, setIsScrollAtStart] = useState(false);
+
 
   useEffect(() => {
     if (post.TextContent.length > 100) {
@@ -123,8 +131,37 @@ export default function PostContainer({ post }: PostContainerProps) {
     getComments(comments?.length! + commentsToGetNumber);
   }
   const likeColor = youLiked ? "#89CFF0" : "";
+
+  useEffect(()=>{
+    setIsScrollAtStart(true)
+  },[])
+
+  useEffect(()=>{
+    if(!filesContainerRef.current || !leftScrollRef.current || !rightScrollRef.current) return;
+    leftScrollRef.current.addEventListener('click', () => {
+      filesContainerRef.current!.scrollBy({ left: -filesContainerRef.current!.offsetWidth, behavior: 'smooth' });
+    });
+    rightScrollRef.current.addEventListener('click', () => {
+      filesContainerRef.current!.scrollBy({ left: filesContainerRef.current!.offsetWidth, behavior: 'smooth' });
+    });
+
+
+    const handleScroll = () => {
+      const { scrollLeft, scrollWidth, clientWidth } = filesContainerRef.current!;
+
+      const isAtEnd = Math.floor(scrollLeft) + clientWidth >=  scrollWidth-10;
+      const isAtStart = scrollLeft == 0
+      setIsScrolledToEnd(isAtEnd);
+      setIsScrollAtStart(isAtStart)
+    };
+
+    filesContainerRef.current.addEventListener('scroll', handleScroll);
+
+  },[filesContainerRef, leftScrollRef, rightScrollRef, isScrolledToEnd, isScrollAtStart])
+
+  const commentDisabled = commentText.length == 0
   return (
-    <div className="post">
+    <div className="post shadow-around">
       <div className="post-profile">
         <img src={autorImage} />
         <span>{post.AutorName}</span>
@@ -144,27 +181,37 @@ export default function PostContainer({ post }: PostContainerProps) {
             )}
           </span>
         )}
-        {post.MediaFile && (
-          <>
-            {post.MediaFile.includes("postImages") && (
-              <img src={post.MediaFile} />
+        {post.MediaFiles && (
+          <div className="box">
+            <div ref={filesContainerRef} className="container">
+              {post.MediaFiles.map((oneFile) => (
+                <span key={oneFile} className="element">
+                  {oneFile.includes("postImages") && <img src={oneFile} />}
+                  {oneFile.includes("postVideos") && (
+                    <video controls>
+                      <source src={oneFile} type="video/mp4" />
+                    </video>
+                  )}
+                </span>
+              ))}
+            </div>
+            {post.MediaFiles.length > 1 && (
+              <>
+                {!isScrollAtStart && <div ref={leftScrollRef} style={{backgroundImage:`url(${ReadyImagesURL}/goBackArrow.png)`}} className="scroll scroll-left"/>}
+                {!isScrolledToEnd && <div ref={rightScrollRef} style={{backgroundImage:`url(${ReadyImagesURL}/goBackArrow.png)`}} className="scroll scroll-right"/>}
+              </>
             )}
-            {post.MediaFile.includes("postVideos") && (
-              <video controls>
-                <source src={post.MediaFile} type="video/mp4" />
-              </video>
-            )}
-          </>
+          </div>
         )}
       </div>
       <div className="post-bottom">
         <div className="post-bottom-up">
           <div className="option">
             <img src={`${ReadyImagesURL}/like.png`} />
-            <span>{amountOfLikes}</span>
+            <span className="large-font">{amountOfLikes}</span>
           </div>
           <div className="option">
-            <span>{amountOfComments} comments</span>
+            <span className="large-font">{amountOfComments} comments</span>
           </div>
         </div>
         <div className="post-bottom-down">
@@ -185,7 +232,7 @@ export default function PostContainer({ post }: PostContainerProps) {
               value={commentText}
               onInput={(e: any) => setCommentText(e.target.value)}
             />
-            <button type="submit" onClick={postComment}>
+            <button disabled={commentDisabled} type="submit" onClick={postComment}>
               Post comment
             </button>
           </span>

@@ -1,14 +1,14 @@
 interface postCreationDTO{
-    autorName:string;
-    textContent:string;
-    mediaFile?:File;
-    Date:Date;
+    AutorName: string;
+    TextContent: string;
+    MediaFiles: string[];
+    Date: number;
 }
 interface postDTO{
     Id:number;
     AutorName:string;
     TextContent:string;
-    MediaFile?:string;
+    MediaFiles?:string[];
     AmountOfComments:number;
     AmountOfLikes:number;
     AutorProfileImage:string;

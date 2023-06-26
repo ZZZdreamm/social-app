@@ -15,7 +15,7 @@ export default function RightBarFriend({ friend }: FriendProps) {
   return (
     <li onClick={openChat}>
       <img src={friend.ProfileImage || `${ReadyImagesURL}/noProfile.jpg`} />
-      <span>{friend.Email}</span>
+      <span className="medium-font">{friend.Email}</span>
     </li>
   );
 }

@@ -30,7 +30,7 @@ export default function FileInput({ imageFunction, fileFunction, callback }: Fil
       <input
         className="custom-file-input"
         type="file"
-        accept=".jpg,.jpeg,.png,.mp4"
+        accept=".jpg,.jpeg,.png"
         onChange={handleFileChange}
       />
       {/* <img className="file-input-image" src={`${ReadyImagesURL}/question-image.png`} /> */}
