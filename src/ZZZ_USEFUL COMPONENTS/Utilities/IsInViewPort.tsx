@@ -6,24 +6,25 @@ function useIsInViewport(ref, rootMargin = "0px") {
   const [isIntersecting, setIsIntersecting] = useState(false);
   const observer = useMemo(
     () =>
-      new IntersectionObserver(([entry]) => {
-        setIsIntersecting(entry.isIntersecting);
-      },
-      {
-        rootMargin,
-      }
+      new IntersectionObserver(
+        ([entry]) => {
+          setIsIntersecting(entry.isIntersecting);
+        },
+        {
+          rootMargin,
+        }
       ),
     []
   );
 
   useEffect(() => {
-    if (ref.current != null){
-    observer.observe(ref.current);
+    if (ref.current != null) {
+      observer.observe(ref.current);
 
-    return () => {
-      observer.disconnect();
-    };
-  }
+      return () => {
+        observer.disconnect();
+      };
+    }
   }, [ref.current, observer]);
 
   return isIntersecting;

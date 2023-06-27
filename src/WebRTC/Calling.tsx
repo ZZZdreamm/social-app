@@ -24,10 +24,12 @@ export default function Calling() {
   const [microOn, setMicroOn] = useState("on");
   const [videoOn, setVideoOn] = useState("on");
 
+  const [userLeft, setUserLeft] = useState(false);
+
   useEffect(() => {
-    socket.on("user-left", () => {
-      window.close();
-    });
+    // socket.on("user-left", () => {
+    //   // window.close();
+    // });
   }, []);
 
   useEffect(() => {
@@ -96,16 +98,20 @@ export default function Calling() {
           };
         }
 
+        pc.onconnectionstatechange = (event) => {
+          if (pc.connectionState === "disconnected") {
+            setUserLeft(true);
+          }
+        };
+
         pc.oniceconnectionstatechange = () => {
           if (pc.iceConnectionState === "failed") {
-            console.log("restart ice");
             pc.restartIce();
           }
         };
 
         pc.onicecandidate = ({ candidate }) => {
           setTimeout(() => {
-            console.log(candidate);
             socket.send({ type: "iceCandidate", candidate, target: targetUrl });
           }, 1000);
         };
@@ -128,9 +134,7 @@ export default function Calling() {
               console.log("remote description");
               await pc.setRemoteDescription(data.description);
               if (data.description.type === "offer") {
-                // const answer = await pc.createAnswer();
                 await pc.setLocalDescription();
-                console.log("sending answer");
                 socket.send({
                   type: "video-answer",
                   description: pc.localDescription,
@@ -142,9 +146,7 @@ export default function Calling() {
               console.log(data.answer);
             } else if (data.candidate && pc.remoteDescription) {
               try {
-                console.log("adding ice candidate");
                 await pc.addIceCandidate(data.candidate);
-                console.log(data.candidate);
               } catch (err) {
                 if (!ignoreOffer) {
                   throw err;
@@ -162,7 +164,6 @@ export default function Calling() {
       console.error(err);
     }
   }
-
 
   function setMuting(pc: RTCPeerConnection, muting: boolean) {
     let senderList = pc.getSenders();
@@ -199,14 +200,14 @@ export default function Calling() {
   }
 
   function leaveCall() {
-    socket.emit("leave-call", { userId: userId, target: targetUrl });
+    // socket.emit("leave-call", { userId: userId, target: targetUrl });
     window.close();
   }
 
   return (
     <Portal>
       <div className="call">
-        {selfVideo.current ? (
+        {!userLeft ? (
           <>
             <video
               id="video"
@@ -223,8 +224,11 @@ export default function Calling() {
             ></video>
           </>
         ) : (
-          <Waiting message={"Waiting for friend"} />
+          <div className="flex-column-center full-container" style={{color:'white'}}>
+            <h1>User left call</h1>
+          </div>
         )}
+
         <div className="call-options">
           {selfVideo.current && (
             <>
@@ -257,5 +261,3 @@ export default function Calling() {
     </Portal>
   );
 }
-
-

@@ -1,5 +1,7 @@
 import { useContext, useEffect, useState } from "react";
-import { ProfileFriendsContext } from "../ZZZ_USEFUL COMPONENTS/Profile/ProfileContext";
+import ProfileContext, {
+  ProfileFriendsContext,
+} from "../ZZZ_USEFUL COMPONENTS/Profile/ProfileContext";
 import SearchTypeahead from "../ZZZ_USEFUL COMPONENTS/Utilities/SearchTypeahead";
 import MessagerSearchTypeahead from "./MessagerSearchTypeahead";
 import MessagerFriend from "./MessagerFriend";
@@ -20,13 +22,13 @@ export default function Messager() {
   const { myFriends } = useContext(ProfileFriendsContext);
   const [choosenFriend, setChoosenFriend] = useState<profileDTO>();
   const [windowSize, setWindowSize] = useState(window.innerWidth);
-
+  const { myProfile } = useContext(ProfileContext);
 
   const mobile = windowSize < 600 ? true : false;
 
   useEffect(() => {
     if (!myFriends) return;
-    if(mobile) return;
+    if (mobile) return;
     setChoosenFriend(myFriends[0]);
   }, [myFriends, mobile]);
 
@@ -41,16 +43,21 @@ export default function Messager() {
     setWindowSize(window.innerWidth);
   }, [window.innerWidth]);
 
-
   return (
     <Portal>
       <div id="messager">
         {mobile ? (
-         <MobileMessager setChoosenFriend={setChoosenFriend} choosenFriend={choosenFriend}/>
+          <MobileMessager
+            setChoosenFriend={setChoosenFriend}
+            choosenFriend={choosenFriend}
+          />
         ) : (
           <>
             <nav className="messager-nav">
-              <img src={`${ReadyImagesURL}/messaging-only.png`} />
+              <span>
+                <img src={`${ReadyImagesURL}/messaging-only.png`} />
+                <img src={myProfile.ProfileImage} />
+              </span>
             </nav>
             <span id="go-to-app">
               <GoToMenuButton appName={"FriendLink"} />
@@ -59,7 +66,10 @@ export default function Messager() {
               <section className="messager-friends">
                 <h2>Chats</h2>
                 <MessagerSearchTypeahead setChoosenFriend={setChoosenFriend} />
-                <MessagerFriendList friends={myFriends} setChoosenFriend={setChoosenFriend}/>
+                <MessagerFriendList
+                  friends={myFriends}
+                  setChoosenFriend={setChoosenFriend}
+                />
               </section>
               {choosenFriend && (
                 <MessagerChat

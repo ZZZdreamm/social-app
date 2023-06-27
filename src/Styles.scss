@@ -1175,6 +1175,7 @@ body {
   height: 100vh;
   background-color: black;
   z-index: 100;
+  overflow: hidden;
   .video {
     position: absolute;
     right: 3rem;
@@ -1190,8 +1191,10 @@ body {
   &-options {
     display: flex;
     position: absolute;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
     bottom: 6rem;
-    left: 45%;
     z-index: 101;
     height: 3rem;
     border-radius: 50%;
@@ -1234,6 +1237,7 @@ body {
   border-radius: 50%;
   cursor: pointer;
   padding: 0.2rem;
+  overflow: hidden;
   img {
     height: 100%;
     aspect-ratio: 1;
@@ -1395,10 +1399,18 @@ body {
   align-items: center;
   padding: 0 1rem;
   border-bottom: 1px solid $border-color;
-  img{
-    height: 80%;
-    aspect-ratio: 1;
+  span{
+    height: 100%;
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    img{
+      height: 80%;
+      aspect-ratio: 1;
+      border-radius: 50%;
+    }
   }
+
 }
 
 #go-to-app{
@@ -1577,6 +1589,16 @@ body {
   justify-content: center;
 }
 
+.flex-column-center{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.full-container{
+  width: 100%;
+  height: 100%;
+}
+
 #messager{
   .typeaheadContainer {
     background-color: white;
@@ -1595,4 +1617,14 @@ body {
   top: 0;
   left: 0;
   z-index: 15;
+}
+
+
+#messager{
+  .message-content{
+    font-size: 2rem;
+  }
+  .messager-chat-footer-input{
+    font-size: 1.5rem;
+  }
 }
