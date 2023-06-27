@@ -129,7 +129,7 @@ export default function PostForm({ setPosts }: PostFormProps) {
                           />
                         )}
                         {imageOrVideo == "Videos" && (
-                          <video controls>
+                          <video style={{width:'100%', aspectRatio:'1'}} controls>
                             <source src={displayedFile} type="video/mp4" />
                           </video>
                         )}

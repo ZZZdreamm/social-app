@@ -7,7 +7,6 @@ export default function Waiting({
   message,
   eventMessage
 }: WaitingProps) {
-  const navigate = useNavigate();
   return (
     <>
           <div style={{margin:"0 auto", alignSelf:'center'}}>

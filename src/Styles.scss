@@ -287,6 +287,8 @@ label {
 
 
 .loader {
+  max-height: 100%;
+  max-width: 100%;
   overflow: hidden;
   display: flex;
   align-items: center;
@@ -799,7 +801,6 @@ body {
     display: flex;
     gap: 1rem;
     padding-bottom: 1rem;
-    border-bottom: 1px solid #999;
     align-items: center;
     height: 4rem;
     &-image {
@@ -1406,7 +1407,8 @@ body {
   bottom: 0;
   padding: 0.5rem 0;
   height: 4rem;
-  width: 10rem;
+  width: 20rem;
+  border-right: 1px solid $border-color;
 }
 
 .messager-typeahead{

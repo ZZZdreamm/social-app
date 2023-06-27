@@ -24,17 +24,6 @@ export default function Calling() {
   const [microOn, setMicroOn] = useState("on");
   const [videoOn, setVideoOn] = useState("on");
 
-  // const [stream, setStream] = useState<MediaStream | null>(null);
-  // useEffect(() => {
-  //   if (!selfVideo.current) return;
-  //   const getStream = async () => {
-  //     const stream = await navigator.mediaDevices.getUserMedia(constraints);
-  //     setStream(stream)
-  //     selfVideo.current!.srcObject = stream;
-  //   };
-  //   getStream()
-  // }, [selfVideo]);
-
   useEffect(() => {
     socket.on("user-left", () => {
       window.close();
@@ -174,30 +163,6 @@ export default function Calling() {
     }
   }
 
-  // function toggleMuteYourself(peer: SimplePeer.Instance) {
-  //   const audioTrack = pc.streams?.getAudioTracks()[0];
-  //   stream?.getAudioTracks().forEach((track) => {
-  //     if (track == audioTrack) {
-  //       track.enabled = !audioEnabled;
-  //     }
-  //   });
-  //   console.log(stream);
-  //   peer.streams[0] = stream!;
-  //   setAudioEnabled(!audioEnabled);
-  //   setMicroOn(audioEnabled ? "off" : "on");
-  // }
-
-  // const toggleCamera = (peer: SimplePeer.Instance) => {
-  //   const videoTruck = stream?.getVideoTracks()[0];
-  //   stream?.getVideoTracks().forEach((track) => {
-  //     if (track == videoTruck) {
-  //       track.enabled = !videoEnabled;
-  //     }
-  //   });
-  //   peer.streams[0] = stream!;
-  //   setVideoEnabled(!videoEnabled);
-  //   setCameraOn(videoEnabled ? "off" : "on");
-  // };
 
   function setMuting(pc: RTCPeerConnection, muting: boolean) {
     let senderList = pc.getSenders();

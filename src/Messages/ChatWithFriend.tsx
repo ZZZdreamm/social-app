@@ -9,14 +9,11 @@ import ListOfMessages from "./ListOfMessages";
 import { socket } from "../App";
 import { storageRef } from "../Firebase/FirebaseConfig";
 import uuid4 from "uuid4";
-import FileInput from "../ZZZ_USEFUL COMPONENTS/Utilities/FileInput";
 import { postDataToServer } from "../Firebase/FirebaseFunctions";
-import useEffectAfterSecondRender from "../ZZZ_USEFUL COMPONENTS/Utilities/useEffectAfterSecondRender";
 import useIsInViewport from "../ZZZ_USEFUL COMPONENTS/Utilities/IsInViewPort";
 import { removeOnlyText } from "../ZZZ_USEFUL COMPONENTS/Utilities/DivControl";
 import { openCallWindow } from "../WebRTC/CallFunctions";
 import RecordMessager from "./RecordMessager";
-import FileInput2 from "../Posts/MultipleFileInput";
 import MultipleFileInput from "../Posts/MultipleFileInput";
 
 
