@@ -33,8 +33,8 @@ export default function FriendRequest({ friend, sent }: FriendProps) {
   return (
     <div className="friend-request">
       <span className="friend-request-profile">
-        <img src={friend.ProfileImage || `${ReadyImagesURL}/noProfile.jpg`} />
-        <span className="large-font">{friend.Email}</span>
+        <img src={friend.ProfileImage || `${ReadyImagesURL}/noProfile.jpg`} alt=""/>
+        <span className="friend-request-email large-font">{friend.Email}</span>
       </span>
       <span className="friend-request-options">
         {!sent && <button onClick={acceptRequest}>Accept request</button>}

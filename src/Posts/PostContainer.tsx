@@ -8,6 +8,7 @@ import {
 import useDebounce from "../ZZZ_USEFUL COMPONENTS/Utilities/useDebounce";
 import ListOfComments from "../Comments/ListOfComments";
 import { addItemToState } from "../ZZZ_USEFUL COMPONENTS/Utilities/StateModifications";
+import ScrollingMediaFiles from "../ZZZ_USEFUL COMPONENTS/Utilities/ScrollingMediaFiles";
 
 export default function PostContainer({ post }: PostContainerProps) {
   const { myProfile } = useContext(ProfileContext);
@@ -24,13 +25,6 @@ export default function PostContainer({ post }: PostContainerProps) {
 
   const [textOverflown, setTextOverflown] = useState(false);
   const [partOfTextContent, setPartOfTextContent] = useState<string>("");
-
-  const filesContainerRef = useRef<HTMLDivElement | null>(null);
-  const leftScrollRef = useRef<HTMLDivElement | null>(null);
-  const rightScrollRef = useRef<HTMLDivElement | null>(null);
-
-  const [isScrolledToEnd, setIsScrolledToEnd] = useState(false);
-  const [isScrollAtStart, setIsScrollAtStart] = useState(false);
 
 
   useEffect(() => {
@@ -132,38 +126,11 @@ export default function PostContainer({ post }: PostContainerProps) {
   }
   const likeColor = youLiked ? "#89CFF0" : "";
 
-  useEffect(()=>{
-    setIsScrollAtStart(true)
-  },[])
-
-  useEffect(()=>{
-    if(!filesContainerRef.current || !leftScrollRef.current || !rightScrollRef.current) return;
-    leftScrollRef.current.addEventListener('click', () => {
-      filesContainerRef.current!.scrollBy({ left: -filesContainerRef.current!.offsetWidth, behavior: 'smooth' });
-    });
-    rightScrollRef.current.addEventListener('click', () => {
-      filesContainerRef.current!.scrollBy({ left: filesContainerRef.current!.offsetWidth, behavior: 'smooth' });
-    });
-
-
-    const handleScroll = () => {
-      const { scrollLeft, scrollWidth, clientWidth } = filesContainerRef.current!;
-
-      const isAtEnd = Math.floor(scrollLeft) + clientWidth >=  scrollWidth-10;
-      const isAtStart = scrollLeft == 0
-      setIsScrolledToEnd(isAtEnd);
-      setIsScrollAtStart(isAtStart)
-    };
-
-    filesContainerRef.current.addEventListener('scroll', handleScroll);
-
-  },[filesContainerRef, leftScrollRef, rightScrollRef, isScrolledToEnd, isScrollAtStart])
-
   const commentDisabled = commentText.length == 0
   return (
     <div className="post shadow-around">
       <div className="post-profile">
-        <img src={autorImage} />
+        <img src={autorImage} alt=""/>
         <span>{post.AutorName}</span>
       </div>
       <div className="post-content">
@@ -181,33 +148,12 @@ export default function PostContainer({ post }: PostContainerProps) {
             )}
           </span>
         )}
-        {post.MediaFiles && (
-          <div className="box">
-            <div ref={filesContainerRef} className="container">
-              {post.MediaFiles.map((oneFile) => (
-                <span key={oneFile} className="element">
-                  {oneFile.includes("postImages") && <img src={oneFile} />}
-                  {oneFile.includes("postVideos") && (
-                    <video controls>
-                      <source src={oneFile} type="video/mp4" />
-                    </video>
-                  )}
-                </span>
-              ))}
-            </div>
-            {post.MediaFiles.length > 1 && (
-              <>
-                {!isScrollAtStart && <div ref={leftScrollRef} style={{backgroundImage:`url(${ReadyImagesURL}/goBackArrow.png)`}} className="scroll scroll-left"/>}
-                {!isScrolledToEnd && <div ref={rightScrollRef} style={{backgroundImage:`url(${ReadyImagesURL}/goBackArrow.png)`}} className="scroll scroll-right"/>}
-              </>
-            )}
-          </div>
-        )}
+        <ScrollingMediaFiles mediaFiles={post.MediaFiles}/>
       </div>
       <div className="post-bottom">
         <div className="post-bottom-up">
           <div className="option">
-            <img src={`${ReadyImagesURL}/like.png`} />
+            <img src={`${ReadyImagesURL}/like.png`} alt=""/>
             <span className="large-font">{amountOfLikes}</span>
           </div>
           <div className="option">
@@ -228,7 +174,8 @@ export default function PostContainer({ post }: PostContainerProps) {
         <div className="post-comments">
           <span className="post-comments-input">
             <textarea
-              id={`comment-text/${post.Id}`}
+            className="commentText-textarea"
+              // id={`comment-text/${post.Id}`}
               value={commentText}
               onInput={(e: any) => setCommentText(e.target.value)}
             />

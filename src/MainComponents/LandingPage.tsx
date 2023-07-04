@@ -72,8 +72,8 @@ export default function LandingPage() {
           </>
         }
         notAuthorized={
-          <div className="notLogged">
-            <img src={`${ReadyImagesURL}/logo.png`} />
+          <div className="notLogged" data-testid="notLogged">
+            <img src={`${ReadyImagesURL}/logo.png`} alt=""/>
             <span className="notLogged-logging">
               <Login />
               <div>

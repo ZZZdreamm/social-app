@@ -29,6 +29,7 @@ export default function MyModal({
       {children}
       <div>
         <button
+        data-testid="modalSubmit"
         disabled={disableSubmit}
           onClick={() => {
             toggleModal();

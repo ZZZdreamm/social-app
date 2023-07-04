@@ -3,6 +3,9 @@ import { messageDTO } from "./message.models";
 import ProfileContext from "../ZZZ_USEFUL COMPONENTS/Profile/ProfileContext";
 import { ReadyImagesURL } from "../ZZZ_USEFUL COMPONENTS/appUrls";
 import MyModal from "../ZZZ_USEFUL COMPONENTS/Utilities/Modal";
+import BigImageModal from "../ZZZ_USEFUL COMPONENTS/Utilities/BigImageModal";
+import ScrollingMediaFiles from "../ZZZ_USEFUL COMPONENTS/Utilities/ScrollingMediaFiles";
+import AdjustedImage from "../ZZZ_USEFUL COMPONENTS/Utilities/AdjustedImage";
 
 interface MessageProps {
   message: messageDTO;
@@ -27,24 +30,41 @@ export default function Message({ message }: MessageProps) {
       setFromFriend(true);
     }
   }, [myProfile]);
-  const contentStyle = fromFriend ? {} : { backgroundColor: "#0084ff", color: "white" };
+  const contentStyle = fromFriend
+    ? {}
+    : { backgroundColor: "#0084ff", color: "white" };
 
-  const gridSize = message.MediaFiles.length < 4 ? message.MediaFiles.length : 4;
+  const gridSize =
+    message.MediaFiles.length < 4 ? message.MediaFiles.length : 4;
   function showBigImages() {
     setIsOpen(true);
   }
   return (
     <div className="message" style={styling}>
-      <MyModal isOpen={isOpen} toggleModal={toggleModal} children={<></>} submitButtonText={""} onSubmit={undefined} />
-      <div
-        className="message-content medium-font"
-        style={contentStyle}
-      >
+      <BigImageModal
+        isOpen={isOpen}
+        toggleModal={toggleModal}
+        children={
+          <div className="full-container flex-column-center" style={{height:'100vh'}}>
+            <span className="header">
+              <img className="pointer" src={`${ReadyImagesURL}/goBackArrow.png`} onClick={()=> toggleModal(isOpen, setIsOpen)} alt=""/>
+            </span>
+            <span className="body" style={{height:'90%'}}>
+              <ScrollingMediaFiles mediaFiles={message.MediaFiles} />
+            </span>
+          </div>
+        }
+      />
+      <div className="message-content medium-font" style={contentStyle}>
         {message.TextContent}
         {message.MediaFiles.length > 0 && (
-          <div className="message-content-media" onClick={showBigImages} style={{gridTemplateColumns:`repeat(${gridSize}, 1fr)`}}>
+          <div
+            className="message-content-media"
+            onClick={showBigImages}
+            style={{ gridTemplateColumns: `repeat(${gridSize}, 1fr)` }}
+          >
             {message.MediaFiles.map((mediaFile) => (
-              <img src={mediaFile} />
+              <img src={mediaFile} alt=""/>
             ))}
           </div>
         )}
@@ -59,5 +79,3 @@ export default function Message({ message }: MessageProps) {
     </div>
   );
 }
-
-

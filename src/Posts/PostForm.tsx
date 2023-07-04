@@ -27,7 +27,7 @@ export default function PostForm({ setPosts }: PostFormProps) {
     setIsOpen(!isOpen);
   }
 
-  const disableSubmit = !text && !filesArray ? true : false;
+  const disableSubmit = !text && filesArray.length <= 0 ? true : false;
   const onFormSubmit = async () => {
     const post: postCreationDTO = {
       AutorName: myProfile.Email,
@@ -74,7 +74,7 @@ export default function PostForm({ setPosts }: PostFormProps) {
   return (
     <div className="post-form ">
       <span className="post-form-up shadow-around">
-        <img src={myProfile.ProfileImage} />
+        <img src={myProfile.ProfileImage} alt=""/>
         <div
           className="post-form-up-placeholder"
           onClick={() => {
@@ -96,7 +96,7 @@ export default function PostForm({ setPosts }: PostFormProps) {
               <div className="modal-header">Create post</div>
               <div className="modal-body">
                 <span className="modal-body-profile">
-                  <img src={myProfile.ProfileImage} />
+                  <img src={myProfile.ProfileImage} alt=""/>
                   <span>{myProfile.Email}</span>
                 </span>
                 <div
@@ -115,6 +115,7 @@ export default function PostForm({ setPosts }: PostFormProps) {
                         : "Videos";
                     return (
                       <div
+                        data-testid="modalBodyImage"
                         style={{
                           width: "100%",
                           aspectRatio: "1",
@@ -126,6 +127,7 @@ export default function PostForm({ setPosts }: PostFormProps) {
                           <img
                             className="modal-body-image"
                             src={displayedFile}
+                            alt=""
                           />
                         )}
                         {imageOrVideo == "Videos" && (
@@ -138,6 +140,7 @@ export default function PostForm({ setPosts }: PostFormProps) {
                           style={{height:'2rem'}}
                           src={`${ReadyImagesURL}/redX.png`}
                           onClick={() => eraseChoosenFile(file.name)}
+                          alt=""
                         />
                       </div>
                     );

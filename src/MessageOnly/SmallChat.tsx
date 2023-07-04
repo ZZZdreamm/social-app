@@ -169,7 +169,7 @@ export default function SmallChat({friend}: MessagerChatProps){
     <section className="messager-small-chat">
       <div className="messager-chat-header shadow-beneath">
         <span className="messager-chat-header-userProfile">
-          <img className="messager-chat-header-userProfile-image" src={image} />
+          <img className="messager-chat-header-userProfile-image" src={image} alt=""/>
           {friend.Email}
         </span>
         <img
@@ -184,11 +184,12 @@ export default function SmallChat({friend}: MessagerChatProps){
             });
             openCallWindow(myProfile, friend, roomId, "caller");
           }}
+          alt=""
         />
       </div>
       <div id={`chat-body/${friend.Id}`} className="messager-chat-body">
         <div className="messager-chat-body-start">
-          <img src={image} />
+          <img src={image} alt=""/>
           <h5>{friend.Email}</h5>
         </div>
         <span ref={messagesEndRef}></span>
@@ -236,11 +237,13 @@ export default function SmallChat({friend}: MessagerChatProps){
                     <img
                       style={{ height: "100%", width: "100%", outline: "none" }}
                       src={displayFile}
+                      alt=""
                     />
                     <img
                       className="erase-image"
                       src={`${ReadyImagesURL}/redX.png`}
                       onClick={() => eraseChoosenFile(file.name)}
+                      alt=""
                     />
                   </div>
                 ))}
@@ -259,6 +262,7 @@ export default function SmallChat({friend}: MessagerChatProps){
               : `${ReadyImagesURL}/sendBtn.png`
           }
           onClick={sendMessage}
+          alt=""
         />
       </div>
     </section>

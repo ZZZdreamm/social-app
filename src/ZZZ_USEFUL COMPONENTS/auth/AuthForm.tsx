@@ -4,25 +4,29 @@ import { basicSchema } from "./Schemas";
 import { useState } from "react";
 
 export default function AuthForm(props: authFormProps, ifRegister: boolean) {
-  const [submission, setSubmission] = useState(false)
+  const [submission, setSubmission] = useState(false);
   //@ts-ignore
   const onSubmit = (values, actions) => {
-      props.onSubmit(values)
-      setSubmission(true)
-      setTimeout(()=>{
-        setSubmission(false)
-      },3000)
-  }
-  const {values, errors, touched, handleBlur, handleChange, handleSubmit} = useFormik({
-    initialValues: {
-      email: "",
-      password: "",
-    },
-    validationSchema:basicSchema,
-    onSubmit
-  });
+    props.onSubmit(values);
+    setSubmission(true);
+    setTimeout(() => {
+      setSubmission(false);
+    }, 3000);
+  };
+  const { values, errors, touched, handleBlur, handleChange, handleSubmit } =
+    useFormik({
+      initialValues: {
+        email: "",
+        password: "",
+      },
+      validationSchema: basicSchema,
+      onSubmit,
+    });
   return (
-    <form onSubmit={handleSubmit} style={{display:'flex', flexDirection:'column', alignItems:'center'}}>
+    <form
+      onSubmit={handleSubmit}
+      style={{ display: "flex", flexDirection: "column", alignItems: "center" }}
+    >
       <label htmlFor="email">Email</label>
       <input
         style={{ textAlign: "left" }}
@@ -34,7 +38,9 @@ export default function AuthForm(props: authFormProps, ifRegister: boolean) {
         type="email"
         placeholder="Enter your email"
       />
-      {touched.email &&  errors.email && <div className="error">{errors.email}</div>}
+      {touched.email && errors.email && (
+        <div className="error">{errors.email}</div>
+      )}
       <label htmlFor="password">Password</label>
       <input
         style={{ textAlign: "left" }}
@@ -46,15 +52,17 @@ export default function AuthForm(props: authFormProps, ifRegister: boolean) {
         type="password"
         placeholder="Enter your password"
       />
-      {touched.password && errors.password && <div className="error">{errors.password}</div>}
-      <button disabled={submission} type="submit" style={{marginTop:'50px'}}>Submit</button>
+      {touched.password && errors.password && (
+        <div className="error">{errors.password}</div>
+      )}
+      <button disabled={submission} type="submit" style={{ marginTop: "50px" }}>
+        Submit
+      </button>
     </form>
   );
 }
 interface authFormProps {
   model: userCredentials;
-  onSubmit(
-    values: userCredentials
-  ): void;
+  onSubmit(values: userCredentials): void;
   submitButtonName: string;
 }

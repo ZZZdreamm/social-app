@@ -75,6 +75,9 @@ function App() {
         />
       );
     });
+    if(myFriends) return;
+    if(myFriendRequests) return;
+    if(mySentRequests) return;
     getFriends();
     getFriendRequests();
     getSentFriendRequests();

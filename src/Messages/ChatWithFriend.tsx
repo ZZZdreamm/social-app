@@ -16,12 +16,9 @@ import { openCallWindow } from "../WebRTC/CallFunctions";
 import RecordMessager from "./RecordMessager";
 import MultipleFileInput from "../Posts/MultipleFileInput";
 
-
-
 interface ChatWithFriendProps {
   friend: profileDTO;
 }
-
 
 export default function ChatWithFriend({ friend }: ChatWithFriendProps) {
   const { openedChats, updateOpenedChats } = useContext(OpenedChatsContext);
@@ -87,26 +84,25 @@ export default function ChatWithFriend({ friend }: ChatWithFriendProps) {
     }
     setChatOpen(true);
     const newMesses: any[] = [];
-    messes.forEach((message: any, index: number) => {
+    messes.forEach((message: messageDTO, index: number) => {
       if (messages?.length == index + 1) {
         newMesses.push("empty");
       }
       newMesses.push(message);
     });
     setMessages(newMesses.reverse());
+    // setMessages(newMesses);
   }
   useEffect(() => {
-    if(!friend.Id) return;
-    const scrollableSpan = document.getElementById(
-      `scrollable-span`
-    );
+    if (!friend.Id) return;
+    const scrollableSpan = document.getElementById(`scrollable-span`);
     if (scrollableSpan) {
       scrollableSpan.scrollIntoView();
     }
   }, [messages, friend.Id]);
 
   async function sendMessage() {
-    let messageToSend : messageCreationDTO = {
+    let messageToSend: messageCreationDTO = {
       SenderId: myProfile.Id,
       ReceiverId: friend.Id,
       TextContent: textToSend,
@@ -114,7 +110,7 @@ export default function ChatWithFriend({ friend }: ChatWithFriendProps) {
       VoiceFile: "",
       Date: Date.now(),
     };
-    let filesUrls: any = [];
+    let filesUrls: Promise<string>[] = [];
 
     if (filesArray.length > 0) {
       filesUrls = filesArray.map(async ([file, _]) => {
@@ -174,40 +170,46 @@ export default function ChatWithFriend({ friend }: ChatWithFriendProps) {
     setFilesArray(newFilesArray);
   }
 
+  function callFriend() {
+    const roomId = uuid4();
+    socket.emit("create-join-room", {
+      myId: myProfile.Id,
+      friendId: friend.Id,
+      roomId: roomId,
+    });
+    openCallWindow(myProfile, friend, roomId, "caller");
+  }
   return (
-    <section className="chat">
+    <section className="chat" data-testid="chatWithFriend">
       <div className="chat-header">
         <span className="chat-header-userProfile">
-          <img className="chat-header-userProfile-image" src={image} />
+          <img className="chat-header-userProfile-image" src={image} alt="" />
           {friend.Email}
         </span>
         <img
           className="chat-header-call"
           src={`${ReadyImagesURL}/video-call.png`}
-          onClick={() => {
-            const roomId = uuid4();
-            socket.emit("create-join-room", {
-              myId: myProfile.Id,
-              friendId: friend.Id,
-              roomId: roomId,
-            });
-            openCallWindow(myProfile, friend, roomId, "caller");
-          }}
+          onClick={callFriend}
+          alt=""
         />
         <img
+        data-testid="chatWithFriend-closeChat"
           className="chat-header-close"
           src={`${ReadyImagesURL}/redX.png`}
           onClick={closeChat}
+          alt=""
         />
       </div>
       <div id={`chat-body/${friend.Id}`} className="chat-body">
         <div className="chat-body-start">
-          <img src={image} />
+          <img src={image} alt="" />
           <h5>{friend.Email}</h5>
         </div>
-        <span ref={messagesEndRef}></span>
-        <ListOfMessages messages={messages} />
-        <span ref={newestMessagesRef}></span>
+        <div className="chat-body-messages">
+          <span ref={messagesEndRef}></span>
+          <ListOfMessages messages={messages} />
+          <span ref={newestMessagesRef}></span>
+        </div>
       </div>
       <div className="chat-footer">
         {textToSend == "" && !voiceMessage && filesArray.length <= 0 && (
@@ -240,11 +242,13 @@ export default function ChatWithFriend({ friend }: ChatWithFriendProps) {
                     <img
                       style={{ height: "100%", width: "100%", outline: "none" }}
                       src={displayFile}
+                      alt=""
                     />
                     <img
                       className="erase-image"
                       src={`${ReadyImagesURL}/redX.png`}
                       onClick={() => eraseChoosenFile(file.name)}
+                      alt=""
                     />
                   </div>
                 ))}
@@ -263,9 +267,9 @@ export default function ChatWithFriend({ friend }: ChatWithFriendProps) {
               : `${ReadyImagesURL}/sendBtn.png`
           }
           onClick={sendMessage}
+          alt=""
         />
       </div>
     </section>
   );
 }
-

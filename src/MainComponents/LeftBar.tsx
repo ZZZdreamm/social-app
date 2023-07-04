@@ -8,7 +8,7 @@ import { ReadyImagesURL } from "../ZZZ_USEFUL COMPONENTS/appUrls";
 export default function LeftBar() {
   const navigate = useNavigate();
   const { myProfile } = useContext(ProfileContext);
-  const { openedChats, updateOpenedChats } = useContext(OpenedChatsContext);
+  const { updateOpenedChats } = useContext(OpenedChatsContext);
   const location = useLocation();
   const [windowSize, setWindowSize] = useState(window.innerWidth);
 
@@ -56,7 +56,7 @@ export default function LeftBar() {
       {myProfile && (
         <ul>
           <li style={elementsStyling} onClick={() => navigate(`/`)}>
-            <img src={`${ReadyImagesURL}/homepage.png`} />
+            <img src={`${ReadyImagesURL}/homepage.png`} alt="" />
             {fullBar && <span className="medium-font">Home</span>}
           </li>
           <li
@@ -65,6 +65,7 @@ export default function LeftBar() {
           >
             <img
               src={myProfile.ProfileImage || `${ReadyImagesURL}/noProfile.jpg`}
+              alt=""
             />
             {fullBar && <span className="medium-font">{myProfile.Email}</span>}
           </li>
@@ -72,14 +73,14 @@ export default function LeftBar() {
             style={elementsStyling}
             onClick={() => navigate(`/user-friends/${myProfile.Id}`)}
           >
-            <img src={`${ReadyImagesURL}/friends.png`} />
+            <img src={`${ReadyImagesURL}/friends.png`} alt="" />
             {fullBar && <span className="medium-font">Friends</span>}
           </li>
           <li
             style={elementsStyling}
             onClick={() => navigate(`/user-friend-requests/${myProfile.Id}`)}
           >
-            <img src={`${ReadyImagesURL}/goBackArrow.png`} />
+            <img src={`${ReadyImagesURL}/goBackArrow.png`} alt="" />
             {fullBar && <span className="medium-font">Friend Requests</span>}
           </li>
           <li
@@ -91,6 +92,7 @@ export default function LeftBar() {
             <img
               style={{ rotate: "180deg" }}
               src={`${ReadyImagesURL}/goBackArrow.png`}
+              alt=""
             />
             {fullBar && (
               <span className="medium-font">Sent Friend Requests</span>
@@ -103,7 +105,7 @@ export default function LeftBar() {
               navigate(`/messaging-only/${myProfile.Id}`);
             }}
           >
-            <img src={`${ReadyImagesURL}/messaging-only.png`} />
+            <img src={`${ReadyImagesURL}/messaging-only.png`} alt="" />
             {fullBar && <span className="medium-font">Messaging only</span>}
           </li>
         </ul>

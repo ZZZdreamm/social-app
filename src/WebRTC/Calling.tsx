@@ -9,9 +9,9 @@ import Portal from "../ZZZ_USEFUL COMPONENTS/Utilities/Portal";
 const config = {
   //   iceServers: [{ urls: ["stun.commpeak.com:3478", "stun.comtube.com:3478"] }],
 };
-const pc = new RTCPeerConnection(config);
 
 export default function Calling() {
+  const pc = new RTCPeerConnection(config);
   const { who, userId, friendId, roomId } = useParams();
   const constraints = { audio: true, video: true };
   const selfVideo = useRef<HTMLVideoElement | null>(null);
@@ -224,7 +224,10 @@ export default function Calling() {
             ></video>
           </>
         ) : (
-          <div className="flex-column-center full-container" style={{color:'white'}}>
+          <div
+            className="flex-column-center full-container"
+            style={{ color: "white" }}
+          >
             <h1>User left call</h1>
           </div>
         )}
@@ -236,17 +239,20 @@ export default function Calling() {
                 className="call-options-option"
                 src={`${ReadyImagesURL}/micro-${microOn}.png`}
                 onClick={() => setMuting(pc, audioEnabled)}
+                alt=""
               />
               <img
                 className="call-options-option"
                 src={`${ReadyImagesURL}/camera-${videoOn}.png`}
                 onClick={() => setCameraVisibility(pc, videoEnabled)}
+                alt=""
               />
 
               <img
                 className="call-options-option"
                 src={`${ReadyImagesURL}/friends.png`}
                 onClick={() => muteOthers(pc)}
+                alt=""
               />
             </>
           )}
@@ -255,6 +261,7 @@ export default function Calling() {
             src={`${ReadyImagesURL}/leave-call.png`}
             className="call-options-option"
             onClick={leaveCall}
+            alt=""
           />
         </div>
       </div>
