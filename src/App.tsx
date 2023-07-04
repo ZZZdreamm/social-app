@@ -1,6 +1,5 @@
 import { ReactElement, useEffect, useState } from "react";
 import "./Styles.scss";
-import "./StylesMobile.scss";
 import Modal, { ModalProvider } from "styled-react-modal";
 import AuthenticationContext from "./ZZZ_USEFUL COMPONENTS/auth/AuthenticationContext";
 import { claim } from "./ZZZ_USEFUL COMPONENTS/auth/auth.models";
@@ -18,7 +17,7 @@ import ProfileContext, {
   ProfileFriendsContext,
   SentFriendRequestsContext,
 } from "./ZZZ_USEFUL COMPONENTS/Profile/ProfileContext";
-import LeftBar from "./MainComponents/LeftBar";
+import LeftBar from "./MainComponents/Bars/LeftBar";
 import Authorized from "./ZZZ_USEFUL COMPONENTS/auth/Authorized";
 import { postDataToServer } from "./Firebase/FirebaseFunctions";
 import OpenedChats from "./Messages/OpenedChats";

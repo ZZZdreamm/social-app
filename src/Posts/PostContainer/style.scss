@@ -1,0 +1,119 @@
+@import "../../variables.scss";
+.post {
+  background-color: $text-color2;
+  border-radius: 1rem;
+  width: 100%;
+  &-profile {
+    width: inherit;
+    height: 8rem;
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    word-break: break-all;
+    font-weight: bold;
+    img {
+      height: 60%;
+      padding: 0.5rem;
+      border-radius: 50%;
+    }
+    span {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+  }
+  &-content {
+    width: 100%;
+    height: fit-content;
+    display: flex;
+    flex-direction: column;
+    &-text {
+      display: flex;
+      align-items: flex-start;
+      word-break: break-all;
+      flex-direction: column;
+      padding: 1rem;
+      text-align: left;
+    }
+    img {
+      border-top: 1px solid #999;
+      border-bottom: 1px solid #999;
+      // max-width: 100%;
+      width: 100%;
+      height: 100%;
+    }
+  }
+  &-bottom {
+    width: calc(100% - 2rem);
+    height: 10rem;
+    padding: 0 1rem;
+    .option {
+      display: flex;
+      align-items: center;
+      height: 100%;
+      max-width: 50%;
+      img {
+        max-height: 80%;
+        object-fit: contain;
+        flex-shrink: 2;
+      }
+    }
+    &-up {
+      width: 100%;
+      height: 50%;
+      border-bottom: 1px solid #999;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    &-down {
+      width: 100%;
+      height: 50%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      button {
+        max-width: 50%;
+        border: none;
+        margin: 0.5rem;
+        &:hover {
+          background-color: $test-color2;
+        }
+      }
+    }
+  }
+}
+
+.post-comments {
+  width: calc(100% - 2rem);
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+
+  &-input {
+    display: flex;
+    flex-direction: column;
+    justify-content: left;
+    align-items: start;
+    width: 100%;
+    gap: 1rem;
+    textarea {
+      width: 100%;
+      font-size: 2rem;
+      padding: 0.2rem;
+      border-radius: 1rem 0.5rem 0.5rem 1rem;
+      max-height: 10rem;
+      overflow: auto;
+      resize: none;
+    }
+    button {
+      padding: 0.7rem;
+    }
+  }
+  &-more {
+    color: #999;
+    text-align: left;
+    cursor: pointer;
+  }
+}

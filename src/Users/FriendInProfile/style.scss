@@ -1,0 +1,20 @@
+@import "../../variables";
+
+.friend-profile {
+  width: 30%;
+  aspect-ratio: 1;
+  padding: 1rem;
+  background-color: #89cff0;
+  border-radius: 1rem;
+  cursor: pointer;
+  img {
+    width: 100%;
+    aspect-ratio: 1;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .friend-profile {
+    width: 43%;
+  }
+}

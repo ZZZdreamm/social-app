@@ -1,9 +1,9 @@
 import LandingPage from "./MainComponents/LandingPage";
 import Messager from "./MessageOnly/Messager";
-import UserFriendRequests from "./Users/UserFriendRequests";
+import UserFriendRequests from "./Users/FriendRequests/UserFriendRequests";
 import UserFriends from "./Users/UserFriends";
 import UserProfile from "./Users/UserProfile";
-import UserSentFriendRequests from "./Users/UserSentFriendRequests";
+import UserSentFriendRequests from "./Users/FriendRequests/UserSentFriendRequests";
 import Calling from "./WebRTC/Calling";
 import Login from "./ZZZ_USEFUL COMPONENTS/auth/Login";
 import Register from "./ZZZ_USEFUL COMPONENTS/auth/Register";

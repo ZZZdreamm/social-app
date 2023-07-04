@@ -1,0 +1,45 @@
+@import "../../variables.scss";
+@media (min-width: 320px) and (max-width: 480px) {
+  .messager-mobile {
+    &-header {
+      height: 5%;
+      width: calc(100% - 2rem);
+      gap: 1rem;
+      padding: 0 1rem;
+      justify-content: flex-start;
+      img {
+        height: 90%;
+        aspect-ratio: 1;
+        border-radius: 50%;
+        cursor: pointer;
+      }
+    }
+    &-options {
+      height: 15%;
+      width: calc(100% - 2rem);
+      padding: 1rem;
+      gap: 1rem;
+      display: flex;
+      flex-direction: column;
+      &-friends {
+        display: flex;
+        gap: 1rem;
+        overflow-x: auto;
+        overflow-y: hidden;
+      }
+    }
+    &-body {
+      height: 74%;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      overflow-y: auto;
+    }
+    &-footer {
+      border-top: 1px solid $border-color;
+      height: 6%;
+      width: 100%;
+    }
+  }
+}

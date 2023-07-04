@@ -1,0 +1,8 @@
+.listOfPosts {
+  display: flex;
+  flex-direction: column;
+  width: calc(100% - 2rem);
+  margin: 0 auto;
+  padding: 1rem;
+  gap: 3rem;
+}

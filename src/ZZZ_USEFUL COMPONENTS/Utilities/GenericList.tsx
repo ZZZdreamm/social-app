@@ -1,5 +1,5 @@
 import { ReactElement } from "react";
-import Waiting from "./Waiting";
+import Waiting from "./Waiting/indexxx";
 
 export default function GenericList(props:genericListProps){
     if(!props?.list){

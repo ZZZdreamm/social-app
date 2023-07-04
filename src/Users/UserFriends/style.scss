@@ -1,0 +1,15 @@
+.friends {
+  position: relative;
+  left: 5vw;
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+  width: 90vw;
+  padding: 0 2.5vw;
+}
+
+@media screen and (min-width: 600px) {
+  .friends {
+    left: 2vw;
+  }
+}

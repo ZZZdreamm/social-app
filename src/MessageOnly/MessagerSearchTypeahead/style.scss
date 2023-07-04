@@ -1,0 +1,12 @@
+.messager-typeahead {
+  width: 90%;
+}
+#messager {
+  .typeaheadContainer {
+    background-color: white;
+    z-index: 12;
+    input {
+      background-color: white;
+    }
+  }
+}

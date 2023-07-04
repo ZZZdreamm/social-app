@@ -1,0 +1,51 @@
+@import "../../variables.scss";
+
+.call {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: black;
+    z-index: 100;
+    overflow: hidden;
+    .video {
+      position: absolute;
+      right: 3rem;
+      top: 3rem;
+      height: 50vh;
+      background-color: black;
+      aspect-ratio: 0.75;
+    }
+    .friendVideo {
+      height: 100%;
+      width: 100%;
+    }
+    &-options {
+      display: flex;
+      position: absolute;
+      width: 100%;
+      align-items: center;
+      justify-content: center;
+      bottom: 6rem;
+      z-index: 101;
+      height: 3rem;
+      border-radius: 50%;
+      gap: 4rem;
+      &-option {
+        height: 3rem;
+        width: 3rem;
+        background-color: $text-color2;
+        border-radius: 50%;
+        padding: 0.5rem;
+        cursor: pointer;
+        &:hover {
+          background-color: $test-color2;
+        }
+        &:active {
+          background-color: $container-color;
+        }
+      }
+    }
+  }
+

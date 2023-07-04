@@ -1,0 +1,8 @@
+.listOfFriends {
+  display: grid;
+  width: calc(100% - 2rem);
+  margin: 0 auto;
+  gap: 2rem;
+  row-gap: 3rem;
+  padding-bottom: 2rem;
+}

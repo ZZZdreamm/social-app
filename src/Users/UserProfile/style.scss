@@ -1,0 +1,108 @@
+@import "../../variables.scss";
+.profile {
+    position: relative;
+    top: 0;
+    left: 3vw;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    width: 100%;
+    flex-direction: column;
+    &-up {
+      display: flex;
+      align-items: center;
+      flex-direction: column;
+      background-color: $text-color2;
+      height: fit-content;
+      width: 100%;
+      overflow: hidden;
+      margin: 0 auto;
+      &-image {
+        margin: 0 auto;
+        width: 70vw;
+        aspect-ratio: 1.2;
+        background-size: cover;
+        position: relative;
+        &-input {
+          position: absolute;
+          bottom: 2vw;
+          right: 2vw;
+          height: 3rem;
+          z-index: 3;
+          background-color: $text-color2;
+          border-radius: 2rem;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          padding: 0.5rem;
+        }
+      }
+
+      &-options {
+        background-color: $text-color2;
+        width: 70vw;
+        height: 20vw;
+        z-index: 2;
+        &-up {
+          display: flex;
+          width: 100%;
+          height: 70%;
+          border-bottom: 1px solid $text-color1;
+          align-items: center;
+          word-break: break-all;
+
+          img {
+            border: 0.3rem solid $test-color3;
+            height: 70%;
+            aspect-ratio: 1;
+            border-radius: 50%;
+            margin: 1rem;
+            cursor: pointer;
+          }
+        }
+        &-down {
+          display: flex;
+          align-items: center;
+          width: 100%;
+          height: 30%;
+          button {
+            height: calc(100% - 1rem);
+            padding: 0 0.5rem;
+            width: fit-content;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            &:hover {
+              background-color: $back-color;
+            }
+          }
+        }
+      }
+    }
+    &-down {
+      display: flex;
+      align-items: center;
+      flex-direction: column;
+      height: fit-content;
+      width: 50vw;
+      margin: 0 auto;
+    }
+  }
+  @media screen and (max-width: 600px) {
+    .profile {
+      left: 5vw;
+    }
+  }
+
+  @media screen and (min-width: 2000px) {
+    .profile {
+      left: 1vw;
+    }
+  }
+
+  @media screen and (max-width: 1200px) {
+    .profile-down {
+      width: 86vw;
+    }
+  }
