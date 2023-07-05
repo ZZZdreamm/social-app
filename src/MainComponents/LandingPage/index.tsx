@@ -47,7 +47,7 @@ export default function LandingPage() {
       { numberOfPosts: postsToGet },
       "get-posts"
     );
-    if (newPosts.length != 0) {
+    if (newPosts && newPosts.length != 0) {
       if (posts && newPosts.length == posts.length) {
         setAllPostsFetched(true);
       } else {

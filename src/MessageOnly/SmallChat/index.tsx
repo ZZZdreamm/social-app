@@ -13,7 +13,7 @@ import { messageCreationDTO, messageDTO } from "../../Models/message.models";
 import { useEffect, useRef, useState, useContext } from "react";
 import { postDataToServer } from "../../Firebase/FirebaseFunctions";
 import useIsInViewport from "../../ZZZ_USEFUL COMPONENTS/Utilities/IsInViewPort";
-import ProfileContext from "../../ZZZ_USEFUL COMPONENTS/Profile/ProfileContext";
+import ProfileContext from "../../Contexts/ProfileContext";
 
 interface MessagerChatProps {
     friend: profileDTO;
@@ -194,7 +194,7 @@ export default function SmallChat({friend}: MessagerChatProps){
           <h5>{friend.Email}</h5>
         </div>
         <span ref={messagesEndRef}></span>
-        <ListOfMessages messages={messages} />
+        <ListOfMessages messages={messages} setMessages={setMessages}/>
         <span ref={newestMessagesRef}></span>
       </div>
       <div className="messager-chat-footer shadow-above">

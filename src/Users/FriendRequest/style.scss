@@ -20,6 +20,10 @@
       border-radius: 50%;
     }
   }
+  &-email{
+    text-overflow: ellipsis;
+    overflow: hidden;
+  }
   &-options {
     display: flex;
     align-items: center;

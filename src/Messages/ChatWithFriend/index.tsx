@@ -6,7 +6,7 @@ import { profileDTO } from "../../ZZZ_USEFUL COMPONENTS/Profile/profiles.models"
 import { ReadyImagesURL } from "../../ZZZ_USEFUL COMPONENTS/appUrls";
 import ProfileContext, {
   OpenedChatsContext,
-} from "../../ZZZ_USEFUL COMPONENTS/Profile/ProfileContext";
+} from "../../Contexts/ProfileContext";
 import { messageDTO, messageCreationDTO } from "../../Models/message.models";
 import ListOfMessages from "../ListOfMessages";
 import { socket } from "../../App";
@@ -210,7 +210,7 @@ export default function ChatWithFriend({ friend }: ChatWithFriendProps) {
         </div>
         <div className="chat-body-messages">
           <span ref={messagesEndRef}></span>
-          <ListOfMessages messages={messages} />
+          <ListOfMessages messages={messages} setMessages={setMessages}/>
           <span ref={newestMessagesRef}></span>
         </div>
       </div>

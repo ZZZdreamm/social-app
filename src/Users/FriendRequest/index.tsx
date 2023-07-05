@@ -2,7 +2,7 @@ import "./style.scss";
 import { useContext } from "react";
 import { profileDTO } from "../../ZZZ_USEFUL COMPONENTS/Profile/profiles.models";
 import { ReadyImagesURL } from "../../ZZZ_USEFUL COMPONENTS/appUrls";
-import ProfileContext, { FriendRequestsContext, ProfileFriendsContext, SentFriendRequestsContext } from "../../ZZZ_USEFUL COMPONENTS/Profile/ProfileContext";
+import ProfileContext, { FriendRequestsContext, ProfileFriendsContext, SentFriendRequestsContext } from "../../Contexts/ProfileContext";
 import { postDataToServer } from "../../Firebase/FirebaseFunctions";
 
 export default function FriendRequest({ friend, sent }: FriendProps) {

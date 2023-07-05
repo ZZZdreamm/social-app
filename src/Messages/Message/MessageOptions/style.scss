@@ -1,0 +1,48 @@
+@import '../../../variables.scss';
+.message-options{
+    position: relative;
+    width: 4rem;
+    height: 1.2rem;
+    display: flex;
+    gap: 0.1rem;
+    &__icon{
+      height: 100%;
+      box-sizing: border-box;
+      border-radius: 25%;
+      aspect-ratio: 1;
+      cursor: pointer;
+      background-size: cover;
+      &:hover{
+        background-color: $hover-color;
+      }
+    }
+    &-delete{
+        position: relative;
+        bottom: 7rem;
+        right: 4rem;
+        height: 6rem;
+        aspect-ratio: 1.5;
+        background-color: $nav-color;
+        box-shadow: 0 0.5rem 1rem $shadow-1, 0 0.5rem 1rem $shadow-2;
+        display: flex;
+        flex-direction: column;
+        border-radius: 1rem;
+        box-sizing: border-box;
+        padding: 2.5%;
+        z-index: 100;
+        &__text{
+            padding: 7.5%;
+            width: 100%;
+            height: 50%;
+            box-sizing: border-box;
+            font-size: 1.4rem;
+            border-radius: 0.5rem;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            &:hover{
+                background-color: $hover-color;
+            }
+        }
+    }
+  }

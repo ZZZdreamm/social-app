@@ -1,6 +1,6 @@
 import "./style.scss";
 import { useNavigate } from "react-router-dom";
-import { ProfileFriendsContext } from "../../ZZZ_USEFUL COMPONENTS/Profile/ProfileContext";
+import { ProfileFriendsContext } from "../../Contexts/ProfileContext";
 import { profileDTO } from "../../ZZZ_USEFUL COMPONENTS/Profile/profiles.models";
 import { ReadyImagesURL } from "../../ZZZ_USEFUL COMPONENTS/appUrls";
 import MessagerChat from "../MessagerChat";

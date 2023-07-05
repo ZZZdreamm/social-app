@@ -1,7 +1,7 @@
 import "./style.scss";
 import { useNavigate } from "react-router-dom";
 import { profileDTO } from "../../ZZZ_USEFUL COMPONENTS/Profile/profiles.models";
-import ProfileContext from "../../ZZZ_USEFUL COMPONENTS/Profile/ProfileContext";
+import ProfileContext from "../../Contexts/ProfileContext";
 import { useContext } from "react";
 import { ReadyImagesURL } from "../../ZZZ_USEFUL COMPONENTS/appUrls";
 

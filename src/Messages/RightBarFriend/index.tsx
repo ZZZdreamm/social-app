@@ -1,6 +1,6 @@
 import "./style.scss";
 import { useContext } from "react";
-import { OpenedChatsContext } from "../../ZZZ_USEFUL COMPONENTS/Profile/ProfileContext";
+import { OpenedChatsContext } from "../../Contexts/ProfileContext";
 import { profileDTO } from "../../ZZZ_USEFUL COMPONENTS/Profile/profiles.models";
 import { ReadyImagesURL } from "../../ZZZ_USEFUL COMPONENTS/appUrls";
 

@@ -10,7 +10,7 @@ import RecordMessager from "../../Messages/RecordMessager";
 import { messageCreationDTO, messageDTO } from "../../Models/message.models";
 import MultipleFileInput from "../../Posts/MultipleFileInput";
 import { openCallWindow } from "../../WebRTC/CallFunctions";
-import ProfileContext from "../../ZZZ_USEFUL COMPONENTS/Profile/ProfileContext";
+import ProfileContext from "../../Contexts/ProfileContext";
 import { profileDTO } from "../../ZZZ_USEFUL COMPONENTS/Profile/profiles.models";
 import { removeOnlyText } from "../../ZZZ_USEFUL COMPONENTS/Utilities/DivControl";
 import useIsInViewport from "../../ZZZ_USEFUL COMPONENTS/Utilities/IsInViewPort";
@@ -213,7 +213,7 @@ export default function MessagerChat({
           <h5>{friend.Email}</h5>
         </div>
         <span ref={messagesEndRef}></span>
-        <ListOfMessages messages={messages} />
+        <ListOfMessages messages={messages} setMessages={setMessages}/>
         <span ref={newestMessagesRef}></span>
       </div>
       <div className="messager-chat-footer shadow-above">

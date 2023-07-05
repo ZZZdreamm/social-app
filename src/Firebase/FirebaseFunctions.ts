@@ -47,6 +47,8 @@ export const postFormDataToServer = (data: any, functionName: string) => {
     });
 };
 
+
+
 export const putDataToServer = (data: any, functionName: string) => {
   const request = new Request(`${serverURL}/${functionName}`, {
     method: "PUT",

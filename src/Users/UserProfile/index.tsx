@@ -1,22 +1,21 @@
-import "./style.scss";
 import { useContext, useEffect, useRef, useState } from "react";
-import { useLocation, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
+import uuid4 from "uuid4";
+import ProfileContext, { FriendRequestsContext, ProfileFriendsContext, SentFriendRequestsContext } from "../../Contexts/ProfileContext";
+import { storageRef } from "../../Firebase/FirebaseConfig";
 import {
   postDataToServer,
   putDataToServer,
 } from "../../Firebase/FirebaseFunctions";
+import PostsList from "../../Posts/PostsList";
 import { profileDTO } from "../../ZZZ_USEFUL COMPONENTS/Profile/profiles.models";
+import FileInput from "../../ZZZ_USEFUL COMPONENTS/Utilities/FileInput";
+import useIsInViewport from "../../ZZZ_USEFUL COMPONENTS/Utilities/IsInViewPort";
+import TopModal from "../../ZZZ_USEFUL COMPONENTS/Utilities/ModalAtTop";
 import Waiting from "../../ZZZ_USEFUL COMPONENTS/Utilities/Waiting/indexxx";
 import { ReadyImagesURL } from "../../ZZZ_USEFUL COMPONENTS/appUrls";
-import ProfileContext, { FriendRequestsContext, ProfileFriendsContext, SentFriendRequestsContext } from "../../ZZZ_USEFUL COMPONENTS/Profile/ProfileContext";
-import FileInput from "../../ZZZ_USEFUL COMPONENTS/Utilities/FileInput";
-import { storageRef } from "../../Firebase/FirebaseConfig";
-import uuid4 from "uuid4";
-import TopModal from "../../ZZZ_USEFUL COMPONENTS/Utilities/ModalAtTop";
-import PostsList from "../../Posts/PostsList";
-import useIsInViewport from "../../ZZZ_USEFUL COMPONENTS/Utilities/IsInViewPort";
-import FriendsList from "../FriendsList";
 import ListOfFriendsInProfile from "../ListOfFriendsInProfile";
+import "./style.scss";
 
 export default function UserProfile() {
   const { id } = useParams();
@@ -54,9 +53,9 @@ export default function UserProfile() {
     const getUserData = async () => {
       const user: profileDTO = await postDataToServer({ name: id }, "get-user");
       setUserProfile(user);
-      setChoosenImage(user.ProfileImage || `${ReadyImagesURL}/noProfile.jpg`);
-      getPosts(user.Email);
-      setFriends(await postDataToServer({ userId: user.Id }, "get-friends"));
+      setChoosenImage(user?.ProfileImage || `${ReadyImagesURL}/noProfile.jpg`);
+      getPosts(user?.Email);
+      setFriends(await postDataToServer({ userId: user?.Id }, "get-friends"));
     };
     getUserData();
   }, [id]);
@@ -66,7 +65,7 @@ export default function UserProfile() {
   }, [myProfile, userProfile]);
 
   async function getPosts(username: string) {
-    const postsToGet = posts!.length + numberOfPosts;
+    const postsToGet = posts.length + numberOfPosts;
     const newPosts = await postDataToServer(
       { name: username, numberOfPosts: postsToGet },
       "get-user-posts"
@@ -148,7 +147,7 @@ export default function UserProfile() {
             <TopModal
               isOpen={isOpen}
               toggleModal={toggleModal}
-              children={<span style={{ padding: '0.4rem', color: 'green' }}>Do you want to set this image?</span>}
+              children={<span style={{ padding: '0.4rem', color: 'green', textAlign:'center' }}>Do you want to set this image?</span>}
               submitButtonText={"Submit"}
               onSubmit={changeProfileImage} onClose={()=>setChoosenImage(localStorage.getItem('profileImage')!)} />
             <div

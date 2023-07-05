@@ -3,12 +3,16 @@ import Modal from "styled-react-modal";
 const StyledModal = Modal.styled`
   position: absolute;
   top: 0;
-  width: 60vw;
+  width: 70vw;
   height: 13vh;
   display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
   align-items: center;
   background-color: #ffffff;
-  justify-content: space-between;
+  border-radius: 0 0 1rem 1rem;
 `;
 
 //@ts-ignore

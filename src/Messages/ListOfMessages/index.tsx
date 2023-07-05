@@ -6,16 +6,17 @@ import "./style.scss"
 
 interface ListOfMessagesProps {
   messages: messageDTO[] | undefined;
+  setMessages:(messages:messageDTO[])=>void;
 }
 
-export default function ListOfMessages({ messages }: ListOfMessagesProps) {
+export default function ListOfMessages({ messages, setMessages }: ListOfMessagesProps) {
   return (
     <div className="listOfMessages">
       {messages ? (
         messages.map((message) => (
           <>
             {message.Id ? (
-              <Message message={message} key={message.Id} />
+              <Message message={message} key={message.Id} setMessages={setMessages}/>
             ) : (
               <span id={`scrollable-span`}></span>
             )}

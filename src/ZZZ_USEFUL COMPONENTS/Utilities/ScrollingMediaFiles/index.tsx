@@ -1,7 +1,6 @@
 import "./style.scss";
 import { useEffect, useRef, useState } from "react";
 import { ReadyImagesURL } from "../../appUrls";
-import AdjustedImage from "../AdjustedImage";
 
 interface ScrollingMediaFilesProps {
   mediaFiles: string[] | undefined;
@@ -59,7 +58,6 @@ export default function ScrollingMediaFiles({
     isScrolledToEnd,
     isScrollAtStart,
   ]);
-  console.log(mediaFiles);
   return (
     <>
       {mediaFiles && (

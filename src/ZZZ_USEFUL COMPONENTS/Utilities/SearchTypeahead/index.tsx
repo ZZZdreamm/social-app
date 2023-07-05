@@ -1,12 +1,7 @@
+import { useState } from "react";
 import "./style.scss";
-import { useEffect, useState } from "react";
-import { AsyncTypeahead } from "react-bootstrap-typeahead";
 
-const typeaheadStyle = {
-  borderRadius: "1rem",
-  margin: "0 auto",
-  padding: "0.1rem",
-};
+
 
 export default function SearchTypeahead({
   listOfData,
@@ -20,7 +15,6 @@ export default function SearchTypeahead({
     <>
       <div
         className={`typeaheadContainer ${bonusClassName}`}
-        style={typeaheadStyle}
         onBlur={() => {
           setTimeout(() => {
             setDataList([]);

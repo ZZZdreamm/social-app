@@ -3,7 +3,7 @@ import "./style.scss";
 import { useContext, useEffect, useState } from "react";
 import ProfileContext, {
   ProfileFriendsContext,
-} from "../../ZZZ_USEFUL COMPONENTS/Profile/ProfileContext";
+} from "../../Contexts/ProfileContext";
 import { profileDTO } from "../../ZZZ_USEFUL COMPONENTS/Profile/profiles.models";
 import GoToMenuButton from "../../ZZZ_USEFUL COMPONENTS/Utilities/GoToMenuButton";
 import Portal from "../../ZZZ_USEFUL COMPONENTS/Utilities/Portal";

@@ -1,6 +1,6 @@
 import "./style.scss";
 import { useContext } from "react";
-import { ProfileFriendsContext } from "../../ZZZ_USEFUL COMPONENTS/Profile/ProfileContext";
+import { ProfileFriendsContext } from "../../Contexts/ProfileContext";
 import FriendsList from "../FriendsList";
 
 export default function UserFriends() {

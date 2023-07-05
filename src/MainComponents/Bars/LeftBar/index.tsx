@@ -2,11 +2,11 @@ import { useContext, useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import ProfileContext, {
   OpenedChatsContext,
-} from "../../../ZZZ_USEFUL COMPONENTS/Profile/ProfileContext";
+} from "../../../Contexts/ProfileContext";
 import { ReadyImagesURL } from "../../../ZZZ_USEFUL COMPONENTS/appUrls";
 
-import "./style.scss"
-import "../style.scss"
+import "./style.scss";
+import "../style.scss";
 
 export default function LeftBar() {
   const navigate = useNavigate();
@@ -58,14 +58,27 @@ export default function LeftBar() {
     <nav className="bar bar-left" style={barStyling}>
       {myProfile && (
         <ul>
-          <li style={elementsStyling} onClick={() => navigate(`/`)}>
+          <li
+            style={elementsStyling}
+            onClick={() => {
+              navigate(`/`);
+            }}
+          >
+            {location.pathname == "/" && (
+              <div className="bar-left__active"></div>
+            )}
             <img src={`${ReadyImagesURL}/homepage.png`} alt="" />
             {fullBar && <span className="medium-font">Home</span>}
           </li>
           <li
             style={elementsStyling}
-            onClick={() => navigate(`user-profile/${myProfile.Id}`)}
+            onClick={() => {
+              navigate(`user-profile/${myProfile.Id}`);
+            }}
           >
+            {location.pathname.includes("user-profile") && (
+              <div className="bar-left__active"></div>
+            )}
             <img
               src={myProfile.ProfileImage || `${ReadyImagesURL}/noProfile.jpg`}
               alt=""
@@ -74,24 +87,40 @@ export default function LeftBar() {
           </li>
           <li
             style={elementsStyling}
-            onClick={() => navigate(`/user-friends/${myProfile.Id}`)}
+            onClick={() => {
+              navigate(`/user-friends/${myProfile.Id}`);
+            }}
           >
+            {location.pathname.includes("user-friends") && (
+              <div className="bar-left__active"></div>
+            )}
+
             <img src={`${ReadyImagesURL}/friends.png`} alt="" />
             {fullBar && <span className="medium-font">Friends</span>}
           </li>
           <li
             style={elementsStyling}
-            onClick={() => navigate(`/user-friend-requests/${myProfile.Id}`)}
+            onClick={() => {
+              navigate(`/user-friend-requests/${myProfile.Id}`);
+            }}
           >
+            {location.pathname.includes("user-friend-requests") && (
+              <div className="bar-left__active"></div>
+            )}
+
             <img src={`${ReadyImagesURL}/goBackArrow.png`} alt="" />
             {fullBar && <span className="medium-font">Friend Requests</span>}
           </li>
           <li
             style={elementsStyling}
-            onClick={() =>
-              navigate(`/user-sent-friend-requests/${myProfile.Id}`)
-            }
+            onClick={() => {
+              navigate(`/user-sent-friend-requests/${myProfile.Id}`);
+            }}
           >
+            {location.pathname.includes("user-sent-friend-requests") && (
+              <div className="bar-left__active"></div>
+            )}
+
             <img
               style={{ rotate: "180deg" }}
               src={`${ReadyImagesURL}/goBackArrow.png`}

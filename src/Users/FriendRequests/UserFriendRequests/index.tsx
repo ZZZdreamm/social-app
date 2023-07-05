@@ -1,7 +1,7 @@
 import "./style.scss";
 import "../style.scss";
 import { useContext } from "react";
-import { FriendRequestsContext } from "../../../ZZZ_USEFUL COMPONENTS/Profile/ProfileContext";
+import { FriendRequestsContext } from "../../../Contexts/ProfileContext";
 import FriendRequestsList from "../../FriendRequestsList";
 
 export default function UserFriendRequests() {

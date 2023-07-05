@@ -5,7 +5,7 @@ import SearchOption from "../../Users/SearchOption";
 import { profileDTO } from "../../ZZZ_USEFUL COMPONENTS/Profile/profiles.models";
 import SearchTypeahead from "../../ZZZ_USEFUL COMPONENTS/Utilities/SearchTypeahead";
 import MessagerSearchOption from "../MessagerSearchOption";
-import ProfileContext from "../../ZZZ_USEFUL COMPONENTS/Profile/ProfileContext";
+import ProfileContext from "../../Contexts/ProfileContext";
 
 interface MessagerSearchTypeaheadProps {
   setChoosenFriend: (profile: profileDTO) => void;

@@ -1,6 +1,6 @@
 import React from "react";
 import { userCredentials } from "../auth/auth.models";
-import { profileDTO } from "./profiles.models.d";
+import { profileDTO } from "./profiles.models";
 
 const profile: profileDTO = { Id: "", Email: "" };
 const ProfileContext = React.createContext<{

@@ -5,7 +5,7 @@ import { storageRef } from "../../Firebase/FirebaseConfig";
 import {
   postDataToServer
 } from "../../Firebase/FirebaseFunctions";
-import ProfileContext from "../../ZZZ_USEFUL COMPONENTS/Profile/ProfileContext";
+import ProfileContext from "../../Contexts/ProfileContext";
 import MyModal from "../../ZZZ_USEFUL COMPONENTS/Utilities/Modal";
 import { addItemToState } from "../../ZZZ_USEFUL COMPONENTS/Utilities/StateModifications";
 import { ReadyImagesURL } from "../../ZZZ_USEFUL COMPONENTS/appUrls";

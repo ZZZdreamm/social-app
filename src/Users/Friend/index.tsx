@@ -4,7 +4,7 @@ import { profileDTO } from "../../ZZZ_USEFUL COMPONENTS/Profile/profiles.models"
 import { ReadyImagesURL } from "../../ZZZ_USEFUL COMPONENTS/appUrls";
 import { postDataToServer } from "../../Firebase/FirebaseFunctions";
 import { useContext } from "react";
-import ProfileContext, { ProfileFriendsContext } from "../../ZZZ_USEFUL COMPONENTS/Profile/ProfileContext";
+import ProfileContext, { ProfileFriendsContext } from "../../Contexts/ProfileContext";
 
 export default function Friend({ friend }: FriendProps) {
     const navigate = useNavigate()

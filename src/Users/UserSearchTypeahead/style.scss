@@ -1,4 +1,21 @@
 .navbar-typeahead {
   width: 30%;
-  height: 60%;
+}
+
+@media screen and (min-width: 1200px) {
+  .navbar-typeahead{
+    height: 65%;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .navbar-typeahead{
+    height: 30%;
+  }
+}
+
+@media screen and (min-width: 600px) and (max-width: 1200px) {
+  .navbar-typeahead{
+    height: 40%;
+  }
 }

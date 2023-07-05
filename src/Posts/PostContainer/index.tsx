@@ -1,7 +1,7 @@
 import "./style.scss";
 import { useContext, useEffect, useRef, useState } from "react";
 import { ReadyImagesURL } from "../../ZZZ_USEFUL COMPONENTS/appUrls";
-import ProfileContext from "../../ZZZ_USEFUL COMPONENTS/Profile/ProfileContext";
+import ProfileContext from "../../Contexts/ProfileContext";
 import {
   postDataToServer,
   putDataToServer,
@@ -14,7 +14,7 @@ import ScrollingMediaFiles from "../../ZZZ_USEFUL COMPONENTS/Utilities/Scrolling
 export default function PostContainer({ post }: PostContainerProps) {
   const { myProfile } = useContext(ProfileContext);
   const [comments, setComments] = useState<commentsDTO[]>();
-  const [youLiked, setYouLiked] = useState<boolean>(false);
+  const [youLiked, setYouLiked] = useState<boolean>();
   const [amountOfLikes, setAmountOfLikes] = useState(post.AmountOfLikes);
   const [clicked, setClicked] = useState(false);
   const [amountOfComments, setAmountOfComments] = useState(
@@ -26,7 +26,6 @@ export default function PostContainer({ post }: PostContainerProps) {
 
   const [textOverflown, setTextOverflown] = useState(false);
   const [partOfTextContent, setPartOfTextContent] = useState<string>("");
-
 
   useEffect(() => {
     if (post.TextContent.length > 100) {
@@ -127,11 +126,11 @@ export default function PostContainer({ post }: PostContainerProps) {
   }
   const likeColor = youLiked ? "#89CFF0" : "";
 
-  const commentDisabled = commentText.length == 0
+  const commentDisabled = commentText.length == 0;
   return (
     <div className="post shadow-around">
       <div className="post-profile">
-        <img src={autorImage} alt=""/>
+        <img src={autorImage} alt="" />
         <span>{post.AutorName}</span>
       </div>
       <div className="post-content">
@@ -149,12 +148,12 @@ export default function PostContainer({ post }: PostContainerProps) {
             )}
           </span>
         )}
-        <ScrollingMediaFiles mediaFiles={post.MediaFiles}/>
+        <ScrollingMediaFiles mediaFiles={post.MediaFiles} />
       </div>
       <div className="post-bottom">
         <div className="post-bottom-up">
           <div className="option">
-            <img src={`${ReadyImagesURL}/like.png`} alt=""/>
+            <img src={`${ReadyImagesURL}/like.png`} alt="" />
             <span className="large-font">{amountOfLikes}</span>
           </div>
           <div className="option">
@@ -163,6 +162,7 @@ export default function PostContainer({ post }: PostContainerProps) {
         </div>
         <div className="post-bottom-down">
           <button
+            disabled={youLiked === undefined}
             style={{ backgroundColor: likeColor }}
             onClick={updateLikeState}
           >
@@ -175,12 +175,15 @@ export default function PostContainer({ post }: PostContainerProps) {
         <div className="post-comments">
           <span className="post-comments-input">
             <textarea
-            className="commentText-textarea"
-              // id={`comment-text/${post.Id}`}
+              className="commentText-textarea"
               value={commentText}
               onInput={(e: any) => setCommentText(e.target.value)}
             />
-            <button disabled={commentDisabled} type="submit" onClick={postComment}>
+            <button
+              disabled={commentDisabled}
+              type="submit"
+              onClick={postComment}
+            >
               Post comment
             </button>
           </span>

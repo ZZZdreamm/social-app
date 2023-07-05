@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import { ReadyImagesURL } from "../../../ZZZ_USEFUL COMPONENTS/appUrls";
 import ProfileContext, {
   ProfileFriendsContext,
-} from "../../../ZZZ_USEFUL COMPONENTS/Profile/ProfileContext";
+} from "../../../Contexts/ProfileContext";
 import { useLocation, useNavigate } from "react-router-dom";
 import RightBarFriend from "../../../Messages/RightBarFriend";
 

@@ -5,7 +5,7 @@ import AuthenticationContext from "./ZZZ_USEFUL COMPONENTS/auth/AuthenticationCo
 import { claim } from "./ZZZ_USEFUL COMPONENTS/auth/auth.models";
 import { getClaims } from "./ZZZ_USEFUL COMPONENTS/auth/HandleJWT";
 import OfflineWebsite from "./ZZZ_USEFUL COMPONENTS/Utilities/OfflineWebsite";
-import { HashRouter, Route, Routes } from "react-router-dom";
+import { HashRouter, Route, Routes, useLocation } from "react-router-dom";
 import GuardedRoute from "./ZZZ_USEFUL COMPONENTS/Utilities/GuardedRoute";
 import routes, { guardedRoutes } from "./routes";
 import Menu from "./MainComponents/Menu";
@@ -16,7 +16,7 @@ import ProfileContext, {
   OpenedChatsContext,
   ProfileFriendsContext,
   SentFriendRequestsContext,
-} from "./ZZZ_USEFUL COMPONENTS/Profile/ProfileContext";
+} from "./Contexts/ProfileContext";
 import LeftBar from "./MainComponents/Bars/LeftBar";
 import Authorized from "./ZZZ_USEFUL COMPONENTS/auth/Authorized";
 import { postDataToServer } from "./Firebase/FirebaseFunctions";
@@ -74,9 +74,9 @@ function App() {
         />
       );
     });
-    if(myFriends) return;
-    if(myFriendRequests) return;
-    if(mySentRequests) return;
+    if (myFriends) return;
+    if (myFriendRequests) return;
+    if (mySentRequests) return;
     getFriends();
     getFriendRequests();
     getSentFriendRequests();
@@ -107,85 +107,87 @@ function App() {
     setMySentRequests(newSentFriendRequests);
   }
 
+
+
   return (
-    <HashRouter>
-      <AuthenticationContext.Provider value={{ claims, update: setClaims }}>
-        <ProfileContext.Provider
-          value={{ myProfile: profile!, updateProfile: setProfile }}
+    // <HashRouter>
+    <AuthenticationContext.Provider value={{ claims, update: setClaims }}>
+      <ProfileContext.Provider
+        value={{ myProfile: profile!, updateProfile: setProfile }}
+      >
+        <ProfileFriendsContext.Provider
+          value={{ myFriends, updateFriends: setMyFriends }}
         >
-          <ProfileFriendsContext.Provider
-            value={{ myFriends, updateFriends: setMyFriends }}
+          <FriendRequestsContext.Provider
+            value={{
+              myFriendRequests: myFriendRequests,
+              updateFriendRequests: setMyFriendRequests,
+            }}
           >
-            <FriendRequestsContext.Provider
+            <SentFriendRequestsContext.Provider
               value={{
-                myFriendRequests: myFriendRequests,
-                updateFriendRequests: setMyFriendRequests,
+                mySentRequests: mySentRequests,
+                updateSentFriendRequests: setMySentRequests,
               }}
             >
-              <SentFriendRequestsContext.Provider
+              <OpenedChatsContext.Provider
                 value={{
-                  mySentRequests: mySentRequests,
-                  updateSentFriendRequests: setMySentRequests,
+                  openedChats: openedChats,
+                  updateOpenedChats: setOpenedChats,
                 }}
               >
-                <OpenedChatsContext.Provider
-                  value={{
-                    openedChats: openedChats,
-                    updateOpenedChats: setOpenedChats,
-                  }}
-                >
-                  <ModalProvider>
-                    <div className="App">
-                      {online ? (
-                        <>
-                          <div className="navbar-placeholder"></div>
-                          <Menu />
-                          <Authorized isAuthorized={<LeftBar />} />
+                <ModalProvider>
+                  <div className="App">
+                    {online ? (
+                      <>
+                        <div className="navbar-placeholder"></div>
+                        <Menu />
+                        <Authorized isAuthorized={<LeftBar />} />
 
-                          <OpenedChats openedChats={openedChats} />
-                          {call}
+                        <OpenedChats openedChats={openedChats} />
+                        {call}
 
-                          <section className="landing-page">
-                            <Routes>
-                              {routes.map((route) => (
+                        <section className="landing-page">
+                          <Routes>
+                            {routes.map((route) => (
+                              <Route
+                                key={route.path}
+                                path={route.path}
+                                Component={route.component}
+                              />
+                            ))}
+
+                            {gotClaims &&
+                              guardedRoutes.map((route: any) => (
                                 <Route
                                   key={route.path}
-                                  path={route.path}
-                                  Component={route.component}
-                                />
-                              ))}
-
-                              {gotClaims &&
-                                guardedRoutes.map((route: any) => (
-                                  <Route
-                                    key={route.path}
-                                    element={
-                                      <GuardedRoute
-                                        isAuthenticated={claims.length > 0}
-                                      />
-                                    }
-                                  >
-                                    <Route
-                                      Component={route.component}
-                                      path={route.path}
+                                  element={
+                                    <GuardedRoute
+                                      isAuthenticated={claims.length > 0}
                                     />
-                                  </Route>
-                                ))}
-                            </Routes>
-                          </section>
-                        </>
-                      ) : (
-                        <OfflineWebsite />
-                      )}
-                    </div>
-                  </ModalProvider>
-                </OpenedChatsContext.Provider>
-              </SentFriendRequestsContext.Provider>
-            </FriendRequestsContext.Provider>
-          </ProfileFriendsContext.Provider>
-        </ProfileContext.Provider>
-      </AuthenticationContext.Provider>
-    </HashRouter>
+                                  }
+                                >
+                                  <Route
+                                    Component={route.component}
+                                    path={route.path}
+                                  />
+                                </Route>
+                              ))}
+                          </Routes>
+                        </section>
+                      </>
+                    ) : (
+                      <OfflineWebsite />
+                    )}
+                  </div>
+                </ModalProvider>
+              </OpenedChatsContext.Provider>
+            </SentFriendRequestsContext.Provider>
+          </FriendRequestsContext.Provider>
+        </ProfileFriendsContext.Provider>
+      </ProfileContext.Provider>
+    </AuthenticationContext.Provider>
+    // </HashRouter>
   );
 }
 
