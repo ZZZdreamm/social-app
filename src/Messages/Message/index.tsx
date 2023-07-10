@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import { messageDTO } from "../../Models/message.models";
+import { messageDTO, messageResponseDTO } from "../../Models/message.models";
 import ProfileContext from "../../Contexts/ProfileContext";
 import BigImageModal from "../../ZZZ_USEFUL COMPONENTS/Utilities/BigImageModal";
 import { ReadyImagesURL } from "../../ZZZ_USEFUL COMPONENTS/appUrls";
@@ -11,9 +11,16 @@ import MessageOptions from "./MessageOptions";
 interface MessageProps {
   message: messageDTO;
   setMessages: (messages: messageDTO[]) => void;
+  setResponseToMessage: (message: messageResponseDTO) => void;
+  notResponding?: boolean;
 }
 
-export default function Message({ message, setMessages }: MessageProps) {
+export default function Message({
+  message,
+  setMessages,
+  setResponseToMessage,
+  notResponding,
+}: MessageProps) {
   const { myProfile } = useContext(ProfileContext);
   const [styling, setStyling] = useState({});
   const [fromFriend, setFromFriend] = useState(false);
@@ -81,6 +88,28 @@ export default function Message({ message, setMessages }: MessageProps) {
         className="message-content medium-font"
         style={{ color: color, ...contentStyle }}
       >
+        <div className="message-responseTo">
+          {message.responseTo && (
+            <>
+              <div className="message-responseTo-content">
+                <div className="message-responseTo-content__autor">
+                  Respond to <span className="bolder">{message.responseTo.SenderName}</span>
+                </div>
+                <span className="message-responseTo-content__text">
+                  {message.responseTo.TextContent}
+                </span>
+                {message.responseTo.MediaFiles.length > 0 && (
+                  <div
+                    className="message-responseTo-content__media"
+                    style={{
+                      gridTemplateColumns: `repeat(${gridSize}, 1fr)`,
+                    }}
+                  ></div>
+                )}
+              </div>
+            </>
+          )}
+        </div>
         {message.TextContent}
         {message.MediaFiles.length > 0 && (
           <div
@@ -101,9 +130,15 @@ export default function Message({ message, setMessages }: MessageProps) {
           />
         )}
       </div>
-      <div style={{ opacity: optionsVisible ? "1" : "0" }}>
-        <MessageOptions message={message} setMessages={setMessages}/>
-      </div>
+      {notResponding && (
+        <div style={{ opacity: optionsVisible ? "1" : "0" }}>
+          <MessageOptions
+            message={message}
+            setMessages={setMessages}
+            setResponseToMessage={setResponseToMessage}
+          />
+        </div>
+      )}
     </div>
   );
 }

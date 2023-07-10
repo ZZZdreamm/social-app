@@ -10,6 +10,28 @@
   padding: 0 0.2rem;
   z-index: 16;
   align-items: center;
+  &-responseTo{
+    box-sizing: border-box;
+    position: relative;
+    width: 100%;
+    padding: 0 1rem;
+    margin-bottom: 0.5rem;
+    border-radius: 1rem;
+    background-color: $lightgrey;
+    max-height: 15rem;
+    overflow: hidden;
+    &-content{
+      &__autor{
+        color: $text-color1;
+      }
+      &__text{
+        color: $text-grey;
+      }
+      &__media{
+
+      }
+    }
+  }
 
   &-content {
     position: relative;

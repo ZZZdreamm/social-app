@@ -9,18 +9,18 @@ import MultipleFileInput from "../../Posts/MultipleFileInput";
 import RecordMessager from "../../Messages/RecordMessager";
 import { removeOnlyText } from "../../ZZZ_USEFUL COMPONENTS/Utilities/DivControl";
 import { storageRef } from "../../Firebase/FirebaseConfig";
-import { messageCreationDTO, messageDTO } from "../../Models/message.models";
+import { messageCreationDTO, messageDTO, messageResponseDTO } from "../../Models/message.models";
 import { useEffect, useRef, useState, useContext } from "react";
 import { postDataToServer } from "../../Firebase/FirebaseFunctions";
 import useIsInViewport from "../../ZZZ_USEFUL COMPONENTS/Utilities/IsInViewPort";
 import ProfileContext from "../../Contexts/ProfileContext";
 
 interface MessagerChatProps {
-    friend: profileDTO;
-  }
+  friend: profileDTO;
+}
 
-export default function SmallChat({friend}: MessagerChatProps){
-    const { myProfile } = useContext(ProfileContext);
+export default function SmallChat({ friend }: MessagerChatProps) {
+  const { myProfile } = useContext(ProfileContext);
   const [messages, setMessages] = useState<any[]>([]);
   const [textToSend, setTextToSend] = useState("");
   const [audioURL, setAudioURL] = useState("");
@@ -28,8 +28,12 @@ export default function SmallChat({friend}: MessagerChatProps){
   const [removedVoiceMes, setRemovedVoiceMes] = useState(false);
 
   const [chatOpen, setChatOpen] = useState(false);
-  const [fetchedAllMessages, setFetchedAllMessages] = useState<boolean | string>(false);
+  const [fetchedAllMessages, setFetchedAllMessages] = useState<
+    boolean | string
+  >(false);
   const [filesArray, setFilesArray] = useState<[File, string][]>([]);
+  const [respondTo, setRespondTo] = useState<messageResponseDTO>();
+
   const image = friend.ProfileImage || `${ReadyImagesURL}/noProfile.jpg`;
   let numberOfMessages = 10;
 
@@ -105,10 +109,15 @@ export default function SmallChat({friend}: MessagerChatProps){
     let messageToSend: messageCreationDTO = {
       SenderId: myProfile.Id,
       ReceiverId: friend.Id,
+      SenderName: myProfile.Email.split("@")[0],
+
       TextContent: textToSend,
       MediaFiles: [],
       VoiceFile: "",
       Date: Date.now(),
+      Emojis: [],
+      AmountOfEmojis: 0,
+      responseTo: respondTo,
     };
     let filesUrls: any = [];
 
@@ -170,7 +179,11 @@ export default function SmallChat({friend}: MessagerChatProps){
     <section className="messager-small-chat">
       <div className="messager-chat-header shadow-beneath">
         <span className="messager-chat-header-userProfile">
-          <img className="messager-chat-header-userProfile-image" src={image} alt=""/>
+          <img
+            className="messager-chat-header-userProfile-image"
+            src={image}
+            alt=""
+          />
           {friend.Email}
         </span>
         <img
@@ -190,11 +203,11 @@ export default function SmallChat({friend}: MessagerChatProps){
       </div>
       <div id={`chat-body/${friend.Id}`} className="messager-chat-body">
         <div className="messager-chat-body-start">
-          <img src={image} alt=""/>
+          <img src={image} alt="" />
           <h5>{friend.Email}</h5>
         </div>
         <span ref={messagesEndRef}></span>
-        <ListOfMessages messages={messages} setMessages={setMessages}/>
+        <ListOfMessages messages={messages} setMessages={setMessages} setResponseToMessage={setRespondTo} />
         <span ref={newestMessagesRef}></span>
       </div>
       <div className="messager-chat-footer shadow-above">

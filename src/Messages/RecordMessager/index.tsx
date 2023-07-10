@@ -38,7 +38,7 @@ export default function RecordMessager({
     setAudioURL("");
   }
 
-  const visibleImage = recording ? `${ReadyImagesURL}/stop-record.png` : `${ReadyImagesURL}/micro-on.png`
+  const visibleImage = recording ? `${ReadyImagesURL}/stop-record.png` : `${ReadyImagesURL}/micro-on-chat.png`
   return (
     <div className="recordMessager">
       {!voiceMessage ? (
@@ -54,7 +54,7 @@ export default function RecordMessager({
           />
         </>
       ) : (
-        <img src={`${ReadyImagesURL}/redX.png`} onClick={eraseRecording} alt=""/>
+        <img src={`${ReadyImagesURL}/close.png`} onClick={eraseRecording} alt=""/>
       )}
     </div>
   );

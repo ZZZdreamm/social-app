@@ -1,5 +1,4 @@
-import "./style.scss"
-
+import "./style.scss";
 
 import { useContext, useEffect, useRef, useState } from "react";
 import { profileDTO } from "../../ZZZ_USEFUL COMPONENTS/Profile/profiles.models";
@@ -7,7 +6,7 @@ import { ReadyImagesURL } from "../../ZZZ_USEFUL COMPONENTS/appUrls";
 import ProfileContext, {
   OpenedChatsContext,
 } from "../../Contexts/ProfileContext";
-import { messageDTO, messageCreationDTO } from "../../Models/message.models";
+import { messageDTO, messageCreationDTO, messageResponseDTO } from "../../Models/message.models";
 import ListOfMessages from "../ListOfMessages";
 import { socket } from "../../App";
 import { storageRef } from "../../Firebase/FirebaseConfig";
@@ -18,6 +17,7 @@ import { removeOnlyText } from "../../ZZZ_USEFUL COMPONENTS/Utilities/DivControl
 import { openCallWindow } from "../../WebRTC/CallFunctions";
 import RecordMessager from "../RecordMessager";
 import MultipleFileInput from "../../Posts/MultipleFileInput";
+import Message from "../Message";
 
 interface ChatWithFriendProps {
   friend: profileDTO;
@@ -35,6 +35,7 @@ export default function ChatWithFriend({ friend }: ChatWithFriendProps) {
   const [chatOpen, setChatOpen] = useState(false);
   const [fetchedAllMessages, setFetchedAllMessages] = useState(false);
   const [filesArray, setFilesArray] = useState<[File, string][]>([]);
+  const [respondTo, setRespondTo] = useState<messageResponseDTO>();
   const image = friend.ProfileImage || `${ReadyImagesURL}/noProfile.jpg`;
   let numberOfMessages = 10;
 
@@ -87,7 +88,7 @@ export default function ChatWithFriend({ friend }: ChatWithFriendProps) {
     }
     setChatOpen(true);
     const newMesses: any[] = [];
-    messes.forEach((message: messageDTO, index: number) => {
+    messes?.forEach((message: messageDTO, index: number) => {
       if (messages?.length == index + 1) {
         newMesses.push("empty");
       }
@@ -108,10 +109,14 @@ export default function ChatWithFriend({ friend }: ChatWithFriendProps) {
     let messageToSend: messageCreationDTO = {
       SenderId: myProfile.Id,
       ReceiverId: friend.Id,
+      SenderName: myProfile.Email.split("@")[0],
       TextContent: textToSend,
       MediaFiles: [],
       VoiceFile: "",
       Date: Date.now(),
+      Emojis: [],
+      AmountOfEmojis: 0,
+      responseTo: respondTo,
     };
     let filesUrls: Promise<string>[] = [];
 
@@ -140,6 +145,7 @@ export default function ChatWithFriend({ friend }: ChatWithFriendProps) {
       setAudioURL("");
       setRemovedVoiceMes(true);
       setTextToSend("");
+      setRespondTo(undefined);
       removeOnlyText(inputMessageRef);
       if (newestMessagesRef.current) {
         newestMessagesRef.current.scrollIntoView();
@@ -152,7 +158,7 @@ export default function ChatWithFriend({ friend }: ChatWithFriendProps) {
     updateOpenedChats(chats);
   }
   const inputSize =
-    textToSend != "" || filesArray.length > 0 || audioURL != "" ? "80%" : "30%";
+    textToSend != "" || filesArray.length > 0 || audioURL != "" ? "80%" : "45%";
 
   const handleFileChange = (file: File) => {
     const reader = new FileReader();
@@ -182,6 +188,7 @@ export default function ChatWithFriend({ friend }: ChatWithFriendProps) {
     });
     openCallWindow(myProfile, friend, roomId, "caller");
   }
+
   return (
     <section className="chat" data-testid="chatWithFriend">
       <div className="chat-header">
@@ -196,9 +203,9 @@ export default function ChatWithFriend({ friend }: ChatWithFriendProps) {
           alt=""
         />
         <img
-        data-testid="chatWithFriend-closeChat"
+          data-testid="chatWithFriend-closeChat"
           className="chat-header-close"
-          src={`${ReadyImagesURL}/redX.png`}
+          src={`${ReadyImagesURL}/close.png`}
           onClick={closeChat}
           alt=""
         />
@@ -210,10 +217,15 @@ export default function ChatWithFriend({ friend }: ChatWithFriendProps) {
         </div>
         <div className="chat-body-messages">
           <span ref={messagesEndRef}></span>
-          <ListOfMessages messages={messages} setMessages={setMessages}/>
+          <ListOfMessages
+            messages={messages}
+            setMessages={setMessages}
+            setResponseToMessage={setRespondTo}
+          />
           <span ref={newestMessagesRef}></span>
         </div>
       </div>
+      {/* <div className="chat-footer-container" > */}
       <div className="chat-footer">
         {textToSend == "" && !voiceMessage && filesArray.length <= 0 && (
           <div style={{ width: "3rem", height: "3rem", padding: "0.2rem" }}>
@@ -227,6 +239,13 @@ export default function ChatWithFriend({ friend }: ChatWithFriendProps) {
           removedVoiceMes={removedVoiceMes}
           setRemovedVoiceMes={setRemovedVoiceMes}
         />
+        {respondTo && <div className="chat-footer-input-responseTo flexColumnLeft medium-font">
+          <img className="erase-image" onClick={() => setRespondTo(undefined)} src={`${ReadyImagesURL}/close.png`} alt=""/>
+            <span>You respond to <span className="bolder">{respondTo.SenderName}</span></span>
+            {respondTo.MediaFiles.length > 0 && <span>Image</span>}
+            <span className="chat-footer-input-responseTo__text">{respondTo.TextContent}</span>
+          </div>}
+
         <div className="chat-footer-container" style={{ width: inputSize }}>
           <div ref={wholeMessageRef} className="chat-footer-input">
             <div
@@ -241,9 +260,12 @@ export default function ChatWithFriend({ friend }: ChatWithFriendProps) {
                   <MultipleFileInput handleFileChange={handleFileChange} />
                 </div>
                 {filesArray.map(([file, displayFile]) => (
-                  <div className="chat-footer-input-image">
+                  <div
+                    className="chat-footer-input-image"
+                    style={{ width: "3rem" }}
+                  >
                     <img
-                      style={{ height: "100%", width: "100%", outline: "none" }}
+                      style={{ height: "100%", width: "3rem", outline: "none" }}
                       src={displayFile}
                       alt=""
                     />

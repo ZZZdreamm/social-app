@@ -12,5 +12,5 @@ interface postDTO{
     AmountOfComments:number;
     AmountOfLikes:number;
     AutorProfileImage:string;
-    Date:Date;
+    Date:number;
 }

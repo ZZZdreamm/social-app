@@ -7,7 +7,7 @@ import { storageRef } from "../../Firebase/FirebaseConfig";
 import { postDataToServer } from "../../Firebase/FirebaseFunctions";
 import ListOfMessages from "../../Messages/ListOfMessages";
 import RecordMessager from "../../Messages/RecordMessager";
-import { messageCreationDTO, messageDTO } from "../../Models/message.models";
+import { messageCreationDTO, messageDTO, messageResponseDTO } from "../../Models/message.models";
 import MultipleFileInput from "../../Posts/MultipleFileInput";
 import { openCallWindow } from "../../WebRTC/CallFunctions";
 import ProfileContext from "../../Contexts/ProfileContext";
@@ -40,6 +40,8 @@ export default function MessagerChat({
     boolean | string
   >(false);
   const [filesArray, setFilesArray] = useState<[File, string][]>([]);
+  const [respondTo, setRespondTo] = useState<messageResponseDTO>();
+
   const image = friend.ProfileImage || `${ReadyImagesURL}/noProfile.jpg`;
   let numberOfMessages = 10;
 
@@ -115,10 +117,15 @@ export default function MessagerChat({
     let messageToSend: messageCreationDTO = {
       SenderId: myProfile.Id,
       ReceiverId: friend.Id,
+      SenderName: myProfile.Email.split("@")[0],
+
       TextContent: textToSend,
       MediaFiles: [],
       VoiceFile: "",
       Date: Date.now(),
+      Emojis: [],
+      AmountOfEmojis: 0,
+      responseTo: respondTo,
     };
     let filesUrls: any = [];
 
@@ -189,7 +196,11 @@ export default function MessagerChat({
               alt=""
             />
           )}
-          <img className="messager-chat-header-userProfile-image" src={image} alt=""/>
+          <img
+            className="messager-chat-header-userProfile-image"
+            src={image}
+            alt=""
+          />
           {friend.Email}
         </span>
         <img
@@ -209,11 +220,15 @@ export default function MessagerChat({
       </div>
       <div id={`chat-body/${friend.Id}`} className="messager-chat-body">
         <div className="messager-chat-body-start">
-          <img src={image} alt=""/>
+          <img src={image} alt="" />
           <h5>{friend.Email}</h5>
         </div>
         <span ref={messagesEndRef}></span>
-        <ListOfMessages messages={messages} setMessages={setMessages}/>
+        <ListOfMessages
+          messages={messages}
+          setMessages={setMessages}
+          setResponseToMessage={setRespondTo}
+        />
         <span ref={newestMessagesRef}></span>
       </div>
       <div className="messager-chat-footer shadow-above">

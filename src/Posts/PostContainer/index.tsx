@@ -131,7 +131,15 @@ export default function PostContainer({ post }: PostContainerProps) {
     <div className="post shadow-around">
       <div className="post-profile">
         <img src={autorImage} alt="" />
-        <span>{post.AutorName}</span>
+        <span className="flexColumnLeft">
+          {post.AutorName}
+          <br />
+          <span className="medium-font">
+            {new Date(post.Date).toLocaleDateString()}
+            {", "}
+            {new Date(post.Date).toLocaleTimeString()}
+          </span>
+        </span>
       </div>
       <div className="post-content">
         {post.TextContent && (

@@ -239,6 +239,19 @@ body {
   }
 }
 
+.flexStart{
+  display: flex;
+  justify-content: flex-start;
+}
+
+.flexColumnLeft{
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+
+
 .flex-center {
   display: flex;
   align-items: center;
@@ -251,6 +264,9 @@ body {
   justify-content: center;
   flex-direction: column;
 }
+
+
+
 .full-container {
   width: 100%;
   height: 100%;
