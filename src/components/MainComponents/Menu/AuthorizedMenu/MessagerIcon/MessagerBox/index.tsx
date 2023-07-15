@@ -1,13 +1,13 @@
 import { useContext } from "react";
-import UserSearchTypeahead from "../../../Users/UserSearchTypeahead";
-import { profileDTO } from "../../../../ZZZ_USEFUL COMPONENTS/Profile/profiles.models";
+import UserSearchTypeahead from "../../../../../Users/UserSearchTypeahead";
+import { profileDTO } from "../../../../../../ZZZ_USEFUL COMPONENTS/Profile/profiles.models";
 import "./style.scss";
 import ProfileContext, {
   OpenedChatsContext,
-} from "../../../../services/Contexts/ProfileContext";
-import { ReadyImagesURL } from "../../../../globals/appUrls";
+} from "../../../../../../services/Contexts/ProfileContext";
+import { ReadyImagesURL } from "../../../../../../globals/appUrls";
 import { useNavigate } from "react-router-dom";
-import MessagerSearchTypeahead from "../../../MessageOnly/MessagerSearchTypeahead";
+import MessagerSearchTypeahead from "../../../../../MessageOnly/MessagerSearchTypeahead";
 
 interface MessagerBoxProps {
   friends: profileDTO[] | undefined;
