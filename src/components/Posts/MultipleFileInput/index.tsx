@@ -1,10 +1,8 @@
-import { useState } from "react";
 import "./style.scss";
 
 export default function MultipleFileInput({
   handleFileChange,
 }: FileInputProps) {
-  const [fileData, setFileData] = useState(null);
 
   const handleChange = function (e: any) {
     e.preventDefault();
