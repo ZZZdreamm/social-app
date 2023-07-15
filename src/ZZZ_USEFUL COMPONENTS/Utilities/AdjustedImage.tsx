@@ -1,5 +1,5 @@
 import { getMetadata } from "firebase/storage";
-import { storageRef } from "../../Firebase/FirebaseConfig";
+import { storageRef } from "../../services/Firebase/FirebaseConfig";
 import { useEffect, useRef, useState } from "react";
 
 interface AdjustedImageProps {

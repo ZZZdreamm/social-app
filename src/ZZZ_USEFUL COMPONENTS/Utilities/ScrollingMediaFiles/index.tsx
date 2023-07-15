@@ -1,6 +1,6 @@
 import "./style.scss";
 import { useEffect, useRef, useState } from "react";
-import { ReadyImagesURL } from "../../appUrls";
+import { ReadyImagesURL } from "../../../globals/appUrls";
 
 interface ScrollingMediaFilesProps {
   mediaFiles: string[] | undefined;

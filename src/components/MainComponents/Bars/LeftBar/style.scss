@@ -1,0 +1,26 @@
+@import "../../../../variables.scss";
+.bar-left {
+  left: 0;
+  li {
+    position: relative;
+    .bar-left__active {
+      position: absolute;
+      left: -0.2rem;
+      background-color: $blue-color;
+      padding: 10% 0;
+      box-sizing: border-box;
+      width: 0.3rem;
+      border-radius: 1rem;
+      animation: show 0.2s linear forwards;
+    }
+  }
+}
+
+@keyframes show {
+  0% {
+    height: 0;
+  }
+  100% {
+    height: 80%;
+  }
+}

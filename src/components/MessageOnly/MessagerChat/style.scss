@@ -1,0 +1,126 @@
+@import "../../../variables.scss";
+.messager-chat {
+  width: calc(100% - 20rem);
+  height: 100%;
+  background-color: $nav-color;
+  &-header {
+    height: 5rem;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+    &-userProfile {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      width: 80%;
+      font-size: 1rem;
+      font-weight: bold;
+      padding-left: 1rem;
+      height: 100%;
+      &-image {
+        height: 60%;
+        aspect-ratio: 1;
+        border-radius: 50%;
+      }
+    }
+    &-call {
+      cursor: pointer;
+      height: 50%;
+      padding: 0.5rem;
+      border-radius: 50%;
+    }
+    &-close {
+      cursor: pointer;
+      height: 50%;
+      padding: 0.5rem;
+    }
+  }
+  &-body {
+    height: calc(100% - 10rem);
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    overflow-x: hidden;
+    &-start {
+      margin-top: 5%;
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      align-items: center;
+      img {
+        border-radius: 50%;
+        width: 30%;
+        aspect-ratio: 1;
+      }
+    }
+  }
+  &-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: calc(100% - 0.8rem);
+    height: 5rem;
+    padding: 0 0.4rem;
+    box-shadow: 0 -1px 3px rgba(0, 0, 0, 0.3);
+    border-left: 1px solid $border-color;
+    position: relative;
+    &-container {
+      position: relative;
+      height: 15rem;
+      padding: 0 1rem;
+      min-width: 60%;
+      max-width: 90%;
+      flex-grow: 2;
+      align-self: flex-end;
+    }
+    &-input {
+      position: absolute;
+      bottom: 1rem;
+      max-height: 100%;
+      width: calc(100% - 3rem);
+      border: 1px solid #bbb;
+      border-radius: 1rem;
+      text-align: left;
+      padding: 0.5rem;
+      font-size: 1rem;
+      background-color: #eee;
+      display: flex;
+      flex-direction: column-reverse;
+      white-space: pre-wrap;
+      word-break: break-word;
+      overflow-y: auto;
+      z-index: 17;
+      &-image {
+        width: 5rem;
+        height: 5rem;
+        user-select: none;
+        position: relative;
+        margin-bottom: 0.3rem;
+      }
+      &-images-container {
+        display: flex;
+        gap: 0.3rem;
+        overflow-x: auto;
+      }
+    }
+    &-send {
+      height: 50%;
+      cursor: pointer;
+      padding: 0.2rem;
+      margin-right: 0.2rem;
+    }
+  }
+}
+
+#messager{
+    .messager-chat-footer-input {
+        font-size: 1.5rem;
+      }
+}
+
+.messager-chat-responseTo{
+  height: fit-content;
+}

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { ReadyImagesURL } from "../appUrls";
+import { ReadyImagesURL } from "../../globals/appUrls";
 
 export default function FileInput({ imageFunction, fileFunction, callback }: FileInputProps) {
   const [fileData, setFileData] = useState(null);

@@ -7,8 +7,8 @@ import { getClaims } from "./ZZZ_USEFUL COMPONENTS/auth/HandleJWT";
 import OfflineWebsite from "./ZZZ_USEFUL COMPONENTS/Utilities/OfflineWebsite";
 import { HashRouter, Route, Routes, useLocation } from "react-router-dom";
 import GuardedRoute from "./ZZZ_USEFUL COMPONENTS/Utilities/GuardedRoute";
-import routes, { guardedRoutes } from "./routes";
-import Menu from "./MainComponents/Menu";
+import routes, { guardedRoutes } from "./globals/routes";
+import Menu from "./components/MainComponents/Menu";
 import { getProfile } from "./ZZZ_USEFUL COMPONENTS/Profile/HandleProfile";
 import { profileDTO } from "./ZZZ_USEFUL COMPONENTS/Profile/profiles.models";
 import ProfileContext, {
@@ -16,15 +16,15 @@ import ProfileContext, {
   OpenedChatsContext,
   ProfileFriendsContext,
   SentFriendRequestsContext,
-} from "./Contexts/ProfileContext";
-import LeftBar from "./MainComponents/Bars/LeftBar";
+} from "./services/Contexts/ProfileContext";
+import LeftBar from "./components/MainComponents/Bars/LeftBar";
 import Authorized from "./ZZZ_USEFUL COMPONENTS/auth/Authorized";
-import { postDataToServer } from "./Firebase/FirebaseFunctions";
-import OpenedChats from "./Messages/OpenedChats";
-import { socketURL } from "./ZZZ_USEFUL COMPONENTS/apiPaths";
+import { postDataToServer } from "./services/Firebase/FirebaseFunctions";
+import OpenedChats from "./components/Messages/OpenedChats";
+import { socketURL } from "./globals/apiPaths";
 import { io } from "socket.io-client";
-import CallModal from "./WebRTC/CallModal";
-import { openCallWindow } from "./WebRTC/CallFunctions";
+import CallModal from "./components/WebRTC/CallModal";
+import { openCallWindow } from "./components/WebRTC/CallFunctions";
 
 export const socket = io(socketURL);
 

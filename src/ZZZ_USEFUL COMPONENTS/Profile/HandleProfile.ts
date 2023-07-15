@@ -1,4 +1,4 @@
-import { ReadyImagesURL } from "../appUrls";
+import { ReadyImagesURL } from "../../globals/appUrls";
 import { profileDTO } from "./profiles.models";
 
 

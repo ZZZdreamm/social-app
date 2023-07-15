@@ -1,4 +1,4 @@
-import { serverURL } from "../apiPaths";
+import { serverURL } from "../../globals/apiPaths";
 import { userCredentials } from "./auth.models";
 
 export const sendCredentials =(credentials:userCredentials, functionName:string) => {

@@ -1,5 +1,5 @@
 import React from 'react'
-import Comment from '../../src/Comments/Comment'
+import Comment from '../../src/components/Comments/Comment'
 
 describe('<Comment />', () => {
   it('renders', () => {
