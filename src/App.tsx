@@ -107,10 +107,7 @@ function App() {
     setMySentRequests(newSentFriendRequests);
   }
 
-
-
   return (
-    // <HashRouter>
     <AuthenticationContext.Provider value={{ claims, update: setClaims }}>
       <ProfileContext.Provider
         value={{ myProfile: profile!, updateProfile: setProfile }}
@@ -187,7 +184,6 @@ function App() {
         </ProfileFriendsContext.Provider>
       </ProfileContext.Provider>
     </AuthenticationContext.Provider>
-    // </HashRouter>
   );
 }
 
