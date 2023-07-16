@@ -12,6 +12,7 @@ import MessagerChat from "../../components/MessageOnly/MessagerChat";
 import MessagerFriendList from "../../components/MessageOnly/MessagerFriendList";
 import MessagerSearchTypeahead from "../../components/MessageOnly/MessagerSearchTypeahead";
 import MobileMessager from "../../components/MessageOnly/MobileMessager/MobileMessager";
+import ChatWithFriend from "../../components/Messages/ChatWithFriend";
 
 export default function Messager() {
   const { myFriends } = useContext(ProfileFriendsContext);

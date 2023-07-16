@@ -10,6 +10,7 @@ import ScrollingMediaFiles from "../../../ZZZ_USEFUL COMPONENTS/Utilities/Scroll
 
 import "./style.scss";
 import MessageOptions from "../../../components/Messages/Message/MessageOptions";
+import ShowFullImages from "../../_utils/ShowFullImages";
 
 interface MessageProps {
   message: messageDTO;
@@ -65,7 +66,7 @@ export default function Message({
         isOpen={isOpen}
         toggleModal={toggleModal}
       />
-      <MessageContent message={message} fromFriend={fromFriend} />
+      <MessageContent message={message} fromFriend={fromFriend} toggleModal={toggleModal}/>
       {notResponding && (
         <div style={{ opacity: optionsVisible ? "1" : "0" }}>
           <MessageOptions
@@ -88,9 +89,10 @@ interface MessageChildProps {
 
 interface MessageContentProps extends MessageChildProps {
   fromFriend: boolean;
+  toggleModal: any;
 }
 
-const MessageContent = ({ message, fromFriend }: MessageContentProps) => {
+const MessageContent = ({ message, fromFriend, toggleModal }: MessageContentProps) => {
   const contentStyle = fromFriend
     ? { backgroundColor: "#E4E6EB" }
     : { backgroundColor: "#0084ff" };
@@ -103,6 +105,10 @@ const MessageContent = ({ message, fromFriend }: MessageContentProps) => {
     message.responseTo && message.responseTo.MediaFiles.length < 4
       ? message.MediaFiles.length
       : 4;
+
+  function showBigImages() {
+    toggleModal()
+  }
   return (
     <div
       className="message-content medium-font"
@@ -140,6 +146,7 @@ const MessageContent = ({ message, fromFriend }: MessageContentProps) => {
         <div
           className="message-content-media"
           style={{ gridTemplateColumns: `repeat(${gridSize}, 1fr)` }}
+          onClick={showBigImages}
         >
           {message.MediaFiles.map((mediaFile) => (
             <img key={mediaFile} src={mediaFile} alt="" />
@@ -175,16 +182,16 @@ const BigImageShown = ({
           className="full-container flex-column-center"
           style={{ height: "100vh" }}
         >
-          <span className="header">
+          {/* <span className="header">
             <img
               className="pointer"
               src={`${ReadyImagesURL}/goBackArrow.png`}
               onClick={toggleModal}
               alt=""
             />
-          </span>
-          <span className="body" style={{ height: "90%" }}>
-            <ScrollingMediaFiles mediaFiles={message.MediaFiles} />
+          </span> */}
+          <span className="body" style={{ height: "100%" }}>
+            <ShowFullImages images={message.MediaFiles} toggleModal={toggleModal}/>
           </span>
         </div>
       }

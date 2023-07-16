@@ -27,86 +27,9 @@ interface ChatWithFriendProps {
 }
 
 export default function ChatWithFriend({ friend }: ChatWithFriendProps) {
-  const [textToSend, setTextToSend] = useState("");
-  const [audioURL, setAudioURL] = useState("");
-  const [voiceMessage, setVoiceMessage] = useState<Blob>();
-  const [removedVoiceMes, setRemovedVoiceMes] = useState(false);
-  const [filesArray, setFilesArray] = useState<[File, string][]>([]);
   const [respondTo, setRespondTo] = useState<messageResponseDTO>();
 
   const newestMessagesRef = useRef<HTMLElement | null>(null);
-  // const inputMessageRef = useRef<HTMLDivElement | null>(null);
-  // const wholeMessageRef = useRef<HTMLDivElement | null>(null);
-
-  // async function sendMessage() {
-  //   let messageToSend: messageCreationDTO = {
-  //     SenderId: myProfile.Id,
-  //     ReceiverId: friend.Id,
-  //     SenderName: myProfile.Email.split("@")[0],
-  //     TextContent: textToSend,
-  //     MediaFiles: [],
-  //     VoiceFile: "",
-  //     Date: Date.now(),
-  //     Emojis: [],
-  //     AmountOfEmojis: 0,
-  //     responseTo: respondTo,
-  //   };
-  //   let filesUrls: Promise<string>[] = [];
-
-  //   if (filesArray.length > 0) {
-  //     filesUrls = filesArray.map(async ([file, _]) => {
-  //       const imageRef = storageRef.child(
-  //         `/messageImages/${file?.name}+${uuid4()}`
-  //       );
-  //       await imageRef.put(file!);
-  //       const url = await imageRef.getDownloadURL();
-  //       return url;
-  //     });
-  //   }
-  //   messageToSend.MediaFiles = await Promise.all(filesUrls);
-
-  //   if (voiceMessage) {
-  //     const voiceRef = storageRef.child(`/messageVoices/${uuid4()}`);
-  //     await voiceRef.put(voiceMessage!);
-  //     const url = await voiceRef.getDownloadURL();
-  //     messageToSend.VoiceFile = url;
-  //   }
-  //   socket.emit("send-message", messageToSend);
-  //   setTimeout(() => {
-  //     setFilesArray([]);
-  //     setVoiceMessage(undefined);
-  //     setAudioURL("");
-  //     setRemovedVoiceMes(true);
-  //     setTextToSend("");
-  //     setRespondTo(undefined);
-  //     removeOnlyText(inputMessageRef);
-  //     if (newestMessagesRef.current) {
-  //       newestMessagesRef.current.scrollIntoView();
-  //     }
-  //   }, 500);
-  // }
-
-  // const inputSize =
-  //   textToSend != "" || filesArray.length > 0 || audioURL != "" ? "80%" : "45%";
-
-  // const handleFileChange = (file: File) => {
-  //   const reader = new FileReader();
-  //   reader.onload = () => {
-  //     const base64Data = reader.result;
-  //     //@ts-ignore
-  //     setFilesArray((filesArray: [File, string][]) => {
-  //       return [...filesArray, [file, base64Data]];
-  //     });
-  //   };
-  //   if (file) {
-  //     reader.readAsDataURL(file);
-  //   }
-  // };
-
-  // function eraseChoosenFile(name: string) {
-  //   const newFilesArray = filesArray.filter(([file, _]) => file.name != name);
-  //   setFilesArray(newFilesArray);
-  // }
 
   return (
     <section
