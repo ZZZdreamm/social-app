@@ -4,8 +4,7 @@ import { socket } from "../../App";
 import { useParams } from "react-router-dom";
 import ReactDOM from "react-dom";
 import { ReadyImagesURL } from "../../globals/appUrls";
-import Waiting from "../../ZZZ_USEFUL COMPONENTS/Utilities/Waiting/indexxx";
-import Portal from "../../ZZZ_USEFUL COMPONENTS/Utilities/Portal";
+import Portal from "../../_utils/Portal/Portal";
 
 const config = {
   //   iceServers: [{ urls: ["stun.commpeak.com:3478", "stun.comtube.com:3478"] }],

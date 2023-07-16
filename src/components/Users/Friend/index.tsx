@@ -1,6 +1,7 @@
 import "./style.scss";
 import { useNavigate } from "react-router-dom";
-import { profileDTO } from "../../../ZZZ_USEFUL COMPONENTS/Profile/profiles.models";
+import { profileDTO } from "../../../services/Models/profiles.models";
+
 import { ReadyImagesURL } from "../../../globals/appUrls";
 import { postDataToServer } from "../../../services/Firebase/FirebaseFunctions";
 import { useContext } from "react";

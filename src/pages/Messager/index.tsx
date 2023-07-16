@@ -4,15 +4,15 @@ import { useContext, useEffect, useState } from "react";
 import ProfileContext, {
   ProfileFriendsContext,
 } from "../../services/Contexts/ProfileContext";
-import { profileDTO } from "../../ZZZ_USEFUL COMPONENTS/Profile/profiles.models";
-import GoToMenuButton from "../../ZZZ_USEFUL COMPONENTS/Utilities/GoToMenuButton";
-import Portal from "../../ZZZ_USEFUL COMPONENTS/Utilities/Portal";
 import { ReadyImagesURL } from "../../globals/appUrls";
 import MessagerChat from "../../components/MessageOnly/MessagerChat";
 import MessagerFriendList from "../../components/MessageOnly/MessagerFriendList";
 import MessagerSearchTypeahead from "../../components/MessageOnly/MessagerSearchTypeahead";
 import MobileMessager from "../../components/MessageOnly/MobileMessager/MobileMessager";
 import ChatWithFriend from "../../components/Messages/ChatWithFriend";
+import { profileDTO } from "../../services/Models/profiles.models";
+import GoToMenuButton from "../../_utils/GoToMenuButton";
+import Portal from "../../_utils/Portal/Portal";
 
 export default function Messager() {
   const { myFriends } = useContext(ProfileFriendsContext);

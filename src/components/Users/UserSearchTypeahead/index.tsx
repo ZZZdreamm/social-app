@@ -1,8 +1,8 @@
 import "./style.scss";
 import { postDataToServer } from "../../../services/Firebase/FirebaseFunctions";
-import { profileDTO } from "../../../ZZZ_USEFUL COMPONENTS/Profile/profiles.models";
-import SearchTypeahead from "../../../ZZZ_USEFUL COMPONENTS/Utilities/SearchTypeahead";
 import SearchOption from "../SearchOption";
+import { profileDTO } from "../../../services/Models/profiles.models";
+import SearchTypeahead from "../../../_utils/SearchTypeahead";
 
 export default function UserSearchTypeahead() {
   function typeaheadChildren(profile: profileDTO): React.ReactElement {

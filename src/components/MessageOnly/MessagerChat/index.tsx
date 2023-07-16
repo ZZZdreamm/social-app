@@ -1,23 +1,6 @@
+import { profileDTO } from "../../../services/Models/profiles.models";
 import "./style.scss";
-import { useContext, useEffect, useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import uuid4 from "uuid4";
-import { socket } from "../../../App";
-import { storageRef } from "../../../services/Firebase/FirebaseConfig";
-import { postDataToServer } from "../../../services/Firebase/FirebaseFunctions";
-import ListOfMessages from "../../Messages/ListOfMessages";
-import RecordMessager from "../../Messages/RecordMessager";
-import {
-  messageCreationDTO,
-  messageDTO,
-  messageResponseDTO,
-} from "../../../services/Models/message.models";
-import MultipleFileInput from "../../Posts/MultipleFileInput";
-import { openCallWindow } from "../../WebRTC/CallFunctions";
-import ProfileContext from "../../../services/Contexts/ProfileContext";
-import { profileDTO } from "../../../ZZZ_USEFUL COMPONENTS/Profile/profiles.models";
-import { removeOnlyText } from "../../../ZZZ_USEFUL COMPONENTS/Utilities/DivControl";
-import useIsInViewport from "../../../ZZZ_USEFUL COMPONENTS/Utilities/IsInViewPort";
+
 import { ReadyImagesURL } from "../../../globals/appUrls";
 import ChatWithFriend from "../../Messages/ChatWithFriend";
 

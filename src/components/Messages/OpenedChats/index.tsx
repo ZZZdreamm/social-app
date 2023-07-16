@@ -1,4 +1,5 @@
-import { profileDTO } from "../../../ZZZ_USEFUL COMPONENTS/Profile/profiles.models";
+import { profileDTO } from "../../../services/Models/profiles.models";
+
 import ChatWithFriend from "../ChatWithFriend";
 import "./style.scss"
 

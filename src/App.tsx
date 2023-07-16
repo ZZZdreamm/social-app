@@ -1,16 +1,10 @@
 import { ReactElement, useEffect, useState } from "react";
 import "./Styles.scss";
 import Modal, { ModalProvider } from "styled-react-modal";
-import AuthenticationContext from "./ZZZ_USEFUL COMPONENTS/auth/AuthenticationContext";
-import { claim } from "./ZZZ_USEFUL COMPONENTS/auth/auth.models";
-import { getClaims } from "./ZZZ_USEFUL COMPONENTS/auth/HandleJWT";
-import OfflineWebsite from "./ZZZ_USEFUL COMPONENTS/Utilities/OfflineWebsite";
 import { HashRouter, Route, Routes, useLocation } from "react-router-dom";
-import GuardedRoute from "./ZZZ_USEFUL COMPONENTS/Utilities/GuardedRoute";
 import routes, { guardedRoutes } from "./globals/routes";
 import Menu from "./components/MainComponents/Menu";
-import { getProfile } from "./ZZZ_USEFUL COMPONENTS/Profile/HandleProfile";
-import { profileDTO } from "./ZZZ_USEFUL COMPONENTS/Profile/profiles.models";
+import { getProfile } from "./globals/Profile/HandleProfile";
 import ProfileContext, {
   FriendRequestsContext,
   OpenedChatsContext,
@@ -18,13 +12,20 @@ import ProfileContext, {
   SentFriendRequestsContext,
 } from "./services/Contexts/ProfileContext";
 import LeftBar from "./components/MainComponents/Bars/LeftBar";
-import Authorized from "./ZZZ_USEFUL COMPONENTS/auth/Authorized";
 import { postDataToServer } from "./services/Firebase/FirebaseFunctions";
 import OpenedChats from "./components/Messages/OpenedChats";
 import { socketURL } from "./globals/apiPaths";
 import { io } from "socket.io-client";
 import CallModal from "./components/WebRTC/CallModal";
 import { openCallWindow } from "./components/WebRTC/CallFunctions";
+import { useQuery } from "react-query";
+import { profileDTO } from "./services/Models/profiles.models";
+import GuardedRoute from "./_utils/GuardedRoute/GuardedRoute";
+import OfflineWebsite from "./_utils/OfflineWebsite/OfflineWebsite";
+import AuthenticationContext from "./services/Contexts/AuthenticationContext";
+import { claim } from "./services/Models/auth.models";
+import { getClaims } from "./globals/Auth/HandleJWT";
+import Authorized from "./globals/Auth/Authorized";
 
 export const socket = io(socketURL);
 
@@ -43,6 +44,7 @@ function App() {
 
   const [online, setOnline] = useState(false);
   const [gotClaims, setGotClaims] = useState(false);
+
 
   useEffect(() => {
     setProfile(getProfile());

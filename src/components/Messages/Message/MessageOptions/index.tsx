@@ -1,12 +1,9 @@
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import { ReadyImagesURL } from "../../../../globals/appUrls";
-import "./style.scss";
-import { messageDTO, messageResponseDTO } from "../../../../services/Models/message.models";
-import { postDataToServer } from "../../../../services/Firebase/FirebaseFunctions";
 import ProfileContext from "../../../../services/Contexts/ProfileContext";
-import Portal, {
-  ChoosenPortal,
-} from "../../../../ZZZ_USEFUL COMPONENTS/Utilities/Portal";
+import { postDataToServer } from "../../../../services/Firebase/FirebaseFunctions";
+import { messageDTO, messageResponseDTO } from "../../../../services/Models/message.models";
+import "./style.scss";
 
 interface MessageOptionsProps {
   message: messageDTO;

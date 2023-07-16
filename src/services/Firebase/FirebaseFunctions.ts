@@ -1,5 +1,5 @@
 // import axios from "axios";
-import { createFormData } from "../../ZZZ_USEFUL COMPONENTS/Utilities/HandleFormData";
+import { createFormData } from "../../_utils/1Functions/HandleFormData";
 import { serverURL } from "../../globals/apiPaths";
 
 export const postDataToServer = (data: any, functionName: string) => {

@@ -1,6 +1,7 @@
 import { useContext } from "react";
 import ProfileContext from "../../../services/Contexts/ProfileContext";
-import { profileDTO } from "../../../ZZZ_USEFUL COMPONENTS/Profile/profiles.models";
+import { profileDTO } from "../../../services/Models/profiles.models";
+
 import { ReadyImagesURL } from "../../../globals/appUrls";
 import "./style.scss";
 

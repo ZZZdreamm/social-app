@@ -1,15 +1,16 @@
 import { useState, useContext } from "react";
-import MyModal from "../../../../ZZZ_USEFUL COMPONENTS/Utilities/Modal";
+
 import "./style.scss";
 import ProfileContext from "../../../../services/Contexts/ProfileContext";
 import { storageRef } from "../../../../services/Firebase/FirebaseConfig";
 import uuid4 from "uuid4";
 import { postDataToServer } from "../../../../services/Firebase/FirebaseFunctions";
-import { addItemToState } from "../../../../ZZZ_USEFUL COMPONENTS/Utilities/StateModifications";
+import { addItemToState } from "../../../../_utils/1Functions/StateModifications";
 import FileDropElement from "../../FileDropElement";
 import MultipleFileInput from "../../MultipleFileInput";
 import { ReadyImagesURL } from "../../../../globals/appUrls";
 import { PostFormChildProps } from "..";
+import MyModal from "../../../../_utils/Modal/Modal";
 
 interface ImagesListProps {
   filesArray: [File, string][];

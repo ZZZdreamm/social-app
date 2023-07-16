@@ -1,13 +1,12 @@
 import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import DisplayErrors from "../../ZZZ_USEFUL COMPONENTS/Utilities/DisplayErrors";
-import { userCredentials } from "../../ZZZ_USEFUL COMPONENTS/auth/auth.models";
-import AuthenticationContext from "../../ZZZ_USEFUL COMPONENTS/auth/AuthenticationContext";
-import AuthForm from "../../ZZZ_USEFUL COMPONENTS/auth/AuthForm";
-import { getClaims, saveToken } from "../../ZZZ_USEFUL COMPONENTS/auth/HandleJWT";
-import { saveProfile } from "../../ZZZ_USEFUL COMPONENTS/Profile/HandleProfile";
-import { sendCredentials } from "../../ZZZ_USEFUL COMPONENTS/auth/AuthFunctions";
+import AuthForm from "../../globals/Auth/AuthForm";
+import { saveProfile } from "../../globals/Profile/HandleProfile";
+import { sendCredentials } from "../../globals/Auth/AuthFunctions";
 import "./styles.scss"
+import AuthenticationContext from "../../services/Contexts/AuthenticationContext";
+import { userCredentials } from "../../services/Models/auth.models";
+import { getClaims, saveToken } from "../../globals/Auth/HandleJWT";
 
 export default function Register() {
   const [errors, setErrors] = useState<string[]>([]);

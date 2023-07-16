@@ -1,11 +1,7 @@
 import { useContext, useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import uuid4 from "uuid4";
-import { profileDTO } from "../../ZZZ_USEFUL COMPONENTS/Profile/profiles.models";
-import FileInput from "../../ZZZ_USEFUL COMPONENTS/Utilities/FileInput";
-import useIsInViewport from "../../ZZZ_USEFUL COMPONENTS/Utilities/IsInViewPort";
-import TopModal from "../../ZZZ_USEFUL COMPONENTS/Utilities/ModalAtTop";
-import Waiting from "../../ZZZ_USEFUL COMPONENTS/Utilities/Waiting/indexxx";
+
 import PostsList from "../../components/Posts/PostsList";
 import ListOfFriendsInProfile from "../../components/Users/ListOfFriendsInProfile";
 import { ReadyImagesURL } from "../../globals/appUrls";
@@ -20,6 +16,12 @@ import {
   putDataToServer,
 } from "../../services/Firebase/FirebaseFunctions";
 import "./style.scss";
+import { profileDTO } from "../../services/Models/profiles.models";
+import Waiting from "../../_utils/Waiting/indexxx";
+import TopModal from "../../_utils/ModalAtTop/ModalAtTop";
+import FileInput from "../../_utils/FileInput/FileInput";
+import useIsInViewport from "../../_utils/2Hooks/IsInViewPort";
+
 
 export default function UserProfile() {
   const { id } = useParams();

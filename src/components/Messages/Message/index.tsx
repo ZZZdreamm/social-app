@@ -1,16 +1,14 @@
 import { useContext, useEffect, useState } from "react";
+import ProfileContext from "../../../services/Contexts/ProfileContext";
 import {
   messageDTO,
   messageResponseDTO,
 } from "../../../services/Models/message.models";
-import ProfileContext from "../../../services/Contexts/ProfileContext";
-import BigImageModal from "../../../ZZZ_USEFUL COMPONENTS/Utilities/BigImageModal";
-import { ReadyImagesURL } from "../../../globals/appUrls";
-import ScrollingMediaFiles from "../../../ZZZ_USEFUL COMPONENTS/Utilities/ScrollingMediaFiles";
 
-import "./style.scss";
 import MessageOptions from "../../../components/Messages/Message/MessageOptions";
-import ShowFullImages from "../../_utils/ShowFullImages";
+import ShowFullImages from "../../../_utils/ShowFullImages";
+import "./style.scss";
+import BigImageModal from "../../../_utils/BigImageModal/index";
 
 interface MessageProps {
   message: messageDTO;

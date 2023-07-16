@@ -1,5 +1,4 @@
-import GenericList from "../../../ZZZ_USEFUL COMPONENTS/Utilities/GenericList";
-import Waiting from "../../../ZZZ_USEFUL COMPONENTS/Utilities/Waiting/indexxx";
+
 import { messageDTO, messageResponseDTO } from "../../../services/Models/message.models";
 import "./style.scss";
 import Message from "../Message";

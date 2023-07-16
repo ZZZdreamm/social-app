@@ -4,7 +4,7 @@ import "./style.scss";
 import AuthenticationContext from "../../../../../services/Contexts/AuthenticationContext";
 import ProfileContext from "../../../../../services/Contexts/ProfileContext";
 import { ReadyImagesURL } from "../../../../../globals/appUrls";
-import { logout } from "../../../../../ZZZ_USEFUL COMPONENTS/auth/HandleJWT";
+import { logout } from "../../../../../globals/Auth/HandleJWT";
 import { useNavigate } from "react-router-dom";
 import { MenuChildProps } from "..";
 

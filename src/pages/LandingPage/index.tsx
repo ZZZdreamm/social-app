@@ -3,13 +3,13 @@ import { useNavigate } from "react-router-dom";
 import { postDataToServer } from "../../services/Firebase/FirebaseFunctions";
 import PostForm from "../../components/Posts/PostForm";
 import PostsList from "../../components/Posts/PostsList";
-import useIsInViewport from "../../ZZZ_USEFUL COMPONENTS/Utilities/IsInViewPort";
 import { ReadyImagesURL } from "../../globals/appUrls";
-import Authorized from "../../ZZZ_USEFUL COMPONENTS/auth/Authorized";
 import Login from "../Login";
 import RightBar from "../../components/MainComponents/Bars/RightBar";
 
 import "./style.scss"
+import useIsInViewport from "../../_utils/2Hooks/IsInViewPort";
+import Authorized from "../../globals/Auth/Authorized";
 
 export default function LandingPage() {
   const navigate = useNavigate();

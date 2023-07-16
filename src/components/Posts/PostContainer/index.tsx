@@ -6,10 +6,10 @@ import {
   postDataToServer,
   putDataToServer,
 } from "../../../services/Firebase/FirebaseFunctions";
-import useDebounce from "../../../ZZZ_USEFUL COMPONENTS/Utilities/useDebounce";
 import ListOfComments from "../../Comments/ListOfComments";
-import { addItemToState } from "../../../ZZZ_USEFUL COMPONENTS/Utilities/StateModifications";
-import ScrollingMediaFiles from "../../../ZZZ_USEFUL COMPONENTS/Utilities/ScrollingMediaFiles";
+import { addItemToState } from "../../../_utils/1Functions/StateModifications";
+import ScrollingMediaFiles from "../../../_utils/ScrollingMediaFiles";
+import useDebounce from "../../../_utils/2Hooks/useDebounce";
 
 interface PostContainerProps {
   post: postDTO;

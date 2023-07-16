@@ -1,9 +1,9 @@
 import "./style.scss";
 import { useNavigate } from "react-router-dom";
-import { profileDTO } from "../../../ZZZ_USEFUL COMPONENTS/Profile/profiles.models";
 import ProfileContext from "../../../services/Contexts/ProfileContext";
 import { useContext } from "react";
 import { ReadyImagesURL } from "../../../globals/appUrls";
+import { profileDTO } from "../../../services/Models/profiles.models";
 
 interface SearchOptionProps {
   profile: profileDTO;

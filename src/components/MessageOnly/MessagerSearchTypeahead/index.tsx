@@ -2,10 +2,11 @@ import "./style.scss";
 import { useContext } from "react";
 import { postDataToServer } from "../../../services/Firebase/FirebaseFunctions";
 import SearchOption from "../../Users/SearchOption";
-import { profileDTO } from "../../../ZZZ_USEFUL COMPONENTS/Profile/profiles.models";
-import SearchTypeahead from "../../../ZZZ_USEFUL COMPONENTS/Utilities/SearchTypeahead";
+import { profileDTO } from "../../../services/Models/profiles.models";
+
 import MessagerSearchOption from "../MessagerSearchOption";
 import ProfileContext from "../../../services/Contexts/ProfileContext";
+import SearchTypeahead from "../../../_utils/SearchTypeahead";
 
 interface MessagerSearchTypeaheadProps {
   setChoosenFriend: (profile: profileDTO) => void;

@@ -1,8 +1,10 @@
 import "./style.scss";
-import { profileDTO } from "../../../ZZZ_USEFUL COMPONENTS/Profile/profiles.models";
-import GenericList from "../../../ZZZ_USEFUL COMPONENTS/Utilities/GenericList";
-import Waiting from "../../../ZZZ_USEFUL COMPONENTS/Utilities/Waiting/indexxx";
+import { profileDTO } from "../../../services/Models/profiles.models";
+
+
 import MessagerFriend from "../MessagerFriend";
+import GenericList from "../../../_utils/GenericList/GenericList";
+import Waiting from "../../../_utils/Waiting/indexxx";
 
 interface FriendsList {
   setChoosenFriend: (profile: profileDTO | undefined) => void;

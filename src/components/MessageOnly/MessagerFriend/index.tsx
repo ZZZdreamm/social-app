@@ -1,5 +1,6 @@
 import "./style.scss";
-import { profileDTO } from "../../../ZZZ_USEFUL COMPONENTS/Profile/profiles.models";
+import { profileDTO } from "../../../services/Models/profiles.models";
+
 import { ReadyImagesURL } from "../../../globals/appUrls";
 
 interface MessagerFriendProps {

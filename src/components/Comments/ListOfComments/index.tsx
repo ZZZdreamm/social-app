@@ -1,7 +1,7 @@
 import "./style.scss";
 
-import GenericList from "../../../ZZZ_USEFUL COMPONENTS/Utilities/GenericList";
-import Waiting from "../../../ZZZ_USEFUL COMPONENTS/Utilities/Waiting/indexxx";
+import GenericList from "../../../_utils/GenericList/GenericList";
+import Waiting from "../../../_utils/Waiting/indexxx";
 import Comment from "../Comment";
 
 interface ListOfCommentsProps {

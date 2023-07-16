@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Modal from "styled-react-modal";
-import { profileDTO } from "../../../ZZZ_USEFUL COMPONENTS/Profile/profiles.models";
 import { ReadyImagesURL } from "../../../globals/appUrls";
+import { profileDTO } from "../../../services/Models/profiles.models";
 
 const StyledModal = Modal.styled`
   width: 20rem;

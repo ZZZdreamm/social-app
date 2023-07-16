@@ -13,14 +13,15 @@ import {
   messageDTO,
   messageResponseDTO,
 } from "../../../services/Models/message.models";
-import { profileDTO } from "../../../ZZZ_USEFUL COMPONENTS/Profile/profiles.models";
-import { removeOnlyText } from "../../../ZZZ_USEFUL COMPONENTS/Utilities/DivControl";
-import useIsInViewport from "../../../ZZZ_USEFUL COMPONENTS/Utilities/IsInViewPort";
+import { profileDTO } from "../../../services/Models/profiles.models";
+
+import { removeOnlyText } from "../../../_utils/1Functions/DivControl";
 import { ReadyImagesURL } from "../../../globals/appUrls";
 import MultipleFileInput from "../../Posts/MultipleFileInput";
 import { openCallWindow } from "../../WebRTC/CallFunctions";
 import ListOfMessages from "../ListOfMessages";
 import RecordMessager from "../RecordMessager";
+import useIsInViewport from "../../../_utils/2Hooks/IsInViewPort";
 
 interface ChatWithFriendProps {
   friend: profileDTO;

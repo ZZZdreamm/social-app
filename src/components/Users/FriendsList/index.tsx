@@ -1,8 +1,9 @@
 import "./style.scss";
-import { profileDTO } from "../../../ZZZ_USEFUL COMPONENTS/Profile/profiles.models";
-import GenericList from "../../../ZZZ_USEFUL COMPONENTS/Utilities/GenericList";
-import Waiting from "../../../ZZZ_USEFUL COMPONENTS/Utilities/Waiting/indexxx";
+
 import Friend from "../Friend";
+import GenericList from "../../../_utils/GenericList/GenericList";
+import Waiting from "../../../_utils/Waiting/indexxx";
+import { profileDTO } from "../../../services/Models/profiles.models";
 
 export default function FriendsList({ friends }: FriendsListProps) {
 
