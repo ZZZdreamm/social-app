@@ -68,7 +68,7 @@ export default function ScrollingMediaFiles({
                 {(oneFile.includes(".jpg") ||
                   oneFile.includes(".jpeg") ||
                   oneFile.includes(".png")) && (
-                  <img src={oneFile} alt="Loading"/>
+                  <img src={oneFile} alt="Loading" />
                 )}
                 {oneFile.includes(".mp4") && (
                   <video controls>
@@ -83,20 +83,18 @@ export default function ScrollingMediaFiles({
               {!isScrollAtStart && (
                 <div
                   ref={leftScrollRef}
-                  style={{
-                    backgroundImage: `url(${ReadyImagesURL}/goBackArrow.png)`,
-                  }}
                   className="scroll scroll-left"
-                />
+                >
+                  <img src={`${ReadyImagesURL}/goBackArrow.png`} alt="" />
+                </div>
               )}
               {!isScrolledToEnd && (
                 <div
                   ref={rightScrollRef}
-                  style={{
-                    backgroundImage: `url(${ReadyImagesURL}/goBackArrow.png)`,
-                  }}
                   className="scroll scroll-right"
-                />
+                >
+                  <img src={`${ReadyImagesURL}/goBackArrow.png`} alt="" />
+                </div>
               )}
             </>
           )}

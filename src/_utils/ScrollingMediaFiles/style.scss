@@ -1,3 +1,4 @@
+@import "../../variables.scss";
 .box {
   width: 100%;
   height: 100%;
@@ -41,9 +42,24 @@
   font-size: 1.5rem;
   border: none;
   cursor: pointer;
-  height: 2rem;
-  width: 2rem;
+  height: 1.5rem;
+  width: 1.5rem;
   background-size: cover;
+  background-color: $border-color;
+  border-radius: 50%;
+  padding: 1rem;
+  transition: all 0.5s;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  img {
+    width: 90%;
+    height: 90%;
+    border: 0;
+  }
+  &:hover {
+    background-color: $back-color;
+  }
 }
 .scroll-left {
   left: 0.8rem;
