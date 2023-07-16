@@ -107,6 +107,7 @@ const MessageContent = ({ message, fromFriend, toggleModal }: MessageContentProp
       : 4;
 
   function showBigImages() {
+    console.log(message.MediaFiles)
     toggleModal()
   }
   return (
@@ -182,14 +183,6 @@ const BigImageShown = ({
           className="full-container flex-column-center"
           style={{ height: "100vh" }}
         >
-          {/* <span className="header">
-            <img
-              className="pointer"
-              src={`${ReadyImagesURL}/goBackArrow.png`}
-              onClick={toggleModal}
-              alt=""
-            />
-          </span> */}
           <span className="body" style={{ height: "100%" }}>
             <ShowFullImages images={message.MediaFiles} toggleModal={toggleModal}/>
           </span>

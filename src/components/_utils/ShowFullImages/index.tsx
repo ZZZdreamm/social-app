@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import "./style.scss";
 import { ReadyImagesURL } from "../../../globals/appUrls";
+import Portal from "../../../ZZZ_USEFUL COMPONENTS/Utilities/Portal";
 
 interface ShowFullImagesProps {
   images: string[];
@@ -25,38 +26,39 @@ export default function ShowFullImages({
   }, [currentImage]);
 
   return (
-    <div className="showFullImages">
-      <div className="showFullImages-container">
-        <img
-          className="showFullImages-container__close"
-          src={`${ReadyImagesURL}/close.png`}
-          alt=""
-          onClick={toggleModal}
-        />
-        <div className="showFullImages-container__image">
-          <img src={images[currentImage]} alt="image" />
+    <Portal>
+      <div className="showFullImages">
+        <div className="showFullImages-container">
+          <img
+            className="showFullImages-container__close"
+            src={`${ReadyImagesURL}/close.png`}
+            alt=""
+            onClick={toggleModal}
+          />
+          <div className="showFullImages-container__image">
+            <img src={images[currentImage]} alt="image" />
+          </div>
+
+          {!isScrollAtStart && (
+            <div
+              ref={leftScrollRef}
+              className="scrollImages scrollImages-left"
+              onClick={() => setCurrentImage((prev) => prev - 1)}
+            >
+              <img src={`${ReadyImagesURL}/goBackArrow.png`} alt="" />
+            </div>
+          )}
+          {!isScrolledToEnd && (
+            <div
+              ref={rightScrollRef}
+              className="scrollImages scrollImages-right"
+              onClick={() => setCurrentImage((prev) => prev + 1)}
+            >
+              <img src={`${ReadyImagesURL}/goBackArrow.png`} alt="" />
+            </div>
+          )}
         </div>
-
-        {!isScrollAtStart && (
-          <div
-            ref={leftScrollRef}
-            className="scrollImages scrollImages-left"
-            onClick={() => setCurrentImage((prev) => prev - 1)}
-          >
-            <img src={`${ReadyImagesURL}/goBackArrow.png`} alt="" />
-          </div>
-        )}
-        {!isScrolledToEnd && (
-          <div
-            ref={rightScrollRef}
-            className="scrollImages scrollImages-right"
-            onClick={() => setCurrentImage((prev) => prev + 1)}
-          >
-            <img src={`${ReadyImagesURL}/goBackArrow.png`} alt="" />
-
-          </div>
-        )}
       </div>
-    </div>
+    </Portal>
   );
 }

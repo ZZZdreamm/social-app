@@ -27,7 +27,12 @@
       cursor: pointer;
     }
     &__image {
+      max-width: 100%;
       object-fit: contain;
+      img{
+        max-width: 100%;
+        object-fit: contain;
+      }
     }
   }
 }

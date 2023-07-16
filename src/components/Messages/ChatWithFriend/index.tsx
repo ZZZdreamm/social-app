@@ -1,6 +1,6 @@
 import "./style.scss";
 
-import { useContext, useEffect, useRef, useState } from "react";
+import { ReactElement, useContext, useEffect, useRef, useState } from "react";
 import uuid4 from "uuid4";
 import { socket } from "../../../App";
 import ProfileContext, {
@@ -24,11 +24,16 @@ import RecordMessager from "../RecordMessager";
 
 interface ChatWithFriendProps {
   friend: profileDTO;
+  chatInMessager?: boolean;
+  smallChatClose?: JSX.Element | undefined;
 }
 
-export default function ChatWithFriend({ friend }: ChatWithFriendProps) {
+export default function ChatWithFriend({
+  friend,
+  chatInMessager,
+  smallChatClose,
+}: ChatWithFriendProps) {
   const [respondTo, setRespondTo] = useState<messageResponseDTO>();
-
   const newestMessagesRef = useRef<HTMLElement | null>(null);
 
   return (
@@ -37,7 +42,11 @@ export default function ChatWithFriend({ friend }: ChatWithFriendProps) {
       className="chat"
       data-testid="chatWithFriend"
     >
-      <ChatHeader friend={friend} />
+      <ChatHeader
+        friend={friend}
+        chatInMessager={chatInMessager}
+        smallChatClose={smallChatClose}
+      />
       <ChatBody
         friend={friend}
         setRespondTo={setRespondTo}
@@ -57,9 +66,16 @@ interface FriendProps {
   friend: profileDTO;
 }
 
-interface ChatHeaderProps extends FriendProps {}
+interface ChatHeaderProps extends FriendProps {
+  smallChatClose?: JSX.Element | undefined;
+  chatInMessager?: boolean;
+}
 
-const ChatHeader = ({ friend }: ChatHeaderProps) => {
+const ChatHeader = ({
+  friend,
+  chatInMessager,
+  smallChatClose,
+}: ChatHeaderProps) => {
   const { myProfile } = useContext(ProfileContext);
   const { openedChats, updateOpenedChats } = useContext(OpenedChatsContext);
   const image = friend.ProfileImage || `${ReadyImagesURL}/noProfile.jpg`;
@@ -78,7 +94,8 @@ const ChatHeader = ({ friend }: ChatHeaderProps) => {
     openCallWindow(myProfile, friend, roomId, "caller");
   }
   return (
-    <div className="chat-header">
+    <div id={`chat-header/${friend.Id}`} className="chat-header">
+      {<>{smallChatClose}</>}
       <span className="chat-header-userProfile">
         <img className="chat-header-userProfile-image" src={image} alt="" />
         {friend.Email}
@@ -89,13 +106,15 @@ const ChatHeader = ({ friend }: ChatHeaderProps) => {
         onClick={callFriend}
         alt=""
       />
-      <img
-        data-testid="chatWithFriend-closeChat"
-        className="chat-header-close"
-        src={`${ReadyImagesURL}/close.png`}
-        onClick={closeChat}
-        alt=""
-      />
+      {!chatInMessager && (
+        <img
+          data-testid="chatWithFriend-closeChat"
+          className="chat-header-close"
+          src={`${ReadyImagesURL}/close.png`}
+          onClick={closeChat}
+          alt=""
+        />
+      )}
     </div>
   );
 };
@@ -103,6 +122,7 @@ const ChatHeader = ({ friend }: ChatHeaderProps) => {
 interface ChatBodyProps extends FriendProps {
   setRespondTo: (message: messageResponseDTO | undefined) => void;
   newestMessagesRef: any;
+  chatWontBeOpened?: boolean;
 }
 
 const ChatBody = ({
