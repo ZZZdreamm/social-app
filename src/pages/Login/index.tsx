@@ -62,6 +62,14 @@ export default function Login() {
           onSubmit={async (values) => await login(values)}
           submitButtonName="Login"
         />
+        <div className="auth-link">
+          <div>
+            Don't have an account?{" "}
+            <span onClick={() => navigate("/register")} style={{ textDecoration: "underline", color: "highlight", cursor:'pointer' }}>
+              Register here!
+            </span>
+          </div>
+        </div>
         <span style={{ color: "red" }}>{errors}</span>
       </div>
     </div>

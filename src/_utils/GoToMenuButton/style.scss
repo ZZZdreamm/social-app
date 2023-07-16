@@ -15,3 +15,9 @@
   color: $blue-color;
   background-color: $back-color;
 }
+
+@media (max-width: 450px) {
+  .go-back-button {
+    font-size: 1.4rem;
+  }
+}

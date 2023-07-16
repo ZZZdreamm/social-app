@@ -6,7 +6,7 @@ export default function NotAuthorizedMenu() {
 
   return (
     <span>
-      <button onClick={() => navigate("/login")}>Login</button>
+      {/* <button onClick={() => navigate("/login")}>Login</button> */}
       <button onClick={() => navigate("/register")}>Register</button>
     </span>
   );
