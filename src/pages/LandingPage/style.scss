@@ -32,9 +32,12 @@
 }
 
 .notLogged {
-  width: 100%;
-  height: 100%;
+  width: 100vw;
+  min-height: 94vh;
   display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   img {
     width: 50%;
     aspect-ratio: 1;

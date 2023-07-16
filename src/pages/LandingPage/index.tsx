@@ -73,8 +73,10 @@ export default function LandingPage() {
         }
         notAuthorized={
           <div className="notLogged" data-testid="notLogged">
-            <img src={`${ReadyImagesURL}/logo.png`} alt="" />
-            <span className="notLogged-logging">
+            {/* <img src={`${ReadyImagesURL}/logo.png`} alt="" /> */}
+            {/* <LandingPageForm/> */}
+            <Login/>
+            {/* <span className="notLogged-logging">
               <Login />
               <div>
                 No account?{" "}
@@ -82,7 +84,7 @@ export default function LandingPage() {
                   Register here!
                 </span>
               </div>
-            </span>
+            </span> */}
           </div>
         }
       />

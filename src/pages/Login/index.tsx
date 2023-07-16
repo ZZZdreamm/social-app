@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import AuthForm from "../../globals/Auth/AuthForm";
+import AuthForm from "../../globals/Auth/AuthForm/AuthForm";
 import { saveProfile } from "../../globals/Profile/HandleProfile";
 import { sendCredentials } from "../../globals/Auth/AuthFunctions";
 import "./styles.scss";
@@ -54,14 +54,16 @@ export default function Login() {
     }
   }, [loginForm]);
   return (
-    <>
-      <h1 style={{ fontSize: "3em" }}>Login</h1>
-      <AuthForm
-        model={{ email: "example@gmail.com", password: "Example1@" }}
-        onSubmit={async (values) => await login(values)}
-        submitButtonName="Login"
-      />
-      <span style={{ color: "red" }}>{errors}</span>
-    </>
+    <div className="notLogged">
+      <div className="auth-container">
+        <h1 className="auth-title">Login</h1>
+        <AuthForm
+          model={{ email: "example@gmail.com", password: "Example1@" }}
+          onSubmit={async (values) => await login(values)}
+          submitButtonName="Login"
+        />
+        <span style={{ color: "red" }}>{errors}</span>
+      </div>
+    </div>
   );
 }

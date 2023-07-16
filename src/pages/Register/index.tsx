@@ -1,9 +1,9 @@
 import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import AuthForm from "../../globals/Auth/AuthForm";
+import AuthForm from "../../globals/Auth/AuthForm/AuthForm";
 import { saveProfile } from "../../globals/Profile/HandleProfile";
 import { sendCredentials } from "../../globals/Auth/AuthFunctions";
-import "./styles.scss"
+import "./styles.scss";
 import AuthenticationContext from "../../services/Contexts/AuthenticationContext";
 import { userCredentials } from "../../services/Models/auth.models";
 import { getClaims, saveToken } from "../../globals/Auth/HandleJWT";
@@ -19,7 +19,11 @@ export default function Register() {
       const response = await sendCredentials(credentials, "register");
       saveToken(response.token);
       update(getClaims());
-      saveProfile(response.user.id, response.user.email, response.user.profileImage);
+      saveProfile(
+        response.user.id,
+        response.user.email,
+        response.user.profileImage
+      );
 
       if (response) {
         navigate("/");
@@ -31,13 +35,15 @@ export default function Register() {
   }
 
   return (
-    <>
-      <h1>Register</h1>
-      <AuthForm
-        model={{ email: "", password: "" }}
-        onSubmit={async (values) => await register(values)}
-        submitButtonName="Register"
-      />
-    </>
+    <div className="notLogged">
+      <div className="auth-container">
+        <h1 className="auth-title">Register</h1>
+        <AuthForm
+          model={{ email: "", password: "" }}
+          onSubmit={async (values) => await register(values)}
+          submitButtonName="Register"
+        />
+      </div>
+    </div>
   );
 }
