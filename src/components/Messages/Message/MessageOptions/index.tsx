@@ -50,6 +50,7 @@ export default function MessageOptions({
 
   function respondToMessage() {
     setResponseToMessage({
+      Id: message.Id,
       SenderName: message.SenderName,
       TextContent: message.TextContent,
       MediaFiles: message.MediaFiles,

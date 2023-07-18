@@ -9,6 +9,7 @@ import MessageOptions from "../../../components/Messages/Message/MessageOptions"
 import ShowFullImages from "../../../_utils/ShowFullImages";
 import "./style.scss";
 import BigImageModal from "../../../_utils/BigImageModal/index";
+import { postDataToServer } from "../../../services/Firebase/FirebaseFunctions";
 
 interface MessageProps {
   message: messageDTO;
@@ -50,6 +51,7 @@ export default function Message({
   }, [myProfile]);
   return (
     <div
+      id={`message/${message.Id}`}
       className="message"
       style={styling}
       onMouseEnter={() => {
@@ -64,7 +66,12 @@ export default function Message({
         isOpen={isOpen}
         toggleModal={toggleModal}
       />
-      <MessageContent message={message} fromFriend={fromFriend} toggleModal={toggleModal}/>
+      <MessageContent
+        message={message}
+        fromFriend={fromFriend}
+        toggleModal={toggleModal}
+        setMessages={setMessages}
+      />
       {notResponding && (
         <div style={{ opacity: optionsVisible ? "1" : "0" }}>
           <MessageOptions
@@ -88,9 +95,17 @@ interface MessageChildProps {
 interface MessageContentProps extends MessageChildProps {
   fromFriend: boolean;
   toggleModal: any;
+  setMessages: (messages: messageDTO[]) => void;
 }
 
-const MessageContent = ({ message, fromFriend, toggleModal }: MessageContentProps) => {
+const MessageContent = ({
+  message,
+  fromFriend,
+  toggleModal,
+  setMessages,
+}: MessageContentProps) => {
+  const { myProfile } = useContext(ProfileContext);
+  const [scrollToMessage, setScrollToMessage] = useState(false);
   const contentStyle = fromFriend
     ? { backgroundColor: "#E4E6EB" }
     : { backgroundColor: "#0084ff" };
@@ -105,16 +120,47 @@ const MessageContent = ({ message, fromFriend, toggleModal }: MessageContentProp
       : 4;
 
   function showBigImages() {
-    console.log(message.MediaFiles)
-    toggleModal()
+    console.log(message.MediaFiles);
+    toggleModal();
   }
+
+  async function goToResponse() {
+    const responseMessage = document.getElementById(
+      `message/${message.responseTo.Id}`
+    );
+    if (responseMessage) {
+      responseMessage.scrollIntoView();
+      return;
+    }
+    const fetchedMessages = await postDataToServer(
+      {
+        userId: myProfile.Id,
+        friendId:
+          message.SenderId === myProfile.Id
+            ? message.ReceiverId
+            : message.SenderId,
+        messageId: message.responseTo.Id,
+      },
+      "get-all-to-message"
+    );
+    const newMesses: any[] = [];
+    fetchedMessages?.forEach((message: messageDTO, index: number) => {
+      if (fetchedMessages?.length == index + 1) {
+        newMesses.push("empty");
+      }
+      newMesses.push(message);
+    });
+
+    setMessages(newMesses.reverse());
+  }
+
   return (
     <div
       className="message-content medium-font"
       style={{ color: color, ...contentStyle }}
     >
       {message.responseTo && (
-        <div className="message-responseTo">
+        <div className="message-responseTo" onClick={goToResponse}>
           <>
             <div className="message-responseTo-content">
               <div className="message-responseTo-content__autor">
@@ -182,7 +228,10 @@ const BigImageShown = ({
           style={{ height: "100vh" }}
         >
           <span className="body" style={{ height: "100%" }}>
-            <ShowFullImages images={message.MediaFiles} toggleModal={toggleModal}/>
+            <ShowFullImages
+              images={message.MediaFiles}
+              toggleModal={toggleModal}
+            />
           </span>
         </div>
       }

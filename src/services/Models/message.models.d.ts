@@ -27,6 +27,7 @@ export interface messageDTO{
 
 
 export interface messageResponseDTO{
+    Id:string;
     SenderName:string;
     TextContent:string;
     MediaFiles:string[];
