@@ -1,4 +1,3 @@
-@import "./variables.scss";
 
 :root {
   --navColor: #ffffff;
@@ -28,6 +27,7 @@
   --lightBlue: rgba(0, 132, 255, 1);
 
   --iconsBackColor: #f0f2f5;
+  --scrollColor: #2f2f2f;
 }
 
 .very-small-font {
@@ -120,7 +120,7 @@
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--textColor1);
+  background: var(--scrollColor);
   border-radius: 10px;
 }
 

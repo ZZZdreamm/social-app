@@ -1,4 +1,3 @@
-@import "../../../variables.scss";
 
 .navbar {
   background-color: var(--navColor);
@@ -42,6 +41,7 @@
   position: absolute;
   display: flex;
   align-items: flex-start;
+  top:6vh;
   right: 4rem;
   animation: show 0.2s linear forwards;
 }

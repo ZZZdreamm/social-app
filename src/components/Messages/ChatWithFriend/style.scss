@@ -1,4 +1,3 @@
-@import '../../../variables.scss';
 
 .chat {
     height: 30rem;
@@ -116,7 +115,7 @@
           z-index: 16;
           box-sizing: border-box;
           max-height: 30%;
-          padding: 0 0.5rem;
+          padding: 0.5rem;
           &__text{
             width: 100%;
             overflow: hidden;

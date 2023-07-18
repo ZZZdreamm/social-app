@@ -1,5 +1,5 @@
 .auth-form {
-  background-color: #ffffff;
+  background-color: var(--navColor);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -11,7 +11,7 @@
 }
 
 .auth-input {
-  background-color: #eee;
+  background-color: var(--container2Color);
   border: none;
   padding: 12px 15px;
   margin: 0.5rem;

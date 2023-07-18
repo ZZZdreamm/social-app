@@ -20,7 +20,8 @@ export const colors = {
     hoverColor: "#e4e6e9",
     borderColor: "#ccc",
     lightBlue: "rgba(0, 132, 255, 1)",
-    iconsBackColor: "#f0f2f5"
+    iconsBackColor: "placeholder",
+    scrollColor: "#2f2f2f",
   },
   blackMode: {
     navColor: "#000000",
@@ -43,6 +44,7 @@ export const colors = {
     hoverColor: "rgb(71, 72, 72)",
     borderColor: "#fff",
     lightBlue: "rgba(0, 132, 255, 1)",
-    iconsBackColor: "#f0f0f0"
+    iconsBackColor: "#f0f0f0",
+    scrollColor: "#e4e6e9",
   },
 };
