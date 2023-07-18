@@ -2,6 +2,7 @@
   display: flex;
   flex-direction: column;
   gap: 0.1rem;
+  position: relative;
   input {
     width: calc(100% - 0.8rem);
     font-size: 1.5rem;
@@ -12,11 +13,17 @@
     background: var(--backColor);
     color: var(--textColor1);
     transition: background-color 0.3s;
+    position: relative;
+    height: 2rem;
+    top:50%;
+    transform: translateY(-50%);
     &:hover {
       background: var(--hoverColor);
     }
   }
   .typeahead-options {
+    position: absolute;
+    top:calc(50% + 1rem);
     margin-top: 0.3rem;
     background-color: var(--navColor);
     display: flex;
