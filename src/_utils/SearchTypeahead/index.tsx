@@ -23,6 +23,7 @@ export default function SearchTypeahead({
       >
         <input
           id="user-search-typeahead"
+          autoComplete="off"
           onChange={(e: any) => handleSearch(e.target.value, setDataList)}
           onFocus={(e: any) => handleSearch(e.target.value, setDataList)}
         />
