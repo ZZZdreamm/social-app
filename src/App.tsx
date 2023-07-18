@@ -1,5 +1,5 @@
 import { ReactElement, useEffect, useState } from "react";
-import "./Styles.scss";
+import "./styles/Styles.scss";
 import Modal, { ModalProvider } from "styled-react-modal";
 import { HashRouter, Route, Routes, useLocation } from "react-router-dom";
 import routes, { guardedRoutes } from "./globals/routes";

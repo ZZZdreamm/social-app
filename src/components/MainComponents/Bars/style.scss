@@ -1,4 +1,4 @@
-
+@import '../../../styles/mixins.scss';
 .bar {
     position: fixed;
     height: 100%;
@@ -19,9 +19,7 @@
         word-break: break-all;
 
         img {
-          height: 80%;
-          aspect-ratio: 1;
-          border-radius: 50%;
+          @include circle(80%, height);
         }
         span {
           // font-size: 1rem;

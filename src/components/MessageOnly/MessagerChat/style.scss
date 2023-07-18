@@ -1,3 +1,4 @@
+@import "../../../styles/mixins.scss";
 .messager-chat {
   width: calc(100% - 20rem);
   height: 100%;
@@ -38,16 +39,13 @@
         padding-left: 1rem;
         height: 100%;
         &-image {
-          height: 60%;
-          aspect-ratio: 1;
-          border-radius: 50%;
+          @include circle(60%, height)
         }
       }
       &-call {
         cursor: pointer;
-        height: 50%;
         padding: 0.5rem;
-        border-radius: 50%;
+        @include circle(50%, height)
       }
       &-close {
         cursor: pointer;

@@ -1,4 +1,4 @@
-
+@import "../../../styles/mixins.scss";
 .navbar {
   background-color: var(--navColor);
   width: 100%;
@@ -17,40 +17,36 @@
 }
 
 .profileIcon {
-  height: 100%;
   cursor: pointer;
-  border-radius: 50%;
-  aspect-ratio: 1;
+  @include circle(100%, height);
 }
-.messagerIcon{
-  height: 100%;
+.messagerIcon {
+  @include circle(100%, height);
   cursor: pointer;
-  border-radius: 50%;
-  aspect-ratio: 1;
+
   box-sizing: border-box;
   padding: 5%;
   background-color: var(--container2Color);
   display: flex;
-  &:hover{
+  &:hover {
     background-color: var(--hoverColor);
   }
 }
-.messagerContainer{
+.messagerContainer {
   width: 25rem;
   height: 80vh;
   position: absolute;
   display: flex;
   align-items: flex-start;
-  top:6vh;
+  top: 6vh;
   right: 4rem;
   animation: show 0.2s linear forwards;
 }
 
 .smallProfileImage {
-  height: 100%;
+  @include circle(100%, height);
   cursor: pointer;
-  border-radius: 50%;
-  aspect-ratio: 1;
+
   background-size: cover;
   position: relative;
 }
@@ -60,10 +56,8 @@
   position: absolute;
   right: -5%;
   bottom: -5%;
-  background-color:var(--backColor);
-  width: 50%;
-  height: 50%;
-  border-radius: 50%;
+  background-color: var(--backColor);
+  @include circle(50%, width);
   padding: 10%;
   box-sizing: border-box;
   transform: rotate(90deg);
@@ -80,9 +74,7 @@
   display: flex;
   align-items: center;
   img {
-    height: 80%;
-    aspect-ratio: 1;
-    border-radius: 50%;
+    @include circle(80%, height);
     box-sizing: border-box;
     padding: 2%;
   }
@@ -96,7 +88,7 @@
     }
   }
   &:hover {
-    background-color:  var(--backColor);
+    background-color: var(--backColor);
   }
 }
 
@@ -129,15 +121,13 @@
     gap: 1rem;
     margin: 0 auto;
     &:hover {
-      background-color:  var(--backColor);
+      background-color: var(--backColor);
     }
     img {
-      height: 100%;
-      border-radius: 50%;
+      @include circle(100%, height);
       box-sizing: border-box;
       padding: 0.3rem;
       background-color: var(--hoverColor);
-      aspect-ratio: 1;
     }
   }
 }
@@ -151,8 +141,8 @@
   }
 }
 
-.flex{
-  display:flex;
+.flex {
+  display: flex;
 }
 
 .block {
@@ -162,6 +152,3 @@
 .hidden {
   display: none;
 }
-
-
-

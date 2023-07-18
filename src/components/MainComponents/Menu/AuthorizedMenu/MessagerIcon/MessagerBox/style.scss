@@ -1,3 +1,4 @@
+@import "../../../../../../styles/mixins.scss";
 .messagerBox {
   width: 25rem;
   background-color: var(--navColor);
@@ -44,10 +45,9 @@
         gap: 0.5rem;
         cursor: pointer;
         img {
-          height: 80%;
-          border-radius: 50%;
+          @include circle(80%);
+
           box-sizing: border-box;
-          aspect-ratio: 1;
         }
         span {
           font-size: 1.2rem;

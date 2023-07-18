@@ -1,4 +1,4 @@
-
+@import "../../styles/mixins.scss";
 .showFullImages {
   position: fixed;
   top: 0;
@@ -28,7 +28,7 @@
     &__image {
       max-width: 100%;
       object-fit: contain;
-      img{
+      img {
         max-width: 100%;
         object-fit: contain;
       }
@@ -43,11 +43,10 @@
   font-size: 1.5rem;
   border: none;
   cursor: pointer;
-  height: 1.5rem;
-  width: 1.5rem;
+
   background-size: cover;
   background-color: var(--borderColor);
-  border-radius: 50%;
+  @include circle(1.5rem, height);
   padding: 1rem;
   transition: all 0.5s;
   display: flex;

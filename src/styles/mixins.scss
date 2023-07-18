@@ -1,0 +1,10 @@
+@mixin circle($size, $direction: height) {
+  @if $direction == height {
+    height: $size;
+  }
+  @if $direction == width {
+    width: $size;
+  }
+  aspect-ratio: 1;
+  border-radius: 50%;
+}
