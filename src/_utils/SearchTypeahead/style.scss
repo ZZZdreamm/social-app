@@ -10,15 +10,16 @@
     padding: 0.4rem;
     border: none;
     outline: none;
-    background: $back-color;
+    background: var(--backColor);
+    color: var(--textColor1);
     transition: background-color 0.3s;
     &:hover {
-      background: $hover-color;
+      background: var(--hoverColor);
     }
   }
   .typeahead-options {
     margin-top: 0.3rem;
-    background-color: white;
+    background-color: var(--navColor);
     display: flex;
     flex-direction: column;
     gap: 0.1rem;

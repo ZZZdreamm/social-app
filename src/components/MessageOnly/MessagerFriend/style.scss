@@ -8,7 +8,7 @@
     padding: 0 0.5rem;
     cursor: pointer;
     &:hover {
-      background-color: $hover-color;
+      background-color: var(--hoverColor);
     }
     &-image {
       height: 90%;

@@ -206,7 +206,7 @@ const ProfileUp = ({ userProfile, setContent }: ProfileUpProps) => {
           {relationship == "inFriendRequests" && (
             <button
               className="large-font"
-              style={{ backgroundColor: "#89CFF0" }}
+              style={{ backgroundColor: "var(--testColor3)" }}
               onClick={cancelFriendRequest}
             >
               Cancel request
@@ -215,7 +215,7 @@ const ProfileUp = ({ userProfile, setContent }: ProfileUpProps) => {
           {relationship == "pendingRequest" && (
             <button
               className="large-font"
-              style={{ backgroundColor: "#89CFF0" }}
+              style={{ backgroundColor: "var(--testColor3)" }}
               onClick={acceptFriendRequest}
             >
               Accept request

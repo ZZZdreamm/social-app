@@ -330,7 +330,7 @@ const ChatFooter = ({
           <img
             className="erase-image"
             onClick={() => setRespondTo(undefined)}
-            src={`${ReadyImagesURL}/black-close.png`}
+            src={`${ReadyImagesURL}/close.png`}
             alt=""
           />
           <span>

@@ -4,7 +4,7 @@
     width: calc(100% - 1rem);
     padding: 0.5rem;
     display: block;
-    background-color: $back-color;
+    background-color: var(--backColor);
     border-radius: 1rem;
     &-profile {
       display: flex;

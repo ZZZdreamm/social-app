@@ -1,5 +1,6 @@
 import GoToMenuButton from "../../../_utils/GoToMenuButton";
 import Authorized from "../../../globals/Auth/Authorized";
+import NightModeSwitch from "../../NightModeSwitch";
 
 import AuthorizedMenu from "./AuthorizedMenu";
 import NotAuthorizedMenu from "./NotAuthorizedMenu";
@@ -9,6 +10,7 @@ export default function Menu() {
   return (
     <nav className={styles.navbar}>
       <GoToMenuButton appName={"FriendLink"} />
+
       <Authorized
         isAuthorized={<AuthorizedMenu />}
         notAuthorized={<NotAuthorizedMenu />}

@@ -1,7 +1,7 @@
 @import "../../../variables.scss";
 
 .navbar {
-  background-color: $nav-color;
+  background-color: var(--navColor);
   width: 100%;
   height: 6vh;
   position: fixed;
@@ -10,10 +10,10 @@
   justify-content: space-between;
   align-items: center;
   z-index: 15;
-  box-shadow: 0 0 0.2rem 0 rgba(0, 0, 0, 0.5);
+  box-shadow: 0 0 0.2rem 0 var(--shadow3);
   button {
     border: none;
-    background-color: $nav-color;
+    background-color: var(--navColor);
   }
 }
 
@@ -30,9 +30,10 @@
   aspect-ratio: 1;
   box-sizing: border-box;
   padding: 5%;
-  background-color: $container2-color;
+  background-color: var(--container2Color);
+  display: flex;
   &:hover{
-    background-color: $hover-color;
+    background-color: var(--hoverColor);
   }
 }
 .messagerContainer{
@@ -59,7 +60,7 @@
   position: absolute;
   right: -5%;
   bottom: -5%;
-  background-color: $nav-color;
+  background-color:var(--backColor);
   width: 50%;
   height: 50%;
   border-radius: 50%;
@@ -74,7 +75,7 @@
   width: calc(100% - 2rem);
   box-sizing: border-box;
   margin: 1rem;
-  box-shadow: 0 0 0.3rem 0 rgba(0, 0, 0, 0.5);
+  box-shadow: 0 0 0.3rem 0 var(--shadow3);
   border-radius: 1rem;
   display: flex;
   align-items: center;
@@ -91,11 +92,11 @@
     white-space: nowrap;
     font-size: 1.2rem;
     &:hover {
-      background-color: $back-color;
+      background-color: var(--backColor);
     }
   }
   &:hover {
-    background-color: $back-color;
+    background-color:  var(--backColor);
   }
 }
 
@@ -103,7 +104,7 @@
   position: absolute;
   top: 5.8vh;
   right: 1vw;
-  background-color: $nav-color;
+  background-color: var(--navColor);
   margin: 0 1rem;
   width: 20rem;
   display: flex;
@@ -114,7 +115,7 @@
   z-index: 15;
   animation: show 0.2s linear forwards;
   padding: 0.5rem 0;
-  box-shadow: 0 0 0.1rem 0 rgba(0, 0, 0, 0.5);
+  box-shadow: 0 0 0.1rem 0 var(--typicalShadow);
 
   h4 {
     width: calc(100% - 2rem);
@@ -128,14 +129,14 @@
     gap: 1rem;
     margin: 0 auto;
     &:hover {
-      background-color: $back-color;
+      background-color:  var(--backColor);
     }
     img {
       height: 100%;
       border-radius: 50%;
       box-sizing: border-box;
       padding: 0.3rem;
-      background-color: $hover-color;
+      background-color: var(--hoverColor);
       aspect-ratio: 1;
     }
   }

@@ -35,15 +35,15 @@
       &-option {
         height: 3rem;
         width: 3rem;
-        background-color: $text-color2;
+        background-color: var(--navColor);
         border-radius: 50%;
         padding: 0.5rem;
         cursor: pointer;
         &:hover {
-          background-color: $test-color2;
+          background-color: var(--testColor2);
         }
         &:active {
-          background-color: $container-color;
+          background-color: var(--containerColor);
         }
       }
     }

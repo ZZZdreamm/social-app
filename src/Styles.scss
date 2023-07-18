@@ -1,20 +1,33 @@
 @import "./variables.scss";
 
 :root {
-  --nav-color: #ffffff;
-  --back-color: #f0f2f5;
-  --container-color: #3b55d9;
-  --test-color1: #febebe;
-  --test-color2: #bbb;
-  --text-color1: #2f2f2f;
-  --text-color2: #ffffff;
-  --test-color3: #89cff0;
-  --blue-color: #0084ff;
-  --shadow-1: rgba(0, 0, 0, 0.1);
-  --shadow-2: rgba(0, 0, 0, 0.2);
-  --shadow-inset: rgba(255, 255, 255, 0.5);
-  --hover-color: #e4e6e9;
-  --border-color: #ccc;
+  --navColor: #ffffff;
+  --backColor: #f0f2f5;
+  --containerColor: #3b55d9;
+  --container2Color: #eeeeee;
+
+  --testColor1: #febebe;
+  --testColor2: #bbb;
+  --textColor1: #2f2f2f;
+  --textColor2: #ffffff;
+  --testColor3: #89cff0;
+  --blueColor: #0084ff;
+  --shadow1: rgba(0, 0, 0, 0.1);
+  --shadow2: rgba(0, 0, 0, 0.2);
+  --shadow3: rgba(0, 0, 0, 0.3);
+  --typicalShadow: rgba(0, 0, 0, 0.5);
+
+  --shadowInset: rgba(255, 255, 255, 0.5);
+  --hoverColor: #e4e6e9;
+  --borderColor: #ccc;
+  --color: rgb(71, 72, 72);
+
+
+  --textGrey: #7e7f81;
+  --lightGrey: #d6d9dfdc;
+  --lightBlue: rgba(0, 132, 255, 1);
+
+  --iconsBackColor: #f0f2f5;
 }
 
 .very-small-font {
@@ -41,18 +54,18 @@
 }
 
 .shadow-around {
-  box-shadow: 0 0px 4px 0 rgba(0, 0, 0, 0.3);
+  box-shadow: 0 0px 4px 0 var(--shadow3);
 }
 
 .big-shadow-around {
-  box-shadow: 0 12px 28px 0 $shadow-2, 0 2px 4px 0 $shadow-1,
-    inset 0 0 0 1px $shadow-inset;
+  box-shadow: 0 12px 28px 0 var(--shadow2), 0 2px 4px 0 var(--shadow1),
+    inset 0 0 0 1px var(--shadowInset);
 }
 .shadow-beneath {
-  box-shadow: 0 0.05rem 0.2rem 0 rgba(0, 0, 0, 0.2);
+  box-shadow: 0 0.05rem 0.2rem 0 var(--shadow2);
 }
 .shadow-above {
-  box-shadow: 0 -0.05rem 0.2rem 0 rgba(0, 0, 0, 0.2);
+  box-shadow: 0 -0.05rem 0.2rem 0 var(--shadow2);
 }
 
 @import url("https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap");
@@ -98,8 +111,8 @@
 }
 
 ::-webkit-scrollbar {
-  width: 1rem;
-  border-radius: 1rem;
+  width: 0.5rem;
+  border-radius: 0.5rem;
 }
 ::-webkit-scrollbar-track {
   background: #888;
@@ -107,7 +120,7 @@
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #2f2f2f;
+  background: var(--textColor1);
   border-radius: 10px;
 }
 
@@ -116,7 +129,7 @@
   background: #555;
 }
 
-h4{
+h4 {
   margin: 0;
   font-size: 1.4rem;
 }
@@ -132,22 +145,23 @@ h5 {
 }
 
 body {
-  background-color: $back-color;
-  color: $text-color1;
+  background-color: var(--backColor);
+  color: var(--textColor1);
   font-size: 2rem;
   overflow-x: hidden;
 }
 
 button {
-  background-color: $nav-color;
+  background-color: var(--navColor);
   font-size: 2rem;
   border-radius: 1rem;
   cursor: pointer;
   padding: 0.5rem;
   margin: 0.5rem;
   transition: background-color 0.3s;
+  color: var(--textColor1);
   &:hover {
-    background-color: $hover-color;
+    background-color: var(--hoverColor);
   }
 }
 .my-input {
@@ -226,8 +240,8 @@ body {
   aspect-ratio: 1;
   cursor: pointer;
 }
-.chat{
-  .erase-image{
+.chat {
+  .erase-image {
     top: 0rem;
     right: 0rem;
   }
@@ -245,18 +259,16 @@ body {
   }
 }
 
-.flexStart{
+.flexStart {
   display: flex;
   justify-content: flex-start;
 }
 
-.flexColumnLeft{
+.flexColumnLeft {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
 }
-
-
 
 .flex-center {
   display: flex;
@@ -270,8 +282,6 @@ body {
   justify-content: center;
   flex-direction: column;
 }
-
-
 
 .full-container {
   width: 100%;
@@ -314,4 +324,15 @@ body {
 }
 .pointer {
   cursor: pointer;
+}
+
+.nightMode {
+  background-color: #2f2f2f;
+  color: #fff;
+  .navbar-placeholder {
+    background-color: #2f2f2f;
+  }
+  .navbar {
+    background-color: #2f2f2f;
+  }
 }

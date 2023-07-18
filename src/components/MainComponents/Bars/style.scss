@@ -29,7 +29,7 @@
           font-weight: bold;
         }
         &:hover {
-          background-color: $hover-color;
+          background-color: var(--hoverColor);
         }
       }
     }

@@ -12,7 +12,7 @@
       display: flex;
       align-items: center;
       flex-direction: column;
-      background-color: $text-color2;
+      background-color:var(--navColor);
       height: fit-content;
       width: 100%;
       overflow: hidden;
@@ -29,7 +29,7 @@
           right: 2vw;
           height: 3rem;
           z-index: 3;
-          background-color: $text-color2;
+          background-color: var(--navColor);
           border-radius: 2rem;
           display: flex;
           align-items: center;
@@ -39,7 +39,7 @@
       }
 
       &-options {
-        background-color: $text-color2;
+        background-color: var(--navColor);
         width: 70vw;
         height: 20vw;
         z-index: 2;
@@ -47,12 +47,12 @@
           display: flex;
           width: 100%;
           height: 70%;
-          border-bottom: 1px solid $border-color;
+          border-bottom: 1px solid var(--borderColor);
           align-items: center;
           word-break: break-all;
 
           img {
-            border: 0.3rem solid $test-color3;
+            border: 0.3rem solid var(--test-color3);
             height: 70%;
             aspect-ratio: 1;
             border-radius: 50%;
@@ -74,7 +74,7 @@
             align-items: center;
             justify-content: center;
             &:hover {
-              background-color: $back-color;
+              background-color:  var(--backColor);
             }
           }
         }

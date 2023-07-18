@@ -1,13 +1,16 @@
 .messager-typeahead {
-  width: 90%;
+  width: calc(100% - 2rem);
+  margin: 0 1rem;
+  box-sizing: border-box;
 }
 #messager {
   .typeaheadContainer {
-    background-color: white;
+    background-color: var(--navColor);
     z-index: 12;
     input {
       border-radius: 4rem;
-      background-color: white;
+      background-color: var(--navColor);
+      color: var(--textColor1);
     }
   }
 }

@@ -12,8 +12,8 @@
   align-items: center;
   padding: 0.5rem;
   margin: 0;
-  color: $blue-color;
-  background-color: $back-color;
+  color: var(--blueColor);
+  background-color: var(--backColor);
 }
 
 @media (max-width: 450px) {

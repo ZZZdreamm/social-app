@@ -189,7 +189,7 @@ const Like = ({ post, amountOfLikes, setAmountOfLikes }: LikeProps) => {
     setClicked(true);
   }
 
-  const likeColor = youLiked ? "#89CFF0" : "";
+  const likeColor = youLiked ? "var(--testColor3)" : "";
 
   return (
     <button

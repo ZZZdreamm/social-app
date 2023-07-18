@@ -8,7 +8,7 @@
   height: 100%;
   display: grid;
   grid-template-rows: 5vh 95vh;
-  background-color: $back-color;
+  background-color:  var(--backColor);
   section {
     display: flex;
     flex-direction: column;
@@ -28,7 +28,7 @@
   padding: 0.5rem 0;
   height: 4rem;
   width: 20rem;
-  border-right: 1px solid $border-color;
+  border-right: 1px solid var(--borderColor);
 }
 
 .messager-friends {
@@ -39,8 +39,8 @@
   align-items: center;
   gap: 1rem;
   overflow-y: scroll;
-  border-right: 1px solid $border-color;
-  border-bottom: 1px solid $border-color;
+  border-right: 1px solid var(--borderColor);
+  border-bottom: 1px solid var(--borderColor);
   &::-webkit-scrollbar {
     display: none;
   }
@@ -53,7 +53,7 @@
   justify-content: space-between;
   align-items: center;
   padding: 0 1rem;
-  border-bottom: 1px solid $border-color;
+  border-bottom: 1px solid var(--borderColor);
   span {
     height: 100%;
     display: flex;
@@ -69,7 +69,7 @@
 
 .messager-content {
   display: flex;
-  border-top: 1px solid $border-color;
+  border-top: 1px solid var(--borderColor);
 }
 
 @media (min-width: 320px) and (max-width: 480px) {

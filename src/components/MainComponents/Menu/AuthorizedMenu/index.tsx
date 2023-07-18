@@ -3,6 +3,7 @@ import UserSearchTypeahead from "../../../Users/UserSearchTypeahead";
 import MessagerIcon from "./MessagerIcon";
 import ProfileIcon from "./ProfileIcon";
 import "./style.scss";
+import NightModeSwitch from "../../../NightModeSwitch";
 
 export default function AuthorizedMenu() {
   const [visibleModal, setVisibleModal] = useState("");
@@ -15,6 +16,8 @@ export default function AuthorizedMenu() {
     <>
       <UserSearchTypeahead />
       <span className="navbarIconsContainer">
+        <NightModeSwitch />
+
         <MessagerIcon visibleModal={visibleModal} toggleModal={toggleModal} />
         <ProfileIcon visibleModal={visibleModal} toggleModal={toggleModal} />
       </span>

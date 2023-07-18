@@ -7,7 +7,7 @@
   img {
     width: 100%;
     aspect-ratio: 1;
-    background-color: #89cff0;
+    background-color: var(--testColor3);
 
     cursor: pointer;
   }
@@ -16,7 +16,7 @@
     display: flex;
     width: calc(100% - 2rem);
     height: 10vh;
-    background-color: #89cff0;
+    background-color: var(--testColor3);
     font-weight: bold;
     font-size: 1rem;
     flex-direction: column;

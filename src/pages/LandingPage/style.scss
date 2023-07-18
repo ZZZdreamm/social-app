@@ -52,6 +52,6 @@
   }
 }
 .link {
-  color: $container-color;
+  color:var(--containerColor);
   cursor: pointer;
 }

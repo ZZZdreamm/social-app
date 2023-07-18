@@ -13,7 +13,7 @@
     cursor: pointer;
     background-size: cover;
     &:hover {
-      background-color: $hover-color;
+      background-color: var(--hoverColor);
     }
   }
   &-delete {
@@ -22,8 +22,8 @@
     height: 6rem;
     right: 3rem;
     aspect-ratio: 1.5;
-    background-color: $nav-color;
-    box-shadow: 0 0.5rem 1rem $shadow-1, 0 0.5rem 1rem $shadow-2;
+    background-color: var(--navColor);
+    box-shadow: 0 0.5rem 1rem var(--shadow1), 0 0.5rem 1rem var(--shadow2);
     display: flex;
     flex-direction: column;
     border-radius: 1rem;
@@ -41,7 +41,7 @@
       align-items: center;
       cursor: pointer;
       &:hover {
-        background-color: $hover-color;
+        background-color: var(--hoverColor);
       }
     }
   }
@@ -51,8 +51,8 @@
     bottom: 4rem;
     height: 2.5rem;
     width: 15rem;
-    background-color: $nav-color;
-    box-shadow: 0 0.5rem 1rem $shadow-1, 0 0.5rem 1rem $shadow-2;
+    background-color: var(--navColor);
+    box-shadow: 0 0.5rem 1rem var(--shadow1), 0 0.5rem 1rem var(--shadow2);
     display: flex;
     flex-direction: column;
     border-radius: 2rem;
@@ -68,7 +68,7 @@
       box-sizing: border-box;
       padding: 5%;
       &:hover {
-        background-color: $hover-color;
+        background-color: var(--hoverColor);
       }
     }
   }

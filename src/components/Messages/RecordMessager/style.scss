@@ -11,6 +11,6 @@
       aspect-ratio: 1;
     }
     &:hover {
-      background-color: $test-color2;
+      background-color: var(--testColor2);
     }
   }
