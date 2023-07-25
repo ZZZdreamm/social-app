@@ -2,6 +2,17 @@ It is social media app. It uses Node.js CacarrotServer as it's backend server.
 
 Link to the website - https://zzzdreamm.github.io/social-app/
 
+Tools used in project:
+- ReactJS
+- SCSS
+- Typescript
+- Node.js
+- Socket.IO
+- Firebase
+- JWTToken
+- Axios
+- WebRTC
+
 About it:
 
 - After logging you can post posts that other people will see, comment and like your own posts and other people posts. You can add friends by searching their nickname and send them friend request. If they accept you can send text messages and images between you.
