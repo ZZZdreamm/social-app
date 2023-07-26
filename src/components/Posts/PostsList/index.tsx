@@ -9,7 +9,7 @@ export default function PostsList(props:postsListProps){
         <div className="listOfPosts">
             {props.posts ? props.posts?.map((post) =>
             (
-                <PostContainer post={post} key={post.Id}/>
+                <PostContainer post={post} setPosts={props.setPosts} key={post.Id}/>
 
             )): <Waiting message="Loading"/>}
        </div>
@@ -18,5 +18,6 @@ export default function PostsList(props:postsListProps){
 }
 
 interface postsListProps{
+    setPosts: (posts: postDTO[]) => void;
     posts?:postDTO[];
 }

@@ -276,7 +276,7 @@ const ProfileDown = ({ userProfile, content }: ProfileDownProps) => {
       {content == "posts" && (
         <>
           <h2>Posts</h2>
-          <PostsList posts={posts} />
+          <PostsList posts={posts} setPosts={setPosts}/>
           <span ref={endOfPostsRef}></span>
           {allPostsFetched && <h2>You have reached end of internet.</h2>}
         </>

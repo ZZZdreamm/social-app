@@ -7,12 +7,11 @@ import { ReadyImagesURL } from "../../globals/appUrls";
 import Login from "../Login";
 import RightBar from "../../components/MainComponents/Bars/RightBar";
 
-import "./style.scss"
+import "./style.scss";
 import useIsInViewport from "../../_utils/2Hooks/IsInViewPort";
 import Authorized from "../../globals/Auth/Authorized";
 
 export default function LandingPage() {
-  const navigate = useNavigate();
   const [windowSize, setWindowSize] = useState(window.innerWidth);
   const [posts, setPosts] = useState<postDTO[]>();
   const [allPostsFetched, setAllPostsFetched] = useState(false);
@@ -64,7 +63,7 @@ export default function LandingPage() {
           <>
             <div className="middle-content">
               <PostForm setPosts={setPosts} />
-              <PostsList posts={posts} />
+              <PostsList posts={posts} setPosts={setPosts}/>
               <span ref={endOfPostsRef}></span>
               {allPostsFetched && <h2>You have reached end of internet.</h2>}
             </div>
@@ -73,18 +72,7 @@ export default function LandingPage() {
         }
         notAuthorized={
           <div className="notLogged" data-testid="notLogged">
-            {/* <img src={`${ReadyImagesURL}/logo.png`} alt="" /> */}
-            {/* <LandingPageForm/> */}
-            <Login/>
-            {/* <span className="notLogged-logging">
-              <Login />
-              <div>
-                No account?{" "}
-                <span className="link" onClick={() => navigate("/register")}>
-                  Register here!
-                </span>
-              </div>
-            </span> */}
+            <Login />
           </div>
         }
       />

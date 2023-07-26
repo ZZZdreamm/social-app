@@ -3,6 +3,7 @@ import { SetStateAction, useContext, useEffect, useRef, useState } from "react";
 import { ReadyImagesURL } from "../../../globals/appUrls";
 import ProfileContext from "../../../services/Contexts/ProfileContext";
 import {
+  deleteDataOnServer,
   postDataToServer,
   putDataToServer,
 } from "../../../services/Firebase/FirebaseFunctions";
@@ -10,12 +11,17 @@ import ListOfComments from "../../Comments/ListOfComments";
 import { addItemToState } from "../../../_utils/1Functions/StateModifications";
 import ScrollingMediaFiles from "../../../_utils/ScrollingMediaFiles";
 import useDebounce from "../../../_utils/2Hooks/useDebounce";
+import { useNavigate } from "react-router-dom";
+import DivInput from "../../../_utils/Textarea";
+import Textarea from "../../../_utils/Textarea";
+import SpeechBubble from "../../../_utils/SpeechBubble";
 
 interface PostContainerProps {
   post: postDTO;
+  setPosts: (posts: postDTO[]) => void;
 }
 
-export default function PostContainer({ post }: PostContainerProps) {
+export default function PostContainer({ post, setPosts }: PostContainerProps) {
   const [amountOfLikes, setAmountOfLikes] = useState(post.AmountOfLikes);
   const [amountOfComments, setAmountOfComments] = useState(
     post.AmountOfComments
@@ -28,7 +34,7 @@ export default function PostContainer({ post }: PostContainerProps) {
 
   return (
     <div className="post shadow-around">
-      <PostProfile post={post}/>
+      <PostProfile post={post} setPosts={setPosts} />
       <PostContent post={post} />
       <div className="post-bottom">
         <PostBottomUpperPart
@@ -57,23 +63,109 @@ interface PostProps {
   post: postDTO;
 }
 
-interface PostProfileProps extends PostProps {}
+interface PostProfileProps extends PostProps {
+  setPosts: (posts: postDTO[]) => void;
+}
 
-const PostProfile = ({ post }: PostProfileProps) => {
+const PostProfile = ({ post, setPosts }: PostProfileProps) => {
+  const navigate = useNavigate();
   const autorImage =
     post.AutorProfileImage || `${ReadyImagesURL}/noProfile.jpg`;
+
+  const goToProfile = () => {
+    if (post.AutorId) {
+      navigate(`/user-profile/${post.AutorId}`);
+    }
+  };
+
   return (
     <div className="post-profile">
-      <img src={autorImage} alt="" />
-      <span className="flexColumnLeft">
-        {post.AutorName}
-        <br />
+      <img onClick={goToProfile} src={autorImage} alt="" />
+      <span className="flexColumnLeft" style={{ maxWidth: "60%" }}>
+        <span className="elipsis" style={{ maxWidth: "100%" }}>
+          {post.AutorName}
+        </span>
         <span className="medium-font">
           {new Date(post.Date).toLocaleDateString()}
           {", "}
           {new Date(post.Date).toLocaleTimeString()}
         </span>
       </span>
+
+      <PostProfileOptions post={post} setPosts={setPosts} />
+    </div>
+  );
+};
+
+const PostProfileOptions = ({ post, setPosts }: PostProfileProps) => {
+  const { myProfile } = useContext(ProfileContext);
+  const [optionsOpen, setOptionsOpen] = useState(false);
+  const [editOpen, setEditOpen] = useState(false);
+  function toggleOptions() {
+    setOptionsOpen(!optionsOpen);
+  }
+
+  useEffect(() => {
+    window.addEventListener("click", (e: any) => {
+      if (
+        e.target?.id.includes(`post-profile-options/${post.Id}`) ||
+        e.target?.id.includes(`post-profile-options__list/${post.Id}`)
+      )
+        return;
+      setOptionsOpen(false);
+    });
+  }, []);
+
+  async function deletePost() {
+    const response = await deleteDataOnServer("delete-post", {
+      postId: post.Id.toString(),
+    });
+    if (response.status === "success") {
+      //@ts-ignore
+      setPosts((posts) => posts.filter((p) => p.Id != post.Id));
+      console.log("deleted");
+    } else if (response.status === "error") {
+      alert("Something went wrong, try again later");
+    }
+  }
+  async function openEditPostForm() {
+    setEditOpen(true);
+  }
+  return (
+    <div
+      id={`post-profile-options/${post.Id}`}
+      className="post-profile-options"
+      style={{ backgroundImage: `url(${ReadyImagesURL}/moreOptions.png)` }}
+      onClick={toggleOptions}
+    >
+      {optionsOpen && (
+        <div
+          id={`post-profile-options__list/${post.Id}`}
+          className="post-profile-options__list shadow-around medium-font"
+        >
+          {post.AutorId === myProfile.Id && (
+            <>
+              <div
+                className="post-profile-options__list__child"
+                onClick={deletePost}
+              >
+                Delete
+              </div>
+              <div
+                className="post-profile-options__list__child"
+                onClick={openEditPostForm}
+              >
+                Edit
+              </div>
+            </>
+          )}
+          {post.AutorId !== myProfile.Id && (
+            <div className="post-profile-options__list__child">
+              Report (doesnt work)
+            </div>
+          )}
+        </div>
+      )}
     </div>
   );
 };
@@ -114,7 +206,6 @@ const PostContent = ({ post }: PostContentProps) => {
     </div>
   );
 };
-
 
 interface PostBottomUpperPartProps {
   amountOfLikes: number;
@@ -217,6 +308,7 @@ const Comments = ({
   const [comments, setComments] = useState<commentsDTO[]>();
   const [commentText, setCommentText] = useState("");
   const [allCommentsFetched, setAllCommentsFetched] = useState(false);
+  const inputRef = useRef<HTMLTextAreaElement>(null);
 
   const commentsToGetNumber = 10;
 
@@ -261,26 +353,45 @@ const Comments = ({
     getComments(comments?.length! + commentsToGetNumber);
   }
 
-  const commentDisabled = commentText.length == 0;
+  const commentDisabled = commentText?.length == 0;
+
+  const sendImage = commentDisabled
+    ? `${ReadyImagesURL}/cant-sendBtn.png`
+    : `${ReadyImagesURL}/sendBtn.png`;
 
   return (
     <>
       {showComments && (
         <div className="post-comments">
-          <span className="post-comments-input">
-            <textarea
-              className="commentText-textarea"
-              value={commentText}
-              onInput={(e: any) => setCommentText(e.target.value)}
+          <div className="post-comments-input">
+            <img
+              className="post-comments-input__profile"
+              src={myProfile.ProfileImage}
+              alt=""
             />
-            <button
-              disabled={commentDisabled}
-              type="submit"
-              onClick={postComment}
-            >
-              Post comment
-            </button>
-          </span>
+            <div className="commentText">
+              <Textarea
+                ref={inputRef}
+                text={commentText}
+                setText={setCommentText}
+                placeholder={"Write a comment..."}
+              />
+              <div className="commentText-submit">
+                <span></span>
+                <button
+                  disabled={commentDisabled}
+                  type="submit"
+                  onClick={postComment}
+                  style={{
+                    backgroundImage: `url(${sendImage})`,
+                    backgroundSize: "cover",
+                  }}
+                >
+                  {""}
+                </button>
+              </div>
+            </div>
+          </div>
           {comments && <ListOfComments comments={comments} />}
           {comments?.length != 0 && !allCommentsFetched ? (
             <span className="post-comments-more" onClick={showMoreComments}>

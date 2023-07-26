@@ -1,31 +1,30 @@
 import { ReactElement, useEffect, useState } from "react";
-import "./styles/Styles.scss";
-import Modal, { ModalProvider } from "styled-react-modal";
-import { HashRouter, Route, Routes, useLocation } from "react-router-dom";
-import routes, { guardedRoutes } from "./globals/routes";
+import { Route, Routes } from "react-router-dom";
+import { io } from "socket.io-client";
+import { ModalProvider } from "styled-react-modal";
+import GuardedRoute from "./_utils/GuardedRoute/GuardedRoute";
+import OfflineWebsite from "./_utils/OfflineWebsite/OfflineWebsite";
+import LeftBar from "./components/MainComponents/Bars/LeftBar";
 import Menu from "./components/MainComponents/Menu";
+import OpenedChats from "./components/Messages/OpenedChats";
+import { openCallWindow } from "./components/WebRTC/CallFunctions";
+import CallModal from "./components/WebRTC/CallModal";
+import Authorized from "./globals/Auth/Authorized";
+import { getClaims } from "./globals/Auth/HandleJWT";
 import { getProfile } from "./globals/Profile/HandleProfile";
+import { socketURL } from "./globals/apiPaths";
+import routes, { guardedRoutes } from "./globals/routes";
+import AuthenticationContext from "./services/Contexts/AuthenticationContext";
 import ProfileContext, {
   FriendRequestsContext,
   OpenedChatsContext,
   ProfileFriendsContext,
   SentFriendRequestsContext,
 } from "./services/Contexts/ProfileContext";
-import LeftBar from "./components/MainComponents/Bars/LeftBar";
 import { postDataToServer } from "./services/Firebase/FirebaseFunctions";
-import OpenedChats from "./components/Messages/OpenedChats";
-import { socketURL } from "./globals/apiPaths";
-import { io } from "socket.io-client";
-import CallModal from "./components/WebRTC/CallModal";
-import { openCallWindow } from "./components/WebRTC/CallFunctions";
-import { useQuery } from "react-query";
-import { profileDTO } from "./services/Models/profiles.models";
-import GuardedRoute from "./_utils/GuardedRoute/GuardedRoute";
-import OfflineWebsite from "./_utils/OfflineWebsite/OfflineWebsite";
-import AuthenticationContext from "./services/Contexts/AuthenticationContext";
 import { claim } from "./services/Models/auth.models";
-import { getClaims } from "./globals/Auth/HandleJWT";
-import Authorized from "./globals/Auth/Authorized";
+import { profileDTO } from "./services/Models/profiles.models";
+import "./styles/styles.scss";
 
 export const socket = io(socketURL);
 

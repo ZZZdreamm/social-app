@@ -1,4 +1,5 @@
 interface postCreationDTO{
+    AutorId: string;
     AutorName: string;
     TextContent: string;
     MediaFiles: string[];
@@ -6,6 +7,7 @@ interface postCreationDTO{
 }
 interface postDTO{
     Id:number;
+    AutorId: string;
     AutorName:string;
     TextContent:string;
     MediaFiles?:string[];
