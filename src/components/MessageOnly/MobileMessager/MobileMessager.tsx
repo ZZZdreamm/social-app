@@ -21,7 +21,7 @@ export default function MobileMessager({setChoosenFriend, choosenFriend}:MobileM
     const {myFriends} = useContext(ProfileFriendsContext)
     return (
         <>
-        <div className="messager-mobile-header flex-center">
+        <div className="messager-mobile-header flex">
           <img
             src={`${ReadyImagesURL}/goBackArrow.png`}
             onClick={() => navigate("/")}

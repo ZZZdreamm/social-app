@@ -12,7 +12,7 @@ import { profileDTO } from "../../../../../../services/Models/profiles.models";
 
 interface MessagerBoxProps {
   friends: profileDTO[] | undefined;
-  toggleModal: (modalName: string) => void;
+  toggleModal: () => void;
 }
 
 export default function MessagerBox({
@@ -26,7 +26,7 @@ export default function MessagerBox({
   const { openedChats, updateOpenedChats } = useContext(OpenedChatsContext);
 
   function addNewChat(profile: profileDTO) {
-    toggleModal("messager");
+    toggleModal();
 
     if (openedChats?.find((x) => x.Id === profile.Id)) return;
     //@ts-ignore
@@ -63,7 +63,7 @@ export default function MessagerBox({
         <div className="messagerBox__footer__title">
           <h4
             onClick={() => {
-              toggleModal("messager");
+              toggleModal();
               navigate(`/messaging-only/${myID}`);
             }}
           >

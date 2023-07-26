@@ -17,6 +17,7 @@
         padding: 0.3rem 0.3rem;
         transition: background-color 0.3s;
         word-break: break-all;
+        text-align: left;
 
         img {
           @include circle(80%, height);

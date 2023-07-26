@@ -7,7 +7,7 @@ interface DivInputProps extends React.HTMLAttributes<HTMLTextAreaElement> {
   setText: (text: string) => void;
 }
 
-const Textarea = forwardRef(({ text, setText, ...props }: DivInputProps, ref) => {
+const Textarea = forwardRef(({ text, setText, className, ...props }: DivInputProps, ref) => {
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
   const realRef = ref || textAreaRef;
 
@@ -19,7 +19,7 @@ const Textarea = forwardRef(({ text, setText, ...props }: DivInputProps, ref) =>
     //@ts-ignore
       ref={realRef}
       value={text}
-      className="divInput"
+      className={`divInput ${className}`}
       onInput={(e: any) => {
         setText(e.target.value);
       }}

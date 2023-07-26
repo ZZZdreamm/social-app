@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useRef, useState } from "react";
 import styles from "../../style.module.scss";
 import "./style.scss";
 import AuthenticationContext from "../../../../../services/Contexts/AuthenticationContext";
@@ -7,19 +7,27 @@ import { ReadyImagesURL } from "../../../../../globals/appUrls";
 import { logout } from "../../../../../globals/Auth/HandleJWT";
 import { useNavigate } from "react-router-dom";
 import { MenuChildProps } from "..";
-
-
+import useClickedNotOnElement from "../../../../../_utils/2Hooks/useClickedNotOnElement";
 
 export default function ProfileIcon({
-  visibleModal,
-  toggleModal,
+
 }: MenuChildProps) {
   const navigate = useNavigate();
   const { update } = useContext(AuthenticationContext);
   const { myProfile } = useContext(ProfileContext);
+  const iconRef = useRef(null);
+  const [visibleModal, setVisibleModal] = useState(false);
+
+  function toggleModal(open:boolean) {
+    setVisibleModal(open);
+  }
+
+  useClickedNotOnElement(iconRef, () => {
+    toggleModal(false);
+  });
 
   const profileOptionsVisible =
-    visibleModal === "profileOptions" ? styles.block : styles.hidden;
+    visibleModal == true ? styles.block : styles.hidden;
 
   const profileOptionsStyle =
     profileOptionsVisible + " " + styles.profileOptions;
@@ -31,10 +39,10 @@ export default function ProfileIcon({
 
   return (
     <>
-      <div className={styles.profileIcon}>
+      <div id="profileIcon" ref={iconRef} className={styles.profileIcon}>
         <div
           className={styles.smallProfileImage}
-          onClick={() => toggleModal("profileOptions")}
+          onClick={() => toggleModal(!visibleModal)}
           style={{ backgroundImage: `url(${myProfile.ProfileImage})` }}
         >
           <img
@@ -48,7 +56,7 @@ export default function ProfileIcon({
         <div
           className={styles.profile}
           onClick={() => {
-            toggleModal("");
+            toggleModal(!visibleModal);
             navigate(`/user-profile/${myProfile.Id}`);
           }}
         >
@@ -61,7 +69,7 @@ export default function ProfileIcon({
         {profileOptions &&
           profileOptions.map((option) => {
             return (
-              <h4 key={option.name} onClick={() => toggleModal("")}>
+              <h4 key={option.name} onClick={() => toggleModal(!visibleModal)}>
                 <img src={`${ReadyImagesURL}/${option.image}`} alt="" />
                 {option.name}
               </h4>

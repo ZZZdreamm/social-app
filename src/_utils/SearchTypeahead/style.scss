@@ -1,11 +1,14 @@
 .typeaheadContainer {
+  // display: flex;
+  // flex-direction: column;
   display: flex;
-  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   gap: 0.1rem;
   position: relative;
   input {
     width: calc(100% - 0.8rem);
-    font-size: 1.5rem;
+    font-size: 1.2rem;
     border-radius: 1rem;
     padding: 0.4rem;
     border: none;
@@ -14,16 +17,13 @@
     color: var(--textColor1);
     transition: background-color 0.3s;
     position: relative;
-    height: 2rem;
-    top:50%;
-    transform: translateY(-50%);
     &:hover {
       background: var(--hoverColor);
     }
   }
   .typeahead-options {
     position: absolute;
-    top:calc(50% + 1rem);
+    top:calc(50% + 0.8rem);
     margin-top: 0.3rem;
     background-color: var(--navColor);
     display: flex;
@@ -34,7 +34,7 @@
     width: 100%;
     overflow-y: auto;
     overflow-x: hidden;
-    min-height: 20rem;
-    max-height: 60vh;
+    // min-height: 20rem;
+    // max-height: 60vh;
   }
 }
