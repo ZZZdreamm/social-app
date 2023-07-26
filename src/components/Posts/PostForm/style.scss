@@ -1,20 +1,17 @@
 
 .post-form {
   width: calc(100% - 2rem);
-  // height: 15vh;
   height: 8vh;
   display: grid;
-  // grid-template-rows: 50% 50%;
   grid-template-rows: 100%;
   padding: 1rem;
   &-up {
-    padding: 0.3rem;
+    padding: 0 0.5rem;
     display: flex;
     width: calc(100% - 0.6rem);
-    // border-bottom: 1px solid #bbb;
     background-color: var(--navColor);
     border-radius: 1rem;
-
+    box-sizing: border-box;
     align-items: center;
     gap: 1rem;
     img {
@@ -23,7 +20,9 @@
       border-radius: 50%;
     }
     &-placeholder {
-      display: block;
+      display: flex;
+      justify-content: left;
+      align-items: center;
       flex-grow: 2;
       background-color:  var(--backColor);
       border-radius: 1rem;
@@ -32,6 +31,9 @@
       padding: 0.6rem;
       color: #555;
       cursor: pointer;
+      box-sizing: border-box;
+      margin: 1rem 0rem;
+      height: 80%;
       &:hover {
         background-color: var(--hoverColor);
       }

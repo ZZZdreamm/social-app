@@ -22,6 +22,7 @@ import { openCallWindow } from "../../WebRTC/CallFunctions";
 import ListOfMessages from "../ListOfMessages";
 import RecordMessager from "../RecordMessager";
 import useIsInViewport from "../../../_utils/2Hooks/IsInViewPort";
+import { useNavigate } from "react-router-dom";
 
 interface ChatWithFriendProps {
   friend: profileDTO;
@@ -77,6 +78,7 @@ const ChatHeader = ({
   chatInMessager,
   smallChatClose,
 }: ChatHeaderProps) => {
+  const navigate = useNavigate();
   const { myProfile } = useContext(ProfileContext);
   const { openedChats, updateOpenedChats } = useContext(OpenedChatsContext);
   const image = friend.ProfileImage || `${ReadyImagesURL}/noProfile.jpg`;
@@ -94,12 +96,20 @@ const ChatHeader = ({
     });
     openCallWindow(myProfile, friend, roomId, "caller");
   }
+  const goToProfile = () => {
+    navigate(`/user-profile/${friend.Id}`);
+  };
   return (
     <div id={`chat-header/${friend.Id}`} className="chat-header">
       {<>{smallChatClose}</>}
       <span className="chat-header-userProfile">
-        <img className="chat-header-userProfile-image" src={image} alt="" />
-        {friend.Email}
+        <img
+          onClick={goToProfile}
+          className="chat-header-userProfile-image"
+          src={image}
+          alt=""
+        />
+        <span className="chat-header-userProfile-name">{friend.Email}</span>
       </span>
       <img
         className="chat-header-call"

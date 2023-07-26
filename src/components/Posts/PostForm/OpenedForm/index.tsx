@@ -75,6 +75,7 @@ export default function OpenedPostForm({
   const disableSubmit = !text && filesArray.length <= 0 ? true : false;
   const onFormSubmit = async () => {
     const post: postCreationDTO = {
+      AutorId: myProfile.Id,
       AutorName: myProfile.Email,
       TextContent: text,
       MediaFiles: [],
