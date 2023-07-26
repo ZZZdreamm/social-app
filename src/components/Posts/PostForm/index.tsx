@@ -2,6 +2,8 @@ import { useContext, useState } from "react";
 import ProfileContext from "../../../services/Contexts/ProfileContext";
 import OpenedPostForm from "./OpenedForm";
 import "./style.scss";
+import { postDataToServer } from "../../../services/Firebase/FirebaseFunctions";
+import { addItemToState } from "../../../_utils/1Functions/StateModifications";
 
 export interface PostFormChildProps {
   toggleModal: () => void;
@@ -31,14 +33,23 @@ export default function PostForm({ setPosts }: PostFormProps) {
     setIsOpen(!isOpen);
   }
 
+  function onSubmit(post: postCreationDTO) {
+    postDataToServer(post, "post-post").then((newPost: postDTO) => {
+      addItemToState(newPost, setPosts);
+    });
+  }
+
   return (
     <div className="post-form ">
       <UpperPart toggleModal={toggleModal} />
       <BottomPart toggleModal={toggleModal} />
       <OpenedPostForm
+        key="post"
         setPosts={setPosts}
         isOpen={isOpen}
         toggleModal={toggleModal}
+        onSubmit={onSubmit}
+        headerTitle="Create Post"
       />
     </div>
   );

@@ -76,13 +76,13 @@
 
 @media only screen and (min-width: 4000px) {
   html {
-    font-size: 56px;
+    font-size: 48px;
   }
 }
 
 @media only screen and (min-width: 2400px) and (max-width: 4000px) {
   html {
-    font-size: 32px;
+    font-size: 26px;
   }
 }
 
@@ -93,14 +93,10 @@
 }
 @media only screen and (min-width: 700px) and (max-width: 1100px) {
   html {
-    font-size: 12px;
+    font-size: 10px;
   }
 }
-@media only screen and (min-width: 550px) and (max-width: 1100px) {
-  html {
-    font-size: 11px;
-  }
-}
+
 @media only screen and (min-width: 400px) and (max-width: 700px) {
   html {
     font-size: 10px;

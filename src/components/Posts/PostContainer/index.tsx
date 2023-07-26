@@ -1,5 +1,9 @@
-import "./style.scss";
-import { SetStateAction, useContext, useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { addItemToState } from "../../../_utils/1Functions/StateModifications";
+import useDebounce from "../../../_utils/2Hooks/useDebounce";
+import ScrollingMediaFiles from "../../../_utils/ScrollingMediaFiles";
+import Textarea from "../../../_utils/Textarea";
 import { ReadyImagesURL } from "../../../globals/appUrls";
 import ProfileContext from "../../../services/Contexts/ProfileContext";
 import {
@@ -8,13 +12,10 @@ import {
   putDataToServer,
 } from "../../../services/Firebase/FirebaseFunctions";
 import ListOfComments from "../../Comments/ListOfComments";
-import { addItemToState } from "../../../_utils/1Functions/StateModifications";
-import ScrollingMediaFiles from "../../../_utils/ScrollingMediaFiles";
-import useDebounce from "../../../_utils/2Hooks/useDebounce";
-import { useNavigate } from "react-router-dom";
-import DivInput from "../../../_utils/Textarea";
-import Textarea from "../../../_utils/Textarea";
-import SpeechBubble from "../../../_utils/SpeechBubble";
+import "./style.scss";
+import OpenedPostForm from "../PostForm/OpenedForm";
+import { getStringBetweenPercentSigns } from "../../../_utils/1Functions/StringManipulations";
+import { set } from "cypress/types/lodash";
 
 interface PostContainerProps {
   post: postDTO;
@@ -86,6 +87,7 @@ const PostProfile = ({ post, setPosts }: PostProfileProps) => {
           {post.AutorName}
         </span>
         <span className="medium-font">
+          Last edit: {" "}
           {new Date(post.Date).toLocaleDateString()}
           {", "}
           {new Date(post.Date).toLocaleTimeString()}
@@ -128,9 +130,32 @@ const PostProfileOptions = ({ post, setPosts }: PostProfileProps) => {
       alert("Something went wrong, try again later");
     }
   }
-  async function openEditPostForm() {
-    setEditOpen(true);
+  async function toggleEditPostForm() {
+    setEditOpen(!editOpen);
   }
+
+  function submitEditionOfPost(post: postDTO) {
+    console.log(post);
+    postDataToServer(post, "edit-post").then((response) => {
+      //@ts-ignore
+      setPosts((posts: postDTO[]) =>
+        posts.map((p) => {
+          console.log(p.Id, response.post.Id);
+          if (p.Id === response.post.Id) {
+            console.log(response.post);
+            return response.post;
+          }
+          return p;
+        })
+      );
+    });
+  }
+
+  const postFilesArray: [File, string][] | undefined = post.MediaFiles?.map(
+    (url) => {
+      return [new File([], getStringBetweenPercentSigns(url)), url];
+    }
+  );
   return (
     <div
       id={`post-profile-options/${post.Id}`}
@@ -153,7 +178,7 @@ const PostProfileOptions = ({ post, setPosts }: PostProfileProps) => {
               </div>
               <div
                 className="post-profile-options__list__child"
-                onClick={openEditPostForm}
+                onClick={toggleEditPostForm}
               >
                 Edit
               </div>
@@ -166,6 +191,25 @@ const PostProfileOptions = ({ post, setPosts }: PostProfileProps) => {
           )}
         </div>
       )}
+      {editOpen && (
+        <OpenedPostForm
+          key="edit"
+          setPosts={setPosts}
+          isOpen={editOpen}
+          toggleModal={toggleEditPostForm}
+          onSubmit={submitEditionOfPost}
+          currentPost={{
+            filesArray: postFilesArray,
+            text: post.TextContent,
+            postId: post.Id,
+            amountOfLikes: post.AmountOfLikes,
+            amountOfComments: post.AmountOfComments,
+            AutorProfileImage: post.AutorProfileImage,
+            AutorName: post.AutorName,
+          }}
+          headerTitle="Edit Post"
+        />
+      )}
     </div>
   );
 };
@@ -177,8 +221,8 @@ const PostContent = ({ post }: PostContentProps) => {
   const [partOfTextContent, setPartOfTextContent] = useState<string>("");
 
   useEffect(() => {
-    if (post.TextContent.length > 100) {
-      setPartOfTextContent(post.TextContent.slice(0, 50));
+    if (post.TextContent?.length > 100) {
+      setPartOfTextContent(post.TextContent?.slice(0, 50));
       setTextOverflown(true);
     }
   }, []);
