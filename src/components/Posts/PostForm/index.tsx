@@ -15,7 +15,7 @@ const UpperPart = ({ toggleModal }: PostFormChildProps) => {
   return (
     <span className="post-form-up shadow-around">
       <img src={myProfile.ProfileImage} alt="" />
-      <div className="post-form-up-placeholder" onClick={toggleModal}>
+      <div className="post-form-up-placeholder large-font" onClick={toggleModal}>
         What do you want to post?
       </div>
     </span>

@@ -12,9 +12,10 @@
   }
   &-info {
     padding: 1rem;
-    display: flex;
+    display: grid;
+    grid-template-rows: 1fr 20%;
     width: calc(100% - 2rem);
-    height: 10vh;
+    height: calc(10vh + 2rem);
     background-color: var(--testColor3);
     font-weight: bold;
     font-size: 1rem;
@@ -27,7 +28,7 @@
   }
   &-remove {
     width: 80%;
-    align-self: center;
+    place-self: center;
     z-index: 10;
     border: none;
   }
