@@ -74,7 +74,15 @@ export default function OpenedPostForm({
   toggleModal,
   onSubmit,
   headerTitle,
-  currentPost = { text: "", filesArray: [], postId: "", amountOfLikes: 0, amountOfComments: 0, AutorProfileImage: "", AutorName: "" },
+  currentPost = {
+    text: "",
+    filesArray: [],
+    postId: "",
+    amountOfLikes: 0,
+    amountOfComments: 0,
+    AutorProfileImage: "",
+    AutorName: "",
+  },
 }: PostFormProps) {
   const { myProfile } = useContext(ProfileContext);
 
@@ -158,7 +166,9 @@ export default function OpenedPostForm({
               onInput={(e: any) => {
                 setText(e.target.innerHTML);
               }}
-            >{currentPost.text}</div>
+            >
+              {currentPost.text}
+            </div>
 
             <ImagesList
               filesArray={filesArray}

@@ -1,5 +1,5 @@
 import { useContext, useEffect, useRef, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import uuid4 from "uuid4";
 
 import PostsList from "../../components/Posts/PostsList";
@@ -21,12 +21,30 @@ import Waiting from "../../_utils/Waiting/indexxx";
 import TopModal from "../../_utils/ModalAtTop/ModalAtTop";
 import FileInput from "../../_utils/FileInput/FileInput";
 import useIsInViewport from "../../_utils/2Hooks/IsInViewPort";
+import FriendInProfile from "../../components/Users/FriendInProfile";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import useWindowSizeChanged from "../../_utils/2Hooks/useWindowSizeChanged";
+import ProfileFriendInPosts from "./ProfileFriendInPosts";
 
+gsap.registerPlugin(ScrollTrigger);
 
 export default function UserProfile() {
   const { id } = useParams();
   const [userProfile, setUserProfile] = useState<profileDTO>();
   const [content, setContent] = useState("posts");
+
+  const [friends, setFriends] = useState<profileDTO[]>([]);
+
+  useEffect(() => {
+    if (!userProfile) return;
+    const getData = async () => {
+      setFriends(
+        await postDataToServer({ userId: userProfile?.Id }, "get-friends")
+      );
+    };
+    getData();
+  }, [userProfile]);
 
   useEffect(() => {
     const getUserData = async () => {
@@ -40,8 +58,16 @@ export default function UserProfile() {
     <>
       {userProfile ? (
         <div className="profile">
-          <ProfileUp userProfile={userProfile} setContent={setContent} />
-          <ProfileDown content={content} userProfile={userProfile} />
+          <ProfileUp
+            userProfile={userProfile}
+            setContent={setContent}
+            userFriends={friends}
+          />
+          <ProfileDown
+            content={content}
+            userProfile={userProfile}
+            friends={friends}
+          />
         </div>
       ) : (
         <Waiting message={"Loading..."} />
@@ -56,9 +82,14 @@ interface ProfileProps {
 
 interface ProfileUpProps extends ProfileProps {
   setContent: React.Dispatch<React.SetStateAction<string>>;
+  userFriends: profileDTO[];
 }
 
-const ProfileUp = ({ userProfile, setContent }: ProfileUpProps) => {
+const ProfileUp = ({
+  userProfile,
+  setContent,
+  userFriends,
+}: ProfileUpProps) => {
   const { myProfile, updateProfile } = useContext(ProfileContext);
   const { myFriends, updateFriends } = useContext(ProfileFriendsContext);
   const { myFriendRequests, updateFriendRequests } = useContext(
@@ -157,7 +188,7 @@ const ProfileUp = ({ userProfile, setContent }: ProfileUpProps) => {
     updateSentFriendRequests(newFriends);
   }
   return (
-    <div className="profile-up">
+    <div id="profile-up" className="profile-up">
       <TopModal
         isOpen={isOpen}
         toggleModal={toggleModal}
@@ -189,13 +220,20 @@ const ProfileUp = ({ userProfile, setContent }: ProfileUpProps) => {
       <span className="profile-up-options">
         <span className="profile-up-options-up">
           <img src={choosenImage || `${ReadyImagesURL}/noProfile.jpg`} alt="" />
-          <h4>{userProfile.Email}</h4>
+          <div className="flex-column">
+            <span className="bolder large-font" style={{ textAlign: "left" }}>
+              {userProfile.Email}
+            </span>
+            <span className="medium-font left-align hover-underline">
+              {userFriends?.length} friends
+            </span>
+          </div>
         </span>
         <span className="profile-up-options-down">
           <button className="large-font" onClick={() => setContent("posts")}>
             Posts
           </button>
-          <button className="large-font" onClick={() => setContent("friends")}>
+          <button className="large-font" onClick={() => setContent(`friends`)}>
             Friends
           </button>
           {relationship == "stranger" && (
@@ -229,10 +267,10 @@ const ProfileUp = ({ userProfile, setContent }: ProfileUpProps) => {
 
 interface ProfileDownProps extends ProfileProps {
   content: string;
+  friends: profileDTO[];
 }
 
-const ProfileDown = ({ userProfile, content }: ProfileDownProps) => {
-  const [friends, setFriends] = useState<profileDTO[]>([]);
+const ProfileDown = ({ userProfile, content, friends }: ProfileDownProps) => {
   const [posts, setPosts] = useState<postDTO[]>([]);
   const [allPostsFetched, setAllPostsFetched] = useState(false);
   const numberOfPosts = 10;
@@ -242,9 +280,6 @@ const ProfileDown = ({ userProfile, content }: ProfileDownProps) => {
     if (!userProfile) return;
     const getData = async () => {
       getPosts(userProfile?.Email);
-      setFriends(
-        await postDataToServer({ userId: userProfile?.Id }, "get-friends")
-      );
     };
     getData();
   }, [userProfile]);
@@ -271,21 +306,67 @@ const ProfileDown = ({ userProfile, content }: ProfileDownProps) => {
     }
   }
 
+  const nineFriends = friends?.slice(0, 9);
+
+  // useEffect(() => {
+  //   if(!nineFriends) return;
+  //   const scrollTrigger = ScrollTrigger.create({
+  //     trigger: "#profile-posts",
+  //     start: "top top",
+  //     endTrigger: "#profile-posts",
+  //     end: "bottom bottom",
+  //     pin: "#profile-friends",
+  //     pinSpacing: false,
+  //     markers: true
+  //   });
+
+  // }, [nineFriends]);
+  const windowSize = useWindowSizeChanged(() => {});
+
   return (
     <div className="profile-down">
       {content == "posts" && (
-        <>
-          <h2>Posts</h2>
-          <PostsList posts={posts} setPosts={setPosts}/>
-          <span ref={endOfPostsRef}></span>
-          {allPostsFetched && <h2>You have reached end of internet.</h2>}
-        </>
+        <div id="profile-posts" className="profile-down-posts">
+          {nineFriends && windowSize.width > 700 && (
+            <section
+              id="profile-friends"
+              className="profile-down-posts-container padding-1"
+            >
+              <div className="padding-1 flex-column">
+                <span className="bolder large-font">Friends</span>
+                <span className="medium-font hover-underline">
+                  {friends?.length} friends
+                </span>
+              </div>
+              <div className="profile-down-posts-container-friends">
+                {nineFriends?.map((friend) => (
+                  <div style={{ width: "30%" }}>
+                    <FriendInProfile friend={friend} />
+                  </div>
+                ))}
+              </div>
+            </section>
+          )}
+          <section className="flex-column gap-1">
+            <div className="profile-down-posts-header">Posts</div>
+            <PostsList posts={posts} setPosts={setPosts} />
+            <span ref={endOfPostsRef}></span>
+            {allPostsFetched && <h2>There is no posts.</h2>}
+          </section>
+        </div>
       )}
       {content == "friends" && (
-        <>
-          <h2>Friends</h2>
-          <ListOfFriendsInProfile friends={friends} />
-        </>
+        <section className="profile-down-friends">
+          <article>
+            <h2>Friends</h2>
+            <div className="profile-down-friends-container">
+              {friends?.map((friend) => (
+                <ProfileFriendInPosts friend={friend} />
+              ))}
+              {friends?.length == 0 && <h3>User doesn't have friends.</h3>}
+            </div>
+          </article>
+        </section>
       )}
     </div>
   );

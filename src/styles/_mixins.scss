@@ -1,3 +1,35 @@
+@import "./breakPoints";
+
+@mixin phone() {
+  @media (max-width: $phoneSize) {
+    @content;
+  }
+}
+
+@mixin tablet() {
+  @media (max-width: $tabletSize) {
+    @content;
+  }
+}
+
+@mixin desktop() {
+  @media (max-width: $desktopSize) {
+    @content;
+  }
+}
+
+@mixin largeDesktop() {
+  @media (max-width: $largeDesktopSize) {
+    @content;
+  }
+}
+
+@mixin extraLargeDesktop() {
+  @media (max-width: $extraLargeDesktopSize) {
+    @content;
+  }
+}
+
 @mixin circle($size, $direction: height) {
   @if $direction == height {
     height: $size;

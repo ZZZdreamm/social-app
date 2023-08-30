@@ -42,7 +42,7 @@ export const colors = {
     typicalShadow: "rgba(255, 255, 255, 0.5)",
     shadowInset: "rgba(255, 255, 255, 0.5)",
     hoverColor: "rgb(71, 72, 72)",
-    borderColor: "#fff",
+    borderColor: "#999",
     lightBlue: "rgba(0, 132, 255, 1)",
     iconsBackColor: "#f0f0f0",
     scrollColor: "#e4e6e9",

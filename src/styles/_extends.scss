@@ -340,3 +340,37 @@ body {
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+
+.flex-column{
+  display: flex;
+  flex-direction: column;
+}
+
+.left-align{
+  text-align: left;
+}
+
+.hover-underline{
+  cursor: pointer;
+  &:hover{
+    text-decoration: underline;
+  }
+}
+
+.padding-1{
+  padding: 1rem;
+}
+
+.vertical-padding-1{
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+}
+
+.horizontal-padding-1{
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+.gap-1{
+  gap: 1rem;
+}

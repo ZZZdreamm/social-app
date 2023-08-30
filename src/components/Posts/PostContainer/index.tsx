@@ -142,7 +142,6 @@ const PostProfileOptions = ({ post, setPosts }: PostProfileProps) => {
         posts.map((p) => {
           console.log(p.Id, response.post.Id);
           if (p.Id === response.post.Id) {
-            console.log(response.post);
             return response.post;
           }
           return p;

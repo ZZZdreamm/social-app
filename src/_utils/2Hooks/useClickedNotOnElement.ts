@@ -2,13 +2,17 @@ import { useEffect } from "react";
 
 const useClickedNotOnElement = (ref: any, callback: any) => {
   const handleClick = (e: any) => {
-    const clickedElement = e.target;
-    const targetElement = ref.current;
-    if (
-      (clickedElement === targetElement ||
-        targetElement.contains(clickedElement)) == false
-    ) {
-      callback();
+    try {
+      const clickedElement = e.target;
+      const targetElement = ref.current;
+      if (
+        (clickedElement === targetElement ||
+          targetElement.contains(clickedElement)) == false
+      ) {
+        callback();
+      }
+    } catch (e) {
+      console.log(e);
     }
   };
 

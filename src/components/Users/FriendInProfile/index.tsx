@@ -14,8 +14,8 @@ export default function FriendInProfile({ friend }: FriendProps) {
     >
       <img src={image} alt="" />
       <span
-        className="large-font"
-        style={{ wordBreak: "break-all", padding: "0.5rem" }}
+        className="small-font bold hover-underline"
+        style={{ wordBreak: "break-all", padding: "0.2rem" }}
       >
         {friend.Email}
       </span>

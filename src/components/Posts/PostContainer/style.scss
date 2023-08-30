@@ -2,6 +2,8 @@
   background-color: var(--navColor);
   border-radius: 1rem;
   width: 100%;
+  box-sizing: border-box;
+  padding: 0 1rem;
   &-profile {
     width: inherit;
     height: 8rem;

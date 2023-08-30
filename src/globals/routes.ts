@@ -12,6 +12,7 @@ const routes = [
     {path:'/login', component:Login},
     {path:'/register', component:Register},
     {path:'/user-profile/:id', component:UserProfile},
+    {path:'/user-profile/:id/user-friends', component:UserFriends},
     {path:'/user-friends/:id', component:UserFriends},
     {path:'/user-friend-requests/:id', component:UserFriendRequests},
     {path:'/user-sent-friend-requests/:id', component:UserSentFriendRequests},

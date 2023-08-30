@@ -1,14 +1,14 @@
 
 .post-form {
-  width: calc(100% - 2rem);
+  width: calc(100%);
   height: 8vh;
   display: grid;
   grid-template-rows: 100%;
-  padding: 1rem;
+  padding: 1rem 0;
   &-up {
     padding: 0 0.5rem;
     display: flex;
-    width: calc(100% - 0.6rem);
+    width: 100%;
     background-color: var(--navColor);
     border-radius: 1rem;
     box-sizing: border-box;
