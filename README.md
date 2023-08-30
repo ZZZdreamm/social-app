@@ -31,9 +31,8 @@ TODO:
 
 
 
-EXAMPLE ACCOUNT TO TEST APP:
-- e-mail: example@gmail.com
-- password: Example1@
-SECOND ACCOUNT FOR TESTING MESSAGING:
+SECOND ACCOUNT TO TEST MESSAGING:
 - e-mail: maria@gmail.com
 - password: Example2@
+
+
