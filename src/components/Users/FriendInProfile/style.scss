@@ -1,0 +1,25 @@
+
+.friend-profile {
+  width: 100%;
+  box-sizing: border-box;
+  aspect-ratio: 0.7;
+  padding: 1rem;
+  // background-color: var(--testColor3);
+  border-radius: 1rem;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  img {
+    width: 100%;
+    aspect-ratio: 1;
+    &:hover{
+      opacity: 0.9;
+    }
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .friend-profile {
+    width: 43%;
+  }
+}

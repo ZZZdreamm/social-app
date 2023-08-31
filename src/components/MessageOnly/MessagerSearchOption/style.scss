@@ -1,0 +1,26 @@
+.data-option {
+  min-height: 3rem;
+  width: 92%;
+  margin: 0 auto;
+  padding: 0.5rem;
+  border-radius: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  &:hover {
+    background-color:var(--hoverColor);
+  }
+
+  &-part {
+    display: flex;
+    word-break: break-all;
+    margin: 0 0.2rem;
+  }
+  .image {
+    display: block;
+    height: 2.5rem;
+    aspect-ratio: 1;
+  }
+}

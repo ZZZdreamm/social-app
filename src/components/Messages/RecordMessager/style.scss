@@ -1,0 +1,15 @@
+
+.recordMessager {
+    height: 3rem;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    cursor: pointer;
+    padding: 0.2rem;
+    img {
+      height: 100%;
+      aspect-ratio: 1;
+    }
+    &:hover {
+      background-color: var(--testColor2);
+    }
+  }

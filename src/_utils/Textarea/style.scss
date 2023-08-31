@@ -1,0 +1,17 @@
+.divInput {
+  cursor: text;
+  width: 100%;
+  font-size: 2rem;
+  padding: 0.5rem;
+  border-radius: 1rem;
+  min-height: 3rem;
+  resize: none;
+  text-align: left;
+  background: var(--backColor);
+  color: var(--textColor1);
+  box-sizing: border-box;
+  outline: none;
+  overflow: hidden;
+  border: 0;
+  display: inline-block;
+}

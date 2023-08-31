@@ -1,0 +1,100 @@
+.message {
+  position: relative;
+  width: fit-content;
+  max-width: 100%;
+  // width: 300%;
+  display: flex;
+  text-align: left;
+  word-break: break-all;
+  gap: 0.5rem;
+  padding: 0 0.2rem;
+  z-index: 16;
+  align-items: center;
+  overflow-x: visible;
+  &-responseTo{
+    box-sizing: border-box;
+    position: relative;
+    width: 100%;
+    padding: 0.5rem;
+    margin-bottom: 0.5rem;
+    border-radius: 1rem;
+    background-color: var(--lightGrey);
+    max-height: 15rem;
+    overflow: hidden;
+    cursor: pointer;
+    &-content{
+      word-break:break-all;
+
+      &__autor{
+        color: #2f2f2f;
+        margin-bottom: 0.5rem;
+        word-break: normal;
+      }
+      &__text{
+        color: var(--textGrey);
+      }
+      &__media{
+        display: grid;
+        flex-direction: row;
+        flex-wrap: wrap;
+        min-width: 10rem;
+        max-width: 15rem;
+        img {
+          width: 100%;
+          aspect-ratio: 1;
+          cursor: pointer;
+
+        }
+      }
+    }
+  }
+
+  &-content {
+    position: relative;
+    border-radius: 1rem;
+    padding: 0.2rem 0.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    max-width: 75%;
+    &-media {
+      display: grid;
+      flex-direction: row;
+      flex-wrap: wrap;
+      min-width: 10rem;
+      max-width: 15rem;
+      img {
+        width: 100%;
+        aspect-ratio: 1;
+        cursor: pointer;
+
+      }
+    }
+  }
+}
+
+.message-content-audio {
+  width: 100%;
+  min-width: 10rem;
+  padding: 0.5rem 0;
+}
+@media screen and (max-width: 600px) {
+  .message-content-audio {
+    min-width: 20rem;
+  }
+}
+@media screen and (min-width: 600px) and (max-width: 1000px) {
+  .message-content-audio {
+    min-width: 12rem;
+  }
+}
+
+@media (min-width: 320px) and (max-width: 480px) {
+  .whole-page {
+    .messager-chat {
+      .message-content {
+        font-size: 2rem;
+      }
+    }
+  }
+}

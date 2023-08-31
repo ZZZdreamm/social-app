@@ -1,0 +1,7 @@
+.listOfFriendRequests {
+  display: flex;
+  width: calc(100% - 2rem);
+  padding: 1rem;
+  gap: 2rem;
+  flex-direction: column;
+}

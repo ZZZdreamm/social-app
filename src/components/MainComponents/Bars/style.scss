@@ -1,0 +1,34 @@
+@import '../../../styles/mixins.scss';
+.bar {
+    position: fixed;
+    height: 100%;
+    top: 6vh;
+
+    ul {
+      padding: 0 0.5rem;
+      li {
+        height: 3rem;
+        width: 90%;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        cursor: pointer;
+        border-radius: 1rem;
+        padding: 0.3rem 0.3rem;
+        transition: background-color 0.3s;
+        // word-break: break-all;
+        text-align: left;
+
+        img {
+          @include circle(2.4rem, height);
+        }
+        span {
+          // font-size: 1rem;
+          font-weight: bold;
+        }
+        &:hover {
+          background-color: var(--hoverColor);
+        }
+      }
+    }
+  }

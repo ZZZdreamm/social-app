@@ -1,0 +1,28 @@
+.bar-left {
+  left: 0;
+  li {
+    position: relative;
+    .bar-left__active {
+      position: absolute;
+      left: -0.2rem;
+      background-color: var(--blueColor);
+      padding: 10% 0;
+      box-sizing: border-box;
+      width: 0.3rem;
+      border-radius: 1rem;
+      animation: show 0.2s linear forwards;
+    }
+    img{
+      background-color: var(--iconsBackColor);
+    }
+  }
+}
+
+@keyframes show {
+  0% {
+    height: 0;
+  }
+  100% {
+    height: 80%;
+  }
+}

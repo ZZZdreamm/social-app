@@ -1,30 +1,30 @@
 import { ReactElement, useEffect, useState } from "react";
-import "./App.scss";
-import Modal, { ModalProvider } from "styled-react-modal";
-import AuthenticationContext from "./ZZZ_USEFUL COMPONENTS/auth/AuthenticationContext";
-import { claim } from "./ZZZ_USEFUL COMPONENTS/auth/auth.models";
-import { getClaims } from "./ZZZ_USEFUL COMPONENTS/auth/HandleJWT";
-import OfflineWebsite from "./ZZZ_USEFUL COMPONENTS/Utilities/OfflineWebsite";
 import { Route, Routes } from "react-router-dom";
-import GuardedRoute from "./ZZZ_USEFUL COMPONENTS/Utilities/GuardedRoute";
-import routes, { guardedRoutes } from "./routes";
-import Menu from "./MainComponents/Menu";
-import { getProfile } from "./ZZZ_USEFUL COMPONENTS/Profile/HandleProfile";
-import { profileDTO } from "./ZZZ_USEFUL COMPONENTS/Profile/profiles.models";
+import { io } from "socket.io-client";
+import { ModalProvider } from "styled-react-modal";
+import GuardedRoute from "./_utils/GuardedRoute/GuardedRoute";
+import OfflineWebsite from "./_utils/OfflineWebsite/OfflineWebsite";
+import LeftBar from "./components/MainComponents/Bars/LeftBar";
+import Menu from "./components/MainComponents/Menu";
+import OpenedChats from "./components/Messages/OpenedChats";
+import { openCallWindow } from "./components/WebRTC/CallFunctions";
+import CallModal from "./components/WebRTC/CallModal";
+import Authorized from "./globals/Auth/Authorized";
+import { getClaims } from "./globals/Auth/HandleJWT";
+import { getProfile } from "./globals/Profile/HandleProfile";
+import { socketURL } from "./globals/apiPaths";
+import routes, { guardedRoutes } from "./globals/routes";
+import AuthenticationContext from "./services/Contexts/AuthenticationContext";
 import ProfileContext, {
   FriendRequestsContext,
   OpenedChatsContext,
   ProfileFriendsContext,
   SentFriendRequestsContext,
-} from "./ZZZ_USEFUL COMPONENTS/Profile/ProfileContext";
-import LeftBar from "./MainComponents/LeftBar";
-import Authorized from "./ZZZ_USEFUL COMPONENTS/auth/Authorized";
-import { postDataToServer } from "./Firebase/FirebaseFunctions";
-import OpenedChats from "./Messages/OpenedChats";
-import { socketURL } from "./ZZZ_USEFUL COMPONENTS/apiPaths";
-import { io } from "socket.io-client";
-import CallModal from "./WebRTC/CallModal";
-import { openCallWindow } from "./WebRTC/CallFunctions";
+} from "./services/Contexts/ProfileContext";
+import { postDataToServer } from "./services/Firebase/FirebaseFunctions";
+import { claim } from "./services/Models/auth.models";
+import { profileDTO } from "./services/Models/profiles.models";
+import "./styles/styles.scss";
 
 export const socket = io(socketURL);
 
@@ -41,35 +41,43 @@ function App() {
   const [openedChats, setOpenedChats] = useState<profileDTO[]>([]);
   const [call, setCall] = useState<ReactElement>(<></>);
 
-  const [online, setOnline] = useState(true);
+  const [online, setOnline] = useState(false);
   const [gotClaims, setGotClaims] = useState(false);
+
 
   useEffect(() => {
     setProfile(getProfile());
     setClaims(getClaims());
-    setOnline(navigator.onLine);
   }, []);
 
   useEffect(() => {
     setProfile(getProfile());
     setClaims(getClaims());
     setGotClaims(true);
+    setOnline(navigator.onLine);
   }, [localStorage]);
 
   useEffect(() => {
     if (!profile) return;
     if (!profile.Id) return;
-    socket.on(`calling/${profile.Id}`, async (callerId) => {
-      const caller = await postDataToServer({ name: callerId }, "get-user");
-      console.log(caller)
+    socket.on(`calling/${profile.Id}`, async (data) => {
+      const caller = await postDataToServer({ name: data.userId }, "get-user");
       setCall(
         <CallModal
-          onSubmit={() => openCallWindow(profile, caller, "call-accept")}
+          onSubmit={() =>
+            openCallWindow(profile, caller, data.roomId, "receiver")
+          }
           friend={caller}
           setCall={setCall}
+          onClose={() => {
+            socket.emit("leave-call", { friendId: caller.Id });
+          }}
         />
       );
     });
+    if (myFriends) return;
+    if (myFriendRequests) return;
+    if (mySentRequests) return;
     getFriends();
     getFriendRequests();
     getSentFriendRequests();
@@ -130,6 +138,7 @@ function App() {
                   <div className="App">
                     {online ? (
                       <>
+                        <div className="navbar-placeholder"></div>
                         <Menu />
                         <Authorized isAuthorized={<LeftBar />} />
 

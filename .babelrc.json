@@ -1,0 +1,12 @@
+{
+  "presets": [
+    [
+      "next/babel",
+      {
+        "styled-jsx": {
+          "plugins": ["styled-jsx/babel", "@styled-jsx/plugin-sass"]
+        }
+      }
+    ]
+  ]
+}

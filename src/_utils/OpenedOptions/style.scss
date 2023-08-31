@@ -1,0 +1,58 @@
+.optionsToggle {
+  cursor: pointer;
+  width: 3rem;
+  height: 3rem;
+  background-size: cover;
+  position: absolute;
+  border-radius: 50%;
+  background-color: var(--backColor);
+  &:hover {
+    background-color: var(--hoverColor);
+  }
+}
+
+.openedOptions {
+  position: absolute;
+  right: 2rem;
+  top: 7.5rem;
+  width: 15rem;
+  box-sizing: border-box;
+  border-radius: 1rem 0 1rem 1rem;
+  background-color: var(--backColor);
+  padding: 0.5rem;
+  font-size: 1.6rem;
+  &::before {
+    position: absolute;
+    content: "";
+    right: 0rem;
+    top: -1.8rem;
+    height: 2rem;
+    width: 2rem;
+    clip-path: polygon(100% 0, 0% 100%, 100% 100%);
+    background-color: var(--backColor);
+  }
+  &::after {
+    right: 1rem;
+    clip-path: polygon(0 0, 75% 0, 0% 100%);
+  }
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  cursor: auto;
+  z-index: 4;
+  & > * {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    padding: 0.3rem 1rem;
+    font-size: 1.6rem;
+    box-sizing: border-box;
+    border-radius: 1rem;
+    cursor: pointer;
+    word-break: keep-all;
+    text-align: left;
+    &:hover {
+      background-color: var(--hoverColor);
+    }
+  }
+}
