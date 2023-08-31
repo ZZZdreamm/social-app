@@ -2,6 +2,7 @@ import "./style.scss";
 
 import { useEffect, useState } from "react";
 import { ReadyImagesURL } from "../../../globals/appUrls";
+import { ProfileImage } from "../../ProfileImage/ProfileImage";
 
 export default function Comment(comment: commentsDTO) {
   const [textOverflown, setTextOverflown] = useState(false);
@@ -22,11 +23,12 @@ export default function Comment(comment: commentsDTO) {
   return (
     <div className="comment">
       <div className="comment-profile">
-        <img className="comment-profile-image" src={autorImage} alt="profile" />
-        <span className="comment-profile-name">{comment.AutorName}</span>
+        {/* <img className="comment-profile-image" src={autorImage} alt="profile" /> */}
+        <ProfileImage imageURL={autorImage} />
+        <span className="comment-profile-name medium-font">{comment.AutorName}</span>
       </div>
 
-      <div className="comment-text">
+      <div className="comment-text medium-font">
         {textOverflown ? (
           <>
             {partOfTextContent}

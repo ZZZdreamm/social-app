@@ -1,3 +1,4 @@
+@import "../../../styles/mixins.scss";
 .post {
   background-color: var(--navColor);
   border-radius: 1rem;
@@ -6,42 +7,33 @@
   padding: 0 1rem;
   &-profile {
     width: inherit;
-    height: 8rem;
+    height: 4rem;
     display: flex;
     gap: 1rem;
     align-items: center;
     word-break: break-all;
     font-weight: bold;
     position: relative;
-    // img {
-    //   height: 60%;
-    //   aspect-ratio: 1;
-    //   padding: 0.5rem;
-    //   border-radius: 50%;
-    //   cursor: pointer;
-    // }
     span {
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
     }
     &-options {
+      @include circle(2.4rem);
       cursor: pointer;
-      width: 3rem;
-      height: 3rem;
       background-size: cover;
       position: absolute;
-      right: 1.5rem;
-      top: 1.5rem;
-      border-radius: 50%;
+      right: 0;
+      top: 1rem;
       background-color: var(--backColor);
       &:hover {
         background-color: var(--hoverColor);
       }
       &__list {
         position: absolute;
-        right: 2rem;
-        top: 5rem;
+        right: 1.5rem;
+        top: 4.5rem;
         width: 15rem;
         box-sizing: border-box;
         border-radius: 1rem 0 1rem 1rem;
@@ -71,11 +63,10 @@
           width: 100%;
           display: flex;
           align-items: center;
-          padding: 0.3rem 1rem;
+          padding: 0.3rem 0.5rem;
           box-sizing: border-box;
           border-radius: 1rem;
           cursor: pointer;
-          word-break: keep-all;
           text-align: left;
           &:hover {
             background-color: var(--hoverColor);
@@ -89,26 +80,27 @@
     height: fit-content;
     display: flex;
     flex-direction: column;
+    margin: 1rem 0;
     &-text {
       display: flex;
       align-items: flex-start;
       word-break: break-all;
       flex-direction: column;
-      padding: 1rem;
+      padding: 1rem 0;
       text-align: left;
     }
     img {
       border-top: 1px solid #999;
       border-bottom: 1px solid #999;
-      // max-width: 100%;
       width: 100%;
       height: 100%;
     }
   }
   &-bottom {
-    width: calc(100% - 2rem);
-    height: 10rem;
-    padding: 0 1rem;
+    width: 100%;
+    // height: 10rem;
+    display: flex;
+    flex-direction: column;
     .option {
       display: flex;
       align-items: center;
@@ -134,6 +126,7 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
+      padding-bottom: 1rem;
     }
     &-down {
       width: 100%;
@@ -145,7 +138,7 @@
       button {
         max-width: 50%;
         border: none;
-        margin: 0.5rem;
+        margin: 0.5rem 0;
         &:hover {
           background-color: var(--testColor2);
         }
@@ -156,10 +149,10 @@
 
 .post-comments {
   border-top: 1px solid var(--borderColor);
-  width: calc(100% - 2rem);
-  padding: 1rem;
+  width: 100%;
   display: flex;
   flex-direction: column;
+  padding: 1rem 0;
 
   &-input {
     display: flex;
@@ -175,12 +168,12 @@
       justify-content: center;
       align-items: center;
       border-radius: 50%;
-      img {
-        width: 100%;
-        height: 100%;
-        aspect-ratio: 1;
-        border-radius: 50%;
-      }
+      // img {
+      //   width: 100%;
+      //   height: 100%;
+      //   aspect-ratio: 1;
+      //   border-radius: 50%;
+      // }
     }
     .commentText {
       width: 100%;
@@ -189,9 +182,9 @@
       flex-direction: column;
       justify-content: left;
       align-items: start;
-      gap: 1rem;
+      gap: 0.5rem;
       box-sizing: border-box;
-      padding: 0 0.5rem 0.5rem 0.5rem;
+      padding: 0.5rem;
       background: var(--backColor);
       border-radius: 1rem;
       &-submit {
@@ -199,7 +192,7 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        height: 3rem;
+        height: 2.4rem;
         button {
           border: none;
           height: 100%;
@@ -216,6 +209,8 @@
     }
   }
   &-more {
+    margin-top: 0.5rem;
+    padding-left: 0.5rem;
     color: #999;
     text-align: left;
     cursor: pointer;

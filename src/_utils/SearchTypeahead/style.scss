@@ -1,6 +1,4 @@
 .typeaheadContainer {
-  // display: flex;
-  // flex-direction: column;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -8,7 +6,6 @@
   position: relative;
   input {
     width: calc(100% - 0.8rem);
-    font-size: 1.2rem;
     border-radius: 1rem;
     padding: 0.4rem;
     border: none;

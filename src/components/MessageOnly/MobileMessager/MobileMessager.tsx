@@ -27,7 +27,7 @@ export default function MobileMessager({setChoosenFriend, choosenFriend}:MobileM
             onClick={() => navigate("/")}
             alt=""
           />
-          <h3>Chats</h3>
+          <h3 className="very-large-font">Chats</h3>
         </div>
         <div className="messager-mobile-options">
           <MessagerSearchTypeahead setChoosenFriend={setChoosenFriend} />

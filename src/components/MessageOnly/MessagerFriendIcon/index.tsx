@@ -2,6 +2,7 @@ import "./style.scss";
 import { profileDTO } from "../../../services/Models/profiles.models";
 
 import { ReadyImagesURL } from "../../../globals/appUrls";
+import { ProfileImage } from "../../ProfileImage/ProfileImage";
 
 interface MessagerFriendProps {
   profile: profileDTO;
@@ -20,7 +21,8 @@ export default function MessagerFriendIcon({
         setChoosenFriend(profile);
       }}
     >
-      <img className="messager-mobile-icon-image" src={image} alt="" />
+      {/* <img className="messager-mobile-icon-image" src={image} alt="" /> */}
+      <ProfileImage sizeInRem={4.5} imageURL={image} />
       <span className="messager-mobile-icon-name medium-font">
         {profile.Email}
       </span>

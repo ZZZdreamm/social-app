@@ -15,7 +15,6 @@ import ListOfComments from "../../Comments/ListOfComments";
 import "./style.scss";
 import OpenedPostForm from "../PostForm/OpenedForm";
 import { getStringBetweenPercentSigns } from "../../../_utils/1Functions/StringManipulations";
-import { set } from "cypress/types/lodash";
 import { ProfileImage } from "../../ProfileImage/ProfileImage";
 
 interface PostContainerProps {
@@ -80,12 +79,12 @@ const PostProfile = ({ post, setPosts }: PostProfileProps) => {
 
   return (
     <div className="post-profile">
-      <ProfileImage imageURL={post.AutorProfileImage} onClick={goToProfile}/>
+      <ProfileImage imageURL={post.AutorProfileImage} onClick={goToProfile} />
       <span className="flexColumnLeft" style={{ maxWidth: "60%" }}>
-        <span className="elipsis" style={{ maxWidth: "100%" }}>
+        <span className="medium-font elipsis" style={{ maxWidth: "100%" }}>
           {post.AutorName}
         </span>
-        <span className="medium-font">
+        <span className="small-font">
           Last edit: {new Date(post.Date).toLocaleDateString()}
           {", "}
           {new Date(post.Date).toLocaleTimeString()}
@@ -163,7 +162,7 @@ const PostProfileOptions = ({ post, setPosts }: PostProfileProps) => {
       {optionsOpen && (
         <div
           id={`post-profile-options__list/${post.Id}`}
-          className="post-profile-options__list shadow-around medium-font"
+          className="post-profile-options__list shadow-around"
         >
           {post.AutorId === myProfile.Id && (
             <>
@@ -230,7 +229,7 @@ const PostContent = ({ post }: PostContentProps) => {
   return (
     <div className="post-content">
       {post.TextContent && (
-        <span className="post-content-text">
+        <span className="post-content-text medium-font">
           {textOverflown ? (
             <>
               {partOfTextContent}
@@ -261,10 +260,10 @@ const PostBottomUpperPart = ({
     <div className="post-bottom-up">
       <div className="option">
         <img src={`${ReadyImagesURL}/like.png`} alt="" />
-        <span className="large-font">{amountOfLikes}</span>
+        <span>{amountOfLikes}</span>
       </div>
       <div className="option">
-        <span className="large-font">{amountOfComments} comments</span>
+        <span>{amountOfComments} comments</span>
       </div>
     </div>
   );
@@ -405,11 +404,7 @@ const Comments = ({
       {showComments && (
         <div className="post-comments">
           <div className="post-comments-input">
-            <img
-              className="post-comments-input__profile"
-              src={myProfile.ProfileImage}
-              alt=""
-            />
+            <ProfileImage sizeInRem={2.4} imageURL={myProfile.ProfileImage} />
             <div className="commentText">
               <Textarea
                 ref={inputRef}
@@ -439,7 +434,9 @@ const Comments = ({
               Show more...
             </span>
           ) : (
-            <span>There are no more comments</span>
+            <span style={{ marginTop: "0.5rem" }}>
+              There are no more comments
+            </span>
           )}
         </div>
       )}

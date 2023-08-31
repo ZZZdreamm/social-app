@@ -44,13 +44,7 @@
         padding: 0 5%;
         gap: 0.5rem;
         cursor: pointer;
-        img {
-          @include circle(80%);
-
-          box-sizing: border-box;
-        }
         span {
-          font-size: 1.2rem;
           text-overflow: ellipsis;
           overflow: hidden;
           white-space: nowrap;

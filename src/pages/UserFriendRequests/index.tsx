@@ -8,7 +8,7 @@ export default function UserFriendRequests() {
 
   return (
     <div className="friendRequests">
-      <h2>Your incoming requests</h2>
+      <h2 className="mv-1">Your incoming requests</h2>
       <FriendRequestsList friends={myFriendRequests} sent={false} />
     </div>
   );

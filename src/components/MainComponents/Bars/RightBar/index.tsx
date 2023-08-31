@@ -15,7 +15,7 @@ export default function RightBar() {
   return (
     <>
       <div className="bar bar-right">
-        <h5>Friends</h5>
+        <h5 className="large-font">Friends</h5>
         <ul>
           {myFriends &&
             myFriends.map((friend) => (

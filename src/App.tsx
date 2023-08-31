@@ -24,7 +24,7 @@ import ProfileContext, {
 import { postDataToServer } from "./services/Firebase/FirebaseFunctions";
 import { claim } from "./services/Models/auth.models";
 import { profileDTO } from "./services/Models/profiles.models";
-import "./styles/styles.scss";
+import "./styles/Styles.scss";
 
 export const socket = io(socketURL);
 

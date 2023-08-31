@@ -8,7 +8,7 @@ export default function UserFriends() {
 
   return (
     <div className="friends">
-      <h2>Your friends</h2>
+      <h2 className="mv-1">Your friends</h2>
       <span className="friends-container">
         <FriendsList friends={myFriends}/>
       </span>

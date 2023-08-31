@@ -28,8 +28,8 @@ export default function LeftBar() {
     setWindowSize(window.innerWidth);
   }, [window.innerWidth]);
 
-  const fullBar = location.pathname == "/" && windowSize > 600 ? true : false;
-  const smallPage = windowSize < 600 ? true : false;
+  const fullBar = location.pathname == "/" && windowSize > 700 ? true : false;
+  const smallPage = windowSize < 700 ? true : false;
   let barStyling;
   let elementsStyling;
   if (fullBar) {

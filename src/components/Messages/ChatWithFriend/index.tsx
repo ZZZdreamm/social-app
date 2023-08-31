@@ -23,6 +23,7 @@ import ListOfMessages from "../ListOfMessages";
 import RecordMessager from "../RecordMessager";
 import useIsInViewport from "../../../_utils/2Hooks/IsInViewPort";
 import { useNavigate } from "react-router-dom";
+import { ProfileImage } from "../../ProfileImage/ProfileImage";
 
 interface ChatWithFriendProps {
   friend: profileDTO;
@@ -103,12 +104,13 @@ const ChatHeader = ({
     <div id={`chat-header/${friend.Id}`} className="chat-header">
       {<>{smallChatClose}</>}
       <span className="chat-header-userProfile">
-        <img
+        {/* <img
           onClick={goToProfile}
           className="chat-header-userProfile-image"
           src={image}
           alt=""
-        />
+        /> */}
+        <ProfileImage imageURL={image} onClick={goToProfile} />
         <span className="chat-header-userProfile-name">{friend.Email}</span>
       </span>
       <img

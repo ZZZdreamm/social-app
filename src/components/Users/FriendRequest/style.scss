@@ -1,7 +1,6 @@
 
 .friend-request {
   width: 100%;
-  height: 10rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -11,7 +10,7 @@
   &-profile {
     height: 100%;
     display: flex;
-    gap: 0.5rem;
+    gap: 1rem;
     align-items: center;
     word-break: break-all;
     img {
@@ -28,7 +27,6 @@
     align-items: center;
     flex-direction: column;
     button {
-      font-size: 1.5rem;
       margin: 0.3rem;
     }
   }

@@ -333,7 +333,7 @@ const ProfileDown = ({ userProfile, content, friends }: ProfileDownProps) => {
               className="profile-down-posts-container padding-1"
             >
               <div className="padding-1 flex-column">
-                <span className="bolder large-font">Friends</span>
+                <span className="bold large-font">Friends</span>
                 <span className="medium-font hover-underline">
                   {friends?.length} friends
                 </span>
@@ -348,7 +348,7 @@ const ProfileDown = ({ userProfile, content, friends }: ProfileDownProps) => {
             </section>
           )}
           <section className="flex-column gap-1">
-            <div className="profile-down-posts-header">Posts</div>
+            <div className="profile-down-posts-header large-font bold">Posts</div>
             <PostsList posts={posts} setPosts={setPosts} />
             <span ref={endOfPostsRef}></span>
             {allPostsFetched && <h2>There is no posts.</h2>}

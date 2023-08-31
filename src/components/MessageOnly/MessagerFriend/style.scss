@@ -4,6 +4,7 @@
     height: 4rem;
     display: flex;
     align-items: center;
+    gap: 0.5rem;
     padding: 0 0.5rem;
     cursor: pointer;
     &:hover {
@@ -16,7 +17,6 @@
       margin-right: 0.5rem;
     }
     &-name {
-      font-size: 1.2rem;
       font-weight: 500;
     }
   }

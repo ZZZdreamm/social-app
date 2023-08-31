@@ -18,8 +18,8 @@ export default function MyModal({
   children,
   submitButtonText,
   onSubmit,
-  disableSubmit
-}:MyModalProps) {
+  disableSubmit,
+}: MyModalProps) {
   return (
     <StyledModal
       isOpen={isOpen}
@@ -27,10 +27,10 @@ export default function MyModal({
       onEscapeKeydown={toggleModal}
     >
       {children}
-      <div>
+      <div style={{display:'flex', gap: '0.5rem'}}>
         <button
-        data-testid="modalSubmit"
-        disabled={disableSubmit}
+          data-testid="modalSubmit"
+          disabled={disableSubmit}
           onClick={() => {
             toggleModal();
             onSubmit();
@@ -44,12 +44,11 @@ export default function MyModal({
   );
 }
 
-
-interface MyModalProps{
-  isOpen:any;
-  toggleModal:any;
-  children:any;
-  submitButtonText:string;
-  onSubmit:any;
-  disableSubmit?:boolean
+interface MyModalProps {
+  isOpen: any;
+  toggleModal: any;
+  children: any;
+  submitButtonText: string;
+  onSubmit: any;
+  disableSubmit?: boolean;
 }

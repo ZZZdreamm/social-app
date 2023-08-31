@@ -9,6 +9,7 @@ import { ReadyImagesURL } from "../../../../../../globals/appUrls";
 import { useNavigate } from "react-router-dom";
 import MessagerSearchTypeahead from "../../../../../MessageOnly/MessagerSearchTypeahead";
 import { profileDTO } from "../../../../../../services/Models/profiles.models";
+import { ProfileImage } from "../../../../../ProfileImage/ProfileImage";
 
 interface MessagerBoxProps {
   friends: profileDTO[] | undefined;
@@ -50,10 +51,11 @@ export default function MessagerBox({
               className="messagerBox__body__friends__friend"
               onClick={() => addNewChat(friend)}
             >
-              <img
+              {/* <img
                 src={friend.ProfileImage || `${ReadyImagesURL}/noProfile.jpg`}
                 alt=""
-              />
+              /> */}
+              <ProfileImage imageURL={friend.ProfileImage} />
               <span>{friend.Email}</span>
             </div>
           ))}

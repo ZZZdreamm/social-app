@@ -4,6 +4,7 @@ import { profileDTO } from "../../../services/Models/profiles.models";
 
 import { ReadyImagesURL } from "../../../globals/appUrls";
 import "./style.scss";
+import { ProfileImage } from "../../ProfileImage/ProfileImage";
 
 interface SearchOptionProps {
   profile: profileDTO;
@@ -28,12 +29,8 @@ export default function MessagerSearchOption({
             typeahead.value = "";
           }}
         >
-          <span style={{ display: "flex", alignItems: "center" }}>
-            <img
-              className="data-option-part image"
-              src={profile.ProfileImage || `${ReadyImagesURL}/noProfile.jpg`}
-              alt=""
-            />
+          <span style={{ display: "flex", alignItems: "center", gap: '0.5rem' }}>
+            <ProfileImage imageURL={profile.ProfileImage} />
             <span className="data-option-part">{profile.Email}</span>
           </span>
         </div>

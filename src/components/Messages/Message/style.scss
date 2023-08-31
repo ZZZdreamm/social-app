@@ -11,7 +11,7 @@
   z-index: 16;
   align-items: center;
   overflow-x: visible;
-  &-responseTo{
+  &-responseTo {
     box-sizing: border-box;
     position: relative;
     width: 100%;
@@ -22,18 +22,18 @@
     max-height: 15rem;
     overflow: hidden;
     cursor: pointer;
-    &-content{
-      word-break:break-all;
+    &-content {
+      word-break: break-all;
 
-      &__autor{
+      &__autor {
         color: #2f2f2f;
         margin-bottom: 0.5rem;
         word-break: normal;
       }
-      &__text{
+      &__text {
         color: var(--textGrey);
       }
-      &__media{
+      &__media {
         display: grid;
         flex-direction: row;
         flex-wrap: wrap;
@@ -43,7 +43,6 @@
           width: 100%;
           aspect-ratio: 1;
           cursor: pointer;
-
         }
       }
     }
@@ -67,7 +66,6 @@
         width: 100%;
         aspect-ratio: 1;
         cursor: pointer;
-
       }
     }
   }
@@ -86,15 +84,5 @@
 @media screen and (min-width: 600px) and (max-width: 1000px) {
   .message-content-audio {
     min-width: 12rem;
-  }
-}
-
-@media (min-width: 320px) and (max-width: 480px) {
-  .whole-page {
-    .messager-chat {
-      .message-content {
-        font-size: 2rem;
-      }
-    }
   }
 }

@@ -1,5 +1,8 @@
 .bar-left {
   left: 0;
+  ul{
+    margin: 1rem 0;
+  }
   li {
     position: relative;
     .bar-left__active {

@@ -13,13 +13,7 @@
   margin: 0;
   color: var(--blueColor);
   background-color: var(--navColor);
-  &:hover{
+  &:hover {
     background-color: var(--navColor);
-  }
-}
-
-@media (max-width: 450px) {
-  .go-back-button {
-    font-size: 1.4rem;
   }
 }

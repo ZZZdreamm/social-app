@@ -4,6 +4,7 @@ import ProfileContext from "../../../services/Contexts/ProfileContext";
 import { useContext } from "react";
 import { ReadyImagesURL } from "../../../globals/appUrls";
 import { profileDTO } from "../../../services/Models/profiles.models";
+import { ProfileImage } from "../../ProfileImage/ProfileImage";
 
 interface SearchOptionProps {
   profile: profileDTO;
@@ -25,13 +26,14 @@ export default function SearchOption({ profile }: SearchOptionProps) {
             typeahead.value = "";
           }}
         >
-          <span style={{ display: "flex", alignItems: "center" }}>
-            <img
+          <span style={{ display: "flex", alignItems: "center", gap: '0.5rem' }}>
+            {/* <img
               className="data-option-part image"
               src={profile.ProfileImage || `${ReadyImagesURL}/noProfile.jpg`}
               alt=""
-            />
-            <span className="data-option-part">{profile.Email}</span>
+            /> */}
+            <ProfileImage imageURL={profile.ProfileImage} />
+            <span className="data-option-part" style={{textAlign: 'left'}}>{profile.Email}</span>
           </span>
         </div>
       )}
