@@ -7,6 +7,7 @@ import { ReadyImagesURL } from "../../../../globals/appUrls";
 
 import "./style.scss";
 import "../style.scss";
+import { ProfileImage } from "../../../ProfileImage/ProfileImage";
 
 export default function LeftBar() {
   const navigate = useNavigate();
@@ -79,10 +80,11 @@ export default function LeftBar() {
             {location.pathname.includes("user-profile") && (
               <div className="bar-left__active"></div>
             )}
-            <img
+            {/* <img
               src={myProfile.ProfileImage || `${ReadyImagesURL}/noProfile.jpg`}
               alt=""
-            />
+            /> */}
+            <ProfileImage imageURL={myProfile.ProfileImage} />
             {fullBar && <span className="medium-font">{myProfile.Email}</span>}
           </li>
           <li

@@ -8,17 +8,16 @@ import { logout } from "../../../../../globals/Auth/HandleJWT";
 import { useNavigate } from "react-router-dom";
 import { MenuChildProps } from "..";
 import useClickedNotOnElement from "../../../../../_utils/2Hooks/useClickedNotOnElement";
+import { ProfileImage } from "../../../../ProfileImage/ProfileImage";
 
-export default function ProfileIcon({
-
-}: MenuChildProps) {
+export default function ProfileIcon({}: MenuChildProps) {
   const navigate = useNavigate();
   const { update } = useContext(AuthenticationContext);
   const { myProfile } = useContext(ProfileContext);
   const iconRef = useRef(null);
   const [visibleModal, setVisibleModal] = useState(false);
 
-  function toggleModal(open:boolean) {
+  function toggleModal(open: boolean) {
     setVisibleModal(open);
   }
 
@@ -60,10 +59,11 @@ export default function ProfileIcon({
             navigate(`/user-profile/${myProfile.Id}`);
           }}
         >
-          <img
+          {/* <img
             src={myProfile.ProfileImage || `${ReadyImagesURL}/noProfile.jpg`}
             alt=""
-          />
+          /> */}
+          <ProfileImage imageURL={myProfile.ProfileImage} padding={0.25}/>
           <h4>{myProfile.Email}</h4>
         </div>
         {profileOptions &&

@@ -4,6 +4,7 @@ import OpenedPostForm from "./OpenedForm";
 import "./style.scss";
 import { postDataToServer } from "../../../services/Firebase/FirebaseFunctions";
 import { addItemToState } from "../../../_utils/1Functions/StateModifications";
+import { ProfileImage } from "../../ProfileImage/ProfileImage";
 
 export interface PostFormChildProps {
   toggleModal: () => void;
@@ -14,8 +15,11 @@ const UpperPart = ({ toggleModal }: PostFormChildProps) => {
 
   return (
     <span className="post-form-up shadow-around">
-      <img src={myProfile.ProfileImage} alt="" />
-      <div className="post-form-up-placeholder large-font" onClick={toggleModal}>
+      <ProfileImage imageURL={myProfile.ProfileImage} padding={0.25}/>
+      <div
+        className="post-form-up-placeholder large-font"
+        onClick={toggleModal}
+      >
         What do you want to post?
       </div>
     </span>

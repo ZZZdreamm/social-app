@@ -16,6 +16,7 @@ import "./style.scss";
 import OpenedPostForm from "../PostForm/OpenedForm";
 import { getStringBetweenPercentSigns } from "../../../_utils/1Functions/StringManipulations";
 import { set } from "cypress/types/lodash";
+import { ProfileImage } from "../../ProfileImage/ProfileImage";
 
 interface PostContainerProps {
   post: postDTO;
@@ -70,8 +71,6 @@ interface PostProfileProps extends PostProps {
 
 const PostProfile = ({ post, setPosts }: PostProfileProps) => {
   const navigate = useNavigate();
-  const autorImage =
-    post.AutorProfileImage || `${ReadyImagesURL}/noProfile.jpg`;
 
   const goToProfile = () => {
     if (post.AutorId) {
@@ -81,14 +80,13 @@ const PostProfile = ({ post, setPosts }: PostProfileProps) => {
 
   return (
     <div className="post-profile">
-      <img onClick={goToProfile} src={autorImage} alt="" />
+      <ProfileImage imageURL={post.AutorProfileImage} onClick={goToProfile}/>
       <span className="flexColumnLeft" style={{ maxWidth: "60%" }}>
         <span className="elipsis" style={{ maxWidth: "100%" }}>
           {post.AutorName}
         </span>
         <span className="medium-font">
-          Last edit: {" "}
-          {new Date(post.Date).toLocaleDateString()}
+          Last edit: {new Date(post.Date).toLocaleDateString()}
           {", "}
           {new Date(post.Date).toLocaleTimeString()}
         </span>

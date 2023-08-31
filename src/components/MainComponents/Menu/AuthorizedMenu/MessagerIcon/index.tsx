@@ -7,15 +7,13 @@ import { useContext, useRef, useState } from "react";
 import { ProfileFriendsContext } from "../../../../../services/Contexts/ProfileContext";
 import useClickedNotOnElement from "../../../../../_utils/2Hooks/useClickedNotOnElement";
 
-export default function MessagerIcon({
-
-}: MenuChildProps) {
+export default function MessagerIcon({}: MenuChildProps) {
   const { myFriends } = useContext(ProfileFriendsContext);
   const [visibleModal, setVisibleModal] = useState(false);
 
-  const iconRef = useRef(null)
+  const iconRef = useRef(null);
 
-  function toggleModal(open:boolean) {
+  function toggleModal(open: boolean) {
     setVisibleModal(open);
   }
   useClickedNotOnElement(iconRef, () => {
@@ -33,9 +31,13 @@ export default function MessagerIcon({
         onClick={() => toggleModal(!visibleModal)}
         src={`${ReadyImagesURL}/messaging-only.png`}
         alt=""
+        style={{ height: "100%", width: "100%" }}
       />
       <div className={messagerContainerStyle}>
-        <MessagerBox friends={myFriends} toggleModal={() => toggleModal(!visibleModal)} />
+        <MessagerBox
+          friends={myFriends}
+          toggleModal={() => toggleModal(!visibleModal)}
+        />
       </div>
     </div>
   );
