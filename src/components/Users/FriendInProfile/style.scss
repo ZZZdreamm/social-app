@@ -1,10 +1,7 @@
-
 .friend-profile {
   width: 100%;
   box-sizing: border-box;
-  aspect-ratio: 0.7;
   padding: 1rem;
-  // background-color: var(--testColor3);
   border-radius: 1rem;
   cursor: pointer;
   display: flex;
@@ -12,7 +9,7 @@
   img {
     width: 100%;
     aspect-ratio: 1;
-    &:hover{
+    &:hover {
       opacity: 0.9;
     }
   }

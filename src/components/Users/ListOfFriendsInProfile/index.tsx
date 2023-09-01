@@ -9,7 +9,7 @@ export default function ListOfFriendsInProfile({ friends }: FriendsListProps) {
   return (
     <GenericList list={friends} emptyListUI={<>You don't have friends.</>}>
       <div
-        className="listOfPosts"
+        className="listOfFriendsInProfile"
         style={{ gap: "1rem", flexDirection: "row" }}
       >
         {friends ? (
