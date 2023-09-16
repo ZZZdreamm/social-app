@@ -12,7 +12,7 @@ export default function PostForm({ setPosts }: PostFormProps) {
   const [isOpen, setIsOpen] = useState(false);
 
   function toggleModal() {
-    setIsOpen(!isOpen);
+    setIsOpen((isOpen) => !isOpen);
   }
 
   function onSubmit(post: postCreationDTO) {

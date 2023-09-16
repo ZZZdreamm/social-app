@@ -1,6 +1,7 @@
-import Modal from "styled-react-modal";
+import styled from "styled-components";
+import DefaultModal from "../defaultModal/DefaultModal";
 
-const StyledModal = Modal.styled`
+const StyledModal = styled.div`
   position: absolute;
   top: 0;
   width: 70vw;
@@ -15,7 +16,6 @@ const StyledModal = Modal.styled`
   border-radius: 0 0 1rem 1rem;
 `;
 
-//@ts-ignore
 export default function TopModal({
   isOpen,
   toggleModal,
@@ -24,40 +24,41 @@ export default function TopModal({
   onSubmit,
   onClose,
   disableSubmit,
-}:MyModalProps) {
+}: MyModalProps) {
   return (
-    <StyledModal
-      isOpen={isOpen}
-      onBackgroundClick={toggleModal}
-      onEscapeKeydown={toggleModal}
-    >
-      {children}
-      <div>
-        <button
-        disabled={disableSubmit}
-          onClick={() => {
-            toggleModal();
-            onSubmit();
-          }}
-        >
-          {submitButtonText}
-        </button>
-        <button onClick={()=>{
-          onClose()
-          toggleModal()
-          }}>Close</button>
-      </div>
-    </StyledModal>
+    <DefaultModal isOpen={isOpen} toggleModal={toggleModal}>
+      <StyledModal>
+        {children}
+        <div>
+          <button
+            disabled={disableSubmit}
+            onClick={() => {
+              toggleModal();
+              onSubmit();
+            }}
+          >
+            {submitButtonText}
+          </button>
+          <button
+            onClick={() => {
+              onClose();
+              toggleModal();
+            }}
+          >
+            Close
+          </button>
+        </div>
+      </StyledModal>
+    </DefaultModal>
   );
 }
 
-
-interface MyModalProps{
-  isOpen:any;
-  toggleModal:any;
-  children:any;
-  submitButtonText:string;
-  onSubmit:any;
-  onClose:any;
-  disableSubmit?:boolean;
+interface MyModalProps {
+  isOpen: any;
+  toggleModal: any;
+  children: any;
+  submitButtonText: string;
+  onSubmit: any;
+  onClose: any;
+  disableSubmit?: boolean;
 }

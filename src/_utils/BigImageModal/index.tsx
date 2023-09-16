@@ -1,6 +1,25 @@
-import Modal from "styled-react-modal";
+import styled from "styled-components";
+import DefaultModal from "../defaultModal/DefaultModal";
+interface MyModalProps {
+  isOpen: any;
+  toggleModal: any;
+  children: any;
+}
 
-const StyledModal = Modal.styled`
+export default function BigImageModal({
+  isOpen,
+  toggleModal,
+  children,
+}: MyModalProps) {
+
+  return (
+    <DefaultModal isOpen={isOpen} toggleModal={toggleModal}>
+      <StyledModal>{children}</StyledModal>
+    </DefaultModal>
+  );
+}
+
+const StyledModal = styled.div`
   width: 100%;
   height: 100%;
   display: flex;
@@ -8,26 +27,3 @@ const StyledModal = Modal.styled`
   background-color: #ffffff;
   flex-direction: column;
 `;
-
-//@ts-ignore
-export default function BigImageModal({
-  isOpen,
-  toggleModal,
-  children,
-}: MyModalProps) {
-  return (
-    <StyledModal
-      isOpen={isOpen}
-      onBackgroundClick={toggleModal}
-      onEscapeKeydown={toggleModal}
-    >
-      {children}
-    </StyledModal>
-  );
-}
-
-interface MyModalProps {
-  isOpen: any;
-  toggleModal: any;
-  children: any;
-}

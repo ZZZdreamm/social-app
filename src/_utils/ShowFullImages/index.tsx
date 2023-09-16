@@ -26,7 +26,7 @@ export default function ShowFullImages({
   }, [currentImage]);
 
   return (
-    <Portal>
+    // <Portal>
       <div className="showFullImages">
         <div className="showFullImages-container">
           <img
@@ -59,6 +59,6 @@ export default function ShowFullImages({
           )}
         </div>
       </div>
-    </Portal>
+    // </Portal>
   );
 }

@@ -61,11 +61,13 @@ export default function Message({
         setOptionsVisible(false);
       }}
     >
-      <BigImageShown
-        message={message}
-        isOpen={isOpen}
-        toggleModal={toggleModal}
-      />
+      {isOpen && (
+        <BigImageShown
+          message={message}
+          isOpen={isOpen}
+          toggleModal={toggleModal}
+        />
+      )}
       <MessageContent
         message={message}
         fromFriend={fromFriend}

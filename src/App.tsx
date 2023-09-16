@@ -1,7 +1,6 @@
 import { ReactElement, useEffect, useState } from "react";
 import { Route, Routes } from "react-router-dom";
 import { io } from "socket.io-client";
-import { ModalProvider } from "styled-react-modal";
 import GuardedRoute from "./_utils/GuardedRoute/GuardedRoute";
 import OfflineWebsite from "./_utils/OfflineWebsite/OfflineWebsite";
 import LeftBar from "./components/MainComponents/Bars/LeftBar";
@@ -43,7 +42,6 @@ function App() {
 
   const [online, setOnline] = useState(false);
   const [gotClaims, setGotClaims] = useState(false);
-
 
   useEffect(() => {
     setProfile(getProfile());
@@ -134,51 +132,49 @@ function App() {
                   updateOpenedChats: setOpenedChats,
                 }}
               >
-                <ModalProvider>
-                  <div className="App">
-                    {online ? (
-                      <>
-                        <div className="navbar-placeholder"></div>
-                        <Menu />
-                        <Authorized isAuthorized={<LeftBar />} />
+                <div className="App">
+                  {online ? (
+                    <>
+                      <div className="navbar-placeholder"></div>
+                      <Menu />
+                      <Authorized isAuthorized={<LeftBar />} />
 
-                        <OpenedChats openedChats={openedChats} />
-                        {call}
+                      <OpenedChats openedChats={openedChats} />
+                      {call}
 
-                        <section className="landing-page">
-                          <Routes>
-                            {routes.map((route) => (
+                      <section className="landing-page">
+                        <Routes>
+                          {routes.map((route) => (
+                            <Route
+                              key={route.path}
+                              path={route.path}
+                              Component={route.component}
+                            />
+                          ))}
+
+                          {gotClaims &&
+                            guardedRoutes.map((route: any) => (
                               <Route
                                 key={route.path}
-                                path={route.path}
-                                Component={route.component}
-                              />
-                            ))}
-
-                            {gotClaims &&
-                              guardedRoutes.map((route: any) => (
-                                <Route
-                                  key={route.path}
-                                  element={
-                                    <GuardedRoute
-                                      isAuthenticated={claims.length > 0}
-                                    />
-                                  }
-                                >
-                                  <Route
-                                    Component={route.component}
-                                    path={route.path}
+                                element={
+                                  <GuardedRoute
+                                    isAuthenticated={claims.length > 0}
                                   />
-                                </Route>
-                              ))}
-                          </Routes>
-                        </section>
-                      </>
-                    ) : (
-                      <OfflineWebsite />
-                    )}
-                  </div>
-                </ModalProvider>
+                                }
+                              >
+                                <Route
+                                  Component={route.component}
+                                  path={route.path}
+                                />
+                              </Route>
+                            ))}
+                        </Routes>
+                      </section>
+                    </>
+                  ) : (
+                    <OfflineWebsite />
+                  )}
+                </div>
               </OpenedChatsContext.Provider>
             </SentFriendRequestsContext.Provider>
           </FriendRequestsContext.Provider>
