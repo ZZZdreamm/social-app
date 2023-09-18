@@ -1,38 +1,57 @@
+<h1>FriendLink</h1>
 It is social media app. It uses Node.js CacarrotServer as it's backend server.
 
+<h2>Online version</h2>
 Link to the website - https://zzzdreamm.github.io/social-app/
 
-Tools used in project:
-- ReactJS
-- SCSS
-- Typescript
-- Node.js
-- Socket.IO
-- Firebase
-- JWTToken
-- Axios
-- WebRTC
+<h2>Getting Started</h2>
 
-About it:
+```bash
+# install dependencies
+npm install
 
-- After logging you can post posts that other people will see, comment and like your own posts and other people posts. You can add friends by searching their nickname and send them friend request. If they accept you can send text messages and images between you.
+# run the project
+npm run start
+```
 
-- Everything you do is updated realtime in database and on website so you don't have to refresh page to see what have you done.
-As database serves me Firebase Cloud Firestore and Firebase Storage (firestore for data, storage for images, films etc.)
+<h2>Technologies</h2>
+<ul>
+<li>ReactJS</li>
+<li>SCSS</li>
+<li>Typescript</li>
+<li>Node.js</li>
+<li>Socket.IO</li>
+<li>Firebase firestore and storage</li>
+    <li>Tanstack (React) Query</li>
+<li>jsonwebtoken</li>
+<li>Axios</li>
+<li>WebRTC</li>
+  <li>Formik</li>
+  <li>yup</li>
+  <li>GSAP</li>
+<li>NestJS</li>
+</ul>
 
-- Posts and messages are not downloaded all but just newest 10 and when you are close to reaching end of page or end of chat IntersectionObserver fires event to download next 10 objects.
-- You can send voice messages to friends 
+<h2>Features</h2>
 
-Things I'm proud of:
-- possibility to do video calls between friends
+<ul>
+  <li>logging with email and password</li>
+  <li>real time user updates</li>
+  <li>sending multiple types of messages: text, photos, videos or even voice messages</li>
+  <li>video calls between friends</li>
+  <li>connection with firebase database by REST API NestJS server</li>
+  <li>infinite scrolling to not download too much data in one time</li>
+  <li>searching system</li>
+  <li>catching user data in local storage</li>
+</ul>
 
-TODO:
+<h2>TODO:</h2>
 - add creating chats with multiple users and many people video calls
 
-
-
-SECOND ACCOUNT TO TEST MESSAGING:
-- e-mail: maria@gmail.com
-- password: Example2@
+<h2>SECOND ACCOUNT FOR MESSAGING:</h2>
+<ul>
+ <li>e-mail: maria@gmail.com</li>
+<li>password: Example2@</li>
+</ul>
 
 
