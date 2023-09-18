@@ -30,6 +30,7 @@ npm run start
   <li>yup</li>
   <li>GSAP</li>
 <li>NestJS</li>
+    <li>git, npm</li>
 </ul>
 
 <h2>Features</h2>
