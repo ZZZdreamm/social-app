@@ -40,8 +40,6 @@ export default function DefaultModal({
   //     };
   //   }, []);
 
-  console.log(isOpen);
-
   return (
     <Portal>
       <Overlay isOpen={isOpen}>

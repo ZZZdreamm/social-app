@@ -4,20 +4,27 @@ import PostContainer from "../PostContainer";
 
 import "./style.scss";
 
-export default function PostsList(props:postsListProps){
-    return <GenericList list={props.posts} emptyListUI={<></>}>
-        <div className="listOfPosts">
-            {props.posts ? props.posts?.map((post) =>
-            (
-                <PostContainer post={post} setPosts={props.setPosts} key={post.Id}/>
-
-            )): <Waiting message="Loading"/>}
-       </div>
-
+export default function PostsList(props: postsListProps) {
+  return (
+    <GenericList list={props.posts} emptyListUI={<></>}>
+      <div className="listOfPosts">
+        {props.posts && props.posts.length > 0 ? (
+          props.posts.map((post) => (
+            <PostContainer
+              post={post}
+              setPosts={props.setPosts}
+              key={post.Id}
+            />
+          ))
+        ) : (
+          <Waiting message="Loading" />
+        )}
+      </div>
     </GenericList>
+  );
 }
 
-interface postsListProps{
-    setPosts: (posts: postDTO[]) => void;
-    posts?:postDTO[];
+interface postsListProps {
+  setPosts: (posts: postDTO[]) => void;
+  posts?: postDTO[];
 }

@@ -45,20 +45,22 @@ export default function MessagerBox({
           </div>
         </div>
         <div className="messagerBox__body__friends">
-          {friends?.map((friend) => (
-            <div
-              key={friend.Id}
-              className="messagerBox__body__friends__friend"
-              onClick={() => addNewChat(friend)}
-            >
-              {/* <img
+          {friends &&
+            friends.length > 0 &&
+            friends?.map((friend) => (
+              <div
+                key={friend.Id}
+                className="messagerBox__body__friends__friend"
+                onClick={() => addNewChat(friend)}
+              >
+                {/* <img
                 src={friend.ProfileImage || `${ReadyImagesURL}/noProfile.jpg`}
                 alt=""
               /> */}
-              <ProfileImage imageURL={friend.ProfileImage} />
-              <span>{friend.Email}</span>
-            </div>
-          ))}
+                <ProfileImage imageURL={friend.ProfileImage} />
+                <span>{friend.Email}</span>
+              </div>
+            ))}
         </div>
       </section>
       <section className="messagerBox__footer">
