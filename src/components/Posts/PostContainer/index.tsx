@@ -6,16 +6,13 @@ import ScrollingMediaFiles from "../../../_utils/ScrollingMediaFiles";
 import Textarea from "../../../_utils/Textarea";
 import { ReadyImagesURL } from "../../../globals/appUrls";
 import ProfileContext from "../../../services/Contexts/ProfileContext";
-import {
-  deleteDataOnServer,
-  postDataToServer,
-  putDataToServer,
-} from "../../../services/Firebase/FirebaseFunctions";
 import ListOfComments from "../../Comments/ListOfComments";
 import "./style.scss";
 import OpenedPostForm from "../PostForm/OpenedForm";
 import { getStringBetweenPercentSigns } from "../../../_utils/1Functions/StringManipulations";
 import { ProfileImage } from "../../ProfileImage/ProfileImage";
+import { axiosBaseComments, axiosBasePosts } from "../../../globals/apiPaths";
+import axios from "axios";
 
 interface PostContainerProps {
   post: postDTO;
@@ -116,14 +113,14 @@ const PostProfileOptions = ({ post, setPosts }: PostProfileProps) => {
   }, []);
 
   async function deletePost() {
-    const response = await deleteDataOnServer("delete-post", {
-      postId: post.Id.toString(),
-    });
-    if (response.status === "success") {
+    const responseStatus = (
+      await axiosBasePosts.delete<responseStatus>(`delete?postId=${post.Id}`)
+    ).data;
+    if (responseStatus === "success") {
       //@ts-ignore
       setPosts((posts) => posts.filter((p) => p.Id != post.Id));
       console.log("deleted");
-    } else if (response.status === "error") {
+    } else if (responseStatus === "error") {
       alert("Something went wrong, try again later");
     }
   }
@@ -131,20 +128,24 @@ const PostProfileOptions = ({ post, setPosts }: PostProfileProps) => {
     setEditOpen(!editOpen);
   }
 
-  function submitEditionOfPost(post: postDTO) {
-    console.log(post);
-    postDataToServer(post, "edit-post").then((response) => {
+  async function submitEditionOfPost(post: postDTO) {
+    const responseStatus = (
+      await axiosBasePosts.patch<responseStatus>(`update`, post)
+    ).data;
+    if (responseStatus === "success") {
       //@ts-ignore
       setPosts((posts: postDTO[]) =>
         posts.map((p) => {
-          console.log(p.Id, response.post.Id);
-          if (p.Id === response.post.Id) {
-            return response.post;
+          console.log(p.Id, post.Id);
+          if (p.Id === post.Id) {
+            return post;
           }
           return p;
         })
       );
-    });
+    } else if (responseStatus === "error") {
+      alert("Something went wrong, try again later");
+    }
   }
 
   const postFilesArray: [File, string][] | undefined = post.MediaFiles?.map(
@@ -285,12 +286,10 @@ const Like = ({ post, amountOfLikes, setAmountOfLikes }: LikeProps) => {
   }, []);
 
   async function checkIfUserLiked() {
-    setYouLiked(
-      await postDataToServer(
-        { postId: post.Id, userId: myProfile.Id },
-        "user-liked-post"
-      )
+    const response = await axiosBasePosts.get<boolean>(
+      `ifUserLiked?postId=${post.Id}&userId=${myProfile.Id}`
     );
+    setYouLiked(response.data);
   }
 
   useEffect(() => {
@@ -301,11 +300,10 @@ const Like = ({ post, amountOfLikes, setAmountOfLikes }: LikeProps) => {
 
   async function likePost() {
     if (youLiked) {
-      putDataToServer({ postId: post.Id, userId: myProfile.Id }, "like-post");
+      axiosBasePosts.patch(`like?postId=${post.Id}&userId=${myProfile.Id}`);
     } else {
-      putDataToServer(
-        { postId: post.Id, userId: myProfile.Id },
-        "like-post-remove"
+      axiosBasePosts.patch(
+        `removeLike?postId=${post.Id}&userId=${myProfile.Id}`
       );
     }
   }
@@ -363,26 +361,22 @@ const Comments = ({
 
   async function postComment() {
     setAmountOfComments((amountOfComments: number) => amountOfComments + 1);
-    let comment = await postDataToServer(
-      {
-        postId: post.Id,
-        userId: myProfile.Id,
-        textContent: commentText,
-        autorName: myProfile.Email,
-        date: Date.now(),
-      },
-      "put-comment"
-    );
-    comment["AutorProfileImage"] = myProfile.ProfileImage;
+    const response = await axiosBaseComments.post<commentsDTO>(`create`, {
+      PostId: post.Id,
+      UserId: myProfile.Id,
+      TextContent: commentText,
+      Date: Date.now(),
+    });
+    const comment = response.data;
     addItemToState(comment, setComments);
     setCommentText("");
   }
 
   async function getComments(numberOfComments: number) {
-    const newComments = await postDataToServer(
-      { postId: post.Id, numberOfComments: numberOfComments },
-      "get-comments"
+    const response = await axiosBaseComments.get<commentsDTO[]>(
+      `all/${numberOfComments}?postId=${post.Id}`
     );
+    const newComments = response.data;
     if (comments?.length == newComments.length) {
       setAllCommentsFetched(true);
     } else {

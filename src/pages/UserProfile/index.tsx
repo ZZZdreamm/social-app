@@ -11,10 +11,6 @@ import ProfileContext, {
   SentFriendRequestsContext,
 } from "../../services/Contexts/ProfileContext";
 import { storageRef } from "../../services/Firebase/FirebaseConfig";
-import {
-  postDataToServer,
-  putDataToServer,
-} from "../../services/Firebase/FirebaseFunctions";
 import "./style.scss";
 import { profileDTO } from "../../services/Models/profiles.models";
 import Waiting from "../../_utils/Waiting/indexxx";
@@ -26,6 +22,7 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import useWindowSizeChanged from "../../_utils/2Hooks/useWindowSizeChanged";
 import ProfileFriendInPosts from "./ProfileFriendInPosts";
+import { axiosBasePosts, axiosBaseProfiles } from "../../globals/apiPaths";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -39,16 +36,19 @@ export default function UserProfile() {
   useEffect(() => {
     if (!userProfile) return;
     const getData = async () => {
-      setFriends(
-        await postDataToServer({ userId: userProfile?.Id }, "get-friends")
+      const response = await axiosBaseProfiles.get<profileDTO[]>(
+        `getFriends/${userProfile.Id}`
       );
+      const friends = response.data;
+      setFriends(friends);
     };
     getData();
   }, [userProfile]);
 
   useEffect(() => {
     const getUserData = async () => {
-      const user: profileDTO = await postDataToServer({ name: id }, "get-user");
+      const response = await axiosBaseProfiles.get<profileDTO>(`one/${id}`);
+      const user = response.data;
       setUserProfile(user);
     };
     getUserData();
@@ -98,7 +98,7 @@ const ProfileUp = ({
   const { mySentRequests, updateSentFriendRequests } = useContext(
     SentFriendRequestsContext
   );
-  const [relationship, setRelationship] = useState<string>();
+  const [relationship, setRelationship] = useState<usersRelation>();
 
   const [file, setFile] = useState<File>();
   const [isOpen, setIsOpen] = useState(false);
@@ -119,11 +119,11 @@ const ProfileUp = ({
 
   async function checkIfInFriends() {
     if (userProfile && userProfile.Id && myProfile && myProfile.Id) {
-      const response = await postDataToServer(
-        { userId: myProfile.Id, friendId: userProfile!.Id },
-        "check-if-in-friends"
+      const response = await axiosBaseProfiles.get<usersRelation>(
+        `ifInFriends?userId=${myProfile.Id}&friendId=${userProfile.Id}`
       );
-      setRelationship(response.relation);
+      const relation = response.data;
+      setRelationship(relation);
     }
   }
 
@@ -141,10 +141,12 @@ const ProfileUp = ({
       url = await imageRef.getDownloadURL();
     }
     setChoosenImage(url!);
-    putDataToServer(
-      { userId: myProfile.Id, fileUrl: url },
-      "change-profile-image"
-    );
+    const updateProfileDto = {
+      Id: myProfile.Id,
+      Email: myProfile.Email,
+      ProfileImage: url,
+    };
+    axiosBaseProfiles.patch("update", updateProfileDto);
     localStorage.setItem("profileImage", url);
     updateProfile({
       Id: myProfile.Id,
@@ -154,10 +156,10 @@ const ProfileUp = ({
   }
 
   async function acceptFriendRequest() {
-    const addedFriend = await postDataToServer(
-      { userId: myProfile.Id, friendId: userProfile!.Id },
-      "accept-friend-request"
+    const response = await axiosBaseProfiles.patch<profileDTO>(
+      `acceptFriendRequest?userId=${myProfile.Id}&friendId=${userProfile!.Id}`
     );
+    const addedFriend = response.data;
     const newFriendRequests = myFriendRequests!.filter(
       (tempFriend) => tempFriend.Id != userProfile!.Id
     );
@@ -169,19 +171,18 @@ const ProfileUp = ({
 
   async function sendFriendRequest() {
     setRelationship("inFriendRequests");
-    const friend = await postDataToServer(
-      { userId: myProfile.Id, friendId: userProfile!.Id },
-      "send-friend-request"
+    const response = await axiosBaseProfiles.post<profileDTO>(
+      `sendFriendRequest?userId=${myProfile.Id}&friendId=${userProfile!.Id}`
     );
+    const friend = response.data;
     //@ts-ignore
     updateSentFriendRequests((prev: profileDTO[]) => [friend, ...prev]);
   }
   async function cancelFriendRequest() {
     setRelationship("stranger");
-    const { Id } = await postDataToServer(
-      { userId: myProfile.Id, friendId: userProfile!.Id },
-      "cancel-friend-request/user"
-    );
+    const { Id } = (
+      await axiosBaseProfiles.delete<{ Id: string }>("removeFriendRequest")
+    ).data;
     const newFriends = mySentRequests!.filter(
       (tempFriend) => tempFriend.Id != Id
     );
@@ -293,10 +294,10 @@ const ProfileDown = ({ userProfile, content, friends }: ProfileDownProps) => {
 
   async function getPosts(username: string) {
     const postsToGet = posts.length + numberOfPosts;
-    const newPosts = await postDataToServer(
-      { name: username, numberOfPosts: postsToGet },
-      "get-user-posts"
+    const response = await axiosBasePosts.get<postDTO[]>(
+      `userPosts/${username}?amount=${postsToGet}`
     );
+    const newPosts = response.data;
     if (newPosts) {
       if (newPosts.length == posts.length) {
         setAllPostsFetched(true);
@@ -348,7 +349,9 @@ const ProfileDown = ({ userProfile, content, friends }: ProfileDownProps) => {
             </section>
           )}
           <section className="flex-column gap-1">
-            <div className="profile-down-posts-header large-font bold">Posts</div>
+            <div className="profile-down-posts-header large-font bold">
+              Posts
+            </div>
             <PostsList posts={posts} setPosts={setPosts} />
             <span ref={endOfPostsRef}></span>
             {allPostsFetched && <h2>There is no posts.</h2>}

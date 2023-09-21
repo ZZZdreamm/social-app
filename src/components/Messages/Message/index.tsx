@@ -9,7 +9,7 @@ import MessageOptions from "../../../components/Messages/Message/MessageOptions"
 import ShowFullImages from "../../../_utils/ShowFullImages";
 import "./style.scss";
 import BigImageModal from "../../../_utils/BigImageModal/index";
-import { postDataToServer } from "../../../services/Firebase/FirebaseFunctions";
+import { axiosBaseMessages } from "../../../globals/apiPaths";
 
 interface MessageProps {
   message: messageDTO;
@@ -134,17 +134,13 @@ const MessageContent = ({
       responseMessage.scrollIntoView();
       return;
     }
-    const fetchedMessages = await postDataToServer(
-      {
-        userId: myProfile.Id,
-        friendId:
-          message.SenderId === myProfile.Id
-            ? message.ReceiverId
-            : message.SenderId,
-        messageId: message.responseTo.Id,
-      },
-      "get-all-to-message"
+
+    const senderId =
+      message.SenderId === myProfile.Id ? message.ReceiverId : message.SenderId;
+    const response = await axiosBaseMessages.get<messageDTO[]>(
+      `getMessagesToMessageWithId?userId=${myProfile.Id}&friendId=${senderId}&messageId=${message.responseTo.Id}`
     );
+    const fetchedMessages = response.data;
     const newMesses: any[] = [];
     fetchedMessages?.forEach((message: messageDTO, index: number) => {
       if (fetchedMessages?.length == index + 1) {

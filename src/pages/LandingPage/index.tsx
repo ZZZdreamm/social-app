@@ -1,15 +1,14 @@
 import { useEffect, useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { postDataToServer } from "../../services/Firebase/FirebaseFunctions";
 import PostForm from "../../components/Posts/PostForm";
 import PostsList from "../../components/Posts/PostsList";
-import { ReadyImagesURL } from "../../globals/appUrls";
 import Login from "../Login";
 import RightBar from "../../components/MainComponents/Bars/RightBar";
 
 import "./style.scss";
 import useIsInViewport from "../../_utils/2Hooks/IsInViewPort";
 import Authorized from "../../globals/Auth/Authorized";
+import axios from "axios";
+import { axiosBasePosts } from "../../globals/apiPaths";
 
 export default function LandingPage() {
   const [windowSize, setWindowSize] = useState(window.innerWidth);
@@ -42,10 +41,8 @@ export default function LandingPage() {
 
   async function getPosts() {
     const postsToGet = posts ? posts?.length + numberOfPosts : numberOfPosts;
-    const newPosts = await postDataToServer(
-      { numberOfPosts: postsToGet },
-      "get-posts"
-    );
+    const newPosts = (await axiosBasePosts.get<postDTO[]>(`all/${postsToGet}`))
+      .data;
     if (newPosts && newPosts.length != 0) {
       if (posts && newPosts.length == posts.length) {
         setAllPostsFetched(true);
@@ -63,7 +60,7 @@ export default function LandingPage() {
           <>
             <div className="middle-content">
               <PostForm setPosts={setPosts} />
-              <PostsList posts={posts} setPosts={setPosts}/>
+              <PostsList posts={posts} setPosts={setPosts} />
               <span ref={endOfPostsRef}></span>
               {allPostsFetched && <h2>You have reached end of internet.</h2>}
             </div>

@@ -2,11 +2,9 @@ import { useContext, useState } from "react";
 import ProfileContext from "../../../services/Contexts/ProfileContext";
 import OpenedPostForm from "./OpenedForm";
 import "./style.scss";
-import { postDataToServer } from "../../../services/Firebase/FirebaseFunctions";
 import { addItemToState } from "../../../_utils/1Functions/StateModifications";
 import { ProfileImage } from "../../ProfileImage/ProfileImage";
-
-
+import { axiosBasePosts } from "../../../globals/apiPaths";
 
 export default function PostForm({ setPosts }: PostFormProps) {
   const [isOpen, setIsOpen] = useState(false);
@@ -16,7 +14,8 @@ export default function PostForm({ setPosts }: PostFormProps) {
   }
 
   function onSubmit(post: postCreationDTO) {
-    postDataToServer(post, "post-post").then((newPost: postDTO) => {
+    axiosBasePosts.post<postDTO>("create", post).then((response) => {
+      const newPost = response.data;
       addItemToState(newPost, setPosts);
     });
   }
@@ -40,7 +39,6 @@ interface PostFormProps {
   setPosts: (posts: postDTO[]) => void;
 }
 
-
 export interface PostFormChildProps {
   toggleModal: () => void;
 }
@@ -50,11 +48,8 @@ const UpperPart = ({ toggleModal }: PostFormChildProps) => {
 
   return (
     <span className="post-form-up shadow-around">
-      <ProfileImage imageURL={myProfile.ProfileImage} padding={0.25}/>
-      <div
-        className="post-form-up-placeholder"
-        onClick={toggleModal}
-      >
+      <ProfileImage imageURL={myProfile.ProfileImage} padding={0.25} />
+      <div className="post-form-up-placeholder" onClick={toggleModal}>
         What do you want to post?
       </div>
     </span>

@@ -3,8 +3,10 @@ import { ReadyImagesURL } from "../../../globals/appUrls";
 import { profileDTO } from "../../../services/Models/profiles.models";
 import { useState, useContext } from "react";
 import OpenedOptions from "../../../_utils/OpenedOptions";
-import { postDataToServer } from "../../../services/Firebase/FirebaseFunctions";
-import ProfileContext, { ProfileFriendsContext } from "../../../services/Contexts/ProfileContext";
+import ProfileContext, {
+  ProfileFriendsContext,
+} from "../../../services/Contexts/ProfileContext";
+import { axiosBaseProfiles } from "../../../globals/apiPaths";
 
 interface ProfileFriendProps {
   friend: profileDTO;
@@ -12,17 +14,23 @@ interface ProfileFriendProps {
 
 const ProfileFriendInPosts = ({ friend }: ProfileFriendProps) => {
   const navigate = useNavigate();
-  const { myProfile } = useContext(ProfileContext)
-  const { myFriends, updateFriends } = useContext(ProfileFriendsContext)
+  const { myProfile } = useContext(ProfileContext);
+  const { myFriends, updateFriends } = useContext(ProfileFriendsContext);
   function goToProfile() {
     navigate(`/user-profile/${friend?.Id}`);
   }
 
-  async function removeFriend(){
-    const deletedFriend = await postDataToServer({userId:myProfile.Id, friendId:friend.Id}, "remove-friend")
-    const newFriends = myFriends!.filter((tempFriend) => tempFriend.Id != deletedFriend.Id)
-    updateFriends(newFriends)
-    navigate(0)
+  async function removeFriend() {
+    const deletedFriend = (
+      await axiosBaseProfiles.delete<{ Id: string }>(
+        `deleteFriend?userId=${myProfile.Id}&friendId=${friend.Id}`
+      )
+    ).data;
+    const newFriends = myFriends!.filter(
+      (tempFriend) => tempFriend.Id != deletedFriend.Id
+    );
+    updateFriends(newFriends);
+    navigate(0);
   }
 
   return (

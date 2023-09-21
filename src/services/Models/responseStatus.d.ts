@@ -1,0 +1,1 @@
+type responseStatus = 'success' | 'error'

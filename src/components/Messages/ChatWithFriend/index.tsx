@@ -7,7 +7,6 @@ import ProfileContext, {
   OpenedChatsContext,
 } from "../../../services/Contexts/ProfileContext";
 import { storageRef } from "../../../services/Firebase/FirebaseConfig";
-import { postDataToServer } from "../../../services/Firebase/FirebaseFunctions";
 import {
   messageCreationDTO,
   messageDTO,
@@ -24,6 +23,7 @@ import RecordMessager from "../RecordMessager";
 import useIsInViewport from "../../../_utils/2Hooks/IsInViewPort";
 import { useNavigate } from "react-router-dom";
 import { ProfileImage } from "../../ProfileImage/ProfileImage";
+import { axiosBaseMessages } from "../../../globals/apiPaths";
 
 interface ChatWithFriendProps {
   friend: profileDTO;
@@ -183,14 +183,10 @@ const ChatBody = ({
   async function getMessages() {
     if (fetchedAllMessages) return;
     const messagesToGet = messages?.length + numberOfMessages;
-    const messes = await postDataToServer(
-      {
-        userId: myProfile.Id,
-        friendId: friend.Id,
-        numberOfMessages: messagesToGet,
-      },
-      "get-chat-messages"
+    const response = await axiosBaseMessages.get<messageDTO[]>(
+      `getChatMessages?userId=${myProfile.Id}&friendId=${friend.Id}&amount=${messagesToGet}`
     );
+    const messes = response.data;
     if (messes && messages && messes.length == messages.length) {
       setFetchedAllMessages(true);
     }

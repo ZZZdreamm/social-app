@@ -1,9 +1,12 @@
 import { useContext } from "react";
 import { ReadyImagesURL } from "../../../../globals/appUrls";
 import ProfileContext from "../../../../services/Contexts/ProfileContext";
-import { postDataToServer } from "../../../../services/Firebase/FirebaseFunctions";
-import { messageDTO, messageResponseDTO } from "../../../../services/Models/message.models";
+import {
+  messageDTO,
+  messageResponseDTO,
+} from "../../../../services/Models/message.models";
 import "./style.scss";
+import { axiosBaseMessages } from "../../../../globals/apiPaths";
 
 interface MessageOptionsProps {
   message: messageDTO;
@@ -37,14 +40,8 @@ export default function MessageOptions({
     setMessages((messages: messageDTO[]) =>
       messages.filter((m) => m.Id !== message.Id)
     );
-    postDataToServer(
-      {
-        userId: message.SenderId,
-        friendId: message.ReceiverId,
-        messageId: message.Id,
-        date: message.Date,
-      },
-      "remove-message"
+    axiosBaseMessages.delete(
+      `delete?userId=${message.SenderId}&friendId=${message.ReceiverId}&messageId=${message.Id}`
     );
   }
 
@@ -75,7 +72,6 @@ export default function MessageOptions({
           onClick={respondToMessage}
         />
 
-
         {isOpen === `moreOptions/${message.Id}` && (
           <div className="message-options-delete">
             <div
@@ -87,7 +83,6 @@ export default function MessageOptions({
             <div className="message-options-delete__text">Share</div>
           </div>
         )}
-
       </div>
     </>
   );

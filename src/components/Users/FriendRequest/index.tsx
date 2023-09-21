@@ -8,8 +8,8 @@ import ProfileContext, {
   ProfileFriendsContext,
   SentFriendRequestsContext,
 } from "../../../services/Contexts/ProfileContext";
-import { postDataToServer } from "../../../services/Firebase/FirebaseFunctions";
 import { ProfileImage } from "../../ProfileImage/ProfileImage";
+import { axiosBaseProfiles } from "../../../globals/apiPaths";
 
 export default function FriendRequest({ friend, sent }: FriendProps) {
   const { myProfile } = useContext(ProfileContext);
@@ -22,10 +22,10 @@ export default function FriendRequest({ friend, sent }: FriendProps) {
   );
 
   async function acceptRequest() {
-    const addedFriend = await postDataToServer(
-      { userId: myProfile.Id, friendId: friend.Id },
-      "accept-friend-request"
+    const response = await axiosBaseProfiles.patch<profileDTO>(
+      `acceptFriendRequest?userId=${myProfile.Id}&friendId=${friend.Id}`
     );
+    const addedFriend = response.data;
     const newFriendRequests = myFriendRequests!.filter(
       (tempFriend) => tempFriend.Id != friend.Id
     );
@@ -34,22 +34,25 @@ export default function FriendRequest({ friend, sent }: FriendProps) {
     newFriends.push(addedFriend);
     updateFriends(newFriends);
   }
+
   async function cancelRequest() {
     if (sent) {
       console.log(myProfile.Id);
-      const deletedFriend = await postDataToServer(
-        { userId: myProfile.Id, friendId: friend.Id },
-        "cancel-friend-request/user"
-      );
+      const deletedFriend = (
+        await axiosBaseProfiles.delete<{ Id: string }>(
+          `removeFriendRequest?userId=${myProfile.Id}&friendId=${friend.Id}`
+        )
+      ).data;
       const newFriends = mySentRequests!.filter(
         (tempFriend) => tempFriend.Id != deletedFriend.Id
       );
       updateSentFriendRequests(newFriends);
     } else {
-      const deletedFriend = await postDataToServer(
-        { userId: friend.Id, friendId: myProfile.Id },
-        "cancel-friend-request/friend"
-      );
+      const deletedFriend = (
+        await axiosBaseProfiles.delete<{ Id: string }>(
+          `removeFriendRequest?userId=${myProfile.Id}&friendId=${friend.Id}`
+        )
+      ).data;
       const newFriends = myFriendRequests!.filter(
         (tempFriend) => tempFriend.Id != deletedFriend.Id
       );

@@ -6,7 +6,7 @@ interface postCreationDTO {
   Date: number;
 }
 interface postDTO {
-  Id: number;
+  Id: string;
   AutorId: string;
   AutorName: string;
   TextContent: string;

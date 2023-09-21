@@ -11,7 +11,7 @@ import CallModal from "./components/WebRTC/CallModal";
 import Authorized from "./globals/Auth/Authorized";
 import { getClaims } from "./globals/Auth/HandleJWT";
 import { getProfile } from "./globals/Profile/HandleProfile";
-import { socketURL } from "./globals/apiPaths";
+import { axiosBaseProfiles, socketURL } from "./globals/apiPaths";
 import routes, { guardedRoutes } from "./globals/routes";
 import AuthenticationContext from "./services/Contexts/AuthenticationContext";
 import ProfileContext, {
@@ -20,7 +20,6 @@ import ProfileContext, {
   ProfileFriendsContext,
   SentFriendRequestsContext,
 } from "./services/Contexts/ProfileContext";
-import { postDataToServer } from "./services/Firebase/FirebaseFunctions";
 import { claim } from "./services/Models/auth.models";
 import { profileDTO } from "./services/Models/profiles.models";
 import "./styles/Styles.scss";
@@ -59,7 +58,9 @@ function App() {
     if (!profile) return;
     if (!profile.Id) return;
     socket.on(`calling/${profile.Id}`, async (data) => {
-      const caller = await postDataToServer({ name: data.userId }, "get-user");
+      const caller = (
+        await axiosBaseProfiles.get<profileDTO>(`one/${data.userId}`)
+      ).data;
       setCall(
         <CallModal
           onSubmit={() =>
@@ -82,26 +83,26 @@ function App() {
   }, [profile]);
 
   async function getFriends() {
-    const newFriends = await postDataToServer(
-      { userId: profile!.Id },
-      "get-friends"
+    const response = await axiosBaseProfiles.get<profileDTO[]>(
+      `getFriends/${profile?.Id}`
     );
+    const newFriends = response.data;
     if (!newFriends) return;
     setMyFriends(newFriends);
   }
   async function getFriendRequests() {
-    const newFriendRequests = await postDataToServer(
-      { userId: profile!.Id },
-      "get-friend-requests"
+    const response = await axiosBaseProfiles.get<profileDTO[]>(
+      `getFriendRequests/${profile?.Id}`
     );
+    const newFriendRequests = response.data;
     if (!newFriendRequests) return;
     setMyFriendRequests(newFriendRequests);
   }
   async function getSentFriendRequests() {
-    const newSentFriendRequests = await postDataToServer(
-      { userId: profile!.Id },
-      "get-sent-friend-requests"
+    const response = await axiosBaseProfiles.get<profileDTO[]>(
+      `getSentFriendRequests/${profile?.Id}`
     );
+    const newSentFriendRequests = response.data;
     if (!newSentFriendRequests) return;
     setMySentRequests(newSentFriendRequests);
   }

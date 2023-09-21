@@ -7,6 +7,7 @@ import "./styles.scss";
 import AuthenticationContext from "../../services/Contexts/AuthenticationContext";
 import { userCredentials } from "../../services/Models/auth.models";
 import { getClaims, saveToken } from "../../globals/Auth/HandleJWT";
+import { axiosBaseProfiles } from "../../globals/apiPaths";
 
 export default function Register() {
   const [errors, setErrors] = useState<string[]>([]);
@@ -16,13 +17,17 @@ export default function Register() {
   async function register(credentials: userCredentials) {
     try {
       setErrors([]);
-      const response = await sendCredentials(credentials, "register");
+      const userCredentials = {
+        Email: credentials.email,
+        Password: credentials.password,
+      };
+      const response = (await axiosBaseProfiles.post("register", userCredentials)).data;
       saveToken(response.token);
       update(getClaims());
       saveProfile(
-        response.user.id,
-        response.user.email,
-        response.user.profileImage
+        response.user.Id,
+        response.user.Email,
+        response.user.ProfileImage
       );
 
       if (response) {

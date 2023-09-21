@@ -1,12 +1,12 @@
 import "./style.scss";
 import { useContext } from "react";
-import { postDataToServer } from "../../../services/Firebase/FirebaseFunctions";
 import SearchOption from "../../Users/SearchOption";
 import { profileDTO } from "../../../services/Models/profiles.models";
 
 import MessagerSearchOption from "../MessagerSearchOption";
 import ProfileContext from "../../../services/Contexts/ProfileContext";
 import SearchTypeahead from "../../../_utils/SearchTypeahead";
+import { axiosBaseProfiles } from "../../../globals/apiPaths";
 
 interface MessagerSearchTypeaheadProps {
   setChoosenFriend: (profile: profileDTO) => void;
@@ -30,11 +30,11 @@ export default function MessagerSearchTypeahead({
     setProfiles: (profiles: profileDTO[]) => void
   ) {
     if (query) {
-      const response = await postDataToServer(
-        { userId:myProfile.Id, searchQuery: query },
-        "search-friends"
+      const response = await axiosBaseProfiles.get<profileDTO[]>(
+        `searchFriends/${myProfile.Id}?query=${query}`
       );
-      setProfiles(response);
+      const friendsSearched = response.data;
+      setProfiles(friendsSearched);
     } else {
       setProfiles([]);
     }
