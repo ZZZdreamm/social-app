@@ -11,7 +11,7 @@ import CallModal from "./components/WebRTC/CallModal";
 import Authorized from "./globals/Auth/Authorized";
 import { getClaims } from "./globals/Auth/HandleJWT";
 import { getProfile } from "./globals/Profile/HandleProfile";
-import { axiosBaseProfiles, socketURL } from "./globals/apiPaths";
+import { axiosBase, socketURL } from "./globals/apiPaths";
 import routes, { guardedRoutes } from "./globals/routes";
 import AuthenticationContext from "./services/Contexts/AuthenticationContext";
 import ProfileContext, {
@@ -59,7 +59,7 @@ function App() {
     if (!profile.Id) return;
     socket.on(`calling/${profile.Id}`, async (data) => {
       const caller = (
-        await axiosBaseProfiles.get<profileDTO>(`one/${data.userId}`)
+        await axiosBase.get<profileDTO>(`profiles/one/${data.userId}`)
       ).data;
       setCall(
         <CallModal
@@ -83,24 +83,24 @@ function App() {
   }, [profile]);
 
   async function getFriends() {
-    const response = await axiosBaseProfiles.get<profileDTO[]>(
-      `getFriends/${profile?.Id}`
+    const response = await axiosBase.get<profileDTO[]>(
+      `profiles/getFriends/${profile?.Id}`
     );
     const newFriends = response.data;
     if (!newFriends) return;
     setMyFriends(newFriends);
   }
   async function getFriendRequests() {
-    const response = await axiosBaseProfiles.get<profileDTO[]>(
-      `getFriendRequests/${profile?.Id}`
+    const response = await axiosBase.get<profileDTO[]>(
+      `profiles/getFriendRequests/${profile?.Id}`
     );
     const newFriendRequests = response.data;
     if (!newFriendRequests) return;
     setMyFriendRequests(newFriendRequests);
   }
   async function getSentFriendRequests() {
-    const response = await axiosBaseProfiles.get<profileDTO[]>(
-      `getSentFriendRequests/${profile?.Id}`
+    const response = await axiosBase.get<profileDTO[]>(
+      `profiles/getSentFriendRequests/${profile?.Id}`
     );
     const newSentFriendRequests = response.data;
     if (!newSentFriendRequests) return;

@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import PostForm from "../../components/Posts/PostForm";
 import PostsList from "../../components/Posts/PostsList";
 import Login from "../Login";
@@ -7,10 +7,12 @@ import RightBar from "../../components/MainComponents/Bars/RightBar";
 import "./style.scss";
 import useIsInViewport from "../../_utils/2Hooks/IsInViewPort";
 import Authorized from "../../globals/Auth/Authorized";
-import axios from "axios";
-import { axiosBasePosts } from "../../globals/apiPaths";
+// import { axiosBasePosts } from "../../globals/apiPaths";
+import ProfileContext from "../../services/Contexts/ProfileContext";
+import { axiosBase } from "../../globals/apiPaths";
 
 export default function LandingPage() {
+  const { myProfile } = useContext(ProfileContext);
   const [windowSize, setWindowSize] = useState(window.innerWidth);
   const [posts, setPosts] = useState<postDTO[]>();
   const [allPostsFetched, setAllPostsFetched] = useState(false);
@@ -18,8 +20,9 @@ export default function LandingPage() {
   let numberOfPosts = 10;
 
   useEffect(() => {
+    if (!myProfile.Id) return;
     getPosts();
-  }, []);
+  }, [myProfile]);
 
   var scrolledPageBottom = useIsInViewport(endOfPostsRef, "1000px");
   useEffect(() => {
@@ -41,7 +44,7 @@ export default function LandingPage() {
 
   async function getPosts() {
     const postsToGet = posts ? posts?.length + numberOfPosts : numberOfPosts;
-    const newPosts = (await axiosBasePosts.get<postDTO[]>(`all/${postsToGet}`))
+    const newPosts = (await axiosBase.get<postDTO[]>(`posts/all/${postsToGet}`))
       .data;
     if (newPosts && newPosts.length != 0) {
       if (posts && newPosts.length == posts.length) {

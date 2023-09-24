@@ -2,7 +2,8 @@ import "./style.scss";
 import SearchOption from "../SearchOption";
 import { profileDTO } from "../../../services/Models/profiles.models";
 import SearchTypeahead from "../../../_utils/SearchTypeahead";
-import { axiosBaseProfiles } from "../../../globals/apiPaths";
+import { axiosBase } from "../../../globals/apiPaths";
+// import { axiosBaseProfiles } from "../../../globals/apiPaths";
 
 export default function UserSearchTypeahead() {
   function typeaheadChildren(profile: profileDTO): React.ReactElement {
@@ -14,8 +15,8 @@ export default function UserSearchTypeahead() {
     setProfiles: (profiles: profileDTO[]) => void
   ) {
     if (query) {
-      const response = await axiosBaseProfiles.get<profileDTO[]>(
-        `search/${query}`
+      const response = await axiosBase.get<profileDTO[]>(
+        `profiles/search/${query}`
       );
       const users = response.data;
       const searchedUsers = users.slice(0, 5);

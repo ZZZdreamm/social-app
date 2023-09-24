@@ -19,7 +19,6 @@ export default function NightModeSwitch() {
   }, []);
 
   function toggleCheckbox() {
-    console.log("halo");
     const checkbox = document.getElementById(
       "hide-checkbox"
     ) as HTMLInputElement;

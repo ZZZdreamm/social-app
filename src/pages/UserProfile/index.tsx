@@ -1,9 +1,8 @@
 import { useContext, useEffect, useRef, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import uuid4 from "uuid4";
 
 import PostsList from "../../components/Posts/PostsList";
-import ListOfFriendsInProfile from "../../components/Users/ListOfFriendsInProfile";
 import { ReadyImagesURL } from "../../globals/appUrls";
 import ProfileContext, {
   FriendRequestsContext,
@@ -22,7 +21,7 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import useWindowSizeChanged from "../../_utils/2Hooks/useWindowSizeChanged";
 import ProfileFriendInPosts from "./ProfileFriendInPosts";
-import { axiosBasePosts, axiosBaseProfiles } from "../../globals/apiPaths";
+import { axiosBase } from "../../globals/apiPaths";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -36,8 +35,8 @@ export default function UserProfile() {
   useEffect(() => {
     if (!userProfile) return;
     const getData = async () => {
-      const response = await axiosBaseProfiles.get<profileDTO[]>(
-        `getFriends/${userProfile.Id}`
+      const response = await axiosBase.get<profileDTO[]>(
+        `profiles/getFriends/${userProfile.Id}`
       );
       const friends = response.data;
       setFriends(friends);
@@ -47,7 +46,7 @@ export default function UserProfile() {
 
   useEffect(() => {
     const getUserData = async () => {
-      const response = await axiosBaseProfiles.get<profileDTO>(`one/${id}`);
+      const response = await axiosBase.get<profileDTO>(`profiles/one/${id}`);
       const user = response.data;
       setUserProfile(user);
     };
@@ -119,8 +118,8 @@ const ProfileUp = ({
 
   async function checkIfInFriends() {
     if (userProfile && userProfile.Id && myProfile && myProfile.Id) {
-      const response = await axiosBaseProfiles.get<usersRelation>(
-        `ifInFriends?userId=${myProfile.Id}&friendId=${userProfile.Id}`
+      const response = await axiosBase.get<usersRelation>(
+        `profiles/ifInFriends?userId=${myProfile.Id}&friendId=${userProfile.Id}`
       );
       const relation = response.data;
       setRelationship(relation);
@@ -146,7 +145,7 @@ const ProfileUp = ({
       Email: myProfile.Email,
       ProfileImage: url,
     };
-    axiosBaseProfiles.patch("update", updateProfileDto);
+    axiosBase.patch("profiles/update", updateProfileDto);
     localStorage.setItem("profileImage", url);
     updateProfile({
       Id: myProfile.Id,
@@ -156,8 +155,10 @@ const ProfileUp = ({
   }
 
   async function acceptFriendRequest() {
-    const response = await axiosBaseProfiles.patch<profileDTO>(
-      `acceptFriendRequest?userId=${myProfile.Id}&friendId=${userProfile!.Id}`
+    const response = await axiosBase.patch<profileDTO>(
+      `profiles/acceptFriendRequest?userId=${myProfile.Id}&friendId=${
+        userProfile!.Id
+      }`
     );
     const addedFriend = response.data;
     const newFriendRequests = myFriendRequests!.filter(
@@ -171,8 +172,10 @@ const ProfileUp = ({
 
   async function sendFriendRequest() {
     setRelationship("inFriendRequests");
-    const response = await axiosBaseProfiles.post<profileDTO>(
-      `sendFriendRequest?userId=${myProfile.Id}&friendId=${userProfile!.Id}`
+    const response = await axiosBase.post<profileDTO>(
+      `profiles/sendFriendRequest?userId=${myProfile.Id}&friendId=${
+        userProfile!.Id
+      }`
     );
     const friend = response.data;
     //@ts-ignore
@@ -181,7 +184,7 @@ const ProfileUp = ({
   async function cancelFriendRequest() {
     setRelationship("stranger");
     const { Id } = (
-      await axiosBaseProfiles.delete<{ Id: string }>("removeFriendRequest")
+      await axiosBase.delete<{ Id: string }>("profiles/removeFriendRequest")
     ).data;
     const newFriends = mySentRequests!.filter(
       (tempFriend) => tempFriend.Id != Id
@@ -294,8 +297,8 @@ const ProfileDown = ({ userProfile, content, friends }: ProfileDownProps) => {
 
   async function getPosts(username: string) {
     const postsToGet = posts.length + numberOfPosts;
-    const response = await axiosBasePosts.get<postDTO[]>(
-      `userPosts/${username}?amount=${postsToGet}`
+    const response = await axiosBase.get<postDTO[]>(
+      `posts/userPosts/${username}?amount=${postsToGet}`
     );
     const newPosts = response.data;
     if (newPosts) {

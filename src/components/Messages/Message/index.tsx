@@ -9,7 +9,8 @@ import MessageOptions from "../../../components/Messages/Message/MessageOptions"
 import ShowFullImages from "../../../_utils/ShowFullImages";
 import "./style.scss";
 import BigImageModal from "../../../_utils/BigImageModal/index";
-import { axiosBaseMessages } from "../../../globals/apiPaths";
+import { axiosBase } from "../../../globals/apiPaths";
+// import { axiosBaseMessages } from "../../../globals/apiPaths";
 
 interface MessageProps {
   message: messageDTO;
@@ -122,7 +123,6 @@ const MessageContent = ({
       : 4;
 
   function showBigImages() {
-    console.log(message.MediaFiles);
     toggleModal();
   }
 
@@ -137,8 +137,8 @@ const MessageContent = ({
 
     const senderId =
       message.SenderId === myProfile.Id ? message.ReceiverId : message.SenderId;
-    const response = await axiosBaseMessages.get<messageDTO[]>(
-      `getMessagesToMessageWithId?userId=${myProfile.Id}&friendId=${senderId}&messageId=${message.responseTo.Id}`
+    const response = await axiosBase.get<messageDTO[]>(
+      `messages/getMessagesToMessageWithId?userId=${myProfile.Id}&friendId=${senderId}&messageId=${message.responseTo.Id}`
     );
     const fetchedMessages = response.data;
     const newMesses: any[] = [];

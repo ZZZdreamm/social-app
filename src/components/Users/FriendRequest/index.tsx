@@ -9,7 +9,8 @@ import ProfileContext, {
   SentFriendRequestsContext,
 } from "../../../services/Contexts/ProfileContext";
 import { ProfileImage } from "../../ProfileImage/ProfileImage";
-import { axiosBaseProfiles } from "../../../globals/apiPaths";
+import { axiosBase } from "../../../globals/apiPaths";
+// import { axiosBaseProfiles } from "../../../globals/apiPaths";
 
 export default function FriendRequest({ friend, sent }: FriendProps) {
   const { myProfile } = useContext(ProfileContext);
@@ -22,8 +23,8 @@ export default function FriendRequest({ friend, sent }: FriendProps) {
   );
 
   async function acceptRequest() {
-    const response = await axiosBaseProfiles.patch<profileDTO>(
-      `acceptFriendRequest?userId=${myProfile.Id}&friendId=${friend.Id}`
+    const response = await axiosBase.patch<profileDTO>(
+      `profiles/acceptFriendRequest?userId=${myProfile.Id}&friendId=${friend.Id}`
     );
     const addedFriend = response.data;
     const newFriendRequests = myFriendRequests!.filter(
@@ -37,10 +38,9 @@ export default function FriendRequest({ friend, sent }: FriendProps) {
 
   async function cancelRequest() {
     if (sent) {
-      console.log(myProfile.Id);
       const deletedFriend = (
-        await axiosBaseProfiles.delete<{ Id: string }>(
-          `removeFriendRequest?userId=${myProfile.Id}&friendId=${friend.Id}`
+        await axiosBase.delete<{ Id: string }>(
+          `profiles/removeFriendRequest?userId=${myProfile.Id}&friendId=${friend.Id}`
         )
       ).data;
       const newFriends = mySentRequests!.filter(
@@ -49,8 +49,8 @@ export default function FriendRequest({ friend, sent }: FriendProps) {
       updateSentFriendRequests(newFriends);
     } else {
       const deletedFriend = (
-        await axiosBaseProfiles.delete<{ Id: string }>(
-          `removeFriendRequest?userId=${myProfile.Id}&friendId=${friend.Id}`
+        await axiosBase.delete<{ Id: string }>(
+          `profiles/removeFriendRequest?userId=${myProfile.Id}&friendId=${friend.Id}`
         )
       ).data;
       const newFriends = myFriendRequests!.filter(

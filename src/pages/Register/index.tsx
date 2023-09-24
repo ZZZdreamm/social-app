@@ -7,7 +7,8 @@ import "./styles.scss";
 import AuthenticationContext from "../../services/Contexts/AuthenticationContext";
 import { userCredentials } from "../../services/Models/auth.models";
 import { getClaims, saveToken } from "../../globals/Auth/HandleJWT";
-import { axiosBaseProfiles } from "../../globals/apiPaths";
+import { axiosBase } from "../../globals/apiPaths";
+// import { axiosBaseProfiles } from "../../globals/apiPaths";
 
 export default function Register() {
   const [errors, setErrors] = useState<string[]>([]);
@@ -21,7 +22,7 @@ export default function Register() {
         Email: credentials.email,
         Password: credentials.password,
       };
-      const response = (await axiosBaseProfiles.post("register", userCredentials)).data;
+      const response = (await axiosBase.post("profiles/register", userCredentials)).data;
       saveToken(response.token);
       update(getClaims());
       saveProfile(

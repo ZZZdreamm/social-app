@@ -56,7 +56,6 @@ export default function Calling() {
         for (const track of stream.getTracks()) {
           pc.addTrack(track, stream);
         }
-        // console.log(stream)
         selfVideo.current.srcObject = stream;
 
         pc.ontrack = ({ track, streams }) => {
@@ -64,7 +63,6 @@ export default function Calling() {
             if (remoteVideo.current!.srcObject) {
               return;
             }
-            // console.log(streams[0]);
             remoteVideo.current!.srcObject = streams[0];
             // remoteVideo.current!.srcObject = stream
           };

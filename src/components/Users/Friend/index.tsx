@@ -7,15 +7,16 @@ import { useContext } from "react";
 import ProfileContext, {
   ProfileFriendsContext,
 } from "../../../services/Contexts/ProfileContext";
-import { axiosBaseProfiles } from "../../../globals/apiPaths";
+import { axiosBase } from "../../../globals/apiPaths";
+// import { axiosBaseProfiles } from "../../../globals/apiPaths";
 
 export default function Friend({ friend }: FriendProps) {
   const navigate = useNavigate();
   const { myProfile } = useContext(ProfileContext);
   const { myFriends, updateFriends } = useContext(ProfileFriendsContext);
   async function removeFriend() {
-    const response = await axiosBaseProfiles.delete<{ Id: string }>(
-      `deleteFriend?userId=${myProfile.Id}&friendId=${friend.Id}`
+    const response = await axiosBase.delete<{ Id: string }>(
+      `profiles/deleteFriend?userId=${myProfile.Id}&friendId=${friend.Id}`
     );
     const deletedFriend = response.data;
     const newFriends = myFriends!.filter(

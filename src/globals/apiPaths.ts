@@ -15,6 +15,7 @@ const headers = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Methods": "*",
   "Access-Control-Allow-Headers": "Content-Type",
+  Authorization: `Bearer ${localStorage.getItem("token")}`,
 };
 
 export const axiosBase = axios.create({
@@ -22,22 +23,16 @@ export const axiosBase = axios.create({
   headers: headers,
 });
 
-export const axiosBasePosts = axios.create({
-  baseURL: serverURL + "posts/",
-  headers: headers,
-});
-
-export const axiosBaseProfiles = axios.create({
-  baseURL: serverURL + "profiles/",
-  headers: headers,
-});
-
-export const axiosBaseComments = axios.create({
-  baseURL: serverURL + "comments/",
-  headers: headers,
-});
-
-export const axiosBaseMessages = axios.create({
-  baseURL: serverURL + "messages/",
-  headers: headers,
-});
+axiosBase.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if (process.env.NODE_ENV == `development`) {
+      console.log(error.response);
+    }
+    if (error.response.status === 401) {
+      localStorage.removeItem("token");
+      window.location.href = "/login";
+    }
+    return Promise.reject(error);
+  }
+);

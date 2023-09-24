@@ -6,7 +6,7 @@ import {
   messageResponseDTO,
 } from "../../../../services/Models/message.models";
 import "./style.scss";
-import { axiosBaseMessages } from "../../../../globals/apiPaths";
+import { axiosBase } from "../../../../globals/apiPaths";
 
 interface MessageOptionsProps {
   message: messageDTO;
@@ -40,8 +40,8 @@ export default function MessageOptions({
     setMessages((messages: messageDTO[]) =>
       messages.filter((m) => m.Id !== message.Id)
     );
-    axiosBaseMessages.delete(
-      `delete?userId=${message.SenderId}&friendId=${message.ReceiverId}&messageId=${message.Id}`
+    axiosBase.delete(
+      `messages/delete?userId=${message.SenderId}&friendId=${message.ReceiverId}&messageId=${message.Id}`
     );
   }
 

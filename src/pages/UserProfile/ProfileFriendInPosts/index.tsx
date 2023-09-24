@@ -6,7 +6,8 @@ import OpenedOptions from "../../../_utils/OpenedOptions";
 import ProfileContext, {
   ProfileFriendsContext,
 } from "../../../services/Contexts/ProfileContext";
-import { axiosBaseProfiles } from "../../../globals/apiPaths";
+import { axiosBase } from "../../../globals/apiPaths";
+// import { axiosBaseProfiles } from "../../../globals/apiPaths";
 
 interface ProfileFriendProps {
   friend: profileDTO;
@@ -22,8 +23,8 @@ const ProfileFriendInPosts = ({ friend }: ProfileFriendProps) => {
 
   async function removeFriend() {
     const deletedFriend = (
-      await axiosBaseProfiles.delete<{ Id: string }>(
-        `deleteFriend?userId=${myProfile.Id}&friendId=${friend.Id}`
+      await axiosBase.delete<{ Id: string }>(
+        `profiles/deleteFriend?userId=${myProfile.Id}&friendId=${friend.Id}`
       )
     ).data;
     const newFriends = myFriends!.filter(

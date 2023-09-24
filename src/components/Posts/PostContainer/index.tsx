@@ -11,8 +11,9 @@ import "./style.scss";
 import OpenedPostForm from "../PostForm/OpenedForm";
 import { getStringBetweenPercentSigns } from "../../../_utils/1Functions/StringManipulations";
 import { ProfileImage } from "../../ProfileImage/ProfileImage";
-import { axiosBaseComments, axiosBasePosts } from "../../../globals/apiPaths";
+// import { axiosBaseComments, axiosBasePosts } from "../../../globals/apiPaths";
 import axios from "axios";
+import { axiosBase } from "../../../globals/apiPaths";
 
 interface PostContainerProps {
   post: postDTO;
@@ -114,12 +115,11 @@ const PostProfileOptions = ({ post, setPosts }: PostProfileProps) => {
 
   async function deletePost() {
     const responseStatus = (
-      await axiosBasePosts.delete<responseStatus>(`delete?postId=${post.Id}`)
+      await axiosBase.delete<responseStatus>(`posts/delete?postId=${post.Id}`)
     ).data;
     if (responseStatus === "success") {
       //@ts-ignore
       setPosts((posts) => posts.filter((p) => p.Id != post.Id));
-      console.log("deleted");
     } else if (responseStatus === "error") {
       alert("Something went wrong, try again later");
     }
@@ -130,13 +130,12 @@ const PostProfileOptions = ({ post, setPosts }: PostProfileProps) => {
 
   async function submitEditionOfPost(post: postDTO) {
     const responseStatus = (
-      await axiosBasePosts.patch<responseStatus>(`update`, post)
+      await axiosBase.patch<responseStatus>(`posts/update`, post)
     ).data;
     if (responseStatus === "success") {
       //@ts-ignore
       setPosts((posts: postDTO[]) =>
         posts.map((p) => {
-          console.log(p.Id, post.Id);
           if (p.Id === post.Id) {
             return post;
           }
@@ -286,8 +285,8 @@ const Like = ({ post, amountOfLikes, setAmountOfLikes }: LikeProps) => {
   }, []);
 
   async function checkIfUserLiked() {
-    const response = await axiosBasePosts.get<boolean>(
-      `ifUserLiked?postId=${post.Id}&userId=${myProfile.Id}`
+    const response = await axiosBase.get<boolean>(
+      `posts/ifUserLiked?postId=${post.Id}&userId=${myProfile.Id}`
     );
     setYouLiked(response.data);
   }
@@ -300,10 +299,10 @@ const Like = ({ post, amountOfLikes, setAmountOfLikes }: LikeProps) => {
 
   async function likePost() {
     if (youLiked) {
-      axiosBasePosts.patch(`like?postId=${post.Id}&userId=${myProfile.Id}`);
+      axiosBase.patch(`posts/like?postId=${post.Id}&userId=${myProfile.Id}`);
     } else {
-      axiosBasePosts.patch(
-        `removeLike?postId=${post.Id}&userId=${myProfile.Id}`
+      axiosBase.patch(
+        `posts/removeLike?postId=${post.Id}&userId=${myProfile.Id}`
       );
     }
   }
@@ -361,7 +360,7 @@ const Comments = ({
 
   async function postComment() {
     setAmountOfComments((amountOfComments: number) => amountOfComments + 1);
-    const response = await axiosBaseComments.post<commentsDTO>(`create`, {
+    const response = await axiosBase.post<commentsDTO>(`comments/create`, {
       PostId: post.Id,
       UserId: myProfile.Id,
       TextContent: commentText,
@@ -373,8 +372,8 @@ const Comments = ({
   }
 
   async function getComments(numberOfComments: number) {
-    const response = await axiosBaseComments.get<commentsDTO[]>(
-      `all/${numberOfComments}?postId=${post.Id}`
+    const response = await axiosBase.get<commentsDTO[]>(
+      `comments/all/${numberOfComments}?postId=${post.Id}`
     );
     const newComments = response.data;
     if (comments?.length == newComments.length) {

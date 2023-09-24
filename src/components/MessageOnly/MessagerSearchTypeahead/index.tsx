@@ -6,7 +6,7 @@ import { profileDTO } from "../../../services/Models/profiles.models";
 import MessagerSearchOption from "../MessagerSearchOption";
 import ProfileContext from "../../../services/Contexts/ProfileContext";
 import SearchTypeahead from "../../../_utils/SearchTypeahead";
-import { axiosBaseProfiles } from "../../../globals/apiPaths";
+import { axiosBase } from "../../../globals/apiPaths";
 
 interface MessagerSearchTypeaheadProps {
   setChoosenFriend: (profile: profileDTO) => void;
@@ -30,8 +30,8 @@ export default function MessagerSearchTypeahead({
     setProfiles: (profiles: profileDTO[]) => void
   ) {
     if (query) {
-      const response = await axiosBaseProfiles.get<profileDTO[]>(
-        `searchFriends/${myProfile.Id}?query=${query}`
+      const response = await axiosBase.get<profileDTO[]>(
+        `profiles/searchFriends/${myProfile.Id}?query=${query}`
       );
       const friendsSearched = response.data;
       setProfiles(friendsSearched);

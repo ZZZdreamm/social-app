@@ -4,7 +4,8 @@ import OpenedPostForm from "./OpenedForm";
 import "./style.scss";
 import { addItemToState } from "../../../_utils/1Functions/StateModifications";
 import { ProfileImage } from "../../ProfileImage/ProfileImage";
-import { axiosBasePosts } from "../../../globals/apiPaths";
+import { axiosBase } from "../../../globals/apiPaths";
+// import { axiosBasePosts } from "../../../globals/apiPaths";
 
 export default function PostForm({ setPosts }: PostFormProps) {
   const [isOpen, setIsOpen] = useState(false);
@@ -14,7 +15,7 @@ export default function PostForm({ setPosts }: PostFormProps) {
   }
 
   function onSubmit(post: postCreationDTO) {
-    axiosBasePosts.post<postDTO>("create", post).then((response) => {
+    axiosBase.post<postDTO>("posts/create", post).then((response) => {
       const newPost = response.data;
       addItemToState(newPost, setPosts);
     });
