@@ -107,6 +107,7 @@ function App() {
     setMySentRequests(newSentFriendRequests);
   }
 
+
   return (
     <AuthenticationContext.Provider value={{ claims, update: setClaims }}>
       <ProfileContext.Provider

@@ -19,7 +19,10 @@ export function ProfileImage({
   children,
   ...props
 }: ProfileImageProps) {
-  const image = imageURL || `${ReadyImagesURL}/noProfile.jpg`;
+  const image =
+    imageURL !== "undefined"
+      ? imageURL || `${ReadyImagesURL}/noProfile.jpg`
+      : `${ReadyImagesURL}/noProfile.jpg`;
   return (
     <Image
       size={sizeInRem}

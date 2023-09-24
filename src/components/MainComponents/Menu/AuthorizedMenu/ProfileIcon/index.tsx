@@ -42,7 +42,13 @@ export default function ProfileIcon({}: MenuChildProps) {
         <div
           className={styles.smallProfileImage}
           onClick={() => toggleModal(!visibleModal)}
-          style={{ backgroundImage: `url(${myProfile.ProfileImage})` }}
+          style={{
+            backgroundImage: `url(${
+              myProfile.ProfileImage !== "undefined"
+                ? myProfile.ProfileImage
+                : `${ReadyImagesURL}/noProfile.jpg`
+            })`,
+          }}
         >
           <img
             className={styles.arrowImage}
@@ -63,7 +69,7 @@ export default function ProfileIcon({}: MenuChildProps) {
             src={myProfile.ProfileImage || `${ReadyImagesURL}/noProfile.jpg`}
             alt=""
           /> */}
-          <ProfileImage imageURL={myProfile.ProfileImage} padding={0.25}/>
+          <ProfileImage imageURL={myProfile.ProfileImage} padding={0.25} />
           <h4>{myProfile.Email}</h4>
         </div>
         {profileOptions &&
