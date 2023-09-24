@@ -44,6 +44,8 @@ npm run start
   <li>infinite scrolling to not download too much data in one time</li>
   <li>searching system</li>
   <li>catching user data in local storage</li>
+    <li>authentication with jwt</li>
+    <li>authorization with roles</li>
 </ul>
 
 <h2>TODO:</h2>
