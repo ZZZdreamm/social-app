@@ -1,4 +1,5 @@
 import axios from "axios";
+import { logout } from "./Auth/HandleJWT";
 
 export let serverURL = "https://cacarrot-server.herokuapp.com/";
 export let socketURL = "https://cacarrot-server.herokuapp.com/";
@@ -23,16 +24,21 @@ export const axiosBase = axios.create({
   headers: headers,
 });
 
+const loginUrl =
+  process.env.NODE_ENV == `production` ? "/social-app/login" : "/login";
+
 axiosBase.interceptors.response.use(
   (response) => response,
   (error) => {
     if (process.env.NODE_ENV == `development`) {
       console.log(error.response);
     }
-    if (error.response.status === 401) {
-      localStorage.removeItem("token");
-      window.location.href = "/login";
+    if (error.response.status === 403) {
+      return;
+    } else if (error.response.status === 401) {
+      logout();
+      // window.location.href = loginUrl;
     }
-    return Promise.reject(error);
+    return;
   }
 );
