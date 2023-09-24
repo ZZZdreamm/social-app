@@ -31,6 +31,7 @@ export default function AuthForm(props: authFormProps, ifRegister: boolean) {
     >
       {/* <label htmlFor="email">Email</label> */}
       <input
+        autoComplete="on"
         style={{ textAlign: "left" }}
         className="auth-input my-input"
         onChange={handleChange}
@@ -44,6 +45,7 @@ export default function AuthForm(props: authFormProps, ifRegister: boolean) {
       )}
       {/* <label htmlFor="password">Password</label> */}
       <input
+        autoComplete="on"
         style={{ textAlign: "left" }}
         className="auth-input my-input"
         onChange={handleChange}
@@ -55,7 +57,12 @@ export default function AuthForm(props: authFormProps, ifRegister: boolean) {
       {touched.password && errors.password && (
         <div className="error">{errors.password}</div>
       )}
-      <button className="auth-submit" disabled={submission} type="submit" style={{ marginTop: "50px" }}>
+      <button
+        className="auth-submit"
+        disabled={submission}
+        type="submit"
+        style={{ marginTop: "50px" }}
+      >
         Submit
       </button>
     </form>
