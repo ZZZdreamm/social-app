@@ -10,13 +10,18 @@ export function getClaims(): claim[] {
   if (!token || token === "null" || token === "undefined") {
     return [];
   }
-  const dataToken = JSON.parse(atob(token.split(".")[1]));
-  const response: claim[] = [];
-  for (const property in dataToken) {
-    response.push({ name: property, value: dataToken[property] });
-  }
+  try {
+    const dataToken = JSON.parse(atob(token.split(".")[1]));
+    const response: claim[] = [];
+    for (const property in dataToken) {
+      response.push({ name: property, value: dataToken[property] });
+    }
 
-  return response;
+    return response;
+  } catch (e) {
+    logout();
+    return [];
+  }
 }
 
 export function logout() {

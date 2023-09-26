@@ -2,13 +2,11 @@ import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import AuthForm from "../../globals/Auth/AuthForm/AuthForm";
 import { saveProfile } from "../../globals/Profile/HandleProfile";
-import { sendCredentials } from "../../globals/Auth/AuthFunctions";
 import "./styles.scss";
 import AuthenticationContext from "../../services/Contexts/AuthenticationContext";
 import { userCredentials } from "../../services/Models/auth.models";
 import { getClaims, saveToken } from "../../globals/Auth/HandleJWT";
 import { axiosBase } from "../../globals/apiPaths";
-// import { axiosBaseProfiles } from "../../globals/apiPaths";
 
 export default function Register() {
   const [errors, setErrors] = useState<string[]>([]);

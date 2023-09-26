@@ -61,7 +61,7 @@ export default function AuthForm(props: authFormProps, ifRegister: boolean) {
         className="auth-submit"
         disabled={submission}
         type="submit"
-        style={{ marginTop: "50px" }}
+        style={{ marginTop: "25px" }}
       >
         Submit
       </button>

@@ -164,22 +164,22 @@ const ChatBody = ({
   }, [scrolledChatUp]);
 
   useEffect(() => {
-    if (myProfile.Id && newestMessagesRef && friend.Id) {
-      getMessages();
-      socket.on(`receive-message/${myProfile.Id}/${friend.Id}`, (message) => {
-        if (!messages.includes(message)) {
-          setMessages((messages: messageDTO[]) => {
-            return [...messages, message];
-          });
-          setTimeout(() => {
-            if (newestMessagesRef.current) {
-              newestMessagesRef.current.scrollIntoView();
-            }
-          }, 400);
-        }
-      });
-    }
-  }, [myProfile, newestMessagesRef, friend.Id]);
+    if (!myProfile.Id || !newestMessagesRef || !friend.Id) return;
+    getMessages();
+    socket.on(`receive-message/${myProfile.Id}/${friend.Id}`, (message) => {
+      if (!messages.includes(message)) {
+        setMessages((messages: messageDTO[]) => {
+          return [...messages, message];
+        });
+        setTimeout(() => {
+          if (newestMessagesRef.current) {
+            newestMessagesRef.current.scrollIntoView();
+          }
+        }, 400);
+      }
+    });
+  }, [myProfile.Id, newestMessagesRef, friend.Id]);
+
   async function getMessages() {
     if (fetchedAllMessages) return;
     const messagesToGet = messages?.length + numberOfMessages;

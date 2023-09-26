@@ -2,21 +2,18 @@ import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import AuthForm from "../../globals/Auth/AuthForm/AuthForm";
 import { saveProfile } from "../../globals/Profile/HandleProfile";
-import "./styles.scss";
 import AuthenticationContext from "../../services/Contexts/AuthenticationContext";
 import { userCredentials } from "../../services/Models/auth.models";
 import { getClaims, saveToken } from "../../globals/Auth/HandleJWT";
 import { axiosBase } from "../../globals/apiPaths";
-import { ExampleAccountLoginButton } from "../../components/exampleAccountLogin/ExampleAccountLoginButton";
+import styled from "styled-components";
 
-export default function Login() {
-  const [errors, setErrors] = useState<string[]>([]);
+export function ExampleAccountLoginButton() {
   const { update } = useContext(AuthenticationContext);
   const navigate = useNavigate();
 
   async function login(credentials: userCredentials) {
     try {
-      setErrors([]);
       const userCredentials = {
         Email: credentials.email,
         Password: credentials.password,
@@ -35,39 +32,28 @@ export default function Login() {
         navigate("/");
         navigate(0);
       }
-    } catch (error) {
-      setErrors(["Your login or password was wrong!"]);
-    }
+    } catch (error) {}
   }
-
   return (
-    <div className="notLogged">
-      <div className="auth-container">
-        <h1 className="auth-title">Login</h1>
-        <AuthForm
-          model={{ email: "example@gmail.com", password: "Example1@" }}
-          onSubmit={async (values) => await login(values)}
-          submitButtonName="Login"
-        />
-        <div>Or</div>
-        <ExampleAccountLoginButton />
-        <div className="auth-link">
-          <div>
-            Don't have an account?{" "}
-            <span
-              onClick={() => navigate("/register")}
-              style={{
-                textDecoration: "underline",
-                color: "highlight",
-                cursor: "pointer",
-              }}
-            >
-              Register here!
-            </span>
-          </div>
-        </div>
-        <span style={{ color: "red" }}>{errors}</span>
-      </div>
-    </div>
+    <LoginButton
+      className="auth-submit"
+      onClick={() => login({ email: "mag@gmail.com", password: "Example1@" })}
+    >
+      Login with example account
+    </LoginButton>
   );
 }
+
+const LoginButton = styled.button`
+  border-radius: 1.6rem;
+  border: 1px solid #ff4b2b;
+  background-color: #ff4b2b;
+  color: #ffffff;
+  font-weight: bold;
+  padding: 12px 50px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  transition: transform 80ms ease-in;
+  margin: 20px 0;
+  width: 80%;
+`;
