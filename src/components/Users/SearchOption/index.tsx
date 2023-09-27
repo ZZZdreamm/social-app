@@ -1,39 +1,41 @@
 import "./style.scss";
 import { useNavigate } from "react-router-dom";
-import ProfileContext from "../../../services/Contexts/ProfileContext";
-import { useContext } from "react";
-import { ReadyImagesURL } from "../../../globals/appUrls";
 import { profileDTO } from "../../../services/Models/profiles.models";
 import { ProfileImage } from "../../ProfileImage/ProfileImage";
+import { useProfilesRelationsContext } from "../../../services/Contexts/ProfileDataContext";
 
 interface SearchOptionProps {
-  profile: profileDTO;
+  userProfile: profileDTO;
 }
-export default function SearchOption({ profile }: SearchOptionProps) {
+export default function SearchOption({ userProfile }: SearchOptionProps) {
   const navigate = useNavigate();
-  const { myProfile } = useContext(ProfileContext);
+  const { profile } = useProfilesRelationsContext();
   return (
     <>
-      {myProfile.Email != profile.Email && (
+      {profile?.Email != userProfile.Email && (
         <div
-          key={profile.Id}
+          key={userProfile.Id}
           className="data-option medium-font"
           onClick={() => {
-            navigate(`user-profile/${profile.Id}`);
+            navigate(`user-profile/${userProfile.Id}`);
             const typeahead = document.getElementById(
               "user-search-typeahead"
             ) as HTMLInputElement;
             typeahead.value = "";
           }}
         >
-          <span style={{ display: "flex", alignItems: "center", gap: '0.5rem' }}>
+          <span
+            style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}
+          >
             {/* <img
               className="data-option-part image"
               src={profile.ProfileImage || `${ReadyImagesURL}/noProfile.jpg`}
               alt=""
             /> */}
-            <ProfileImage imageURL={profile.ProfileImage} />
-            <span className="data-option-part" style={{textAlign: 'left'}}>{profile.Email}</span>
+            <ProfileImage imageURL={userProfile.ProfileImage} />
+            <span className="data-option-part" style={{ textAlign: "left" }}>
+              {userProfile.Email}
+            </span>
           </span>
         </div>
       )}

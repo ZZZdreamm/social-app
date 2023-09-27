@@ -1,12 +1,10 @@
-import { useContext, useState } from "react";
-import ProfileContext from "../../../services/Contexts/ProfileContext";
+import { useState } from "react";
 import OpenedPostForm from "./OpenedForm";
 import "./style.scss";
 import { addItemToState } from "../../../_utils/1Functions/StateModifications";
 import { ProfileImage } from "../../ProfileImage/ProfileImage";
 import { axiosBase } from "../../../globals/apiPaths";
-import { ReadyImagesURL } from "../../../globals/appUrls";
-// import { axiosBasePosts } from "../../../globals/apiPaths";
+import { useProfilesRelationsContext } from "../../../services/Contexts/ProfileDataContext";
 
 export default function PostForm({ setPosts }: PostFormProps) {
   const [isOpen, setIsOpen] = useState(false);
@@ -46,11 +44,11 @@ export interface PostFormChildProps {
 }
 
 const UpperPart = ({ toggleModal }: PostFormChildProps) => {
-  const { myProfile } = useContext(ProfileContext);
+  const { profile } = useProfilesRelationsContext();
 
   return (
     <span className="post-form-up shadow-around">
-      <ProfileImage imageURL={myProfile.ProfileImage} padding={0.25} />
+      <ProfileImage imageURL={profile?.ProfileImage} padding={0.25} />
       <div className="post-form-up-placeholder" onClick={toggleModal}>
         What do you want to post?
       </div>

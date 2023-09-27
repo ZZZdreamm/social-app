@@ -1,19 +1,19 @@
-import { useContext, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import styles from "../../style.module.scss";
 import "./style.scss";
-import AuthenticationContext from "../../../../../services/Contexts/AuthenticationContext";
-import ProfileContext from "../../../../../services/Contexts/ProfileContext";
 import { ReadyImagesURL } from "../../../../../globals/appUrls";
 import { logout } from "../../../../../globals/Auth/HandleJWT";
 import { useNavigate } from "react-router-dom";
 import { MenuChildProps } from "..";
 import useClickedNotOnElement from "../../../../../_utils/2Hooks/useClickedNotOnElement";
 import { ProfileImage } from "../../../../ProfileImage/ProfileImage";
+import { useAuthData } from "../../../../../hooks/useAuthData";
+import { useProfilesRelationsContext } from "../../../../../services/Contexts/ProfileDataContext";
 
 export default function ProfileIcon({}: MenuChildProps) {
   const navigate = useNavigate();
-  const { update } = useContext(AuthenticationContext);
-  const { myProfile } = useContext(ProfileContext);
+  const { setClaims } = useAuthData();
+  const { profile } = useProfilesRelationsContext();
   const iconRef = useRef(null);
   const [visibleModal, setVisibleModal] = useState(false);
 
@@ -44,8 +44,8 @@ export default function ProfileIcon({}: MenuChildProps) {
           onClick={() => toggleModal(!visibleModal)}
           style={{
             backgroundImage: `url(${
-              myProfile.ProfileImage !== "undefined"
-                ? myProfile.ProfileImage
+              profile?.ProfileImage !== "undefined"
+                ? profile?.ProfileImage
                 : `${ReadyImagesURL}/noProfile.jpg`
             })`,
           }}
@@ -62,15 +62,11 @@ export default function ProfileIcon({}: MenuChildProps) {
           className={styles.profile}
           onClick={() => {
             toggleModal(!visibleModal);
-            navigate(`/user-profile/${myProfile.Id}`);
+            navigate(`/user-profile/${profile?.Id}`);
           }}
         >
-          {/* <img
-            src={myProfile.ProfileImage || `${ReadyImagesURL}/noProfile.jpg`}
-            alt=""
-          /> */}
-          <ProfileImage imageURL={myProfile.ProfileImage} padding={0.25} />
-          <h4>{myProfile.Email}</h4>
+          <ProfileImage imageURL={profile?.ProfileImage} padding={0.25} />
+          <h4>{profile?.Email}</h4>
         </div>
         {profileOptions &&
           profileOptions.map((option) => {
@@ -85,7 +81,7 @@ export default function ProfileIcon({}: MenuChildProps) {
           onClick={() => {
             logout();
             localStorage.removeItem("username");
-            update([]);
+            setClaims([]);
             navigate("/");
             navigate(0);
           }}

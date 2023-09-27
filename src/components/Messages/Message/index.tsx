@@ -1,5 +1,4 @@
-import { useContext, useEffect, useState } from "react";
-import ProfileContext from "../../../services/Contexts/ProfileContext";
+import { useEffect, useState } from "react";
 import {
   messageDTO,
   messageResponseDTO,
@@ -10,7 +9,7 @@ import ShowFullImages from "../../../_utils/ShowFullImages";
 import "./style.scss";
 import BigImageModal from "../../../_utils/BigImageModal/index";
 import { axiosBase } from "../../../globals/apiPaths";
-// import { axiosBaseMessages } from "../../../globals/apiPaths";
+import { useProfilesRelationsContext } from "../../../services/Contexts/ProfileDataContext";
 
 interface MessageProps {
   message: messageDTO;
@@ -31,7 +30,7 @@ export default function Message({
   optionsOpen,
   setOptionsOpen,
 }: MessageProps) {
-  const { myProfile } = useContext(ProfileContext);
+  const { profile } = useProfilesRelationsContext();
   const [styling, setStyling] = useState({});
   const [fromFriend, setFromFriend] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
@@ -42,14 +41,14 @@ export default function Message({
   }
 
   useEffect(() => {
-    if (!myProfile) return;
-    if (myProfile.Id == message.SenderId) {
+    if (!profile) return;
+    if (profile?.Id == message.SenderId) {
       setStyling({ alignSelf: "flex-end", flexDirection: "row-reverse" });
     } else {
       setStyling({ alignSelf: "flex-start", flexDirection: "row" });
       setFromFriend(true);
     }
-  }, [myProfile]);
+  }, [profile]);
   return (
     <div
       id={`message/${message.Id}`}
@@ -107,7 +106,7 @@ const MessageContent = ({
   toggleModal,
   setMessages,
 }: MessageContentProps) => {
-  const { myProfile } = useContext(ProfileContext);
+  const { profile } = useProfilesRelationsContext();
   const [scrollToMessage, setScrollToMessage] = useState(false);
   const contentStyle = fromFriend
     ? { backgroundColor: "#E4E6EB" }
@@ -136,9 +135,9 @@ const MessageContent = ({
     }
 
     const senderId =
-      message.SenderId === myProfile.Id ? message.ReceiverId : message.SenderId;
+      message.SenderId === profile?.Id ? message.ReceiverId : message.SenderId;
     const response = await axiosBase.get<messageDTO[]>(
-      `messages/getMessagesToMessageWithId?userId=${myProfile.Id}&friendId=${senderId}&messageId=${message.responseTo.Id}`
+      `messages/getMessagesToMessageWithId?userId=${profile?.Id}&friendId=${senderId}&messageId=${message.responseTo.Id}`
     );
     const fetchedMessages = response.data;
     const newMesses: any[] = [];

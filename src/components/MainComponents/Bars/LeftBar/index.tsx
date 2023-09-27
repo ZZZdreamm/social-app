@@ -1,18 +1,16 @@
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import ProfileContext, {
-  OpenedChatsContext,
-} from "../../../../services/Contexts/ProfileContext";
 import { ReadyImagesURL } from "../../../../globals/appUrls";
-
 import "./style.scss";
 import "../style.scss";
 import { ProfileImage } from "../../../ProfileImage/ProfileImage";
+import { useProfilesRelationsContext } from "../../../../services/Contexts/ProfileDataContext";
+import { useOpenedChatsContext } from "../../../../services/Contexts/OpenedChatsContext";
 
 export default function LeftBar() {
   const navigate = useNavigate();
-  const { myProfile } = useContext(ProfileContext);
-  const { updateOpenedChats } = useContext(OpenedChatsContext);
+  const { profile } = useProfilesRelationsContext();
+  const { setOpenedChats } = useOpenedChatsContext();
   const location = useLocation();
   const [windowSize, setWindowSize] = useState(window.innerWidth);
 
@@ -57,7 +55,7 @@ export default function LeftBar() {
   }
   return (
     <nav className="bar bar-left" style={barStyling}>
-      {myProfile && (
+      {profile && (
         <ul>
           <li
             style={elementsStyling}
@@ -74,7 +72,7 @@ export default function LeftBar() {
           <li
             style={elementsStyling}
             onClick={() => {
-              navigate(`user-profile/${myProfile.Id}`);
+              navigate(`user-profile/${profile.Id}`);
             }}
           >
             {location.pathname.includes("user-profile") && (
@@ -84,13 +82,13 @@ export default function LeftBar() {
               src={myProfile.ProfileImage || `${ReadyImagesURL}/noProfile.jpg`}
               alt=""
             /> */}
-            <ProfileImage imageURL={myProfile.ProfileImage} />
-            {fullBar && <span className="medium-font">{myProfile.Email}</span>}
+            <ProfileImage imageURL={profile.ProfileImage} />
+            {fullBar && <span className="medium-font">{profile.Email}</span>}
           </li>
           <li
             style={elementsStyling}
             onClick={() => {
-              navigate(`/user-friends/${myProfile.Id}`);
+              navigate(`/user-friends/${profile.Id}`);
             }}
           >
             {location.pathname.includes("user-friends") && (
@@ -103,7 +101,7 @@ export default function LeftBar() {
           <li
             style={elementsStyling}
             onClick={() => {
-              navigate(`/user-friend-requests/${myProfile.Id}`);
+              navigate(`/user-friend-requests/${profile.Id}`);
             }}
           >
             {location.pathname.includes("user-friend-requests") && (
@@ -116,7 +114,7 @@ export default function LeftBar() {
           <li
             style={elementsStyling}
             onClick={() => {
-              navigate(`/user-sent-friend-requests/${myProfile.Id}`);
+              navigate(`/user-sent-friend-requests/${profile.Id}`);
             }}
           >
             {location.pathname.includes("user-sent-friend-requests") && (
@@ -135,8 +133,8 @@ export default function LeftBar() {
           <li
             style={elementsStyling}
             onClick={() => {
-              updateOpenedChats([]);
-              navigate(`/messaging-only/${myProfile.Id}`);
+              setOpenedChats([]);
+              navigate(`/messaging-only/${profile.Id}`);
             }}
           >
             <img src={`${ReadyImagesURL}/messaging-only.png`} alt="" />

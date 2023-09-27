@@ -6,10 +6,10 @@ export let socketURL = "https://cacarrot-server.herokuapp.com/";
 export const localServerURL = "http://localhost:5000/";
 export const localSocketURL = "http://localhost:5000/";
 
-if (process.env.NODE_ENV == `development`) {
-  serverURL = localServerURL;
-  socketURL = localSocketURL;
-}
+// if (process.env.NODE_ENV == `development`) {
+//   serverURL = localServerURL;
+//   socketURL = localSocketURL;
+// }
 
 const headers = {
   "Content-Type": "application/json",

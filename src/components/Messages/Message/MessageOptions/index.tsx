@@ -1,12 +1,11 @@
-import { useContext } from "react";
 import { ReadyImagesURL } from "../../../../globals/appUrls";
-import ProfileContext from "../../../../services/Contexts/ProfileContext";
 import {
   messageDTO,
   messageResponseDTO,
 } from "../../../../services/Models/message.models";
 import "./style.scss";
 import { axiosBase } from "../../../../globals/apiPaths";
+import { useProfilesRelationsContext } from "../../../../services/Contexts/ProfileDataContext";
 
 interface MessageOptionsProps {
   message: messageDTO;
@@ -26,7 +25,7 @@ export default function MessageOptions({
   setIsOpen,
 }: MessageOptionsProps) {
   // const [isOpen, setIsOpen] = useState("");
-  const { myProfile } = useContext(ProfileContext);
+  const { profile } = useProfilesRelationsContext();
 
   function toggleModal(name: string) {
     if (isOpen === name) {
@@ -57,7 +56,7 @@ export default function MessageOptions({
   return (
     <>
       <div id={`message-options/${toWhom}`} className="message-options">
-        {myProfile?.Id == message.SenderId && (
+        {profile?.Id == message.SenderId && (
           <img
             className="message-options__icon"
             src={`${ReadyImagesURL}/moreOptionsChat.png`}

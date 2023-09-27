@@ -1,22 +1,26 @@
 import "./style.scss";
-import { useContext } from "react";
-import { OpenedChatsContext } from "../../../services/Contexts/ProfileContext";
 import { profileDTO } from "../../../services/Models/profiles.models";
-
 import { ReadyImagesURL } from "../../../globals/appUrls";
+import { useOpenedChatsContext } from "../../../services/Contexts/OpenedChatsContext";
 
 export default function RightBarFriend({ friend }: FriendProps) {
-  const {openedChats, updateOpenedChats} = useContext(OpenedChatsContext)
-  function openChat(){
-    if(!openedChats.includes(friend)){
-      const chats = [friend, ...openedChats]
-      updateOpenedChats(chats)
+  const { openedChats, setOpenedChats } = useOpenedChatsContext();
+  function openChat() {
+    if (!openedChats.includes(friend)) {
+      const chats = [friend, ...openedChats];
+      setOpenedChats(chats);
     }
   }
   return (
     <li data-testid="rightBarFriend" onClick={openChat}>
-      <img data-testid="rightBarFriend-image" src={friend.ProfileImage || `${ReadyImagesURL}/noProfile.jpg`} alt=""/>
-      <span data-testid="rightBarFriend-email" className="medium-font">{friend.Email}</span>
+      <img
+        data-testid="rightBarFriend-image"
+        src={friend.ProfileImage || `${ReadyImagesURL}/noProfile.jpg`}
+        alt=""
+      />
+      <span data-testid="rightBarFriend-email" className="medium-font">
+        {friend.Email}
+      </span>
     </li>
   );
 }

@@ -3,12 +3,12 @@ import styles from "../../style.module.scss";
 import MessagerBox from "./MessagerBox";
 import { ReadyImagesURL } from "../../../../../globals/appUrls";
 import { MenuChildProps } from "..";
-import { useContext, useRef, useState } from "react";
-import { ProfileFriendsContext } from "../../../../../services/Contexts/ProfileContext";
+import { useRef, useState } from "react";
 import useClickedNotOnElement from "../../../../../_utils/2Hooks/useClickedNotOnElement";
+import { useProfilesRelationsContext } from "../../../../../services/Contexts/ProfileDataContext";
 
 export default function MessagerIcon({}: MenuChildProps) {
-  const { myFriends } = useContext(ProfileFriendsContext);
+  const { friends } = useProfilesRelationsContext();
   const [visibleModal, setVisibleModal] = useState(false);
 
   const iconRef = useRef(null);
@@ -38,7 +38,7 @@ export default function MessagerIcon({}: MenuChildProps) {
       />
       <div className={messagerContainerStyle}>
         <MessagerBox
-          friends={myFriends}
+          friends={friends}
           toggleModal={() => toggleModal(!visibleModal)}
         />
       </div>

@@ -7,7 +7,7 @@ import { axiosBase } from "../../../globals/apiPaths";
 
 export default function UserSearchTypeahead() {
   function typeaheadChildren(profile: profileDTO): React.ReactElement {
-    return <SearchOption profile={profile} />;
+    return <SearchOption userProfile={profile} />;
   }
 
   async function searchProfiles(

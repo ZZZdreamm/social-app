@@ -1,18 +1,16 @@
-import { useContext, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import PostForm from "../../components/Posts/PostForm";
 import PostsList from "../../components/Posts/PostsList";
 import Login from "../Login";
 import RightBar from "../../components/MainComponents/Bars/RightBar";
-
 import "./style.scss";
 import useIsInViewport from "../../_utils/2Hooks/IsInViewPort";
 import Authorized from "../../globals/Auth/Authorized";
-// import { axiosBasePosts } from "../../globals/apiPaths";
-import ProfileContext from "../../services/Contexts/ProfileContext";
 import { axiosBase } from "../../globals/apiPaths";
+import { useProfilesRelationsContext } from "../../services/Contexts/ProfileDataContext";
 
 export default function LandingPage() {
-  const { myProfile } = useContext(ProfileContext);
+  const { profile } = useProfilesRelationsContext();
   const [windowSize, setWindowSize] = useState(window.innerWidth);
   const [posts, setPosts] = useState<postDTO[]>();
   const [allPostsFetched, setAllPostsFetched] = useState(false);
@@ -20,9 +18,9 @@ export default function LandingPage() {
   let numberOfPosts = 10;
 
   useEffect(() => {
-    if (!myProfile.Id) return;
+    if (!profile?.Id) return;
     getPosts();
-  }, [myProfile]);
+  }, [profile]);
 
   var scrolledPageBottom = useIsInViewport(endOfPostsRef, "1000px");
   useEffect(() => {

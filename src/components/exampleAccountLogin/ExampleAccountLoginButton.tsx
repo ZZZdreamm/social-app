@@ -1,15 +1,13 @@
-import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import AuthForm from "../../globals/Auth/AuthForm/AuthForm";
 import { saveProfile } from "../../globals/Profile/HandleProfile";
-import AuthenticationContext from "../../services/Contexts/AuthenticationContext";
 import { userCredentials } from "../../services/Models/auth.models";
 import { getClaims, saveToken } from "../../globals/Auth/HandleJWT";
 import { axiosBase } from "../../globals/apiPaths";
 import styled from "styled-components";
+import { useAuthData } from "../../hooks/useAuthData";
 
 export function ExampleAccountLoginButton() {
-  const { update } = useContext(AuthenticationContext);
+  const { setClaims } = useAuthData();
   const navigate = useNavigate();
 
   async function login(credentials: userCredentials) {
@@ -26,7 +24,7 @@ export function ExampleAccountLoginButton() {
         responseData.user.Email,
         responseData.user.ProfileImage
       );
-      update(getClaims());
+      setClaims(getClaims());
 
       if (response) {
         navigate("/");

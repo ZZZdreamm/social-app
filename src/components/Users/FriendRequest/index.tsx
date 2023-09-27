@@ -1,62 +1,55 @@
 import "./style.scss";
-import { useContext } from "react";
 import { profileDTO } from "../../../services/Models/profiles.models";
-
-import { ReadyImagesURL } from "../../../globals/appUrls";
-import ProfileContext, {
-  FriendRequestsContext,
-  ProfileFriendsContext,
-  SentFriendRequestsContext,
-} from "../../../services/Contexts/ProfileContext";
 import { ProfileImage } from "../../ProfileImage/ProfileImage";
 import { axiosBase } from "../../../globals/apiPaths";
-// import { axiosBaseProfiles } from "../../../globals/apiPaths";
+import { useProfilesRelationsContext } from "../../../services/Contexts/ProfileDataContext";
 
 export default function FriendRequest({ friend, sent }: FriendProps) {
-  const { myProfile } = useContext(ProfileContext);
-  const { myFriends, updateFriends } = useContext(ProfileFriendsContext);
-  const { myFriendRequests, updateFriendRequests } = useContext(
-    FriendRequestsContext
-  );
-  const { mySentRequests, updateSentFriendRequests } = useContext(
-    SentFriendRequestsContext
-  );
+  const {
+    profile,
+    friends,
+    friendsRequests,
+    sentFriendsRequests,
+    setFriends,
+    setFriendsRequests,
+    setSentFriendsRequests,
+  } = useProfilesRelationsContext();
 
   async function acceptRequest() {
     const response = await axiosBase.patch<profileDTO>(
-      `profiles/acceptFriendRequest?userId=${myProfile.Id}&friendId=${friend.Id}`
+      `profiles/acceptFriendRequest?userId=${profile?.Id}&friendId=${friend.Id}`
     );
     const addedFriend = response.data;
-    const newFriendRequests = myFriendRequests!.filter(
+    const newFriendRequests = friendsRequests!.filter(
       (tempFriend) => tempFriend.Id != friend.Id
     );
-    updateFriendRequests(newFriendRequests);
-    let newFriends = [...myFriends!];
+    setFriendsRequests(newFriendRequests);
+    let newFriends = [...friends!];
     newFriends.push(addedFriend);
-    updateFriends(newFriends);
+    setFriends(newFriends);
   }
 
   async function cancelRequest() {
     if (sent) {
       const deletedFriend = (
         await axiosBase.delete<{ Id: string }>(
-          `profiles/removeFriendRequest?userId=${myProfile.Id}&friendId=${friend.Id}`
+          `profiles/removeFriendRequest?userId=${profile?.Id}&friendId=${friend.Id}`
         )
       ).data;
-      const newFriends = mySentRequests!.filter(
+      const newFriends = sentFriendsRequests!.filter(
         (tempFriend) => tempFriend.Id != deletedFriend.Id
       );
-      updateSentFriendRequests(newFriends);
+      setSentFriendsRequests(newFriends);
     } else {
       const deletedFriend = (
         await axiosBase.delete<{ Id: string }>(
-          `profiles/removeFriendRequest?userId=${myProfile.Id}&friendId=${friend.Id}`
+          `profiles/removeFriendRequest?userId=${profile?.Id}&friendId=${friend.Id}`
         )
       ).data;
-      const newFriends = myFriendRequests!.filter(
+      const newFriends = friendsRequests!.filter(
         (tempFriend) => tempFriend.Id != deletedFriend.Id
       );
-      updateFriendRequests(newFriends);
+      setFriendsRequests(newFriends);
     }
   }
   return (

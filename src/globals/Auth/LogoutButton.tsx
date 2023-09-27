@@ -1,17 +1,16 @@
 import { useNavigate } from "react-router-dom";
 import { logout } from "./HandleJWT";
-import { useContext } from "react";
-import AuthenticationContext from "../../services/Contexts/AuthenticationContext";
+import { useAuthData } from "../../hooks/useAuthData";
 
 export default function LogoutButton() {
   const navigate = useNavigate();
-  const { update } = useContext(AuthenticationContext);
+  const { setClaims } = useAuthData();
   return (
     <button
       onClick={() => {
         logout();
         localStorage.removeItem("username");
-        update([]);
+        setClaims([]);
         navigate("/");
         navigate(0);
       }}

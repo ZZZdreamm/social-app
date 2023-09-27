@@ -1,13 +1,9 @@
 import { useNavigate } from "react-router-dom";
 import { ReadyImagesURL } from "../../../globals/appUrls";
 import { profileDTO } from "../../../services/Models/profiles.models";
-import { useState, useContext } from "react";
 import OpenedOptions from "../../../_utils/OpenedOptions";
-import ProfileContext, {
-  ProfileFriendsContext,
-} from "../../../services/Contexts/ProfileContext";
 import { axiosBase } from "../../../globals/apiPaths";
-// import { axiosBaseProfiles } from "../../../globals/apiPaths";
+import { useProfilesRelationsContext } from "../../../services/Contexts/ProfileDataContext";
 
 interface ProfileFriendProps {
   friend: profileDTO;
@@ -15,8 +11,7 @@ interface ProfileFriendProps {
 
 const ProfileFriendInPosts = ({ friend }: ProfileFriendProps) => {
   const navigate = useNavigate();
-  const { myProfile } = useContext(ProfileContext);
-  const { myFriends, updateFriends } = useContext(ProfileFriendsContext);
+  const { profile, friends, setFriends } = useProfilesRelationsContext();
   function goToProfile() {
     navigate(`/user-profile/${friend?.Id}`);
   }
@@ -24,13 +19,13 @@ const ProfileFriendInPosts = ({ friend }: ProfileFriendProps) => {
   async function removeFriend() {
     const deletedFriend = (
       await axiosBase.delete<{ Id: string }>(
-        `profiles/deleteFriend?userId=${myProfile.Id}&friendId=${friend.Id}`
+        `profiles/deleteFriend?userId=${profile?.Id}&friendId=${friend.Id}`
       )
     ).data;
-    const newFriends = myFriends!.filter(
+    const newFriends = friends!.filter(
       (tempFriend) => tempFriend.Id != deletedFriend.Id
     );
-    updateFriends(newFriends);
+    setFriends(newFriends);
     navigate(0);
   }
 

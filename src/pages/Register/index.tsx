@@ -1,16 +1,16 @@
-import { useContext, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import AuthForm from "../../globals/Auth/AuthForm/AuthForm";
 import { saveProfile } from "../../globals/Profile/HandleProfile";
 import "./styles.scss";
-import AuthenticationContext from "../../services/Contexts/AuthenticationContext";
 import { userCredentials } from "../../services/Models/auth.models";
 import { getClaims, saveToken } from "../../globals/Auth/HandleJWT";
 import { axiosBase } from "../../globals/apiPaths";
+import { useAuthData } from "../../hooks/useAuthData";
 
 export default function Register() {
-  const [errors, setErrors] = useState<string[]>([]);
-  const { update } = useContext(AuthenticationContext);
+  const [, setErrors] = useState<string[]>([]);
+  const { setClaims } = useAuthData();
   const navigate = useNavigate();
 
   async function register(credentials: userCredentials) {
@@ -20,9 +20,11 @@ export default function Register() {
         Email: credentials.email,
         Password: credentials.password,
       };
-      const response = (await axiosBase.post("profiles/register", userCredentials)).data;
+      const response = (
+        await axiosBase.post("profiles/register", userCredentials)
+      ).data;
       saveToken(response.token);
-      update(getClaims());
+      setClaims(getClaims());
       saveProfile(
         response.user.Id,
         response.user.Email,

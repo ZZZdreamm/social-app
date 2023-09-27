@@ -1,37 +1,36 @@
-import { useContext } from "react";
-import ProfileContext from "../../../services/Contexts/ProfileContext";
 import { profileDTO } from "../../../services/Models/profiles.models";
-
-import { ReadyImagesURL } from "../../../globals/appUrls";
 import "./style.scss";
 import { ProfileImage } from "../../ProfileImage/ProfileImage";
+import { useProfilesRelationsContext } from "../../../services/Contexts/ProfileDataContext";
 
 interface SearchOptionProps {
-  profile: profileDTO;
+  userProfile: profileDTO;
   setChoosenFriend: (profile: profileDTO) => void;
 }
 export default function MessagerSearchOption({
-  profile,
+  userProfile,
   setChoosenFriend,
 }: SearchOptionProps) {
-  const { myProfile } = useContext(ProfileContext);
+  const { profile } = useProfilesRelationsContext();
   return (
     <>
-      {myProfile.Email != profile.Email && (
+      {profile?.Email != userProfile.Email && (
         <div
-          key={profile.Id}
+          key={userProfile.Id}
           className="data-option medium-font"
           onClick={() => {
-            setChoosenFriend(profile);
+            setChoosenFriend(userProfile);
             const typeahead = document.getElementById(
               "user-search-typeahead"
             ) as HTMLInputElement;
             typeahead.value = "";
           }}
         >
-          <span style={{ display: "flex", alignItems: "center", gap: '0.5rem' }}>
-            <ProfileImage imageURL={profile.ProfileImage} />
-            <span className="data-option-part">{profile.Email}</span>
+          <span
+            style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}
+          >
+            <ProfileImage imageURL={userProfile.ProfileImage} />
+            <span className="data-option-part">{userProfile.Email}</span>
           </span>
         </div>
       )}

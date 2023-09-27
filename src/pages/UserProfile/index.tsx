@@ -1,14 +1,8 @@
-import { useContext, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import uuid4 from "uuid4";
-
 import PostsList from "../../components/Posts/PostsList";
 import { ReadyImagesURL } from "../../globals/appUrls";
-import ProfileContext, {
-  FriendRequestsContext,
-  ProfileFriendsContext,
-  SentFriendRequestsContext,
-} from "../../services/Contexts/ProfileContext";
 import { storageRef } from "../../services/Firebase/FirebaseConfig";
 import "./style.scss";
 import { profileDTO } from "../../services/Models/profiles.models";
@@ -22,6 +16,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import useWindowSizeChanged from "../../_utils/2Hooks/useWindowSizeChanged";
 import ProfileFriendInPosts from "./ProfileFriendInPosts";
 import { axiosBase } from "../../globals/apiPaths";
+import { useProfilesRelationsContext } from "../../services/Contexts/ProfileDataContext";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -89,14 +84,15 @@ const ProfileUp = ({
   setContent,
   userFriends,
 }: ProfileUpProps) => {
-  const { myProfile, updateProfile } = useContext(ProfileContext);
-  const { myFriends, updateFriends } = useContext(ProfileFriendsContext);
-  const { myFriendRequests, updateFriendRequests } = useContext(
-    FriendRequestsContext
-  );
-  const { mySentRequests, updateSentFriendRequests } = useContext(
-    SentFriendRequestsContext
-  );
+  const { profile, setProfile } = useProfilesRelationsContext();
+  const {
+    friends,
+    friendsRequests,
+    sentFriendsRequests,
+    setFriends,
+    setFriendsRequests,
+    setSentFriendsRequests,
+  } = useProfilesRelationsContext();
   const [relationship, setRelationship] = useState<usersRelation>();
 
   const [file, setFile] = useState<File>();
@@ -114,12 +110,12 @@ const ProfileUp = ({
 
   useEffect(() => {
     checkIfInFriends();
-  }, [myProfile, userProfile]);
+  }, [profile, userProfile, checkIfInFriends]);
 
   async function checkIfInFriends() {
-    if (userProfile && userProfile.Id && myProfile && myProfile.Id) {
+    if (userProfile && userProfile.Id && profile && profile?.Id) {
       const response = await axiosBase.get<usersRelation>(
-        `profiles/ifInFriends?userId=${myProfile.Id}&friendId=${userProfile.Id}`
+        `profiles/ifInFriends?userId=${profile?.Id}&friendId=${userProfile.Id}`
       );
       const relation = response.data;
       setRelationship(relation);
@@ -141,39 +137,39 @@ const ProfileUp = ({
     }
     setChoosenImage(url!);
     const updateProfileDto = {
-      Id: myProfile.Id,
-      Email: myProfile.Email,
+      Id: profile?.Id,
+      Email: profile?.Email,
       ProfileImage: url,
     };
     await axiosBase.patch("profiles/update", updateProfileDto);
     localStorage.setItem("profileImage", url);
-    updateProfile({
-      Id: myProfile.Id,
-      Email: myProfile.Email,
+    setProfile({
+      Id: profile?.Id ?? "",
+      Email: profile?.Email ?? "",
       ProfileImage: url,
     });
   }
 
   async function acceptFriendRequest() {
     const response = await axiosBase.patch<profileDTO>(
-      `profiles/acceptFriendRequest?userId=${myProfile.Id}&friendId=${
+      `profiles/acceptFriendRequest?userId=${profile?.Id}&friendId=${
         userProfile!.Id
       }`
     );
     const addedFriend = response.data;
-    const newFriendRequests = myFriendRequests!.filter(
+    const newFriendRequests = friendsRequests!.filter(
       (tempFriend) => tempFriend.Id != userProfile!.Id
     );
-    updateFriendRequests(newFriendRequests);
-    let newFriends = [...myFriends!];
+    setFriendsRequests(newFriendRequests);
+    let newFriends = [...friends!];
     newFriends.push(addedFriend);
-    updateFriends(newFriends);
+    setFriends(newFriends);
   }
 
   async function sendFriendRequest() {
     setRelationship("inFriendRequests");
     const response = await axiosBase.post<profileDTO>(
-      `profiles/sendFriendRequest?userId=${myProfile.Id}&friendId=${
+      `profiles/sendFriendRequest?userId=${profile?.Id}&friendId=${
         userProfile!.Id
       }`
     );
@@ -186,10 +182,10 @@ const ProfileUp = ({
     const { Id } = (
       await axiosBase.delete<{ Id: string }>("profiles/removeFriendRequest")
     ).data;
-    const newFriends = mySentRequests!.filter(
+    const newFriends = sentFriendsRequests!.filter(
       (tempFriend) => tempFriend.Id != Id
     );
-    updateSentFriendRequests(newFriends);
+    setSentFriendsRequests(newFriends);
   }
   return (
     <div id="profile-up" className="profile-up">
@@ -327,6 +323,7 @@ const ProfileDown = ({ userProfile, content, friends }: ProfileDownProps) => {
   // }, [nineFriends]);
   const windowSize = useWindowSizeChanged(() => {});
 
+  console.log(posts)
   return (
     <div className="profile-down">
       {content == "posts" && (

@@ -1,17 +1,17 @@
-import { useContext, useEffect, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import AuthForm from "../../globals/Auth/AuthForm/AuthForm";
 import { saveProfile } from "../../globals/Profile/HandleProfile";
 import "./styles.scss";
-import AuthenticationContext from "../../services/Contexts/AuthenticationContext";
 import { userCredentials } from "../../services/Models/auth.models";
 import { getClaims, saveToken } from "../../globals/Auth/HandleJWT";
 import { axiosBase } from "../../globals/apiPaths";
 import { ExampleAccountLoginButton } from "../../components/exampleAccountLogin/ExampleAccountLoginButton";
+import { useAuthData } from "../../hooks/useAuthData";
 
 export default function Login() {
   const [errors, setErrors] = useState<string[]>([]);
-  const { update } = useContext(AuthenticationContext);
+  const { setClaims } = useAuthData();
   const navigate = useNavigate();
 
   async function login(credentials: userCredentials) {
@@ -29,7 +29,7 @@ export default function Login() {
         responseData.user.Email,
         responseData.user.ProfileImage
       );
-      update(getClaims());
+      setClaims(getClaims());
 
       if (response) {
         navigate("/");

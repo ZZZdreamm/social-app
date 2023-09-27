@@ -1,12 +1,9 @@
 import "./style.scss";
-import { useContext } from "react";
-import SearchOption from "../../Users/SearchOption";
 import { profileDTO } from "../../../services/Models/profiles.models";
-
 import MessagerSearchOption from "../MessagerSearchOption";
-import ProfileContext from "../../../services/Contexts/ProfileContext";
 import SearchTypeahead from "../../../_utils/SearchTypeahead";
 import { axiosBase } from "../../../globals/apiPaths";
+import { useProfilesRelationsContext } from "../../../services/Contexts/ProfileDataContext";
 
 interface MessagerSearchTypeaheadProps {
   setChoosenFriend: (profile: profileDTO) => void;
@@ -15,11 +12,11 @@ interface MessagerSearchTypeaheadProps {
 export default function MessagerSearchTypeahead({
   setChoosenFriend,
 }: MessagerSearchTypeaheadProps) {
-  const { myProfile } = useContext(ProfileContext);
+  const { profile } = useProfilesRelationsContext();
   function typeaheadChildren(profile: profileDTO): React.ReactElement {
     return (
       <MessagerSearchOption
-        profile={profile}
+        userProfile={profile}
         setChoosenFriend={setChoosenFriend}
       />
     );
@@ -31,7 +28,7 @@ export default function MessagerSearchTypeahead({
   ) {
     if (query) {
       const response = await axiosBase.get<profileDTO[]>(
-        `profiles/searchFriends/${myProfile.Id}?query=${query}`
+        `profiles/searchFriends/${profile?.Id}?query=${query}`
       );
       const friendsSearched = response.data;
       setProfiles(friendsSearched);

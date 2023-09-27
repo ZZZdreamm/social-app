@@ -1,11 +1,7 @@
 import "./style.scss";
-
-import { ReactElement, useContext, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import uuid4 from "uuid4";
 import { socket } from "../../../App";
-import ProfileContext, {
-  OpenedChatsContext,
-} from "../../../services/Contexts/ProfileContext";
 import { storageRef } from "../../../services/Firebase/FirebaseConfig";
 import {
   messageCreationDTO,
@@ -24,6 +20,8 @@ import useIsInViewport from "../../../_utils/2Hooks/IsInViewPort";
 import { useNavigate } from "react-router-dom";
 import { ProfileImage } from "../../ProfileImage/ProfileImage";
 import { axiosBase } from "../../../globals/apiPaths";
+import { useProfilesRelationsContext } from "../../../services/Contexts/ProfileDataContext";
+import { useOpenedChatsContext } from "../../../services/Contexts/OpenedChatsContext";
 
 interface ChatWithFriendProps {
   friend: profileDTO;
@@ -80,22 +78,22 @@ const ChatHeader = ({
   smallChatClose,
 }: ChatHeaderProps) => {
   const navigate = useNavigate();
-  const { myProfile } = useContext(ProfileContext);
-  const { openedChats, updateOpenedChats } = useContext(OpenedChatsContext);
+  const { profile } = useProfilesRelationsContext();
+  const { openedChats, setOpenedChats } = useOpenedChatsContext();
   const image = friend.ProfileImage || `${ReadyImagesURL}/noProfile.jpg`;
 
   function closeChat() {
     const chats = openedChats.filter((chat) => chat.Id != friend.Id);
-    updateOpenedChats(chats);
+    setOpenedChats(chats);
   }
   function callFriend() {
     const roomId = uuid4();
     socket.emit("create-join-room", {
-      myId: myProfile.Id,
+      myId: profile?.Id,
       friendId: friend.Id,
       roomId: roomId,
     });
-    openCallWindow(myProfile, friend, roomId, "caller");
+    openCallWindow(profile!, friend, roomId, "caller");
   }
   const goToProfile = () => {
     navigate(`/user-profile/${friend.Id}`);
@@ -104,12 +102,6 @@ const ChatHeader = ({
     <div id={`chat-header/${friend.Id}`} className="chat-header">
       {<>{smallChatClose}</>}
       <span className="chat-header-userProfile">
-        {/* <img
-          onClick={goToProfile}
-          className="chat-header-userProfile-image"
-          src={image}
-          alt=""
-        /> */}
         <ProfileImage imageURL={image} onClick={goToProfile} />
         <span className="chat-header-userProfile-name">{friend.Email}</span>
       </span>
@@ -143,7 +135,7 @@ const ChatBody = ({
   setRespondTo,
   newestMessagesRef,
 }: ChatBodyProps) => {
-  const { myProfile } = useContext(ProfileContext);
+  const { profile } = useProfilesRelationsContext();
   const [messages, setMessages] = useState<any[]>([]);
   const [chatOpen, setChatOpen] = useState(false);
   const [fetchedAllMessages, setFetchedAllMessages] = useState(false);
@@ -164,9 +156,9 @@ const ChatBody = ({
   }, [scrolledChatUp]);
 
   useEffect(() => {
-    if (!myProfile.Id || !newestMessagesRef || !friend.Id) return;
+    if (!profile?.Id || !newestMessagesRef || !friend.Id) return;
     getMessages();
-    socket.on(`receive-message/${myProfile.Id}/${friend.Id}`, (message) => {
+    socket.on(`receive-message/${profile?.Id}/${friend.Id}`, (message) => {
       if (!messages.includes(message)) {
         setMessages((messages: messageDTO[]) => {
           return [...messages, message];
@@ -178,13 +170,13 @@ const ChatBody = ({
         }, 400);
       }
     });
-  }, [myProfile.Id, newestMessagesRef, friend.Id]);
+  }, [profile?.Id, newestMessagesRef, friend.Id]);
 
   async function getMessages() {
     if (fetchedAllMessages) return;
     const messagesToGet = messages?.length + numberOfMessages;
     const response = await axiosBase.get<messageDTO[]>(
-      `messages/getChatMessages?userId=${myProfile.Id}&friendId=${friend.Id}&amount=${messagesToGet}`
+      `messages/getChatMessages?userId=${profile?.Id}&friendId=${friend.Id}&amount=${messagesToGet}`
     );
     const messes = response.data;
     if (messes && messages && messes.length == messages.length) {
@@ -241,7 +233,7 @@ const ChatFooter = ({
   respondTo,
   setRespondTo,
 }: ChatFooter) => {
-  const { myProfile } = useContext(ProfileContext);
+  const { profile } = useProfilesRelationsContext();
   const [textToSend, setTextToSend] = useState("");
   const [audioURL, setAudioURL] = useState("");
   const [voiceMessage, setVoiceMessage] = useState<Blob>();
@@ -252,9 +244,9 @@ const ChatFooter = ({
 
   async function sendMessage() {
     let messageToSend: messageCreationDTO = {
-      SenderId: myProfile.Id,
+      SenderId: profile?.Id ?? "",
       ReceiverId: friend.Id,
-      SenderName: myProfile.Email.split("@")[0],
+      SenderName: profile?.Email.split("@")[0] ?? "",
       TextContent: textToSend,
       MediaFiles: [],
       VoiceFile: "",

@@ -1,15 +1,14 @@
 import "./style.scss";
-import { useContext } from "react";
-import { FriendRequestsContext } from "../../services/Contexts/ProfileContext";
 import FriendRequestsList from "../../components/Users/FriendRequestsList";
+import { useProfilesRelationsContext } from "../../services/Contexts/ProfileDataContext";
 
 export default function UserFriendRequests() {
-  const { myFriendRequests } = useContext(FriendRequestsContext);
+  const { friendsRequests } = useProfilesRelationsContext();
 
   return (
     <div className="friendRequests">
       <h2 className="mv-1">Your incoming requests</h2>
-      <FriendRequestsList friends={myFriendRequests} sent={false} />
+      <FriendRequestsList friends={friendsRequests} sent={false} />
     </div>
   );
 }

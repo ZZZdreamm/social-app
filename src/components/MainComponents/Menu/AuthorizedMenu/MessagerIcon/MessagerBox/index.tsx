@@ -1,15 +1,10 @@
-import { useContext } from "react";
-import UserSearchTypeahead from "../../../../../Users/UserSearchTypeahead";
-
 import "./style.scss";
-import ProfileContext, {
-  OpenedChatsContext,
-} from "../../../../../../services/Contexts/ProfileContext";
-import { ReadyImagesURL } from "../../../../../../globals/appUrls";
 import { useNavigate } from "react-router-dom";
 import MessagerSearchTypeahead from "../../../../../MessageOnly/MessagerSearchTypeahead";
 import { profileDTO } from "../../../../../../services/Models/profiles.models";
 import { ProfileImage } from "../../../../../ProfileImage/ProfileImage";
+import { useProfilesRelationsContext } from "../../../../../../services/Contexts/ProfileDataContext";
+import { useOpenedChatsContext } from "../../../../../../services/Contexts/OpenedChatsContext";
 
 interface MessagerBoxProps {
   friends: profileDTO[] | undefined;
@@ -21,17 +16,15 @@ export default function MessagerBox({
   toggleModal,
 }: MessagerBoxProps) {
   const navigate = useNavigate();
-  const {
-    myProfile: { Id: myID },
-  } = useContext(ProfileContext);
-  const { openedChats, updateOpenedChats } = useContext(OpenedChatsContext);
+  const { profile } = useProfilesRelationsContext();
+  const { openedChats, setOpenedChats } = useOpenedChatsContext();
 
   function addNewChat(profile: profileDTO) {
     toggleModal();
 
     if (openedChats?.find((x) => x.Id === profile.Id)) return;
     //@ts-ignore
-    updateOpenedChats((openedChats: profileDTO[]) => [...openedChats, profile]);
+    setOpenedChats((openedChats: profileDTO[]) => [...openedChats, profile]);
   }
   return (
     <div className="messagerBox">
@@ -53,10 +46,6 @@ export default function MessagerBox({
                 className="messagerBox__body__friends__friend"
                 onClick={() => addNewChat(friend)}
               >
-                {/* <img
-                src={friend.ProfileImage || `${ReadyImagesURL}/noProfile.jpg`}
-                alt=""
-              /> */}
                 <ProfileImage imageURL={friend.ProfileImage} />
                 <span>{friend.Email}</span>
               </div>
@@ -68,7 +57,7 @@ export default function MessagerBox({
           <h4
             onClick={() => {
               toggleModal();
-              navigate(`/messaging-only/${myID}`);
+              navigate(`/messaging-only/${profile?.Id}`);
             }}
           >
             Show all chats

@@ -1,32 +1,28 @@
 import "./style.scss";
 
-import { useContext, useEffect, useState } from "react";
-import ProfileContext, {
-  ProfileFriendsContext,
-} from "../../services/Contexts/ProfileContext";
+import { useEffect, useState } from "react";
 import { ReadyImagesURL } from "../../globals/appUrls";
 import MessagerChat from "../../components/MessageOnly/MessagerChat";
 import MessagerFriendList from "../../components/MessageOnly/MessagerFriendList";
 import MessagerSearchTypeahead from "../../components/MessageOnly/MessagerSearchTypeahead";
 import MobileMessager from "../../components/MessageOnly/MobileMessager/MobileMessager";
-import ChatWithFriend from "../../components/Messages/ChatWithFriend";
 import { profileDTO } from "../../services/Models/profiles.models";
 import GoToMenuButton from "../../_utils/GoToMenuButton";
 import Portal from "../../_utils/Portal/Portal";
+import { useProfilesRelationsContext } from "../../services/Contexts/ProfileDataContext";
 
 export default function Messager() {
-  const { myFriends } = useContext(ProfileFriendsContext);
   const [choosenFriend, setChoosenFriend] = useState<profileDTO>();
   const [windowSize, setWindowSize] = useState(window.innerWidth);
-  const { myProfile } = useContext(ProfileContext);
+  const { profile, friends } = useProfilesRelationsContext();
 
   const mobile = windowSize < 600 ? true : false;
 
   useEffect(() => {
-    if (!myFriends) return;
+    if (!friends) return;
     if (mobile) return;
-    setChoosenFriend(myFriends[0]);
-  }, [myFriends, mobile]);
+    setChoosenFriend(friends[0]);
+  }, [friends, mobile]);
 
   useEffect(() => {
     function handleResize() {
@@ -51,8 +47,8 @@ export default function Messager() {
           <>
             <nav className="messager-nav">
               <span>
-                <img src={`${ReadyImagesURL}/messaging-only.png`} alt=""/>
-                <img src={myProfile.ProfileImage} alt=""/>
+                <img src={`${ReadyImagesURL}/messaging-only.png`} alt="" />
+                <img src={profile?.ProfileImage} alt="" />
               </span>
             </nav>
             <span id="go-to-app">
@@ -63,7 +59,7 @@ export default function Messager() {
                 <h2>Chats</h2>
                 <MessagerSearchTypeahead setChoosenFriend={setChoosenFriend} />
                 <MessagerFriendList
-                  friends={myFriends}
+                  friends={friends}
                   setChoosenFriend={setChoosenFriend}
                 />
               </section>

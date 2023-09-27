@@ -1,16 +1,15 @@
 import "./style.scss";
-import { useContext } from "react";
-import { ProfileFriendsContext } from "../../services/Contexts/ProfileContext";
 import FriendsList from "../../components/Users/FriendsList";
+import { useProfilesRelationsContext } from "../../services/Contexts/ProfileDataContext";
 
 export default function UserFriends() {
-  const {myFriends} = useContext(ProfileFriendsContext)
+  const { friends } = useProfilesRelationsContext();
 
   return (
     <div className="friends">
       <h2 className="mv-1">Your friends</h2>
       <span className="friends-container">
-        <FriendsList friends={myFriends}/>
+        <FriendsList friends={friends} />
       </span>
     </div>
   );

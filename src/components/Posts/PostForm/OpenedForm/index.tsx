@@ -1,6 +1,5 @@
-import { useState, useContext, useEffect, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import "./style.scss";
-import ProfileContext from "../../../../services/Contexts/ProfileContext";
 import { storageRef } from "../../../../services/Firebase/FirebaseConfig";
 import uuid4 from "uuid4";
 import FileDropElement from "../../FileDropElement";
@@ -9,6 +8,7 @@ import { ReadyImagesURL } from "../../../../globals/appUrls";
 import { PostFormChildProps } from "..";
 import MyModal from "../../../../_utils/Modal/Modal";
 import { ProfileImage } from "../../../ProfileImage/ProfileImage";
+import { useProfilesRelationsContext } from "../../../../services/Contexts/ProfileDataContext";
 
 interface ImagesListProps {
   filesArray: [File, string][];
@@ -81,7 +81,7 @@ export default function OpenedPostForm({
     AutorName: "",
   },
 }: PostFormProps) {
-  const { myProfile } = useContext(ProfileContext);
+  const { profile } = useProfilesRelationsContext();
   const textareaRef = useRef<HTMLDivElement>(null);
   const [text, setText] = useState(currentPost.text);
   const [filesArray, setFilesArray] = useState<[File, string][]>(
@@ -91,8 +91,8 @@ export default function OpenedPostForm({
   const disableSubmit = !text && filesArray.length <= 0 ? true : false;
   const onFormSubmit = async () => {
     const post: any = {
-      AutorId: myProfile.Id,
-      AutorName: myProfile.Email,
+      AutorId: profile?.Id,
+      AutorName: profile?.Email,
       TextContent: text,
       MediaFiles: [],
       Date: Date.now(),
@@ -154,11 +154,11 @@ export default function OpenedPostForm({
           <div className="modal-header">{headerTitle}</div>
           <div className="modal-body">
             <span className="modal-body-profile">
-              <ProfileImage imageURL={myProfile.ProfileImage} />
-              <span>{myProfile.Email}</span>
+              <ProfileImage imageURL={profile?.ProfileImage} />
+              <span>{profile?.Email}</span>
             </span>
             <div
-            ref={textareaRef}
+              ref={textareaRef}
               className="modal-body-text"
               placeholder="Write something..."
               contentEditable

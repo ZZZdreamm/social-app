@@ -1,19 +1,17 @@
-import { useContext, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { addItemToState } from "../../../_utils/1Functions/StateModifications";
 import useDebounce from "../../../_utils/2Hooks/useDebounce";
 import ScrollingMediaFiles from "../../../_utils/ScrollingMediaFiles";
 import Textarea from "../../../_utils/Textarea";
 import { ReadyImagesURL } from "../../../globals/appUrls";
-import ProfileContext from "../../../services/Contexts/ProfileContext";
 import ListOfComments from "../../Comments/ListOfComments";
 import "./style.scss";
 import OpenedPostForm from "../PostForm/OpenedForm";
 import { getStringBetweenPercentSigns } from "../../../_utils/1Functions/StringManipulations";
 import { ProfileImage } from "../../ProfileImage/ProfileImage";
-// import { axiosBaseComments, axiosBasePosts } from "../../../globals/apiPaths";
-import axios from "axios";
 import { axiosBase } from "../../../globals/apiPaths";
+import { useProfilesRelationsContext } from "../../../services/Contexts/ProfileDataContext";
 
 interface PostContainerProps {
   post: postDTO;
@@ -95,7 +93,7 @@ const PostProfile = ({ post, setPosts }: PostProfileProps) => {
 };
 
 const PostProfileOptions = ({ post, setPosts }: PostProfileProps) => {
-  const { myProfile } = useContext(ProfileContext);
+  const { profile } = useProfilesRelationsContext();
   const [optionsOpen, setOptionsOpen] = useState(false);
   const [editOpen, setEditOpen] = useState(false);
   function toggleOptions() {
@@ -164,7 +162,7 @@ const PostProfileOptions = ({ post, setPosts }: PostProfileProps) => {
           id={`post-profile-options__list/${post.Id}`}
           className="post-profile-options__list shadow-around"
         >
-          {post.AutorId === myProfile.Id && (
+          {post.AutorId === profile?.Id && (
             <>
               <div
                 className="post-profile-options__list__child"
@@ -180,7 +178,7 @@ const PostProfileOptions = ({ post, setPosts }: PostProfileProps) => {
               </div>
             </>
           )}
-          {post.AutorId !== myProfile.Id && (
+          {post.AutorId !== profile?.Id && (
             <div className="post-profile-options__list__child">
               Report (doesnt work)
             </div>
@@ -275,7 +273,7 @@ interface LikeProps extends PostProps {
 }
 
 const Like = ({ post, amountOfLikes, setAmountOfLikes }: LikeProps) => {
-  const { myProfile } = useContext(ProfileContext);
+  const { profile } = useProfilesRelationsContext();
   const [youLiked, setYouLiked] = useState<boolean>();
   const [clicked, setClicked] = useState(false);
   const debouncedAmountOfLikes = useDebounce(amountOfLikes, 1000);
@@ -286,7 +284,7 @@ const Like = ({ post, amountOfLikes, setAmountOfLikes }: LikeProps) => {
 
   async function checkIfUserLiked() {
     const response = await axiosBase.get<boolean>(
-      `posts/ifUserLiked?postId=${post.Id}&userId=${myProfile.Id}`
+      `posts/ifUserLiked?postId=${post.Id}&userId=${profile?.Id}`
     );
     setYouLiked(response.data);
   }
@@ -299,10 +297,10 @@ const Like = ({ post, amountOfLikes, setAmountOfLikes }: LikeProps) => {
 
   async function likePost() {
     if (youLiked) {
-      axiosBase.patch(`posts/like?postId=${post.Id}&userId=${myProfile.Id}`);
+      axiosBase.patch(`posts/like?postId=${post.Id}&userId=${profile?.Id}`);
     } else {
       axiosBase.patch(
-        `posts/removeLike?postId=${post.Id}&userId=${myProfile.Id}`
+        `posts/removeLike?postId=${post.Id}&userId=${profile?.Id}`
       );
     }
   }
@@ -341,7 +339,7 @@ const Comments = ({
   showComments,
   setAmountOfComments,
 }: CommentsProps) => {
-  const { myProfile } = useContext(ProfileContext);
+  const { profile } = useProfilesRelationsContext();
   const [comments, setComments] = useState<commentsDTO[]>();
   const [commentText, setCommentText] = useState("");
   const [allCommentsFetched, setAllCommentsFetched] = useState(false);
@@ -362,7 +360,7 @@ const Comments = ({
     setAmountOfComments((amountOfComments: number) => amountOfComments + 1);
     const response = await axiosBase.post<commentsDTO>(`comments/create`, {
       PostId: post.Id,
-      UserId: myProfile.Id,
+      UserId: profile?.Id,
       TextContent: commentText,
       Date: Date.now(),
     });
@@ -398,7 +396,7 @@ const Comments = ({
       {showComments && (
         <div className="post-comments">
           <div className="post-comments-input">
-            <ProfileImage sizeInRem={2.4} imageURL={myProfile.ProfileImage} />
+            <ProfileImage sizeInRem={2.4} imageURL={profile?.ProfileImage} />
             <div className="commentText">
               <Textarea
                 ref={inputRef}
