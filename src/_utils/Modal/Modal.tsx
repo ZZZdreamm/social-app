@@ -24,27 +24,27 @@ export default function MyModal({
   disableSubmit,
 }: MyModalProps) {
   const elementRef = useRef<HTMLDivElement>(null);
-  const handleClickOutside = (event: any) => {
-    if (isOpen) {
-      if (event.key === "Escape") {
-        toggleModal();
-        return;
-      }
-      if (
-        elementRef.current &&
-        !elementRef.current.contains(event.target as Node)
-      ) {
-        toggleModal();
-      }
-    }
-  };
+  // const handleClickOutside = (event: any) => {
+  //   if (isOpen) {
+  //     if (event.key === "Escape") {
+  //       toggleModal();
+  //       return;
+  //     }
+  //     if (
+  //       elementRef.current &&
+  //       !elementRef.current.contains(event.target as Node)
+  //     ) {
+  //       toggleModal();
+  //     }
+  //   }
+  // };
 
-  useEffect(() => {
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, []);
+  // useEffect(() => {
+  //   document.addEventListener("mousedown", handleClickOutside);
+  //   return () => {
+  //     document.removeEventListener("mousedown", handleClickOutside);
+  //   };
+  // }, []);
 
   return (
     <DefaultModal isOpen={isOpen} toggleModal={toggleModal}>
@@ -71,7 +71,8 @@ export default function MyModal({
 const StyledModal = styled.div`
   position: relative;
   width: 30rem;
-  height: 40rem;
+  max-height: 40rem;
+  padding-bottom: 0.5rem;
   display: flex;
   align-items: center;
   background-color: var(--navColor);

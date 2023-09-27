@@ -5,6 +5,7 @@ import "./style.scss";
 import { addItemToState } from "../../../_utils/1Functions/StateModifications";
 import { ProfileImage } from "../../ProfileImage/ProfileImage";
 import { axiosBase } from "../../../globals/apiPaths";
+import { ReadyImagesURL } from "../../../globals/appUrls";
 // import { axiosBasePosts } from "../../../globals/apiPaths";
 
 export default function PostForm({ setPosts }: PostFormProps) {

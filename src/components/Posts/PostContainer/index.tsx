@@ -351,7 +351,7 @@ const Comments = ({
 
   useEffect(() => {
     if (showComments === undefined) return;
-    if (showComments == false) {
+    if (showComments === true) {
       if (!comments) {
         getComments(commentsToGetNumber);
       }
@@ -376,6 +376,7 @@ const Comments = ({
       `comments/all/${numberOfComments}?postId=${post.Id}`
     );
     const newComments = response.data;
+    console.log(`comments/all/${numberOfComments}?postId=${post.Id}`);
     if (comments?.length == newComments.length) {
       setAllCommentsFetched(true);
     } else {

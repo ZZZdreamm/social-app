@@ -36,7 +36,7 @@
 
 .modal-image {
   width: 90%;
-  height: 8%;
+  height: 3rem;
   border-radius: 1rem;
   border: 1px solid #888;
   margin: 2% 0;
@@ -73,11 +73,12 @@
     }
   }
   &-text {
-    width: 90%;
+    width: 100%;
     flex-grow: 2;
     border: none;
     border-radius: 1rem;
     outline: none;
+    margin-top: 0.5rem;
     margin-bottom: 2rem;
     background-color: var(--navColor);
   }

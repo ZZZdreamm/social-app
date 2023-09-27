@@ -1,4 +1,4 @@
-import { useState, useContext, useEffect } from "react";
+import { useState, useContext, useEffect, useRef } from "react";
 import "./style.scss";
 import ProfileContext from "../../../../services/Contexts/ProfileContext";
 import { storageRef } from "../../../../services/Firebase/FirebaseConfig";
@@ -8,6 +8,7 @@ import MultipleFileInput from "../../MultipleFileInput";
 import { ReadyImagesURL } from "../../../../globals/appUrls";
 import { PostFormChildProps } from "..";
 import MyModal from "../../../../_utils/Modal/Modal";
+import { ProfileImage } from "../../../ProfileImage/ProfileImage";
 
 interface ImagesListProps {
   filesArray: [File, string][];
@@ -81,7 +82,7 @@ export default function OpenedPostForm({
   },
 }: PostFormProps) {
   const { myProfile } = useContext(ProfileContext);
-
+  const textareaRef = useRef<HTMLDivElement>(null);
   const [text, setText] = useState(currentPost.text);
   const [filesArray, setFilesArray] = useState<[File, string][]>(
     currentPost.filesArray
@@ -146,19 +147,21 @@ export default function OpenedPostForm({
         toggleModal();
         setText("");
         setFilesArray([]);
+        textareaRef.current!.innerHTML = "";
       }}
       children={
         <>
           <div className="modal-header">{headerTitle}</div>
           <div className="modal-body">
             <span className="modal-body-profile">
-              <img src={myProfile.ProfileImage} alt="" />
+              <ProfileImage imageURL={myProfile.ProfileImage} />
               <span>{myProfile.Email}</span>
             </span>
             <div
+            ref={textareaRef}
               className="modal-body-text"
-              contentEditable={true}
               placeholder="Write something..."
+              contentEditable
               onInput={(e: any) => {
                 setText(e.target.innerHTML);
               }}

@@ -145,7 +145,7 @@ const ProfileUp = ({
       Email: myProfile.Email,
       ProfileImage: url,
     };
-    axiosBase.patch("profiles/update", updateProfileDto);
+    await axiosBase.patch("profiles/update", updateProfileDto);
     localStorage.setItem("profileImage", url);
     updateProfile({
       Id: myProfile.Id,

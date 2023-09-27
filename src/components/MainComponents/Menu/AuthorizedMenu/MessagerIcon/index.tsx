@@ -25,10 +25,13 @@ export default function MessagerIcon({}: MenuChildProps) {
   const messagerContainerStyle =
     messagerContainerVisible + " " + styles.messagerContainer;
   return (
-    <div ref={iconRef} className={styles.messagerIcon}>
+    <div
+      ref={iconRef}
+      className={styles.messagerIcon}
+      onClick={() => toggleModal(!visibleModal)}
+    >
       <img
         className={styles.smallProfileImage}
-        onClick={() => toggleModal(!visibleModal)}
         src={`${ReadyImagesURL}/messaging-only.png`}
         alt=""
         style={{ height: "100%", width: "100%" }}
