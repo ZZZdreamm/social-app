@@ -52,7 +52,7 @@ export default function LandingPage() {
               <PostsList posts={posts} queryName={"landingPagePosts"} />
               <span ref={endOfPostsRef}></span>
               {isFetchingNextPage && <Waiting message={"Loading..."} />}
-              {hasNextPage && <h2>You have reached end of internet.</h2>}
+              {!hasNextPage && <h2>You have reached end of internet.</h2>}
             </div>
             {showRightBar && <RightBar />}
           </>

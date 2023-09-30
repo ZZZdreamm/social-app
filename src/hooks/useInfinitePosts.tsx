@@ -13,7 +13,7 @@ export function useInfinitePosts(
   } = useInfiniteQuery(
     [queryName],
     async ({ pageParam }) => {
-      let response;
+      let response: postDTO[];
       if (username) {
         response = await getPostsFn(username, pageParam);
       } else {
@@ -22,12 +22,14 @@ export function useInfinitePosts(
       return response;
     },
     {
-      getNextPageParam: (pages) => {
-        if (!pages || pages.length === 0) return;
-        const lastPageId = Array.isArray(pages[0])
-          ? pages[0].slice(-1)[0].Date
-          : pages.slice(-1)[0].Date;
-        return lastPageId;
+      getNextPageParam: (lastPage: any) => {
+        if (lastPage?.length === 0) return undefined;
+        if (!lastPage || lastPage.length === 0) return;
+        console.log(lastPage);
+        const lastPageDate = Array.isArray(lastPage)
+          ? lastPage.slice(-1)[0].Date
+          : lastPage.Date;
+        return lastPageDate;
       },
       initialData: {
         pages: [],

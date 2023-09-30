@@ -274,18 +274,12 @@ interface ProfileDownProps extends ProfileProps {
 
 const ProfileDown = ({ userProfile, content, friends }: ProfileDownProps) => {
   const endOfPostsRef = useRef(null);
-  const { posts, fetchNextPage, isFetchingNextPage } = useInfinitePosts(
-    getUserPosts,
-    "userPosts",
-    userProfile?.Email
-  );
+  const { posts, fetchNextPage, isFetchingNextPage, hasNextPage } =
+    useInfinitePosts(getUserPosts, "userPosts", userProfile?.Email);
 
   useEffect(() => {
     if (!userProfile) return;
-    const getData = async () => {
-      fetchNextPage();
-    };
-    getData();
+    fetchNextPage();
   }, [userProfile]);
 
   var scrolledPageBottom = useIsInViewport(endOfPostsRef, "1000px");
@@ -343,6 +337,7 @@ const ProfileDown = ({ userProfile, content, friends }: ProfileDownProps) => {
             <PostsList posts={posts} queryName={"userPosts"} />
             <span ref={endOfPostsRef}></span>
             {isFetchingNextPage && <Waiting message={"Loading..."} />}
+            {!hasNextPage && <h2>You have reached end of internet.</h2>}
           </section>
         </div>
       )}
