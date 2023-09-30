@@ -17,6 +17,8 @@ import useWindowSizeChanged from "../../_utils/2Hooks/useWindowSizeChanged";
 import ProfileFriendInPosts from "./ProfileFriendInPosts";
 import { axiosBase } from "../../globals/apiPaths";
 import { useProfilesRelationsContext } from "../../services/Contexts/ProfileDataContext";
+import { useInfinitePosts } from "../../hooks/useInfinitePosts";
+import { getUserPosts } from "../../apiFunctions/getUserPosts";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -271,15 +273,17 @@ interface ProfileDownProps extends ProfileProps {
 }
 
 const ProfileDown = ({ userProfile, content, friends }: ProfileDownProps) => {
-  const [posts, setPosts] = useState<postDTO[]>([]);
-  const [allPostsFetched, setAllPostsFetched] = useState(false);
-  const numberOfPosts = 10;
   const endOfPostsRef = useRef(null);
+  const { posts, fetchNextPage, isFetchingNextPage } = useInfinitePosts(
+    getUserPosts,
+    "userPosts",
+    userProfile?.Email
+  );
 
   useEffect(() => {
     if (!userProfile) return;
     const getData = async () => {
-      getPosts(userProfile?.Email);
+      fetchNextPage();
     };
     getData();
   }, [userProfile]);
@@ -287,24 +291,9 @@ const ProfileDown = ({ userProfile, content, friends }: ProfileDownProps) => {
   var scrolledPageBottom = useIsInViewport(endOfPostsRef, "1000px");
   useEffect(() => {
     if (scrolledPageBottom) {
-      getPosts(userProfile!.Email);
+      fetchNextPage();
     }
   }, [scrolledPageBottom]);
-
-  async function getPosts(username: string) {
-    const postsToGet = posts.length + numberOfPosts;
-    const response = await axiosBase.get<postDTO[]>(
-      `posts/userPosts/${username}?amount=${postsToGet}`
-    );
-    const newPosts = response.data;
-    if (newPosts) {
-      if (newPosts.length == posts.length) {
-        setAllPostsFetched(true);
-      } else {
-        setPosts(newPosts);
-      }
-    }
-  }
 
   const nineFriends = friends?.slice(0, 9);
 
@@ -323,7 +312,6 @@ const ProfileDown = ({ userProfile, content, friends }: ProfileDownProps) => {
   // }, [nineFriends]);
   const windowSize = useWindowSizeChanged(() => {});
 
-  console.log(posts)
   return (
     <div className="profile-down">
       {content == "posts" && (
@@ -352,9 +340,9 @@ const ProfileDown = ({ userProfile, content, friends }: ProfileDownProps) => {
             <div className="profile-down-posts-header large-font bold">
               Posts
             </div>
-            <PostsList posts={posts} setPosts={setPosts} />
+            <PostsList posts={posts} queryName={"userPosts"} />
             <span ref={endOfPostsRef}></span>
-            {allPostsFetched && <h2>There is no posts.</h2>}
+            {isFetchingNextPage && <Waiting message={"Loading..."} />}
           </section>
         </div>
       )}

@@ -12,13 +12,17 @@ import { getStringBetweenPercentSigns } from "../../../_utils/1Functions/StringM
 import { ProfileImage } from "../../ProfileImage/ProfileImage";
 import { axiosBase } from "../../../globals/apiPaths";
 import { useProfilesRelationsContext } from "../../../services/Contexts/ProfileDataContext";
+import { useMutation } from "react-query";
+import { queryClient } from "../../../App";
+import { deletePost } from "../../../apiFunctions/deletePost";
+import { patchPost } from "../../../apiFunctions/patchPost";
 
 interface PostContainerProps {
   post: postDTO;
-  setPosts: (posts: postDTO[]) => void;
+  queryName: string;
 }
 
-export default function PostContainer({ post, setPosts }: PostContainerProps) {
+export default function PostContainer({ post, queryName }: PostContainerProps) {
   const [amountOfLikes, setAmountOfLikes] = useState(post.AmountOfLikes);
   const [amountOfComments, setAmountOfComments] = useState(
     post.AmountOfComments
@@ -31,7 +35,7 @@ export default function PostContainer({ post, setPosts }: PostContainerProps) {
 
   return (
     <div className="post shadow-around">
-      <PostProfile post={post} setPosts={setPosts} />
+      <PostProfile post={post} queryName={queryName} />
       <PostContent post={post} />
       <div className="post-bottom">
         <PostBottomUpperPart
@@ -61,10 +65,10 @@ interface PostProps {
 }
 
 interface PostProfileProps extends PostProps {
-  setPosts: (posts: postDTO[]) => void;
+  queryName: string;
 }
 
-const PostProfile = ({ post, setPosts }: PostProfileProps) => {
+const PostProfile = ({ post, queryName }: PostProfileProps) => {
   const navigate = useNavigate();
 
   const goToProfile = () => {
@@ -87,18 +91,64 @@ const PostProfile = ({ post, setPosts }: PostProfileProps) => {
         </span>
       </span>
 
-      <PostProfileOptions post={post} setPosts={setPosts} />
+      <PostProfileOptions post={post} queryName={queryName} />
     </div>
   );
 };
 
-const PostProfileOptions = ({ post, setPosts }: PostProfileProps) => {
+const PostProfileOptions = ({ post, queryName }: PostProfileProps) => {
   const { profile } = useProfilesRelationsContext();
   const [optionsOpen, setOptionsOpen] = useState(false);
   const [editOpen, setEditOpen] = useState(false);
   function toggleOptions() {
     setOptionsOpen(!optionsOpen);
   }
+
+  const { mutate: delPost } = useMutation({
+    mutationFn: (postId: string) => deletePost(postId),
+    onSuccess: ({ status, postId }) => {
+      queryClient.setQueryData([queryName], (oldData: any) => {
+        if (status === "error") throw Error("Something went wrong");
+        const oldPages = Array.isArray(oldData.pages[0])
+          ? oldData.pages[0]
+          : oldData.pages;
+        const newPages = oldPages.filter((p: postDTO) => p.Id != postId);
+        return {
+          pages: newPages,
+          pageParams: [oldData.pageParams[0]],
+        };
+      });
+    },
+    onError: () => {
+      alert("Something went wrong, try again later");
+    },
+  });
+
+  const { mutate: editPost } = useMutation({
+    mutationFn: (post: postDTO) => patchPost(post),
+    onSuccess: ({ status, post }) => {
+      queryClient.setQueryData([queryName], (oldData: any) => {
+        if (status === "error") throw Error("Something went wrong");
+        const oldPages = Array.isArray(oldData.pages[0])
+          ? oldData.pages[0]
+          : oldData.pages;
+        const newPages = oldPages.map((p: postDTO) => {
+          if (p.Id === post.Id) {
+            return post;
+          }
+          return p;
+        });
+
+        return {
+          pages: newPages,
+          pageParams: [oldData.pageParams[0]],
+        };
+      });
+    },
+    onError: () => {
+      alert("Something went wrong, try again later");
+    },
+  });
 
   useEffect(() => {
     window.addEventListener("click", (e: any) => {
@@ -111,38 +161,8 @@ const PostProfileOptions = ({ post, setPosts }: PostProfileProps) => {
     });
   }, []);
 
-  async function deletePost() {
-    const responseStatus = (
-      await axiosBase.delete<responseStatus>(`posts/delete?postId=${post.Id}`)
-    ).data;
-    if (responseStatus === "success") {
-      //@ts-ignore
-      setPosts((posts) => posts.filter((p) => p.Id != post.Id));
-    } else if (responseStatus === "error") {
-      alert("Something went wrong, try again later");
-    }
-  }
   async function toggleEditPostForm() {
     setEditOpen(!editOpen);
-  }
-
-  async function submitEditionOfPost(post: postDTO) {
-    const responseStatus = (
-      await axiosBase.patch<responseStatus>(`posts/update`, post)
-    ).data;
-    if (responseStatus === "success") {
-      //@ts-ignore
-      setPosts((posts: postDTO[]) =>
-        posts.map((p) => {
-          if (p.Id === post.Id) {
-            return post;
-          }
-          return p;
-        })
-      );
-    } else if (responseStatus === "error") {
-      alert("Something went wrong, try again later");
-    }
   }
 
   const postFilesArray: [File, string][] | undefined = post.MediaFiles?.map(
@@ -166,7 +186,7 @@ const PostProfileOptions = ({ post, setPosts }: PostProfileProps) => {
             <>
               <div
                 className="post-profile-options__list__child"
-                onClick={deletePost}
+                onClick={() => delPost(post.Id)}
               >
                 Delete
               </div>
@@ -188,10 +208,9 @@ const PostProfileOptions = ({ post, setPosts }: PostProfileProps) => {
       {editOpen && (
         <OpenedPostForm
           key="edit"
-          setPosts={setPosts}
           isOpen={editOpen}
           toggleModal={toggleEditPostForm}
-          onSubmit={submitEditionOfPost}
+          onSubmit={editPost}
           currentPost={{
             filesArray: postFilesArray,
             text: post.TextContent,

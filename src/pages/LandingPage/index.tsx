@@ -6,26 +6,27 @@ import RightBar from "../../components/MainComponents/Bars/RightBar";
 import "./style.scss";
 import useIsInViewport from "../../_utils/2Hooks/IsInViewPort";
 import Authorized from "../../globals/Auth/Authorized";
-import { axiosBase } from "../../globals/apiPaths";
 import { useProfilesRelationsContext } from "../../services/Contexts/ProfileDataContext";
+import { getPosts } from "../../apiFunctions/getPosts";
+import { useInfinitePosts } from "../../hooks/useInfinitePosts";
+import Waiting from "../../_utils/Waiting/indexxx";
 
 export default function LandingPage() {
   const { profile } = useProfilesRelationsContext();
   const [windowSize, setWindowSize] = useState(window.innerWidth);
-  const [posts, setPosts] = useState<postDTO[]>();
-  const [allPostsFetched, setAllPostsFetched] = useState(false);
   const endOfPostsRef = useRef(null);
-  let numberOfPosts = 10;
+  const { posts, fetchNextPage, isFetchingNextPage, hasNextPage } =
+    useInfinitePosts(getPosts, "landingPagePosts");
 
   useEffect(() => {
     if (!profile?.Id) return;
-    getPosts();
+    fetchNextPage();
   }, [profile]);
 
   var scrolledPageBottom = useIsInViewport(endOfPostsRef, "1000px");
   useEffect(() => {
     if (scrolledPageBottom) {
-      getPosts();
+      fetchNextPage();
     }
   }, [scrolledPageBottom]);
 
@@ -40,19 +41,6 @@ export default function LandingPage() {
     setWindowSize(window.innerWidth);
   }, [window.innerWidth]);
 
-  async function getPosts() {
-    const postsToGet = posts ? posts?.length + numberOfPosts : numberOfPosts;
-    const newPosts = (await axiosBase.get<postDTO[]>(`posts/all/${postsToGet}`))
-      .data;
-    if (newPosts && newPosts.length != 0) {
-      if (posts && newPosts.length == posts.length) {
-        setAllPostsFetched(true);
-      } else {
-        setPosts(newPosts);
-      }
-    }
-  }
-
   const showRightBar = windowSize > 700 ? true : false;
   return (
     <>
@@ -60,10 +48,11 @@ export default function LandingPage() {
         isAuthorized={
           <>
             <div className="middle-content">
-              <PostForm setPosts={setPosts} />
-              <PostsList posts={posts} setPosts={setPosts} />
+              <PostForm queryName={"landingPagePosts"} />
+              <PostsList posts={posts} queryName={"landingPagePosts"} />
               <span ref={endOfPostsRef}></span>
-              {allPostsFetched && <h2>You have reached end of internet.</h2>}
+              {isFetchingNextPage && <Waiting message={"Loading..."} />}
+              {hasNextPage && <h2>You have reached end of internet.</h2>}
             </div>
             {showRightBar && <RightBar />}
           </>

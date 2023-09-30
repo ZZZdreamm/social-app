@@ -12,8 +12,8 @@ export default function PostsList(props: postsListProps) {
           props.posts.map((post) => (
             <PostContainer
               post={post}
-              setPosts={props.setPosts}
               key={post.Id}
+              queryName={props.queryName}
             />
           ))
         ) : (
@@ -25,6 +25,6 @@ export default function PostsList(props: postsListProps) {
 }
 
 interface postsListProps {
-  setPosts: (posts: postDTO[]) => void;
   posts?: postDTO[];
+  queryName: string;
 }

@@ -9,13 +9,13 @@ import { AuthenticationDataProvider } from "./services/Contexts/AuthenticationCo
 import "./styles/Styles.scss";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { ProfileDataProvider } from "./services/Contexts/ProfileDataContext";
-import { RoutesProvider } from "./Routes";
 import { SocketCallModal } from "./components/socketCallModal/SocketCallModal";
 import { OpenedChatsComponent } from "./components/openedChatsComponent/OpenedChatsComponent";
 import { OpenedChatsProvider } from "./services/Contexts/OpenedChatsContext";
+import { RoutesProvider } from "./globals/routes";
 
 export const socket = io(socketURL);
-const queryClient = new QueryClient();
+export const queryClient = new QueryClient();
 
 function App() {
   const [online, setOnline] = useState(false);

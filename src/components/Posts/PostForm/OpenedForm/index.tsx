@@ -59,14 +59,12 @@ const ImagesList = ({ filesArray, eraseChoosenFile }: ImagesListProps) => {
 };
 
 interface PostFormProps extends PostFormChildProps {
-  setPosts: (posts: postDTO[]) => void;
   isOpen: boolean;
   onSubmit: (post: any) => void;
   headerTitle: string;
   currentPost?: any;
 }
 export default function OpenedPostForm({
-  setPosts,
   isOpen,
   toggleModal,
   onSubmit,
