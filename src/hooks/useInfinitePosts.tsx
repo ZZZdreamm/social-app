@@ -1,6 +1,7 @@
 import { useInfiniteQuery } from "react-query";
-import { useProfilesRelationsContext } from "../services/Contexts/ProfileDataContext";
 import { useAuthenticationContext } from "../services/Contexts/AuthenticationContext";
+
+const PAGE_SIZE = 10;
 
 export function useInfinitePosts(
   getPostsFn: any,
@@ -26,9 +27,10 @@ export function useInfinitePosts(
       return response;
     },
     {
-      getNextPageParam: (lastPage: any) => {
-        if (lastPage?.length === 0) return undefined;
-        if (!lastPage || lastPage.length === 0) return;
+      getNextPageParam: (lastPage: any, allPages: any[]) => {
+        if ((allPages && lastPage?.length === 0) || lastPage?.length < PAGE_SIZE)
+          return undefined;
+        if (!lastPage || lastPage.length === 0) return [];
         const lastPageDate = Array.isArray(lastPage)
           ? lastPage.slice(-1)[0].Date
           : lastPage.Date;
