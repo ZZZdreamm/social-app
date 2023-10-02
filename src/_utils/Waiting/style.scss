@@ -1,6 +1,8 @@
 .loader {
-  max-height: 100%;
-  max-width: 100%;
+  // height: fit-content;
+  // width: fit-content;
+  width: 100%;
+  margin: 0 auto;
   overflow: hidden;
   display: flex;
   align-items: center;
@@ -10,7 +12,7 @@
   &__element {
     border-radius: 100%;
     border: 1em solid #555;
-    margin: calc(1em * 2);
+    margin: calc(0.5em * 2);
   }
 
   &__element:nth-child(1) {

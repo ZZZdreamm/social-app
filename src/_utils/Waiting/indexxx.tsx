@@ -9,7 +9,7 @@ export default function Waiting({ message, eventMessage }: WaitingProps) {
           <span className="loader__element"></span>
           <span className="loader__element"></span>
         </div>
-        {message && <h1>{message}</h1>}
+        {message && <h2>{message}</h2>}
         {eventMessage && <h2 className="event-message">{eventMessage}</h2>}
       </div>
     </>
