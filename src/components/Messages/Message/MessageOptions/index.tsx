@@ -4,13 +4,13 @@ import {
   messageResponseDTO,
 } from "../../../../services/Models/message.models";
 import "./style.scss";
-import { axiosBase } from "../../../../globals/apiPaths";
-import { useProfilesRelationsContext } from "../../../../services/Contexts/ProfileDataContext";
 import { useAuthenticationContext } from "../../../../services/Contexts/AuthenticationContext";
+import { useMutation } from "react-query";
+import { deleteMessage } from "../../../../apiFunctions/deleteMessage";
+import { queryClient } from "../../../../App";
 
 interface MessageOptionsProps {
   message: messageDTO;
-  setMessages: (messages: messageDTO[]) => void;
   setResponseToMessage: (message: messageResponseDTO) => void;
   toWhom: string;
   isOpen: string;
@@ -19,7 +19,6 @@ interface MessageOptionsProps {
 
 export default function MessageOptions({
   message,
-  setMessages,
   setResponseToMessage,
   toWhom,
   isOpen,
@@ -27,6 +26,25 @@ export default function MessageOptions({
 }: MessageOptionsProps) {
   // const [isOpen, setIsOpen] = useState("");
   const { profile } = useAuthenticationContext();
+  const { mutate: delMessage } = useMutation({
+    mutationFn: () =>
+      deleteMessage(message.SenderId, message.ReceiverId, message.Id),
+    onSuccess: ({ messageId, friendId }) => {
+      queryClient.setQueryData(`getMessages/${friendId}`, (oldData: any) => {
+        console.info(oldData);
+        const newPages = oldData.pages.map((page: any[]) => {
+          return page.filter((message) => message.Id !== messageId);
+        });
+        return {
+          pages: newPages,
+          pageParams: oldData.pageParams,
+        };
+      });
+    },
+    onError: (error: any) => {
+      alert(error);
+    },
+  });
 
   function toggleModal(name: string) {
     if (isOpen === name) {
@@ -35,15 +53,15 @@ export default function MessageOptions({
       setIsOpen(name);
     }
   }
-  function deleteMessage() {
-    //@ts-ignore
-    setMessages((messages: messageDTO[]) =>
-      messages.filter((m) => m.Id !== message.Id)
-    );
-    axiosBase.delete(
-      `messages/delete?userId=${message.SenderId}&friendId=${message.ReceiverId}&messageId=${message.Id}`
-    );
-  }
+  // function deleteMessage() {
+  //   //@ts-ignore
+  //   // setMessages((messages: messageDTO[]) =>
+  //   //   messages.filter((m) => m.Id !== message.Id)
+  //   // );
+  //   axiosBase.delete(
+  //     `messages/delete?userId=${message.SenderId}&friendId=${message.ReceiverId}&messageId=${message.Id}`
+  //   );
+  // }
 
   function respondToMessage() {
     setResponseToMessage({
@@ -57,7 +75,7 @@ export default function MessageOptions({
   return (
     <>
       <div id={`message-options/${toWhom}`} className="message-options">
-        {profile?.Id == message.SenderId && (
+        {profile?.Id === message.SenderId && (
           <img
             className="message-options__icon"
             src={`${ReadyImagesURL}/moreOptionsChat.png`}
@@ -76,7 +94,7 @@ export default function MessageOptions({
           <div className="message-options-delete">
             <div
               className="message-options-delete__text"
-              onClick={deleteMessage}
+              onClick={() => delMessage()}
             >
               Delete
             </div>

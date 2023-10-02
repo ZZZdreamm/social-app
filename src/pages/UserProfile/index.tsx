@@ -178,12 +178,14 @@ const ProfileUp = ({
     );
     const friend = response.data;
     //@ts-ignore
-    updateSentFriendRequests((prev: profileDTO[]) => [friend, ...prev]);
+    setSentFriendsRequests((prev: profileDTO[]) => [friend, ...prev]);
   }
   async function cancelFriendRequest() {
     setRelationship("stranger");
     const { Id } = (
-      await axiosBase.delete<{ Id: string }>("profiles/removeFriendRequest")
+      await axiosBase.delete<{ Id: string }>(
+        `profiles/removeFriendRequest?userId=${profile?.Id}&friendId=${userProfile.Id}`
+      )
     ).data;
     const newFriends = sentFriendsRequests!.filter(
       (tempFriend) => tempFriend.Id != Id
