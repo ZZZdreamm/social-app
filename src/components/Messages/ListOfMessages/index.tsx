@@ -1,11 +1,13 @@
-
-import { messageDTO, messageResponseDTO } from "../../../services/Models/message.models";
+import {
+  messageDTO,
+  messageResponseDTO,
+} from "../../../services/Models/message.models";
 import "./style.scss";
 import Message from "../Message";
 
 interface ListOfMessagesProps {
   messages: messageDTO[] | undefined;
-  setMessages: (messages: messageDTO[]) => void;
+  fetchNextPage: () => void;
   setResponseToMessage: (message: messageResponseDTO) => void;
   toWhom: string;
   optionsOpen: string;
@@ -14,7 +16,7 @@ interface ListOfMessagesProps {
 
 export default function ListOfMessages({
   messages,
-  setMessages,
+  fetchNextPage,
   setResponseToMessage,
   toWhom,
   optionsOpen,
@@ -23,22 +25,19 @@ export default function ListOfMessages({
   return (
     <div className="listOfMessages">
       {messages ? (
-        messages.map((message) => (
+        messages.map((message, index) => (
           <>
-            {message.Id ? (
-              <Message
-                message={message}
-                key={message.Id}
-                setMessages={setMessages}
-                setResponseToMessage={setResponseToMessage}
-                notResponding={true}
-                toWhom={toWhom}
-                optionsOpen={optionsOpen}
-                setOptionsOpen={setOptionsOpen}
-              />
-            ) : (
-              <span id={`scrollable-span`}></span>
-            )}
+            {index === 9 && <span id={`scrollable-span`}></span>}
+            <Message
+              message={message}
+              key={message.Id}
+              fetchNextPage={fetchNextPage}
+              setResponseToMessage={setResponseToMessage}
+              notResponding={true}
+              toWhom={toWhom}
+              optionsOpen={optionsOpen}
+              setOptionsOpen={setOptionsOpen}
+            />
           </>
         ))
       ) : (

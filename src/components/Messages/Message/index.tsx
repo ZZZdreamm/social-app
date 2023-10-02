@@ -8,13 +8,13 @@ import MessageOptions from "../../../components/Messages/Message/MessageOptions"
 import ShowFullImages from "../../../_utils/ShowFullImages";
 import "./style.scss";
 import BigImageModal from "../../../_utils/BigImageModal/index";
-import { axiosBase } from "../../../globals/apiPaths";
-import { useProfilesRelationsContext } from "../../../services/Contexts/ProfileDataContext";
 import { useAuthenticationContext } from "../../../services/Contexts/AuthenticationContext";
+import { useMutation } from "react-query";
+import { getMessageToMessageWithId } from "../../../apiFunctions/getMessagesToMessageWithId";
 
 interface MessageProps {
   message: messageDTO;
-  setMessages: (messages: messageDTO[]) => void;
+  fetchNextPage: () => void;
   setResponseToMessage: (message: messageResponseDTO) => void;
   toWhom: string;
   optionsOpen: string;
@@ -24,7 +24,7 @@ interface MessageProps {
 
 export default function Message({
   message,
-  setMessages,
+  fetchNextPage,
   setResponseToMessage,
   notResponding,
   toWhom,
@@ -43,13 +43,13 @@ export default function Message({
 
   useEffect(() => {
     if (!profile) return;
-    if (profile?.Id == message.SenderId) {
+    if (profile?.Id === message.SenderId) {
       setStyling({ alignSelf: "flex-end", flexDirection: "row-reverse" });
     } else {
       setStyling({ alignSelf: "flex-start", flexDirection: "row" });
       setFromFriend(true);
     }
-  }, [profile]);
+  }, [profile, message.SenderId]);
   return (
     <div
       id={`message/${message.Id}`}
@@ -73,13 +73,12 @@ export default function Message({
         message={message}
         fromFriend={fromFriend}
         toggleModal={toggleModal}
-        setMessages={setMessages}
+        fetchNextPage={fetchNextPage}
       />
       {notResponding && (
         <div style={{ opacity: optionsVisible ? "1" : "0" }}>
           <MessageOptions
             message={message}
-            setMessages={setMessages}
             setResponseToMessage={setResponseToMessage}
             toWhom={toWhom}
             isOpen={optionsOpen}
@@ -98,17 +97,34 @@ interface MessageChildProps {
 interface MessageContentProps extends MessageChildProps {
   fromFriend: boolean;
   toggleModal: any;
-  setMessages: (messages: messageDTO[]) => void;
+  fetchNextPage: any;
 }
 
 const MessageContent = ({
   message,
   fromFriend,
   toggleModal,
-  setMessages,
+  fetchNextPage,
 }: MessageContentProps) => {
   const { profile } = useAuthenticationContext();
-  const [scrollToMessage, setScrollToMessage] = useState(false);
+  const { mutate: fetchToResponseToMessage } = useMutation({
+    mutationFn: (profileId: string) =>
+      getMessageToMessageWithId(
+        profileId,
+        message.SenderId,
+        message.ReceiverId,
+        message.responseTo.Id
+      ),
+    onSuccess: (messages) => {
+      fetchNextPage({
+        pageParam: {
+          date: messages[0].Date,
+          amount: messages.length,
+        },
+      });
+    },
+  });
+
   const contentStyle = fromFriend
     ? { backgroundColor: "#E4E6EB" }
     : { backgroundColor: "#0084ff" };
@@ -127,6 +143,7 @@ const MessageContent = ({
   }
 
   async function goToResponse() {
+    if (!profile?.Id) return;
     const responseMessage = document.getElementById(
       `message/${message.responseTo.Id}`
     );
@@ -135,21 +152,7 @@ const MessageContent = ({
       return;
     }
 
-    const senderId =
-      message.SenderId === profile?.Id ? message.ReceiverId : message.SenderId;
-    const response = await axiosBase.get<messageDTO[]>(
-      `messages/getMessagesToMessageWithId?userId=${profile?.Id}&friendId=${senderId}&messageId=${message.responseTo.Id}`
-    );
-    const fetchedMessages = response.data;
-    const newMesses: any[] = [];
-    fetchedMessages?.forEach((message: messageDTO, index: number) => {
-      if (fetchedMessages?.length == index + 1) {
-        newMesses.push("empty");
-      }
-      newMesses.push(message);
-    });
-
-    setMessages(newMesses.reverse());
+    fetchToResponseToMessage(profile?.Id);
   }
 
   return (

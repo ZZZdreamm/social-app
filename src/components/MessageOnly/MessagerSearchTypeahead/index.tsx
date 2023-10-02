@@ -5,6 +5,8 @@ import SearchTypeahead from "../../../_utils/SearchTypeahead";
 import { axiosBase } from "../../../globals/apiPaths";
 import { useProfilesRelationsContext } from "../../../services/Contexts/ProfileDataContext";
 import { useAuthenticationContext } from "../../../services/Contexts/AuthenticationContext";
+import { useQuery } from "react-query";
+import { searchFriends } from "../../../apiFunctions/searchFriends";
 
 interface MessagerSearchTypeaheadProps {
   setChoosenFriend: (profile: profileDTO) => void;
@@ -22,6 +24,11 @@ export default function MessagerSearchTypeahead({
       />
     );
   }
+
+  // const {} = useQuery({
+  //   queryKey: ["searchFriends", profile?.Id],
+  //   queryFn: () => searchFriends(profile?.Id,)
+  // })
 
   async function searchFriends(
     query: string,

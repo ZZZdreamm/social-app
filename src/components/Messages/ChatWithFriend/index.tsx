@@ -5,7 +5,6 @@ import { socket } from "../../../App";
 import { storageRef } from "../../../services/Firebase/FirebaseConfig";
 import {
   messageCreationDTO,
-  messageDTO,
   messageResponseDTO,
 } from "../../../services/Models/message.models";
 import { profileDTO } from "../../../services/Models/profiles.models";
@@ -19,10 +18,14 @@ import RecordMessager from "../RecordMessager";
 import useIsInViewport from "../../../_utils/2Hooks/IsInViewPort";
 import { useNavigate } from "react-router-dom";
 import { ProfileImage } from "../../ProfileImage/ProfileImage";
-import { axiosBase } from "../../../globals/apiPaths";
-import { useProfilesRelationsContext } from "../../../services/Contexts/ProfileDataContext";
 import { useOpenedChatsContext } from "../../../services/Contexts/OpenedChatsContext";
 import { useAuthenticationContext } from "../../../services/Contexts/AuthenticationContext";
+import { useInfiniteMessages } from "../../../hooks/useInfiniteMessages";
+import { getMessages } from "../../../apiFunctions/getMessages";
+import Waiting from "../../../_utils/Waiting/indexxx";
+import { useQueryClient } from "react-query";
+import { useMutation } from "react-query";
+import { testEndpoint } from "../../../apiFunctions/testEndpoint";
 
 interface ChatWithFriendProps {
   friend: profileDTO;
@@ -84,7 +87,7 @@ const ChatHeader = ({
   const image = friend.ProfileImage || `${ReadyImagesURL}/noProfile.jpg`;
 
   function closeChat() {
-    const chats = openedChats.filter((chat) => chat.Id != friend.Id);
+    const chats = openedChats.filter((chat) => chat.Id !== friend.Id);
     setOpenedChats(chats);
   }
   function callFriend() {
@@ -136,70 +139,72 @@ const ChatBody = ({
   setRespondTo,
   newestMessagesRef,
 }: ChatBodyProps) => {
+  const queryClient = useQueryClient();
   const { profile } = useAuthenticationContext();
-  const [messages, setMessages] = useState<any[]>([]);
   const [chatOpen, setChatOpen] = useState(false);
-  const [fetchedAllMessages, setFetchedAllMessages] = useState(false);
   const [additionalOptions, setAdditionalOptions] = useState("");
   const image = friend.ProfileImage || `${ReadyImagesURL}/noProfile.jpg`;
   const messagesEndRef = useRef(null);
-  const numberOfMessages = 10;
+
+  const { messages, fetchPreviousPage, isFetchingPreviousPage } =
+    useInfiniteMessages(getMessages, `getMessages/${friend.Id}`, friend.Id);
+
+  const { mutate: receiveMessage } = useMutation({
+    mutationFn: (message) => {
+      return testEndpoint(message);
+    },
+    onSuccess: (response) => {
+      queryClient.setQueryData(`getMessages/${friend.Id}`, (oldData: any) => {
+        return {
+          pages: [...oldData.pages, response.message],
+          pageParams: [],
+        };
+      });
+    },
+    onError: () => {
+      alert("There was some error while receiving message");
+    },
+  });
 
   useEffect(() => {
     if (!newestMessagesRef.current) return;
     newestMessagesRef.current.scrollIntoView();
   }, [newestMessagesRef, chatOpen]);
-  var scrolledChatUp = useIsInViewport(messagesEndRef, "400px");
+  var scrolledChatUp = useIsInViewport(messagesEndRef, "0px");
   useEffect(() => {
     if (scrolledChatUp) {
-      getMessages();
+      fetchPreviousPage();
     }
-  }, [scrolledChatUp]);
+  }, [scrolledChatUp, fetchPreviousPage]);
 
   useEffect(() => {
     if (!profile?.Id || !newestMessagesRef || !friend.Id) return;
-    getMessages();
-    socket.on(`receive-message/${profile?.Id}/${friend.Id}`, (message) => {
-      if (!messages.includes(message)) {
-        setMessages((messages: messageDTO[]) => {
-          return [...messages, message];
-        });
-        setTimeout(() => {
-          if (newestMessagesRef.current) {
-            newestMessagesRef.current.scrollIntoView();
-          }
-        }, 400);
-      }
-    });
-  }, [profile?.Id, newestMessagesRef, friend.Id]);
-
-  async function getMessages() {
-    if (fetchedAllMessages) return;
-    const messagesToGet = messages?.length + numberOfMessages;
-    const response = await axiosBase.get<messageDTO[]>(
-      `messages/getChatMessages?userId=${profile?.Id}&friendId=${friend.Id}&amount=${messagesToGet}`
-    );
-    const messes = response.data;
-    if (messes && messages && messes.length == messages.length) {
-      setFetchedAllMessages(true);
-    }
+    fetchPreviousPage();
     setChatOpen(true);
-    const newMesses: any[] = [];
-    messes?.forEach((message: messageDTO, index: number) => {
-      if (messages?.length == index + 1) {
-        newMesses.push("empty");
-      }
-      newMesses.push(message);
+    socket.on(`receive-message/${profile?.Id}/${friend.Id}`, (message) => {
+      receiveMessage(message);
+      setTimeout(() => {
+        if (newestMessagesRef.current) {
+          newestMessagesRef.current.scrollIntoView();
+        }
+      }, 400);
     });
-    setMessages(newMesses.reverse());
-  }
+  }, [
+    profile?.Id,
+    newestMessagesRef,
+    friend.Id,
+    fetchPreviousPage,
+    receiveMessage,
+  ]);
+
   useEffect(() => {
     if (!friend.Id) return;
+    if(isFetchingPreviousPage) return
     const scrollableSpan = document.getElementById(`scrollable-span`);
     if (scrollableSpan) {
       scrollableSpan.scrollIntoView();
     }
-  }, [messages, friend.Id]);
+  }, [isFetchingPreviousPage, friend.Id]);
   return (
     <div id={`chat-body/${friend.Id}`} className="chat-body">
       <div className="chat-body-start">
@@ -208,9 +213,10 @@ const ChatBody = ({
       </div>
       <div className="chat-body-messages">
         <span ref={messagesEndRef}></span>
+        {isFetchingPreviousPage && <Waiting message="Loading..." />}
         <ListOfMessages
           messages={messages}
-          setMessages={setMessages}
+          fetchNextPage={fetchPreviousPage}
           setResponseToMessage={setRespondTo}
           toWhom={friend.Id}
           optionsOpen={additionalOptions}
@@ -222,7 +228,7 @@ const ChatBody = ({
   );
 };
 
-interface ChatFooter extends FriendProps {
+interface ChatFooterAttributes extends FriendProps {
   newestMessagesRef: any;
   respondTo: messageResponseDTO | undefined;
   setRespondTo: (message: messageResponseDTO | undefined) => void;
@@ -233,7 +239,7 @@ const ChatFooter = ({
   newestMessagesRef,
   respondTo,
   setRespondTo,
-}: ChatFooter) => {
+}: ChatFooterAttributes) => {
   const { profile } = useAuthenticationContext();
   const [textToSend, setTextToSend] = useState("");
   const [audioURL, setAudioURL] = useState("");
@@ -292,7 +298,9 @@ const ChatFooter = ({
   }
 
   const inputSize =
-    textToSend != "" || filesArray.length > 0 || audioURL != "" ? "80%" : "45%";
+    textToSend !== "" || filesArray.length > 0 || audioURL !== ""
+      ? "80%"
+      : "45%";
 
   const handleFileChange = (file: File) => {
     const reader = new FileReader();
@@ -309,12 +317,12 @@ const ChatFooter = ({
   };
 
   function eraseChoosenFile(name: string) {
-    const newFilesArray = filesArray.filter(([file, _]) => file.name != name);
+    const newFilesArray = filesArray.filter(([file, _]) => file.name !== name);
     setFilesArray(newFilesArray);
   }
   return (
     <div className="chat-footer">
-      {textToSend == "" && !voiceMessage && filesArray.length <= 0 && (
+      {textToSend === "" && !voiceMessage && filesArray.length <= 0 && (
         <div style={{ width: "3rem", height: "3rem", padding: "0.2rem" }}>
           <MultipleFileInput handleFileChange={handleFileChange} />
         </div>
@@ -386,7 +394,7 @@ const ChatFooter = ({
       <img
         className="chat-footer-send"
         src={
-          !textToSend && filesArray.length == 0 && !voiceMessage
+          !textToSend && filesArray.length === 0 && !voiceMessage
             ? `${ReadyImagesURL}/like.png`
             : `${ReadyImagesURL}/sendBtn.png`
         }

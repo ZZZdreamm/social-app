@@ -31,7 +31,6 @@ export default function MessageOptions({
       deleteMessage(message.SenderId, message.ReceiverId, message.Id),
     onSuccess: ({ messageId, friendId }) => {
       queryClient.setQueryData(`getMessages/${friendId}`, (oldData: any) => {
-        console.info(oldData);
         const newPages = oldData.pages.map((page: any[]) => {
           return page.filter((message) => message.Id !== messageId);
         });
@@ -53,15 +52,6 @@ export default function MessageOptions({
       setIsOpen(name);
     }
   }
-  // function deleteMessage() {
-  //   //@ts-ignore
-  //   // setMessages((messages: messageDTO[]) =>
-  //   //   messages.filter((m) => m.Id !== message.Id)
-  //   // );
-  //   axiosBase.delete(
-  //     `messages/delete?userId=${message.SenderId}&friendId=${message.ReceiverId}&messageId=${message.Id}`
-  //   );
-  // }
 
   function respondToMessage() {
     setResponseToMessage({
