@@ -11,13 +11,14 @@ import { getPosts } from "../../apiFunctions/getPosts";
 import { useInfinitePosts } from "../../hooks/useInfinitePosts";
 import Waiting from "../../_utils/Waiting/indexxx";
 import { useAuthenticationContext } from "../../services/Contexts/AuthenticationContext";
+import { getClaims } from "../../globals/Auth/HandleJWT";
 
 export default function LandingPage() {
   const { profile } = useAuthenticationContext();
   const [windowSize, setWindowSize] = useState(window.innerWidth);
-  const endOfPostsRef = useRef(null);
   const { posts, fetchNextPage, isFetchingNextPage, hasNextPage } =
     useInfinitePosts(getPosts, "landingPagePosts");
+  const endOfPostsRef = useRef(null);
 
   useEffect(() => {
     if (!profile?.Id) return;

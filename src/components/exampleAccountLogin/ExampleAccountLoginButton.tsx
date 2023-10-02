@@ -2,9 +2,9 @@ import { useNavigate } from "react-router-dom";
 import { saveProfile } from "../../globals/Profile/HandleProfile";
 import { userCredentials } from "../../services/Models/auth.models";
 import { getClaims, saveToken } from "../../globals/Auth/HandleJWT";
-import { axiosBase } from "../../globals/apiPaths";
 import styled from "styled-components";
 import { useAuthData } from "../../hooks/useAuthData";
+import { loginInDB } from "../../apiFunctions/login";
 
 export function ExampleAccountLoginButton() {
   const { setClaims } = useAuthData();
@@ -12,21 +12,12 @@ export function ExampleAccountLoginButton() {
 
   async function login(credentials: userCredentials) {
     try {
-      const userCredentials = {
-        Email: credentials.email,
-        Password: credentials.password,
-      };
-      const response = await axiosBase.post("profiles/login", userCredentials);
-      const responseData = response.data;
-      saveToken(responseData.token);
-      saveProfile(
-        responseData.user.Id,
-        responseData.user.Email,
-        responseData.user.ProfileImage
-      );
+      const { data } = await loginInDB(credentials);
+      saveToken(data.token);
+      saveProfile(data.user.Id, data.user.Email, data.user.ProfileImage);
       setClaims(getClaims());
 
-      if (response) {
+      if (data) {
         navigate("/");
         navigate(0);
       }
