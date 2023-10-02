@@ -10,6 +10,7 @@ import "./style.scss";
 import BigImageModal from "../../../_utils/BigImageModal/index";
 import { axiosBase } from "../../../globals/apiPaths";
 import { useProfilesRelationsContext } from "../../../services/Contexts/ProfileDataContext";
+import { useAuthenticationContext } from "../../../services/Contexts/AuthenticationContext";
 
 interface MessageProps {
   message: messageDTO;
@@ -30,7 +31,7 @@ export default function Message({
   optionsOpen,
   setOptionsOpen,
 }: MessageProps) {
-  const { profile } = useProfilesRelationsContext();
+  const { profile } = useAuthenticationContext();
   const [styling, setStyling] = useState({});
   const [fromFriend, setFromFriend] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
@@ -106,7 +107,7 @@ const MessageContent = ({
   toggleModal,
   setMessages,
 }: MessageContentProps) => {
-  const { profile } = useProfilesRelationsContext();
+  const { profile } = useAuthenticationContext();
   const [scrollToMessage, setScrollToMessage] = useState(false);
   const contentStyle = fromFriend
     ? { backgroundColor: "#E4E6EB" }

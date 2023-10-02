@@ -1,16 +1,17 @@
 import { useCallback } from "react";
-import { getFriends } from "../apiFunctions/getFriends";
 import { ONE_HOUR } from "../globals/constants";
 import { useQuery, useQueryClient } from "react-query";
-import { getFriendsRequests } from "../apiFunctions/getFriendsRequests";
 import { getSentFriendsRequests } from "../apiFunctions/getSentFriendsRequests";
+import { useAuthenticationContext } from "../services/Contexts/AuthenticationContext";
 
 const queryKey = ["sentFriendsRequests"];
 
 export function useSentFriendsRequests() {
+  const { profile } = useAuthenticationContext();
   const queryClient = useQueryClient();
 
   const { data } = useQuery(queryKey, getSentFriendsRequests, {
+    enabled: profile?.Id != undefined,
     staleTime: ONE_HOUR,
   });
 

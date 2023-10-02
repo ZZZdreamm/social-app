@@ -9,6 +9,7 @@ import { PostFormChildProps } from "..";
 import MyModal from "../../../../_utils/Modal/Modal";
 import { ProfileImage } from "../../../ProfileImage/ProfileImage";
 import { useProfilesRelationsContext } from "../../../../services/Contexts/ProfileDataContext";
+import { useAuthenticationContext } from "../../../../services/Contexts/AuthenticationContext";
 
 interface ImagesListProps {
   filesArray: [File, string][];
@@ -79,7 +80,7 @@ export default function OpenedPostForm({
     AutorName: "",
   },
 }: PostFormProps) {
-  const { profile } = useProfilesRelationsContext();
+  const { profile } = useAuthenticationContext();
   const textareaRef = useRef<HTMLDivElement>(null);
   const [text, setText] = useState(currentPost.text);
   const [filesArray, setFilesArray] = useState<[File, string][]>(

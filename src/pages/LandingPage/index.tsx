@@ -10,9 +10,10 @@ import { useProfilesRelationsContext } from "../../services/Contexts/ProfileData
 import { getPosts } from "../../apiFunctions/getPosts";
 import { useInfinitePosts } from "../../hooks/useInfinitePosts";
 import Waiting from "../../_utils/Waiting/indexxx";
+import { useAuthenticationContext } from "../../services/Contexts/AuthenticationContext";
 
 export default function LandingPage() {
-  const { profile } = useProfilesRelationsContext();
+  const { profile } = useAuthenticationContext();
   const [windowSize, setWindowSize] = useState(window.innerWidth);
   const endOfPostsRef = useRef(null);
   const { posts, fetchNextPage, isFetchingNextPage, hasNextPage } =

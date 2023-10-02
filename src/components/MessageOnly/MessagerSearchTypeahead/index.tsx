@@ -4,6 +4,7 @@ import MessagerSearchOption from "../MessagerSearchOption";
 import SearchTypeahead from "../../../_utils/SearchTypeahead";
 import { axiosBase } from "../../../globals/apiPaths";
 import { useProfilesRelationsContext } from "../../../services/Contexts/ProfileDataContext";
+import { useAuthenticationContext } from "../../../services/Contexts/AuthenticationContext";
 
 interface MessagerSearchTypeaheadProps {
   setChoosenFriend: (profile: profileDTO) => void;
@@ -12,7 +13,7 @@ interface MessagerSearchTypeaheadProps {
 export default function MessagerSearchTypeahead({
   setChoosenFriend,
 }: MessagerSearchTypeaheadProps) {
-  const { profile } = useProfilesRelationsContext();
+  const { profile } = useAuthenticationContext();
   function typeaheadChildren(profile: profileDTO): React.ReactElement {
     return (
       <MessagerSearchOption

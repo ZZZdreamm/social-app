@@ -1,10 +1,13 @@
 import { useInfiniteQuery } from "react-query";
+import { useProfilesRelationsContext } from "../services/Contexts/ProfileDataContext";
+import { useAuthenticationContext } from "../services/Contexts/AuthenticationContext";
 
 export function useInfinitePosts(
   getPostsFn: any,
   queryName: string,
   username?: string
 ) {
+  const { profile } = useAuthenticationContext();
   const {
     data: _posts,
     fetchNextPage,
@@ -14,6 +17,7 @@ export function useInfinitePosts(
     [queryName],
     async ({ pageParam }) => {
       let response: postDTO[];
+      if (!profile?.Id) return [];
       if (username) {
         response = await getPostsFn(username, pageParam);
       } else {
@@ -25,7 +29,6 @@ export function useInfinitePosts(
       getNextPageParam: (lastPage: any) => {
         if (lastPage?.length === 0) return undefined;
         if (!lastPage || lastPage.length === 0) return;
-        console.log(lastPage);
         const lastPageDate = Array.isArray(lastPage)
           ? lastPage.slice(-1)[0].Date
           : lastPage.Date;

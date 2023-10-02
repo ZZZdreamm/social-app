@@ -16,6 +16,8 @@ import { useMutation } from "react-query";
 import { queryClient } from "../../../App";
 import { deletePost } from "../../../apiFunctions/deletePost";
 import { patchPost } from "../../../apiFunctions/patchPost";
+import { useAuthData } from "../../../hooks/useAuthData";
+import { useAuthenticationContext } from "../../../services/Contexts/AuthenticationContext";
 
 interface PostContainerProps {
   post: postDTO;
@@ -97,7 +99,7 @@ const PostProfile = ({ post, queryName }: PostProfileProps) => {
 };
 
 const PostProfileOptions = ({ post, queryName }: PostProfileProps) => {
-  const { profile } = useProfilesRelationsContext();
+  const { profile } = useAuthenticationContext();
   const [optionsOpen, setOptionsOpen] = useState(false);
   const [editOpen, setEditOpen] = useState(false);
   function toggleOptions() {
@@ -105,7 +107,10 @@ const PostProfileOptions = ({ post, queryName }: PostProfileProps) => {
   }
 
   const { mutate: delPost } = useMutation({
-    mutationFn: (postId: string) => deletePost(postId),
+    mutationFn: (postId: string) => {
+      if (profile?.Id === undefined) throw Error("Something went wrong");
+      return deletePost(postId);
+    },
     onSuccess: ({ status, postId }) => {
       queryClient.setQueryData([queryName], (oldData: any) => {
         if (status === "error") throw Error("Something went wrong");
@@ -125,7 +130,10 @@ const PostProfileOptions = ({ post, queryName }: PostProfileProps) => {
   });
 
   const { mutate: editPost } = useMutation({
-    mutationFn: (post: postDTO) => patchPost(post),
+    mutationFn: (post: postDTO) => {
+      if (profile?.Id === undefined) throw Error("Something went wrong");
+      return patchPost(post);
+    },
     onSuccess: ({ status, post }) => {
       queryClient.setQueryData([queryName], (oldData: any) => {
         if (status === "error") throw Error("Something went wrong");
@@ -292,7 +300,7 @@ interface LikeProps extends PostProps {
 }
 
 const Like = ({ post, amountOfLikes, setAmountOfLikes }: LikeProps) => {
-  const { profile } = useProfilesRelationsContext();
+  const { profile } = useAuthenticationContext();
   const [youLiked, setYouLiked] = useState<boolean>();
   const [clicked, setClicked] = useState(false);
   const debouncedAmountOfLikes = useDebounce(amountOfLikes, 1000);
@@ -358,7 +366,7 @@ const Comments = ({
   showComments,
   setAmountOfComments,
 }: CommentsProps) => {
-  const { profile } = useProfilesRelationsContext();
+  const { profile } = useAuthenticationContext();
   const [comments, setComments] = useState<commentsDTO[]>();
   const [commentText, setCommentText] = useState("");
   const [allCommentsFetched, setAllCommentsFetched] = useState(false);

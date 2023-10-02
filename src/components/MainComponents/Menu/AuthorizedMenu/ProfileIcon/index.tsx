@@ -9,11 +9,11 @@ import useClickedNotOnElement from "../../../../../_utils/2Hooks/useClickedNotOn
 import { ProfileImage } from "../../../../ProfileImage/ProfileImage";
 import { useAuthData } from "../../../../../hooks/useAuthData";
 import { useProfilesRelationsContext } from "../../../../../services/Contexts/ProfileDataContext";
+import { useAuthenticationContext } from "../../../../../services/Contexts/AuthenticationContext";
 
 export default function ProfileIcon({}: MenuChildProps) {
   const navigate = useNavigate();
-  const { setClaims } = useAuthData();
-  const { profile } = useProfilesRelationsContext();
+  const { profile, setClaims } = useAuthenticationContext();
   const iconRef = useRef(null);
   const [visibleModal, setVisibleModal] = useState(false);
 

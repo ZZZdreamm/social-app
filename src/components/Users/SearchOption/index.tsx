@@ -3,13 +3,14 @@ import { useNavigate } from "react-router-dom";
 import { profileDTO } from "../../../services/Models/profiles.models";
 import { ProfileImage } from "../../ProfileImage/ProfileImage";
 import { useProfilesRelationsContext } from "../../../services/Contexts/ProfileDataContext";
+import { useAuthenticationContext } from "../../../services/Contexts/AuthenticationContext";
 
 interface SearchOptionProps {
   userProfile: profileDTO;
 }
 export default function SearchOption({ userProfile }: SearchOptionProps) {
   const navigate = useNavigate();
-  const { profile } = useProfilesRelationsContext();
+  const { profile } = useAuthenticationContext();
   return (
     <>
       {profile?.Email != userProfile.Email && (

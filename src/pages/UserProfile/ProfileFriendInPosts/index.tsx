@@ -4,6 +4,7 @@ import { profileDTO } from "../../../services/Models/profiles.models";
 import OpenedOptions from "../../../_utils/OpenedOptions";
 import { axiosBase } from "../../../globals/apiPaths";
 import { useProfilesRelationsContext } from "../../../services/Contexts/ProfileDataContext";
+import { useAuthenticationContext } from "../../../services/Contexts/AuthenticationContext";
 
 interface ProfileFriendProps {
   friend: profileDTO;
@@ -11,7 +12,8 @@ interface ProfileFriendProps {
 
 const ProfileFriendInPosts = ({ friend }: ProfileFriendProps) => {
   const navigate = useNavigate();
-  const { profile, friends, setFriends } = useProfilesRelationsContext();
+  const { profile } = useAuthenticationContext();
+  const { friends, setFriends } = useProfilesRelationsContext();
   function goToProfile() {
     navigate(`/user-profile/${friend?.Id}`);
   }

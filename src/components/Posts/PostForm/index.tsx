@@ -8,11 +8,17 @@ import { useProfilesRelationsContext } from "../../../services/Contexts/ProfileD
 import { InfiniteData, useMutation } from "react-query";
 import { queryClient } from "../../../App";
 import { postPost } from "../../../apiFunctions/postPost";
+import { useAuthenticationContext } from "../../../services/Contexts/AuthenticationContext";
 
 export default function PostForm({ queryName }: { queryName: string }) {
+  // const { profile } = useProfilesRelationsContext();
+  const { profile } = useAuthenticationContext();
   const [isOpen, setIsOpen] = useState(false);
   const { mutate: addPost } = useMutation({
-    mutationFn: (data: postCreationDTO) => postPost(data),
+    mutationFn: (data: postCreationDTO) => {
+      if (profile?.Id === undefined) throw Error("Something went wrong");
+      return postPost(data);
+    },
     onSuccess: (newPost) => {
       queryClient.setQueryData([queryName], (oldData: any) => {
         return {
@@ -47,7 +53,7 @@ export interface PostFormChildProps {
 }
 
 const UpperPart = ({ toggleModal }: PostFormChildProps) => {
-  const { profile } = useProfilesRelationsContext();
+  const { profile } = useAuthenticationContext();
 
   return (
     <span className="post-form-up shadow-around">

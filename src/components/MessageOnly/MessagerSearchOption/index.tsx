@@ -2,6 +2,7 @@ import { profileDTO } from "../../../services/Models/profiles.models";
 import "./style.scss";
 import { ProfileImage } from "../../ProfileImage/ProfileImage";
 import { useProfilesRelationsContext } from "../../../services/Contexts/ProfileDataContext";
+import { useAuthenticationContext } from "../../../services/Contexts/AuthenticationContext";
 
 interface SearchOptionProps {
   userProfile: profileDTO;
@@ -11,7 +12,7 @@ export default function MessagerSearchOption({
   userProfile,
   setChoosenFriend,
 }: SearchOptionProps) {
-  const { profile } = useProfilesRelationsContext();
+  const { profile } = useAuthenticationContext();
   return (
     <>
       {profile?.Email != userProfile.Email && (

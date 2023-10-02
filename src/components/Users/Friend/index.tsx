@@ -5,10 +5,12 @@ import { profileDTO } from "../../../services/Models/profiles.models";
 import { ReadyImagesURL } from "../../../globals/appUrls";
 import { axiosBase } from "../../../globals/apiPaths";
 import { useProfilesRelationsContext } from "../../../services/Contexts/ProfileDataContext";
+import { useAuthenticationContext } from "../../../services/Contexts/AuthenticationContext";
 
 export default function Friend({ friend }: FriendProps) {
   const navigate = useNavigate();
-  const { profile, friends, setFriends } = useProfilesRelationsContext();
+  const { profile } = useAuthenticationContext();
+  const { friends, setFriends } = useProfilesRelationsContext();
   async function removeFriend() {
     const response = await axiosBase.delete<{ Id: string }>(
       `profiles/deleteFriend?userId=${profile?.Id}&friendId=${friend.Id}`

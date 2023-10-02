@@ -5,9 +5,10 @@ import { axiosBase } from "../../globals/apiPaths";
 import { profileDTO } from "../../services/Models/profiles.models";
 import CallModal from "../WebRTC/CallModal";
 import { openCallWindow } from "../WebRTC/CallFunctions";
+import { useAuthenticationContext } from "../../services/Contexts/AuthenticationContext";
 
 export function SocketCallModal() {
-  const { profile } = useProfilesRelationsContext();
+  const { profile } = useAuthenticationContext();
   const [call, setCall] = useState<ReactElement>(<></>);
 
   useEffect(() => {

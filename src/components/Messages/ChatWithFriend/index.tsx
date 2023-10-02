@@ -22,6 +22,7 @@ import { ProfileImage } from "../../ProfileImage/ProfileImage";
 import { axiosBase } from "../../../globals/apiPaths";
 import { useProfilesRelationsContext } from "../../../services/Contexts/ProfileDataContext";
 import { useOpenedChatsContext } from "../../../services/Contexts/OpenedChatsContext";
+import { useAuthenticationContext } from "../../../services/Contexts/AuthenticationContext";
 
 interface ChatWithFriendProps {
   friend: profileDTO;
@@ -78,7 +79,7 @@ const ChatHeader = ({
   smallChatClose,
 }: ChatHeaderProps) => {
   const navigate = useNavigate();
-  const { profile } = useProfilesRelationsContext();
+  const { profile } = useAuthenticationContext();
   const { openedChats, setOpenedChats } = useOpenedChatsContext();
   const image = friend.ProfileImage || `${ReadyImagesURL}/noProfile.jpg`;
 
@@ -135,7 +136,7 @@ const ChatBody = ({
   setRespondTo,
   newestMessagesRef,
 }: ChatBodyProps) => {
-  const { profile } = useProfilesRelationsContext();
+  const { profile } = useAuthenticationContext();
   const [messages, setMessages] = useState<any[]>([]);
   const [chatOpen, setChatOpen] = useState(false);
   const [fetchedAllMessages, setFetchedAllMessages] = useState(false);
@@ -233,7 +234,7 @@ const ChatFooter = ({
   respondTo,
   setRespondTo,
 }: ChatFooter) => {
-  const { profile } = useProfilesRelationsContext();
+  const { profile } = useAuthenticationContext();
   const [textToSend, setTextToSend] = useState("");
   const [audioURL, setAudioURL] = useState("");
   const [voiceMessage, setVoiceMessage] = useState<Blob>();

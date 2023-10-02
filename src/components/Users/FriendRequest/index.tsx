@@ -3,10 +3,11 @@ import { profileDTO } from "../../../services/Models/profiles.models";
 import { ProfileImage } from "../../ProfileImage/ProfileImage";
 import { axiosBase } from "../../../globals/apiPaths";
 import { useProfilesRelationsContext } from "../../../services/Contexts/ProfileDataContext";
+import { useAuthenticationContext } from "../../../services/Contexts/AuthenticationContext";
 
 export default function FriendRequest({ friend, sent }: FriendProps) {
+  const { profile } = useAuthenticationContext();
   const {
-    profile,
     friends,
     friendsRequests,
     sentFriendsRequests,

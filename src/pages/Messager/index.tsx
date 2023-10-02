@@ -10,11 +10,13 @@ import { profileDTO } from "../../services/Models/profiles.models";
 import GoToMenuButton from "../../_utils/GoToMenuButton";
 import Portal from "../../_utils/Portal/Portal";
 import { useProfilesRelationsContext } from "../../services/Contexts/ProfileDataContext";
+import { useAuthenticationContext } from "../../services/Contexts/AuthenticationContext";
 
 export default function Messager() {
   const [choosenFriend, setChoosenFriend] = useState<profileDTO>();
   const [windowSize, setWindowSize] = useState(window.innerWidth);
-  const { profile, friends } = useProfilesRelationsContext();
+  const { friends } = useProfilesRelationsContext();
+  const { profile } = useAuthenticationContext();
 
   const mobile = windowSize < 600 ? true : false;
 

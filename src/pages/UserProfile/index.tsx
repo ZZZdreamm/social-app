@@ -19,6 +19,7 @@ import { axiosBase } from "../../globals/apiPaths";
 import { useProfilesRelationsContext } from "../../services/Contexts/ProfileDataContext";
 import { useInfinitePosts } from "../../hooks/useInfinitePosts";
 import { getUserPosts } from "../../apiFunctions/getUserPosts";
+import { useAuthenticationContext } from "../../services/Contexts/AuthenticationContext";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -86,7 +87,7 @@ const ProfileUp = ({
   setContent,
   userFriends,
 }: ProfileUpProps) => {
-  const { profile, setProfile } = useProfilesRelationsContext();
+  const { profile, setProfile } = useAuthenticationContext();
   const {
     friends,
     friendsRequests,

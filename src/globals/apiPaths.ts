@@ -37,7 +37,7 @@ axiosBase.interceptors.response.use(
       return;
     } else if (error.response.status === 401) {
       logout();
-      // window.location.href = loginUrl;
+      window.location.href = loginUrl;
     }
     return;
   }

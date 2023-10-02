@@ -6,6 +6,7 @@ import {
 import "./style.scss";
 import { axiosBase } from "../../../../globals/apiPaths";
 import { useProfilesRelationsContext } from "../../../../services/Contexts/ProfileDataContext";
+import { useAuthenticationContext } from "../../../../services/Contexts/AuthenticationContext";
 
 interface MessageOptionsProps {
   message: messageDTO;
@@ -25,7 +26,7 @@ export default function MessageOptions({
   setIsOpen,
 }: MessageOptionsProps) {
   // const [isOpen, setIsOpen] = useState("");
-  const { profile } = useProfilesRelationsContext();
+  const { profile } = useAuthenticationContext();
 
   function toggleModal(name: string) {
     if (isOpen === name) {

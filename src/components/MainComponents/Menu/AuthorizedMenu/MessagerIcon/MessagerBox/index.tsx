@@ -5,6 +5,7 @@ import { profileDTO } from "../../../../../../services/Models/profiles.models";
 import { ProfileImage } from "../../../../../ProfileImage/ProfileImage";
 import { useProfilesRelationsContext } from "../../../../../../services/Contexts/ProfileDataContext";
 import { useOpenedChatsContext } from "../../../../../../services/Contexts/OpenedChatsContext";
+import { useAuthenticationContext } from "../../../../../../services/Contexts/AuthenticationContext";
 
 interface MessagerBoxProps {
   friends: profileDTO[] | undefined;
@@ -16,7 +17,7 @@ export default function MessagerBox({
   toggleModal,
 }: MessagerBoxProps) {
   const navigate = useNavigate();
-  const { profile } = useProfilesRelationsContext();
+  const { profile } = useAuthenticationContext();
   const { openedChats, setOpenedChats } = useOpenedChatsContext();
 
   function addNewChat(profile: profileDTO) {

@@ -4,12 +4,12 @@ import { ReadyImagesURL } from "../../../../globals/appUrls";
 import "./style.scss";
 import "../style.scss";
 import { ProfileImage } from "../../../ProfileImage/ProfileImage";
-import { useProfilesRelationsContext } from "../../../../services/Contexts/ProfileDataContext";
 import { useOpenedChatsContext } from "../../../../services/Contexts/OpenedChatsContext";
+import { useAuthenticationContext } from "../../../../services/Contexts/AuthenticationContext";
 
 export default function LeftBar() {
   const navigate = useNavigate();
-  const { profile } = useProfilesRelationsContext();
+  const { profile } = useAuthenticationContext();
   const { setOpenedChats } = useOpenedChatsContext();
   const location = useLocation();
   const [windowSize, setWindowSize] = useState(window.innerWidth);
