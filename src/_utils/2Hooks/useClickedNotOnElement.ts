@@ -5,10 +5,8 @@ const useClickedNotOnElement = (ref: any, callback: any) => {
     try {
       const clickedElement = e.target;
       const targetElement = ref.current;
-      if (
-        (clickedElement === targetElement ||
-          targetElement.contains(clickedElement)) == false
-      ) {
+
+      if (targetElement.contains(clickedElement) === false) {
         callback();
       }
     } catch (e) {

@@ -32,10 +32,8 @@ export function useInfiniteComments(
     {
       enabled: canFetch,
       getNextPageParam: (lastPage: any, allPages: any[]) => {
-        if (
-          (allPages && lastPage?.length === 0) ||
-          lastPage?.length < PAGE_SIZE
-        )
+        const lastPageLen = lastPage?.length;
+        if ((allPages && lastPageLen === 0) || lastPageLen < PAGE_SIZE)
           return undefined;
         if (!lastPage || lastPage.length === 0) return [];
         const lastPageDate = Array.isArray(lastPage)

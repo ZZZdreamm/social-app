@@ -19,14 +19,12 @@
 .profileIcon {
   cursor: pointer;
   @include circle(2.4rem, height);
-
 }
 .messagerIcon {
   @include circle(100%, height);
   cursor: pointer;
 
   box-sizing: border-box;
-  padding: 5%;
   background-color: var(--container2Color);
   display: flex;
   &:hover {
@@ -146,4 +144,9 @@
 
 .hidden {
   display: none;
+}
+
+.iconContainer {
+  border-radius: 50%;
+  padding: 0.5rem 0.5rem;
 }
