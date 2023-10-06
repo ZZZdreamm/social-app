@@ -87,22 +87,22 @@
         align-self: flex-end;
       }
       &-input {
-        position: absolute;
-        bottom: 2.5rem;
-        transform: translateY(50%);
-        max-height: 100%;
+        // position: absolute;
+        // bottom: 2.5rem;
+        // transform: translateY(50%);
+        // max-height: 100%;
         width: calc(100% - 3rem);
-        border: 1px solid #bbb;
-        border-radius: 1rem;
-        text-align: left;
-        padding: 0.5rem;
-        background-color: #eee;
-        display: flex;
-        flex-direction: column-reverse;
-        white-space: pre-wrap;
-        word-break: break-word;
-        overflow-y: auto;
-        z-index: 17;
+        // border: 1px solid #bbb;
+        // border-radius: 1rem;
+        // text-align: left;
+        // padding: 0.5rem;
+        // background-color: #eee;
+        // display: flex;
+        // flex-direction: column-reverse;
+        // white-space: pre-wrap;
+        // word-break: break-word;
+        // overflow-y: auto;
+        // z-index: 17;
         &-responseTo{
           bottom: 5rem;
           height: fit-content;
@@ -127,5 +127,11 @@
         margin-right: 0.2rem;
       }
     }
+  }
+}
+
+@include phone{
+  .chat-footer-input{
+    transform: translateY(15%);
   }
 }

@@ -1,8 +1,9 @@
 import { axiosBase } from "../globals/apiPaths";
 
 export async function getPosts(previousPostDate: string) {
-  const newPosts = (
-    await axiosBase.get<postDTO[]>(`posts/all/${previousPostDate}`)
-  ).data;
+  const response = await axiosBase.get<postDTO[]>(
+    `posts/all/${previousPostDate}`
+  );
+  const newPosts = response.data;
   return newPosts;
 }

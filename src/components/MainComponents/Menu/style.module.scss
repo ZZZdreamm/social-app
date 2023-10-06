@@ -21,7 +21,7 @@
   @include circle(2.4rem, height);
 }
 .messagerIcon {
-  @include circle(100%, height);
+  @include circle(2.6rem, height);
   cursor: pointer;
 
   box-sizing: border-box;
