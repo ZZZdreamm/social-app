@@ -30,6 +30,12 @@
   }
 }
 
+@mixin aboveExtraLargeDesktop() {
+  @media (min-width: $extraLargeDesktopSize) {
+    @content;
+  }
+}
+
 @mixin circle($size, $direction: height) {
   @if $direction == height {
     height: $size;
