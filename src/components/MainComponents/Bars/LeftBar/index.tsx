@@ -28,15 +28,12 @@ export default function LeftBar() {
 
   const fullBar = location.pathname == "/" && windowSize > 700 ? true : false;
   const smallPage = windowSize < 700 ? true : false;
-  let barStyling;
+  let barStyling = {};
   let elementsStyling;
   if (fullBar) {
-    barStyling = {
-      width: "20vw",
-    };
+    barStyling = {};
   } else if (smallPage) {
     barStyling = {
-      width: "10vw",
       backgroundColor: "var(--navColor)",
       boxShadow: "8px 0px 10px -12px var(--typicalShadow)",
     };
@@ -45,7 +42,6 @@ export default function LeftBar() {
     };
   } else {
     barStyling = {
-      width: "5vw",
       backgroundColor: "var(--navColor)",
       boxShadow: "8px 0px 10px -12px var(--typicalShadow)",
     };
