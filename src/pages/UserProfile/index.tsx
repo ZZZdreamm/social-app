@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import uuid4 from "uuid4";
 import PostsList from "../../components/Posts/PostsList";
@@ -275,6 +275,17 @@ interface ProfileDownProps extends ProfileProps {
   friends: profileDTO[];
 }
 
+const scrollTriggerProps = {
+  id: "profile-friends",
+  trigger: "#profile-down",
+  start: () => "top-=75px top",
+  endTrigger: "body",
+  end: () => "max",
+  pin: "#profile-friends",
+  pinSpacing: false,
+  invalidateOnRefresh: true,
+};
+
 const ProfileDown = ({ userProfile, content, friends }: ProfileDownProps) => {
   const endOfPostsRef = useRef(null);
   const { posts, fetchNextPage, isFetchingNextPage, hasNextPage } =
@@ -297,45 +308,48 @@ const ProfileDown = ({ userProfile, content, friends }: ProfileDownProps) => {
   }, [scrolledPageBottom]);
 
   const nineFriends = friends?.slice(0, 9);
-
-  // useEffect(() => {
-  //   if(!nineFriends) return;
-  //   const scrollTrigger = ScrollTrigger.create({
-  //     trigger: "#profile-posts",
-  //     start: "top top",
-  //     endTrigger: "#profile-posts",
-  //     end: "bottom bottom",
-  //     pin: "#profile-friends",
-  //     pinSpacing: false,
-  //     markers: true
-  //   });
-
-  // }, [nineFriends]);
   const windowSize = useWindowSizeChanged(() => {});
 
+  useEffect(() => {
+    ScrollTrigger.create(scrollTriggerProps);
+    window.addEventListener("resize", handleResizeForScrollTrigger);
+  }, []);
+
+  useEffect(() => {
+    if (!posts) return;
+    ScrollTrigger.refresh();
+  }, [posts]);
+
+  const handleResizeForScrollTrigger = () => {
+    ScrollTrigger.getById("profile-friends")?.kill();
+    ScrollTrigger.create(scrollTriggerProps);
+  };
+
   return (
-    <div className="profile-down">
+    <div id="profile-down" className="profile-down">
       {content == "posts" && (
         <div id="profile-posts" className="profile-down-posts">
           {nineFriends && windowSize.width > 700 && (
-            <section
-              id="profile-friends"
-              className="profile-down-posts-container padding-1"
-            >
-              <div className="padding-1 flex-column">
-                <span className="bold large-font">Friends</span>
-                <span className="medium-font hover-underline">
-                  {friends?.length} friends
-                </span>
-              </div>
-              <div className="profile-down-posts-container-friends">
-                {nineFriends?.map((friend) => (
-                  <div style={{ width: "30%" }}>
-                    <FriendInProfile friend={friend} />
-                  </div>
-                ))}
-              </div>
-            </section>
+            <div id="profile-friends-container">
+              <section
+                id="profile-friends"
+                className="profile-down-posts-container padding-1"
+              >
+                <div className="padding-1 flex-column">
+                  <span className="bold large-font">Friends</span>
+                  <span className="medium-font hover-underline">
+                    {friends?.length} friends
+                  </span>
+                </div>
+                <div className="profile-down-posts-container-friends">
+                  {nineFriends?.map((friend) => (
+                    <div style={{ width: "30%" }}>
+                      <FriendInProfile friend={friend} />
+                    </div>
+                  ))}
+                </div>
+              </section>
+            </div>
           )}
           <section className="flex-column gap-1">
             <div className="profile-down-posts-header large-font bold">

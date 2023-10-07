@@ -74,6 +74,8 @@
     height: fit-content;
     width: 75vw;
     margin: 2rem auto;
+    margin-bottom: 5rem;
+
     &-posts {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -111,7 +113,6 @@
       flex-direction: column;
       width: 100%;
       height: fit-content;
-      margin-bottom: 5rem;
 
       article {
         margin: 1rem 0;
