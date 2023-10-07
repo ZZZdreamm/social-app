@@ -181,6 +181,7 @@ const ChatBody = ({
     if (!profile?.Id || !newestMessagesRef || !friend.Id) return;
     fetchPreviousPage();
     setChatOpen(true);
+    socket.off(`receive-message/${profile?.Id}/${friend.Id}`);
     socket.on(`receive-message/${profile?.Id}/${friend.Id}`, (message) => {
       receiveMessage(message);
       setTimeout(() => {
@@ -189,6 +190,7 @@ const ChatBody = ({
         }
       }, 400);
     });
+
   }, [
     profile?.Id,
     newestMessagesRef,
@@ -199,7 +201,7 @@ const ChatBody = ({
 
   useEffect(() => {
     if (!friend.Id) return;
-    if(isFetchingPreviousPage) return
+    if (isFetchingPreviousPage) return;
     const scrollableSpan = document.getElementById(`scrollable-span`);
     if (scrollableSpan) {
       scrollableSpan.scrollIntoView();
