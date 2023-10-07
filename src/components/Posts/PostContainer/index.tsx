@@ -58,6 +58,7 @@ export default function PostContainer({ post, queryName }: PostContainerProps) {
         showComments={showComments}
         post={post}
         setAmountOfComments={setAmountOfComments}
+        amountOfComments={amountOfComments}
       />
     </div>
   );
@@ -361,12 +362,14 @@ const Like = ({ post, amountOfLikes, setAmountOfLikes }: LikeProps) => {
 interface CommentsProps {
   post: postDTO;
   showComments: boolean;
+  amountOfComments: number;
   setAmountOfComments: React.Dispatch<React.SetStateAction<number>>;
 }
 
 const Comments = ({
   post,
   showComments,
+  amountOfComments,
   setAmountOfComments,
 }: CommentsProps) => {
   const { profile } = useAuthenticationContext();
@@ -400,13 +403,13 @@ const Comments = ({
   });
 
   useEffect(() => {
-    if (showComments === undefined) return;
+    if (showComments === undefined || amountOfComments === 0) return;
     if (showComments === true) {
       if (comments?.length === 0) {
         fetchNextPage();
       }
     }
-  }, [showComments]);
+  }, [showComments, amountOfComments]);
 
   async function createComment() {
     if (!profile?.Id) return;
@@ -456,7 +459,7 @@ const Comments = ({
           </div>
           {comments && <ListOfComments comments={comments} />}
           {isFetchingNextPage && <Waiting message="Loading..." />}
-          {hasNextPage && (
+          {amountOfComments !== 0 && hasNextPage && (
             <span
               style={{ textAlign: "left", cursor: "pointer" }}
               onClick={showMoreComments}
@@ -464,9 +467,14 @@ const Comments = ({
               Show more...
             </span>
           )}
-          {!hasNextPage && (
+          {amountOfComments !== 0 && !hasNextPage && (
             <span style={{ marginTop: "0.5rem" }}>
               There are no more comments
+            </span>
+          )}
+          {amountOfComments === 0 && (
+            <span style={{ marginTop: "0.5rem" }}>
+              No comments. Post something here!
             </span>
           )}
         </div>
