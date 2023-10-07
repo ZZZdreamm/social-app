@@ -1,8 +1,40 @@
+@import "../../../styles/mixins.scss";
+
 .listOfFriends {
-  // display: grid;
+  display: grid;
   width: calc(100% - 2rem);
   margin: 0 auto;
   gap: 2rem;
   row-gap: 3rem;
   padding-bottom: 2rem;
+}
+
+@include aboveExtraLargeDesktop {
+  .listOfFriends {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+  }
+}
+
+@include extraLargeDesktop {
+  .listOfFriends {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+  }
+}
+
+@include desktop {
+  .listOfFriends {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+@include tablet {
+  .listOfFriends {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@include phone {
+  .listOfFriends {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }

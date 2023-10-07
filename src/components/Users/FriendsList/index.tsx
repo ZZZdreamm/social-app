@@ -6,10 +6,9 @@ import Waiting from "../../../_utils/Waiting/indexxx";
 import { profileDTO } from "../../../services/Models/profiles.models";
 
 export default function FriendsList({ friends }: FriendsListProps) {
-
   return (
     <GenericList list={friends} emptyListUI={<>You don't have friends</>}>
-      <div className="listOfFriends" style={{gridTemplateColumns:`repeat(3, 1fr)`}}>
+      <div className="listOfFriends">
         {friends ? (
           friends.map((friend) => <Friend friend={friend} key={friend.Id} />)
         ) : (

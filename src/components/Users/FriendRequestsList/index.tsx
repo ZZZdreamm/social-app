@@ -1,7 +1,6 @@
 import "./style.scss";
 import GenericList from "../../../_utils/GenericList/GenericList";
 import Waiting from "../../../_utils/Waiting/indexxx";
-import Friend from "../Friend";
 import FriendRequest from "../FriendRequest";
 import { profileDTO } from "../../../services/Models/profiles.models";
 
