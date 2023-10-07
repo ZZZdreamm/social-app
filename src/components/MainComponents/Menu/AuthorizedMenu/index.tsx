@@ -6,11 +6,6 @@ import "./style.scss";
 import NightModeSwitch from "../../../NightModeSwitch";
 
 export default function AuthorizedMenu() {
-  // const [visibleModal, setVisibleModal] = useState("");
-
-  // function toggleModal(modalName: string) {
-  //   setVisibleModal((prev) => (prev === modalName ? "" : modalName));
-  // }
 
   return (
     <>
@@ -26,5 +21,5 @@ export default function AuthorizedMenu() {
 }
 
 export interface MenuChildProps {
-  
+
 }

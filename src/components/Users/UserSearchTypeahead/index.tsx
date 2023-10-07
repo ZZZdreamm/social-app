@@ -3,9 +3,11 @@ import SearchOption from "../SearchOption";
 import { profileDTO } from "../../../services/Models/profiles.models";
 import SearchTypeahead from "../../../_utils/SearchTypeahead";
 import { axiosBase } from "../../../globals/apiPaths";
+import { useAuthenticationContext } from "../../../services/Contexts/AuthenticationContext";
 // import { axiosBaseProfiles } from "../../../globals/apiPaths";
 
 export default function UserSearchTypeahead() {
+  const { profile } = useAuthenticationContext();
   function typeaheadChildren(profile: profileDTO): React.ReactElement {
     return <SearchOption userProfile={profile} />;
   }
@@ -16,10 +18,9 @@ export default function UserSearchTypeahead() {
   ) {
     if (query) {
       const response = await axiosBase.get<profileDTO[]>(
-        `profiles/search/${query}`
+        `profiles/search/${query}?userId=${profile?.Id}`
       );
-      const users = response.data;
-      const searchedUsers = users.slice(0, 5);
+      const searchedUsers = response.data;
       setProfiles(searchedUsers);
     } else {
       setProfiles([]);
