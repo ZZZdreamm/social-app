@@ -3,7 +3,7 @@ import { useAuthenticationContext } from "../services/Contexts/AuthenticationCon
 import { messageDTO } from "../services/Models/message.models";
 
 const PAGE_SIZE = 10;
-const FETCHING_TIME = 800;
+const FETCHING_TIME = 400;
 
 export function useInfiniteMessages(
   getMessagesFn: any,
