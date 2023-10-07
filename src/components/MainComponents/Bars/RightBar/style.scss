@@ -1,4 +1,17 @@
+@import "../../../../styles/mixins.scss";
 .bar-right {
   right: 0;
-  width: 20vw;
 }
+
+@include abovePhone{
+  .bar-right{
+    width: 25vw;
+  }
+}
+
+@include aboveDesktop{
+  .bar-right{
+    width: 20vw;
+  }
+}
+

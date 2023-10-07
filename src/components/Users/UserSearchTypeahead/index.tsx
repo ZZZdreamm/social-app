@@ -4,7 +4,6 @@ import { profileDTO } from "../../../services/Models/profiles.models";
 import SearchTypeahead from "../../../_utils/SearchTypeahead";
 import { axiosBase } from "../../../globals/apiPaths";
 import { useAuthenticationContext } from "../../../services/Contexts/AuthenticationContext";
-// import { axiosBaseProfiles } from "../../../globals/apiPaths";
 
 export default function UserSearchTypeahead() {
   const { profile } = useAuthenticationContext();

@@ -6,14 +6,33 @@
   }
 }
 
+@mixin abovePhone() {
+  @media (min-width: $phoneSize) {
+    @content;
+  }
+}
+
 @mixin tablet() {
   @media (max-width: $tabletSize) {
     @content;
   }
 }
 
+@mixin aboveTablet() {
+  @media (min-width: $tabletSize) {
+    @content;
+  }
+}
+
+
 @mixin desktop() {
   @media (max-width: $desktopSize) {
+    @content;
+  }
+}
+
+@mixin aboveDesktop() {
+  @media (min-width: $desktopSize) {
     @content;
   }
 }
