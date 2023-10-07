@@ -1,9 +1,16 @@
 import "./style.scss";
 import { useNavigate } from "react-router-dom";
-//@ts-ignore
-export default function GoToMenuButton({appName}){
-    const navigate = useNavigate()
-    return(
-        <button className="go-back-button" onClick={()=>{navigate('/')}}>{appName}</button>
-    )
+export default function GoToMenuButton({ appName }: { appName: string }) {
+  const navigate = useNavigate();
+
+  return (
+    <div
+      className="go-back-button"
+      onClick={() => {
+        navigate("/");
+      }}
+    >
+      {appName}
+    </div>
+  );
 }
