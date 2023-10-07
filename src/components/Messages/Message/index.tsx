@@ -22,6 +22,8 @@ interface MessageProps {
   notResponding?: boolean;
 }
 
+type FlexDirection = "row" | "row-reverse";
+
 export default function Message({
   message,
   fetchNextPage,
@@ -32,8 +34,6 @@ export default function Message({
   setOptionsOpen,
 }: MessageProps) {
   const { profile } = useAuthenticationContext();
-  const [styling, setStyling] = useState({});
-  const [fromFriend, setFromFriend] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [optionsVisible, setOptionsVisible] = useState(false);
 
@@ -41,15 +41,11 @@ export default function Message({
     setIsOpen(!isOpen);
   }
 
-  useEffect(() => {
-    if (!profile) return;
-    if (profile?.Id === message.SenderId) {
-      setStyling({ alignSelf: "flex-end", flexDirection: "row-reverse" });
-    } else {
-      setStyling({ alignSelf: "flex-start", flexDirection: "row" });
-      setFromFriend(true);
-    }
-  }, [profile, message.SenderId]);
+  const styling =
+    profile?.Id === message.SenderId
+      ? { alignSelf: "flex-end", flexDirection: "row-reverse" as FlexDirection }
+      : { alignSelf: "flex-start", flexDirection: "row" as FlexDirection };
+  const fromFriend = profile?.Id !== message.SenderId;
   return (
     <div
       id={`message/${message.Id}`}
