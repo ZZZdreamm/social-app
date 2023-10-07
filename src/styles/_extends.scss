@@ -391,3 +391,22 @@ body {
 .mh-1 {
   margin: 0 1rem;
 }
+
+.hyperLink {
+  color: var(--blueColor);
+  cursor: pointer;
+}
+
+.flex-between {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.auto-width {
+  width: fit-content;
+}
+
+.mb-1 {
+  margin-bottom: 1rem;
+}

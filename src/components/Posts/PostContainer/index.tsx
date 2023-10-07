@@ -141,6 +141,7 @@ const PostProfileOptions = ({ post, queryName }: PostProfileProps) => {
     onSuccess: ({ status, post }) => {
       queryClient.setQueryData([queryName], (oldData: any) => {
         if (status === "error") throw Error("Something went wrong");
+        console.log(oldData);
         const oldPages = Array.isArray(oldData.pages[0])
           ? oldData.pages[0]
           : oldData.pages;
@@ -182,6 +183,7 @@ const PostProfileOptions = ({ post, queryName }: PostProfileProps) => {
       return [new File([], getStringBetweenPercentSigns(url)), url];
     }
   );
+
   return (
     <div
       id={`post-profile-options/${post.Id}`}

@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import uuid4 from "uuid4";
 import PostsList from "../../components/Posts/PostsList";
 import { ReadyImagesURL } from "../../globals/appUrls";
@@ -20,6 +20,11 @@ import { useProfilesRelationsContext } from "../../services/Contexts/ProfileData
 import { useInfinitePosts } from "../../hooks/useInfinitePosts";
 import { getUserPosts } from "../../apiFunctions/getUserPosts";
 import { useAuthenticationContext } from "../../services/Contexts/AuthenticationContext";
+import { ImagesInPostSection } from "./ImagesInPostSection";
+import {
+  convertRemToPixels,
+  convertVhToPixels,
+} from "../../_utils/1Functions/ConvertToPx";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -29,6 +34,24 @@ export default function UserProfile() {
   const [content, setContent] = useState("posts");
 
   const [friends, setFriends] = useState<profileDTO[]>([]);
+
+  const { profile } = useAuthenticationContext();
+
+  const [relationship, setRelationship] = useState<usersRelation>();
+
+  useEffect(() => {
+    checkIfInFriends();
+  }, [profile, userProfile, checkIfInFriends]);
+
+  async function checkIfInFriends() {
+    if (userProfile && userProfile.Id && profile && profile?.Id) {
+      const response = await axiosBase.get<usersRelation>(
+        `profiles/ifInFriends?userId=${profile?.Id}&friendId=${userProfile.Id}`
+      );
+      const relation = response.data;
+      setRelationship(relation);
+    }
+  }
 
   useEffect(() => {
     if (!userProfile) return;
@@ -59,11 +82,14 @@ export default function UserProfile() {
             userProfile={userProfile}
             setContent={setContent}
             userFriends={friends}
+            relationship={relationship}
+            setRelationship={setRelationship}
           />
           <ProfileDown
             content={content}
             userProfile={userProfile}
             friends={friends}
+            relationship={relationship}
           />
         </div>
       ) : (
@@ -75,17 +101,23 @@ export default function UserProfile() {
 
 interface ProfileProps {
   userProfile: profileDTO;
+  relationship?: usersRelation;
 }
 
 interface ProfileUpProps extends ProfileProps {
   setContent: React.Dispatch<React.SetStateAction<string>>;
   userFriends: profileDTO[];
+  setRelationship: React.Dispatch<
+    React.SetStateAction<usersRelation | undefined>
+  >;
 }
 
 const ProfileUp = ({
   userProfile,
   setContent,
   userFriends,
+  relationship,
+  setRelationship,
 }: ProfileUpProps) => {
   const { profile, setProfile } = useAuthenticationContext();
   const {
@@ -96,7 +128,6 @@ const ProfileUp = ({
     setFriendsRequests,
     setSentFriendsRequests,
   } = useProfilesRelationsContext();
-  const [relationship, setRelationship] = useState<usersRelation>();
 
   const [file, setFile] = useState<File>();
   const [isOpen, setIsOpen] = useState(false);
@@ -110,20 +141,6 @@ const ProfileUp = ({
       userProfile?.ProfileImage || `${ReadyImagesURL}/noProfile.jpg`
     );
   }, [userProfile]);
-
-  useEffect(() => {
-    checkIfInFriends();
-  }, [profile, userProfile, checkIfInFriends]);
-
-  async function checkIfInFriends() {
-    if (userProfile && userProfile.Id && profile && profile?.Id) {
-      const response = await axiosBase.get<usersRelation>(
-        `profiles/ifInFriends?userId=${profile?.Id}&friendId=${userProfile.Id}`
-      );
-      const relation = response.data;
-      setRelationship(relation);
-    }
-  }
 
   function toggleModal() {
     setIsOpen(!isOpen);
@@ -275,18 +292,28 @@ interface ProfileDownProps extends ProfileProps {
   friends: profileDTO[];
 }
 
-const scrollTriggerProps = {
+const scrollTriggerProps: ScrollTrigger.StaticVars = {
   id: "profile-friends",
-  trigger: "#profile-down",
-  start: () => "top-=75px top",
+  // trigger: "#profile-down",
+  // start: () => `top-=${convertRemToPixels(2) + convertVhToPixels(6)}px top`,
+  trigger: "#profile-friends",
+  start: () => `bottom bottom-=${convertRemToPixels(1)}px`,
   endTrigger: "body",
   end: () => "max",
   pin: "#profile-friends",
   pinSpacing: false,
+  scrub: true,
+  toggleActions: "play none reverse none",
   invalidateOnRefresh: true,
 };
 
-const ProfileDown = ({ userProfile, content, friends }: ProfileDownProps) => {
+const ProfileDown = ({
+  userProfile,
+  content,
+  friends,
+  relationship,
+}: ProfileDownProps) => {
+  const navigate = useNavigate();
   const endOfPostsRef = useRef(null);
   const { posts, fetchNextPage, isFetchingNextPage, hasNextPage } =
     useInfinitePosts(
@@ -294,6 +321,11 @@ const ProfileDown = ({ userProfile, content, friends }: ProfileDownProps) => {
       `userPosts/${userProfile.Id}`,
       userProfile?.Email
     );
+
+  const postedImages: unknown[] | undefined = posts
+    ?.map((post) => post.MediaFiles)
+    .flat()
+    .slice(0, 9);
 
   useEffect(() => {
     if (!userProfile) return;
@@ -311,7 +343,30 @@ const ProfileDown = ({ userProfile, content, friends }: ProfileDownProps) => {
   const windowSize = useWindowSizeChanged(() => {});
 
   useEffect(() => {
-    ScrollTrigger.create(scrollTriggerProps);
+    // gsap.set(".profile-down-posts-container", {
+    //   zIndex: (i, target, targets) => targets.length - i,
+    // });
+    // var images: any[] = gsap.utils.toArray(
+    //   ".profile-down-posts-container"
+    // );
+    // images.forEach((image: any, i) => {
+    //   var tl = gsap.timeline({
+    //     scrollTrigger: {
+    //       trigger: "#profile-friends",
+    //       start: () => "top -" + window.innerHeight * (i + 0.5),
+    //       end: () => "+=" + window.innerHeight,
+    //       scrub: true,
+    //       toggleActions: "play none reverse none",
+    //       invalidateOnRefresh: true,
+    //     },
+    //   });
+    //   tl.to(image, { height: 0 });
+    // });
+
+    ScrollTrigger.create({
+      ...scrollTriggerProps,
+    });
+
     window.addEventListener("resize", handleResizeForScrollTrigger);
   }, []);
 
@@ -320,9 +375,25 @@ const ProfileDown = ({ userProfile, content, friends }: ProfileDownProps) => {
     ScrollTrigger.refresh();
   }, [posts]);
 
+  useEffect(() => {
+    handleResizeForScrollTrigger();
+  }, [userProfile, content]);
+
   const handleResizeForScrollTrigger = () => {
     ScrollTrigger.getById("profile-friends")?.kill();
     ScrollTrigger.create(scrollTriggerProps);
+  };
+
+  const goToFriendsSection = () => {
+    navigate(`/user-friends/${userProfile.Id}`);
+  };
+
+  const goToFriendRequestsSection = () => {
+    navigate(`/user-friend-requests/${userProfile.Id}`);
+  };
+
+  const goToSentFriendRequestsSection = () => {
+    navigate(`/user-sent-friend-requests/${userProfile.Id}`);
   };
 
   return (
@@ -331,23 +402,65 @@ const ProfileDown = ({ userProfile, content, friends }: ProfileDownProps) => {
         <div id="profile-posts" className="profile-down-posts">
           {nineFriends && windowSize.width > 700 && (
             <div id="profile-friends-container">
-              <section
-                id="profile-friends"
-                className="profile-down-posts-container padding-1"
-              >
-                <div className="padding-1 flex-column">
-                  <span className="bold large-font">Friends</span>
-                  <span className="medium-font hover-underline">
-                    {friends?.length} friends
-                  </span>
-                </div>
-                <div className="profile-down-posts-container-friends">
-                  {nineFriends?.map((friend) => (
-                    <div style={{ width: "30%" }}>
-                      <FriendInProfile friend={friend} />
+              <section id="profile-friends">
+                <article className="profile-down-posts-container shadow-around mb-1">
+                  <div className="padding-1 flex-column gap-1">
+                    <span className="bold large-font">Relations</span>
+                    <span
+                      className="relationOption"
+                      onClick={goToFriendsSection}
+                    >
+                      Friends
+                    </span>
+                    {relationship == "me" && (
+                      <>
+                        <span
+                          className="relationOption"
+                          onClick={goToFriendRequestsSection}
+                        >
+                          Friends Requests
+                        </span>
+                        <span
+                          className="relationOption"
+                          onClick={goToSentFriendRequestsSection}
+                        >
+                          Sent Friends Requests
+                        </span>
+                      </>
+                    )}
+                  </div>
+                </article>
+                <article className="profile-down-posts-container shadow-around mb-1 images">
+                  <div className="padding-1 flex-column">
+                    <div className="flex-between">
+                      <span className="bold large-font">Images</span>
+                      <span className="hyperLink" onClick={() => {}}>
+                        Show all images
+                      </span>
                     </div>
-                  ))}
-                </div>
+                  </div>
+                  <ImagesInPostSection images={postedImages as string[]} />
+                </article>
+                <article className="profile-down-posts-container shadow-around">
+                  <div className="padding-1 flex-column">
+                    <div className="flex-between">
+                      <span className="bold large-font">Friends</span>
+                      <span className="hyperLink" onClick={goToFriendsSection}>
+                        Show all friends
+                      </span>
+                    </div>
+                    <span className="hover-underline auto-width">
+                      {friends?.length} friends
+                    </span>
+                  </div>
+                  <div className="profile-down-posts-container-friends">
+                    {nineFriends?.map((friend) => (
+                      <div style={{ width: "30%" }}>
+                        <FriendInProfile friend={friend} />
+                      </div>
+                    ))}
+                  </div>
+                </article>
               </section>
             </div>
           )}
@@ -355,7 +468,10 @@ const ProfileDown = ({ userProfile, content, friends }: ProfileDownProps) => {
             <div className="profile-down-posts-header large-font bold">
               Posts
             </div>
-            <PostsList posts={posts} queryName={"userPosts"} />
+            <PostsList
+              posts={posts}
+              queryName={`userPosts/${userProfile.Id}`}
+            />
             <span ref={endOfPostsRef}></span>
             {isFetchingNextPage && <Waiting message={"Loading..."} />}
             {!hasNextPage && <h2>You have reached end of internet.</h2>}
