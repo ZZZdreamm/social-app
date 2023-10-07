@@ -4,13 +4,12 @@ import { ONE_HOUR } from "../globals/constants";
 import { useQuery, useQueryClient } from "react-query";
 import { useAuthenticationContext } from "../services/Contexts/AuthenticationContext";
 
-const queryKey = ["friends"];
-
 export function useFriends() {
   const { profile } = useAuthenticationContext();
   const queryClient = useQueryClient();
+  const queryKey = [`friends/${profile?.Id}`];
 
-  const { data } = useQuery(queryKey, getFriends, {
+  const { data } = useQuery(queryKey, () => getFriends(profile?.Id!), {
     enabled: profile?.Id != undefined,
     staleTime: ONE_HOUR,
   });

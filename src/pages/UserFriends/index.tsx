@@ -1,15 +1,30 @@
 import "./style.scss";
 import FriendsList from "../../components/Users/FriendsList";
-import { useProfilesRelationsContext } from "../../services/Contexts/ProfileDataContext";
+import { getFriends } from "../../apiFunctions/getFriends";
+import { ONE_HOUR } from "../../globals/constants";
+import { useQuery } from "react-query";
+import { useParams } from "react-router-dom";
 
 export default function UserFriends() {
-  const { friends } = useProfilesRelationsContext();
+  const { id } = useParams();
+
+  const { data: friends } = useQuery(
+    [`friends/${id}`],
+    () => getFriends(id ?? ""),
+    {
+      enabled: id != undefined,
+      staleTime: ONE_HOUR,
+    }
+  );
+
+  console.log(id);
+  console.log(friends?.data);
 
   return (
     <div className="friends">
       <h2 className="mv-1">Your friends</h2>
       <span className="friends-container">
-        <FriendsList friends={friends} />
+        <FriendsList friends={friends?.data} />
       </span>
     </div>
   );
