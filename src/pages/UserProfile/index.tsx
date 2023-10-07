@@ -278,7 +278,11 @@ interface ProfileDownProps extends ProfileProps {
 const ProfileDown = ({ userProfile, content, friends }: ProfileDownProps) => {
   const endOfPostsRef = useRef(null);
   const { posts, fetchNextPage, isFetchingNextPage, hasNextPage } =
-    useInfinitePosts(getUserPosts, "userPosts", userProfile?.Email);
+    useInfinitePosts(
+      getUserPosts,
+      `userPosts/${userProfile.Id}`,
+      userProfile?.Email
+    );
 
   useEffect(() => {
     if (!userProfile) return;

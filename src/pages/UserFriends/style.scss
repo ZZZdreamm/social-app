@@ -6,6 +6,11 @@
   margin: 0 auto;
   width: 90vw;
   padding: 0 2.5vw;
+  &-container {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
 }
 
 @media screen and (min-width: 600px) {
