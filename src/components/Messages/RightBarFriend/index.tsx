@@ -18,7 +18,10 @@ export default function RightBarFriend({ friend }: FriendProps) {
         src={friend.ProfileImage || `${ReadyImagesURL}/noProfile.jpg`}
         alt=""
       />
-      <span data-testid="rightBarFriend-email" className="medium-font">
+      <span
+        data-testid="rightBarFriend-email"
+        className="medium-font"
+      >
         {friend.Email}
       </span>
     </li>

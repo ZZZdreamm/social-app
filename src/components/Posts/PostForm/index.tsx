@@ -57,7 +57,7 @@ const UpperPart = ({ toggleModal }: PostFormChildProps) => {
 
   return (
     <span className="post-form-up shadow-around">
-      <ProfileImage imageURL={profile?.ProfileImage} padding={0.25} />
+      <ProfileImage imageURL={profile?.ProfileImage}/>
       <div className="post-form-up-placeholder" onClick={toggleModal}>
         What do you want to post?
       </div>

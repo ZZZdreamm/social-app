@@ -74,10 +74,6 @@ export default function LeftBar() {
             {location.pathname.includes("user-profile") && (
               <div className="bar-left__active"></div>
             )}
-            {/* <img
-              src={myProfile.ProfileImage || `${ReadyImagesURL}/noProfile.jpg`}
-              alt=""
-            /> */}
             <ProfileImage imageURL={profile.ProfileImage} />
             {fullBar && <span className="medium-font">{profile.Email}</span>}
           </li>

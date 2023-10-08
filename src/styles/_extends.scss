@@ -296,6 +296,12 @@ body {
   z-index: 15;
 }
 
+.profileImage {
+  width: 2.4rem;
+  height: 2.4rem;
+  border-radius: 50%;
+}
+
 .header {
   width: calc(100% - 2rem);
   height: 10%;
@@ -409,4 +415,40 @@ body {
 
 .mb-1 {
   margin-bottom: 1rem;
+}
+
+.skeleton-background {
+  background-color: var(--lightGrey) !important;
+}
+
+.skeleton {
+  opacity: 0.7;
+  animation: skeleton-loading 1s linear infinite alternate;
+}
+
+.skeleton-text {
+  opacity: 0.7;
+  animation: skeleton-loading 1s linear infinite alternate;
+  border-radius: 1rem;
+}
+
+.skeleton-circle {
+  opacity: 0.7;
+  animation: skeleton-loading 1s linear infinite alternate;
+  border-radius: 50%;
+}
+
+.skeleton-text:last-child {
+  margin-bottom: 0;
+  width: 80%;
+}
+
+@keyframes skeleton-loading {
+  0% {
+    background-color: hsl(200, 20%, 70%);
+  }
+
+  100% {
+    background-color: hsl(200, 20%, 95%);
+  }
 }

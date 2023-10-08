@@ -6,12 +6,11 @@ import RightBar from "../../components/MainComponents/Bars/RightBar";
 import "./style.scss";
 import useIsInViewport from "../../_utils/2Hooks/IsInViewPort";
 import Authorized from "../../globals/Auth/Authorized";
-import { useProfilesRelationsContext } from "../../services/Contexts/ProfileDataContext";
 import { getPosts } from "../../apiFunctions/getPosts";
 import { useInfinitePosts } from "../../hooks/useInfinitePosts";
 import Waiting from "../../_utils/Waiting/indexxx";
 import { useAuthenticationContext } from "../../services/Contexts/AuthenticationContext";
-import { getClaims } from "../../globals/Auth/HandleJWT";
+import { LandingPageSkeleton } from "./skeleton";
 
 export default function LandingPage() {
   const { profile } = useAuthenticationContext();
@@ -49,14 +48,21 @@ export default function LandingPage() {
       <Authorized
         isAuthorized={
           <>
-            <div className="middle-content">
-              <PostForm queryName={"landingPagePosts"} />
-              <PostsList posts={posts} queryName={"landingPagePosts"} />
-              <span ref={endOfPostsRef}></span>
-              {isFetchingNextPage && <Waiting message={"Loading..."} />}
-              {!hasNextPage && <h2>You have reached end of internet.</h2>}
-            </div>
-            {showRightBar && <RightBar />}
+            {posts && posts.length > 0 ? (
+              <>
+                <div className="middle-content">
+                  <PostForm queryName={"landingPagePosts"} />
+                  <PostsList posts={posts} queryName={"landingPagePosts"} />
+                  <span ref={endOfPostsRef}></span>
+                  {isFetchingNextPage && <Waiting message={"Loading..."} />}
+                  {!hasNextPage && <h2>You have reached end of internet.</h2>}
+                </div>
+
+                {showRightBar && <RightBar />}
+              </>
+            ) : (
+              <LandingPageSkeleton />
+            )}
           </>
         }
         notAuthorized={
