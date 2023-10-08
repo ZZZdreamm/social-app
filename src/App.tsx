@@ -13,6 +13,7 @@ import { SocketCallModal } from "./components/socketCallModal/SocketCallModal";
 import { OpenedChatsComponent } from "./components/openedChatsComponent/OpenedChatsComponent";
 import { OpenedChatsProvider } from "./services/Contexts/OpenedChatsContext";
 import { RoutesProvider } from "./globals/routes";
+import { wakeUpDB } from "./apiFunctions/wakeUpDB";
 
 export const socket = io(socketURL);
 export const queryClient = new QueryClient();
@@ -23,6 +24,14 @@ function App() {
   useEffect(() => {
     setOnline(navigator.onLine);
   }, [localStorage]);
+
+  useEffect(() => {
+    const wakeUp = async () => {
+      const wakeUpResult = await wakeUpDB();
+      console.log(wakeUpResult);
+    };
+    wakeUp();
+  }, []);
 
   return (
     <QueryClientProvider client={queryClient}>

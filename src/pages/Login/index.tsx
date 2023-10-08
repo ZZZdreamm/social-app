@@ -8,6 +8,8 @@ import { getClaims, saveToken } from "../../globals/Auth/HandleJWT";
 import { axiosBase } from "../../globals/apiPaths";
 import { ExampleAccountLoginButton } from "../../components/exampleAccountLogin/ExampleAccountLoginButton";
 import { useAuthData } from "../../hooks/useAuthData";
+import axios from "axios";
+import { isHerokuServerAwake } from "../../_utils/getHerokuServerState/getHerokuState";
 
 export default function Login() {
   const [errors, setErrors] = useState<string[]>([]);
@@ -15,6 +17,11 @@ export default function Login() {
   const navigate = useNavigate();
 
   async function login(credentials: userCredentials) {
+    const herokuState = await isHerokuServerAwake();
+    if (herokuState === false) {
+      alert("Heroku server need to wake up, wait 10 seconds and try again!");
+      return;
+    }
     try {
       setErrors([]);
       const userCredentials = {

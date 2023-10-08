@@ -211,11 +211,11 @@ const ChatBody = ({
       <div className="chat-body-start">
         <img src={image} alt="" />
         <h3>{friend.Email}</h3>
-        {messages?.length === 0 && (
+        {/* {messages?.length === 0 && (
           <div className="large-font">
-            Send a message to say hello to your new friend
+            Send a message to new friend
           </div>
-        )}
+        )} */}
       </div>
       <div className="chat-body-messages">
         <span ref={messagesEndRef}></span>

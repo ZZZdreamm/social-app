@@ -7,6 +7,7 @@ import { userCredentials } from "../../services/Models/auth.models";
 import { getClaims, saveToken } from "../../globals/Auth/HandleJWT";
 import { axiosBase } from "../../globals/apiPaths";
 import { useAuthData } from "../../hooks/useAuthData";
+import { isHerokuServerAwake } from "../../_utils/getHerokuServerState/getHerokuState";
 
 export default function Register() {
   const [, setErrors] = useState<string[]>([]);
@@ -14,6 +15,11 @@ export default function Register() {
   const navigate = useNavigate();
 
   async function register(credentials: userCredentials) {
+    const herokuState = await isHerokuServerAwake();
+    if (herokuState === false) {
+      alert("Heroku server need to wake up, wait 10 seconds and try again!");
+      return;
+    }
     try {
       setErrors([]);
       const userCredentials = {

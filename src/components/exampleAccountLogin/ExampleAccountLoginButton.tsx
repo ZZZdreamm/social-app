@@ -5,12 +5,18 @@ import { getClaims, saveToken } from "../../globals/Auth/HandleJWT";
 import styled from "styled-components";
 import { useAuthData } from "../../hooks/useAuthData";
 import { loginInDB } from "../../apiFunctions/login";
+import { isHerokuServerAwake } from "../../_utils/getHerokuServerState/getHerokuState";
 
 export function ExampleAccountLoginButton() {
   const { setClaims } = useAuthData();
   const navigate = useNavigate();
 
   async function login(credentials: userCredentials) {
+    const herokuState = await isHerokuServerAwake();
+    if (herokuState === false) {
+      alert("Heroku server need to wake up, wait 10 seconds and try again!");
+      return;
+    }
     try {
       const { data } = await loginInDB(credentials);
       saveToken(data.token);
