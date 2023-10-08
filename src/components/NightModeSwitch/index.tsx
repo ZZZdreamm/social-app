@@ -9,7 +9,10 @@ export default function NightModeSwitch() {
     ) as HTMLInputElement;
     if (checkbox) {
       const nightMode = localStorage.getItem("nightMode");
-      if (nightMode === "true") {
+      if (nightMode == undefined) {
+        localStorage.setItem("nightMode", "true");
+        checkbox.checked = false;
+      } else if (nightMode === "true") {
         checkbox.checked = false;
       } else {
         checkbox.checked = true;
@@ -29,14 +32,14 @@ export default function NightModeSwitch() {
   }
   function toggleNightMode(checkbox: HTMLInputElement) {
     const root = document.documentElement;
-    if (checkbox.checked) {
-      localStorage.setItem("nightMode", "false");
-      Object.entries(colors.whiteMode).forEach(([colorName, color]) => {
+    if (!checkbox.checked) {
+      localStorage.setItem("nightMode", "true");
+      Object.entries(colors.blackMode).forEach(([colorName, color]) => {
         root.style.setProperty(`--${colorName}`, color);
       });
     } else {
-      localStorage.setItem("nightMode", "true");
-      Object.entries(colors.blackMode).forEach(([colorName, color]) => {
+      localStorage.setItem("nightMode", "false");
+      Object.entries(colors.whiteMode).forEach(([colorName, color]) => {
         root.style.setProperty(`--${colorName}`, color);
       });
     }
