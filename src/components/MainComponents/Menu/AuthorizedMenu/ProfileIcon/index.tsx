@@ -65,7 +65,7 @@ export default function ProfileIcon({}: MenuChildProps) {
             navigate(`/user-profile/${profile?.Id}`);
           }}
         >
-          <ProfileImage imageURL={profile?.ProfileImage} padding={0.25} />
+          <ProfileImage imageURL={profile?.ProfileImage} />
           <h4>{profile?.Email}</h4>
         </div>
         {profileOptions &&

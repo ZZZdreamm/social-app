@@ -25,6 +25,7 @@ import {
   convertRemToPixels,
   convertVhToPixels,
 } from "../../_utils/1Functions/ConvertToPx";
+import { UserProfileSkeleton } from "./skeleton";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -32,12 +33,15 @@ export default function UserProfile() {
   const { id } = useParams();
   const [userProfile, setUserProfile] = useState<profileDTO>();
   const [content, setContent] = useState("posts");
-
-  const [friends, setFriends] = useState<profileDTO[]>([]);
-
+  const [friends, setFriends] = useState<profileDTO[]>();
   const { profile } = useAuthenticationContext();
-
   const [relationship, setRelationship] = useState<usersRelation>();
+  const { posts, fetchNextPage, isFetchingNextPage, hasNextPage } =
+    useInfinitePosts(
+      getUserPosts,
+      `userPosts/${userProfile?.Id}`,
+      userProfile?.Email
+    );
 
   useEffect(() => {
     checkIfInFriends();
@@ -76,7 +80,7 @@ export default function UserProfile() {
 
   return (
     <>
-      {userProfile ? (
+      {userProfile && relationship && friends && posts && (posts.length > 0 || !hasNextPage) ? (
         <div className="profile">
           <ProfileUp
             userProfile={userProfile}
@@ -90,10 +94,14 @@ export default function UserProfile() {
             userProfile={userProfile}
             friends={friends}
             relationship={relationship}
+            posts={posts}
+            isFetchingNextPage={isFetchingNextPage}
+            hasNextPage={hasNextPage}
+            fetchNextPage={fetchNextPage}
           />
         </div>
       ) : (
-        <Waiting message={"Loading..."} />
+        <UserProfileSkeleton />
       )}
     </>
   );
@@ -290,6 +298,10 @@ const ProfileUp = ({
 interface ProfileDownProps extends ProfileProps {
   content: string;
   friends: profileDTO[];
+  posts: postDTO[] | undefined;
+  isFetchingNextPage: boolean;
+  hasNextPage: boolean | undefined;
+  fetchNextPage: () => void;
 }
 
 const scrollTriggerProps: ScrollTrigger.StaticVars = {
@@ -312,16 +324,13 @@ const ProfileDown = ({
   content,
   friends,
   relationship,
+  posts,
+  fetchNextPage,
+  isFetchingNextPage,
+  hasNextPage,
 }: ProfileDownProps) => {
   const navigate = useNavigate();
   const endOfPostsRef = useRef(null);
-  const { posts, fetchNextPage, isFetchingNextPage, hasNextPage } =
-    useInfinitePosts(
-      getUserPosts,
-      `userPosts/${userProfile.Id}`,
-      userProfile?.Email
-    );
-
   const postedImages: unknown[] | undefined = posts
     ?.map((post) => post.MediaFiles)
     .flat()

@@ -11,9 +11,11 @@ import { useInfinitePosts } from "../../hooks/useInfinitePosts";
 import Waiting from "../../_utils/Waiting/indexxx";
 import { useAuthenticationContext } from "../../services/Contexts/AuthenticationContext";
 import { LandingPageSkeleton } from "./skeleton";
+import { useProfilesRelationsContext } from "../../services/Contexts/ProfileDataContext";
 
 export default function LandingPage() {
   const { profile } = useAuthenticationContext();
+  const { friends } = useProfilesRelationsContext();
   const [windowSize, setWindowSize] = useState(window.innerWidth);
   const { posts, fetchNextPage, isFetchingNextPage, hasNextPage } =
     useInfinitePosts(getPosts, "landingPagePosts");
@@ -48,7 +50,7 @@ export default function LandingPage() {
       <Authorized
         isAuthorized={
           <>
-            {posts && posts.length > 0 ? (
+            {posts && friends && posts.length > 0 && friends.length > 0 ? (
               <>
                 <div className="middle-content">
                   <PostForm queryName={"landingPagePosts"} />

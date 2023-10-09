@@ -14,7 +14,7 @@ export function RightBarSkeleton() {
             ></div>
             <span
               className="skeleton-text"
-              style={{ height: "1.2rem", width: "70%" }}
+              style={{ height: "1.2rem", width: "50%" }}
             ></span>
           </li>
         ))}
