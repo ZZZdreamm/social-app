@@ -9,14 +9,22 @@ export function useFriends() {
   const queryClient = useQueryClient();
   const queryKey = [`friends/${profile?.Id}`];
 
-  const { data } = useQuery(queryKey, () => getFriends(profile?.Id!), {
-    enabled: profile?.Id != undefined,
-    staleTime: ONE_HOUR,
-  });
+  const { data, isFetchedAfterMount } = useQuery(
+    queryKey,
+    () => getFriends(profile?.Id!),
+    {
+      enabled: profile?.Id != undefined,
+      staleTime: ONE_HOUR,
+    }
+  );
 
   const invalidateFriends = useCallback(() => {
     queryClient.invalidateQueries(queryKey);
   }, [queryClient]);
 
-  return { friends: data?.data, setFriends: invalidateFriends };
+  return {
+    friends: data?.data,
+    setFriends: invalidateFriends,
+    fetchedFriendsAfterMount: isFetchedAfterMount,
+  };
 }

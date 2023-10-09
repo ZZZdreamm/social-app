@@ -16,6 +16,7 @@ export function useInfiniteMessages(
     isFetchingPreviousPage,
     hasPreviousPage,
     fetchPreviousPage,
+    isFetchedAfterMount,
   } = useInfiniteQuery(
     [queryName],
     async ({ pageParam }) => {
@@ -53,5 +54,6 @@ export function useInfiniteMessages(
     fetchPreviousPage,
     isFetchingPreviousPage,
     hasPreviousPage,
+    isFetchedAfterMount,
   };
 }

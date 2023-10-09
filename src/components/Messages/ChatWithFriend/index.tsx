@@ -26,6 +26,7 @@ import Waiting from "../../../_utils/Waiting/indexxx";
 import { useQueryClient } from "react-query";
 import { useMutation } from "react-query";
 import { testEndpoint } from "../../../apiFunctions/testEndpoint";
+import { ChatWithFriendSkeleton } from "./skeleton";
 
 interface ChatWithFriendProps {
   friend: profileDTO;
@@ -146,8 +147,12 @@ const ChatBody = ({
   const image = friend.ProfileImage || `${ReadyImagesURL}/noProfile.jpg`;
   const messagesEndRef = useRef(null);
 
-  const { messages, fetchPreviousPage, isFetchingPreviousPage } =
-    useInfiniteMessages(getMessages, `getMessages/${friend.Id}`, friend.Id);
+  const {
+    messages,
+    fetchPreviousPage,
+    isFetchingPreviousPage,
+    isFetchedAfterMount,
+  } = useInfiniteMessages(getMessages, `getMessages/${friend.Id}`, friend.Id);
 
   const { mutate: receiveMessage } = useMutation({
     mutationFn: (message) => {
@@ -206,6 +211,7 @@ const ChatBody = ({
       scrollableSpan.scrollIntoView();
     }
   }, [isFetchingPreviousPage, friend.Id]);
+
   return (
     <div id={`chat-body/${friend.Id}`} className="chat-body">
       <div className="chat-body-start">
@@ -219,16 +225,22 @@ const ChatBody = ({
       </div>
       <div className="chat-body-messages">
         <span ref={messagesEndRef}></span>
-        {isFetchingPreviousPage && <Waiting message="Loading..." />}
-        <ListOfMessages
-          messages={messages}
-          fetchNextPage={fetchPreviousPage}
-          setResponseToMessage={setRespondTo}
-          toWhom={friend.Id}
-          optionsOpen={additionalOptions}
-          setOptionsOpen={setAdditionalOptions}
-        />
-        <span ref={newestMessagesRef}></span>
+        {messages && isFetchedAfterMount ? (
+          <>
+            {isFetchingPreviousPage && <Waiting message="Loading..." />}
+            <ListOfMessages
+              messages={messages}
+              fetchNextPage={fetchPreviousPage}
+              setResponseToMessage={setRespondTo}
+              toWhom={friend.Id}
+              optionsOpen={additionalOptions}
+              setOptionsOpen={setAdditionalOptions}
+            />
+            <span ref={newestMessagesRef}></span>
+          </>
+        ) : (
+          <ChatWithFriendSkeleton />
+        )}
       </div>
     </div>
   );

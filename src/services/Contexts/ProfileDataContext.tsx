@@ -11,6 +11,7 @@ interface ContextProps {
   setFriends: (friends: profileDTO[]) => void;
   setFriendsRequests: (friendsRequests: profileDTO[]) => void;
   setSentFriendsRequests: (sentFriendsRequests: profileDTO[]) => void;
+  fetchedFriendsAfterMount: boolean;
 }
 
 interface Props {
@@ -24,10 +25,11 @@ export const ProfileRelationsContext = createContext<ContextProps>({
   setFriends: () => {},
   setFriendsRequests: () => {},
   setSentFriendsRequests: () => {},
+  fetchedFriendsAfterMount: false,
 });
 
 export function ProfileDataProvider({ children }: Props) {
-  const { friends, setFriends } = useFriends();
+  const { friends, setFriends, fetchedFriendsAfterMount } = useFriends();
   const { friendsRequests, setFriendsRequests } = useFriendsRequests();
   const { sentFriendsRequests, setSentFriendsRequests } =
     useSentFriendsRequests();
@@ -40,6 +42,7 @@ export function ProfileDataProvider({ children }: Props) {
       setFriends,
       setFriendsRequests,
       setSentFriendsRequests,
+      fetchedFriendsAfterMount,
     }),
     [
       friends,
@@ -48,6 +51,7 @@ export function ProfileDataProvider({ children }: Props) {
       setFriends,
       setFriendsRequests,
       setSentFriendsRequests,
+      fetchedFriendsAfterMount,
     ]
   );
 

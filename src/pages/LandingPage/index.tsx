@@ -15,10 +15,15 @@ import { useProfilesRelationsContext } from "../../services/Contexts/ProfileData
 
 export default function LandingPage() {
   const { profile } = useAuthenticationContext();
-  const { friends } = useProfilesRelationsContext();
+  const { friends, fetchedFriendsAfterMount } = useProfilesRelationsContext();
   const [windowSize, setWindowSize] = useState(window.innerWidth);
-  const { posts, fetchNextPage, isFetchingNextPage, hasNextPage } =
-    useInfinitePosts(getPosts, "landingPagePosts");
+  const {
+    posts,
+    fetchNextPage,
+    isFetchingNextPage,
+    hasNextPage,
+    isFetchedAfterMount,
+  } = useInfinitePosts(getPosts, "landingPagePosts");
   const endOfPostsRef = useRef(null);
 
   useEffect(() => {
@@ -50,7 +55,7 @@ export default function LandingPage() {
       <Authorized
         isAuthorized={
           <>
-            {posts && friends && posts.length > 0 && friends.length > 0 ? (
+            {isFetchedAfterMount && fetchedFriendsAfterMount ? (
               <>
                 <div className="middle-content">
                   <PostForm queryName={"landingPagePosts"} />

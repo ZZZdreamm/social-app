@@ -14,6 +14,7 @@ export function useInfinitePosts(
     fetchNextPage,
     isFetchingNextPage,
     hasNextPage,
+    isFetchedAfterMount,
   } = useInfiniteQuery(
     [queryName],
     async ({ pageParam }) => {
@@ -28,7 +29,10 @@ export function useInfinitePosts(
     },
     {
       getNextPageParam: (lastPage: any, allPages: any[]) => {
-        if ((allPages && lastPage?.length === 0) || lastPage?.length < PAGE_SIZE)
+        if (
+          (allPages && lastPage?.length === 0) ||
+          lastPage?.length < PAGE_SIZE
+        )
           return undefined;
         if (!lastPage || lastPage.length === 0) return [];
         const lastPageDate = Array.isArray(lastPage)
@@ -45,5 +49,11 @@ export function useInfinitePosts(
 
   const posts = _posts?.pages.flatMap((page) => page);
 
-  return { posts, fetchNextPage, isFetchingNextPage, hasNextPage };
+  return {
+    posts,
+    fetchNextPage,
+    isFetchingNextPage,
+    hasNextPage,
+    isFetchedAfterMount,
+  };
 }
