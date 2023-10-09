@@ -1,17 +1,17 @@
 {
   "files": {
-    "main.css": "/social-app/static/css/main.e1627939.css",
-    "main.js": "/social-app/static/js/main.5afc0d1a.js",
+    "main.css": "/social-app/static/css/main.6ff73ed0.css",
+    "main.js": "/social-app/static/js/main.e701a546.js",
     "static/js/890.d9b68c18.chunk.js": "/social-app/static/js/890.d9b68c18.chunk.js",
     "static/js/787.c45b6682.chunk.js": "/social-app/static/js/787.c45b6682.chunk.js",
     "index.html": "/social-app/index.html",
-    "main.e1627939.css.map": "/social-app/static/css/main.e1627939.css.map",
-    "main.5afc0d1a.js.map": "/social-app/static/js/main.5afc0d1a.js.map",
+    "main.6ff73ed0.css.map": "/social-app/static/css/main.6ff73ed0.css.map",
+    "main.e701a546.js.map": "/social-app/static/js/main.e701a546.js.map",
     "890.d9b68c18.chunk.js.map": "/social-app/static/js/890.d9b68c18.chunk.js.map",
     "787.c45b6682.chunk.js.map": "/social-app/static/js/787.c45b6682.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.e1627939.css",
-    "static/js/main.5afc0d1a.js"
+    "static/css/main.6ff73ed0.css",
+    "static/js/main.e701a546.js"
   ]
 }
