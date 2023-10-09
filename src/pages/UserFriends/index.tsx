@@ -4,6 +4,7 @@ import { getFriends } from "../../apiFunctions/getFriends";
 import { ONE_HOUR } from "../../globals/constants";
 import { useQuery } from "react-query";
 import { useParams } from "react-router-dom";
+import { UserFriendsSkeleton } from "./skeleton";
 
 export default function UserFriends() {
   const { id } = useParams();
@@ -17,15 +18,18 @@ export default function UserFriends() {
     }
   );
 
-  console.log(id);
-  console.log(friends?.data);
-
   return (
     <div className="friends">
-      <h2 className="mv-1">Your friends</h2>
-      <span className="friends-container">
-        <FriendsList friends={friends?.data} />
-      </span>
+      {friends?.data ? (
+        <>
+          <h2 className="mv-1">Your friends</h2>
+          <span className="friends-container">
+            <FriendsList friends={friends?.data} />
+          </span>
+        </>
+      ) : (
+        <UserFriendsSkeleton />
+      )}
     </div>
   );
 }

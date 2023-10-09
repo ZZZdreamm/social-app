@@ -25,7 +25,6 @@ export function ProfileImage({
       : `${ReadyImagesURL}/noProfile.jpg`;
   return (
     <Image
-      className="skeleton"
       size={sizeInRem}
       padding={padding}
       data-testid="profileImage"
