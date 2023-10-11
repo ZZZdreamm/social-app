@@ -21,7 +21,7 @@ const AuthenticationContext = createContext<ContextProps>({
   setClaims: () => {},
   profile: undefined,
   gotClaims: false,
-  setProfile: (profile: profileDTO) => {},
+  setProfile: () => {},
 });
 
 export function AuthenticationDataProvider({ children }: Props) {
