@@ -1,17 +1,16 @@
 import { useState } from "react";
 import OpenedPostForm from "./OpenedForm";
 import "./style.scss";
-import { addItemToState } from "../../../_utils/1Functions/StateModifications";
 import { ProfileImage } from "../../ProfileImage/ProfileImage";
-import { axiosBase } from "../../../globals/apiPaths";
-import { useProfilesRelationsContext } from "../../../services/Contexts/ProfileDataContext";
-import { InfiniteData, useMutation } from "react-query";
+import { useMutation } from "react-query";
 import { queryClient } from "../../../App";
 import { postPost } from "../../../apiFunctions/postPost";
 import { useAuthenticationContext } from "../../../services/Contexts/AuthenticationContext";
+import Button from "../../../_utils/Button";
+import { postReels } from "../../../apiFunctions/postReels";
+import { useNavigate } from "react-router-dom";
 
 export default function PostForm({ queryName }: { queryName: string }) {
-  // const { profile } = useProfilesRelationsContext();
   const { profile } = useAuthenticationContext();
   const [isOpen, setIsOpen] = useState(false);
   const { mutate: addPost } = useMutation({
@@ -34,7 +33,7 @@ export default function PostForm({ queryName }: { queryName: string }) {
   }
 
   return (
-    <div className="post-form ">
+    <div className="post-form shadow-around">
       <UpperPart toggleModal={toggleModal} />
       <BottomPart toggleModal={toggleModal} />
       <OpenedPostForm
@@ -56,8 +55,8 @@ const UpperPart = ({ toggleModal }: PostFormChildProps) => {
   const { profile } = useAuthenticationContext();
 
   return (
-    <span className="post-form-up shadow-around">
-      <ProfileImage imageURL={profile?.ProfileImage}/>
+    <span className="post-form-up">
+      <ProfileImage imageURL={profile?.ProfileImage} />
       <div className="post-form-up-placeholder" onClick={toggleModal}>
         What do you want to post?
       </div>
@@ -65,6 +64,14 @@ const UpperPart = ({ toggleModal }: PostFormChildProps) => {
   );
 };
 
-const BottomPart = ({ toggleModal }: PostFormChildProps) => {
-  return <span className="post-form-down"></span>;
+const BottomPart = ({}: PostFormChildProps) => {
+  const navigate = useNavigate();
+  const openAddStory = () => {
+    navigate("/reels/create");
+  };
+  return (
+    <div className="post-form-down">
+      <Button onClick={openAddStory}>Add your story</Button>
+    </div>
+  );
 };
