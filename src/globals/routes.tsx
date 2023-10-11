@@ -10,6 +10,8 @@ import Register from "../pages/Register";
 import { Route, Routes } from "react-router-dom";
 import { useAuthData } from "../hooks/useAuthData";
 import GuardedRoute from "../_utils/GuardedRoute/GuardedRoute";
+import { AddReelsPage } from "../pages/AddReelsPage";
+import { OpenReelsPage } from "../pages/openReelsPage/OpenReelsPage";
 
 const routes = [
   { path: "/login", component: Login },
@@ -21,6 +23,8 @@ const routes = [
   { path: "/user-sent-friend-requests/:id", component: UserSentFriendRequests },
   { path: "/call/:who/:userId/:friendId/:roomId", component: Calling },
   { path: "/messaging-only/:id", component: Messager },
+  { path: "/reels/create", component: AddReelsPage },
+  { path: "/reels/:reelId", component: OpenReelsPage },
 
   { path: "/", component: LandingPage },
   { path: "*", component: LandingPage },

@@ -24,8 +24,7 @@ export const axiosBase = axios.create({
   headers: headers,
 });
 
-const loginUrl =
-  process.env.NODE_ENV == `production` ? "/social-app/login" : "/login";
+const loginUrl = "/login";
 
 axiosBase.interceptors.response.use(
   (response) => response,
@@ -37,7 +36,7 @@ axiosBase.interceptors.response.use(
       return;
     } else if (error.response.status === 401) {
       logout();
-      // window.location.href = loginUrl;
+      window.location.href = loginUrl;
     }
     return;
   }
