@@ -1,6 +1,7 @@
 import "./style.scss";
 import { useEffect, useRef, useState } from "react";
 import { ReadyImagesURL } from "./../../globals/appUrls";
+import { ScrollListWithArrows } from "../scrollListWithArrows/ScrollListWithArrows";
 
 interface ScrollingMediaFilesProps {
   mediaFiles: string[] | undefined;
@@ -10,54 +11,6 @@ export default function ScrollingMediaFiles({
   mediaFiles,
 }: ScrollingMediaFilesProps) {
   const filesContainerRef = useRef<HTMLDivElement | null>(null);
-  const leftScrollRef = useRef<HTMLDivElement | null>(null);
-  const rightScrollRef = useRef<HTMLDivElement | null>(null);
-
-  const [isScrolledToEnd, setIsScrolledToEnd] = useState(false);
-  const [isScrollAtStart, setIsScrollAtStart] = useState(false);
-
-  useEffect(() => {
-    setIsScrollAtStart(true);
-  }, []);
-
-  useEffect(() => {
-    if (
-      !filesContainerRef.current ||
-      !leftScrollRef.current ||
-      !rightScrollRef.current
-    )
-      return;
-    leftScrollRef.current.addEventListener("click", () => {
-      filesContainerRef.current!.scrollBy({
-        left: -filesContainerRef.current!.offsetWidth,
-        behavior: "smooth",
-      });
-    });
-    rightScrollRef.current.addEventListener("click", () => {
-      filesContainerRef.current!.scrollBy({
-        left: filesContainerRef.current!.offsetWidth,
-        behavior: "smooth",
-      });
-    });
-
-    const handleScroll = () => {
-      const { scrollLeft, scrollWidth, clientWidth } =
-        filesContainerRef.current!;
-
-      const isAtEnd = Math.floor(scrollLeft) + clientWidth >= scrollWidth - 10;
-      const isAtStart = scrollLeft == 0;
-      setIsScrolledToEnd(isAtEnd);
-      setIsScrollAtStart(isAtStart);
-    };
-
-    filesContainerRef.current.addEventListener("scroll", handleScroll);
-  }, [
-    filesContainerRef,
-    leftScrollRef,
-    rightScrollRef,
-    isScrolledToEnd,
-    isScrollAtStart,
-  ]);
   return (
     <>
       {mediaFiles && (
@@ -79,24 +32,7 @@ export default function ScrollingMediaFiles({
             ))}
           </div>
           {mediaFiles.length > 1 && (
-            <>
-              {!isScrollAtStart && (
-                <div
-                  ref={leftScrollRef}
-                  className="scroll scroll-left"
-                >
-                  <img src={`${ReadyImagesURL}/goBackArrow.png`} alt="" />
-                </div>
-              )}
-              {!isScrolledToEnd && (
-                <div
-                  ref={rightScrollRef}
-                  className="scroll scroll-right"
-                >
-                  <img src={`${ReadyImagesURL}/goBackArrow.png`} alt="" />
-                </div>
-              )}
-            </>
+            <ScrollListWithArrows containerRef={filesContainerRef} />
           )}
         </div>
       )}
