@@ -36,12 +36,17 @@ export default function UserProfile() {
   const [friends, setFriends] = useState<profileDTO[]>();
   const { profile } = useAuthenticationContext();
   const [relationship, setRelationship] = useState<usersRelation>();
-  const { posts, fetchNextPage, isFetchingNextPage, hasNextPage } =
-    useInfinitePosts(
-      getUserPosts,
-      `userPosts/${userProfile?.Id}`,
-      userProfile?.Email
-    );
+  const {
+    posts,
+    fetchNextPage,
+    isFetchingNextPage,
+    hasNextPage,
+    isFetchedAfterMount,
+  } = useInfinitePosts(
+    getUserPosts,
+    `userPosts/${userProfile?.Id}`,
+    userProfile?.Email
+  );
 
   useEffect(() => {
     checkIfInFriends();
@@ -80,7 +85,11 @@ export default function UserProfile() {
 
   return (
     <>
-      {userProfile && relationship && friends && posts && (posts.length > 0 || !hasNextPage) ? (
+      {userProfile &&
+      relationship &&
+      friends &&
+      isFetchedAfterMount &&
+      ((posts && posts.length > 0) || !hasNextPage) ? (
         <div className="profile">
           <ProfileUp
             userProfile={userProfile}
@@ -338,6 +347,7 @@ const ProfileDown = ({
 
   useEffect(() => {
     if (!userProfile) return;
+    if (posts && posts.length > 0) return;
     fetchNextPage();
   }, [userProfile]);
 

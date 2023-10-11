@@ -13,7 +13,8 @@ export function saveProfile(
 export function getProfile(): profileDTO {
   const id = localStorage.getItem("id");
   const email = localStorage.getItem("email");
-  const profileImage = localStorage.getItem("profileImage") || "";
+  const profileImage =
+    localStorage.getItem("profileImage") || `${ReadyImagesURL}/noProfile.jpg`;
   const response: profileDTO = { Id: id!, Email: email! };
   if (profileImage) {
     response.ProfileImage = profileImage;
