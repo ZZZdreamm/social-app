@@ -1,0 +1,35 @@
+@import "../../styles/mixins.scss";
+
+.scroll {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  padding: 0.5rem;
+  border: none;
+  cursor: pointer;
+
+  background-size: cover;
+  background-color: #ccc;
+  @include circle(1rem, height);
+  padding: 1rem;
+  transition: all 0.5s;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  img {
+    width: 90%;
+    height: 90%;
+    border: 0;
+  }
+  &:hover {
+    background-color: var(--blueColor);
+  }
+}
+.scroll-left {
+  left: 0.8rem;
+}
+
+.scroll-right {
+  right: 0.8rem;
+  transform: rotate(180deg) translateY(50%);
+}
