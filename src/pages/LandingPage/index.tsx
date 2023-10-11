@@ -12,6 +12,7 @@ import Waiting from "../../_utils/Waiting/indexxx";
 import { useAuthenticationContext } from "../../services/Contexts/AuthenticationContext";
 import { LandingPageSkeleton } from "./skeleton";
 import { useProfilesRelationsContext } from "../../services/Contexts/ProfileDataContext";
+import { ReelsPanel } from "../../components/reelsPanel/ReelsPanel";
 
 export default function LandingPage() {
   const { profile } = useAuthenticationContext();
@@ -24,19 +25,21 @@ export default function LandingPage() {
     hasNextPage,
     isFetchedAfterMount,
   } = useInfinitePosts(getPosts, "landingPagePosts");
+
   const endOfPostsRef = useRef(null);
 
   useEffect(() => {
     if (!profile?.Id) return;
+    if (posts && posts.length > 0) return;
     fetchNextPage();
-  }, [profile]);
+  }, [profile, posts, fetchNextPage]);
 
   var scrolledPageBottom = useIsInViewport(endOfPostsRef, "1000px");
   useEffect(() => {
     if (scrolledPageBottom) {
       fetchNextPage();
     }
-  }, [scrolledPageBottom]);
+  }, [scrolledPageBottom, fetchNextPage]);
 
   useEffect(() => {
     function handleResize() {
@@ -47,7 +50,7 @@ export default function LandingPage() {
 
   useEffect(() => {
     setWindowSize(window.innerWidth);
-  }, [window.innerWidth]);
+  }, []);
 
   const showRightBar = windowSize > 700 ? true : false;
   return (
@@ -55,9 +58,11 @@ export default function LandingPage() {
       <Authorized
         isAuthorized={
           <>
-            {isFetchedAfterMount && fetchedFriendsAfterMount ? (
+            {(isFetchedAfterMount && fetchedFriendsAfterMount) ||
+            (friends && friends?.length > 0 && posts && posts.length > 0) ? (
               <>
                 <div className="middle-content">
+                  <ReelsPanel queryName={"landingPageReels"} />
                   <PostForm queryName={"landingPagePosts"} />
                   <PostsList posts={posts} queryName={"landingPagePosts"} />
                   <span ref={endOfPostsRef}></span>
