@@ -56,7 +56,9 @@ export function AddReelsPage() {
               <div className="reelsPage-bar-formData__mediaFile"></div>
               <div className="reelsPage-bar-formData__buttons shadow-above">
                 <Button onClick={discardFile}>Discard</Button>
-                <Button onClick={postStory}>Post story</Button>
+                <Button onClick={postStory} color="blue">
+                  Post story
+                </Button>
               </div>
             </span>
           )}
@@ -72,15 +74,18 @@ export function AddReelsPage() {
               </div>
             </div>
           ) : (
-            <>
+            <div className="reelsPage-form-optionContainer">
               <div className="reelsPage-form-option">
                 <div className="reelsPage-form-option__file">
-                  <FileDropElement handleFileChange={handleFileChange} />
+                  <FileDropElement
+                    handleFileChange={handleFileChange}
+                    multiple={false}
+                  />
                   <span>Create story with media file</span>
                 </div>
               </div>
-              <div className="reelsPage-form-option"></div>
-            </>
+              {/* <div className="reelsPage-form-option"></div> */}
+            </div>
           )}
         </>
       }

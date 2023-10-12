@@ -1,22 +1,14 @@
 @import "../../styles/mixins.scss";
 
 .reelsPage {
-  display: flex;
-  width: 100%;
-  height: 93.9vh;
   &-bar {
-    background-color: var(--navColor);
-    display: flex;
-    padding: 1rem 0;
-    gap: 1rem;
-    box-sizing: border-box;
     &-profile {
       padding: 0 1rem 1rem 1rem;
       display: flex;
       flex-direction: column;
       gap: 1rem;
       text-align: left;
-      border-bottom: 1px solid var(--borderColor);
+      border-bottom: 1px solid #DDD;
       &__data {
         display: flex;
         gap: 1rem;
@@ -33,10 +25,11 @@
         width: 99%;
         display: flex;
         gap: 1rem;
-        padding: 1rem 1rem 0 1rem;
+        padding: 1rem;
         box-sizing: border-box;
         align-items: center;
         justify-content: center;
+        border-top: 1px solid #DDD;
       }
       // &-mediaFile {
       // }
@@ -49,6 +42,10 @@
     justify-content: center;
     align-items: center;
     gap: 1rem;
+    &-optionContainer{
+      display: flex;
+      gap: 1rem;
+    }
     &-option {
       width: 15rem;
       height: 25rem;
@@ -57,6 +54,7 @@
       display: flex;
       justify-content: center;
       align-items: center;
+      text-align: center;
       &__file {
         width: 60%;
       }

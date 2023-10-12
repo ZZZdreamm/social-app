@@ -58,7 +58,8 @@ export default function LandingPage() {
       <Authorized
         isAuthorized={
           <>
-            {(isFetchedAfterMount && fetchedFriendsAfterMount) ||
+            {
+            (isFetchedAfterMount && fetchedFriendsAfterMount) ||
             (friends && friends?.length > 0 && posts && posts.length > 0) ? (
               <>
                 <div className="middle-content">
