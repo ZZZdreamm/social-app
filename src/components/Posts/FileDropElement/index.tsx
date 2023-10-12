@@ -3,6 +3,7 @@ import "./style.scss";
 
 export default function FileDropElement({
   handleFileChange,
+  multiple = true,
 }: FileDropElementProps) {
   // drag state
   const [dragActive, setDragActive] = useState(false);
@@ -55,7 +56,7 @@ export default function FileDropElement({
         type="file"
         id="input-file-upload"
         accept=".jpg,.jpeg,.png,.mp4"
-        multiple={true}
+        multiple={multiple}
         onChange={handleChange}
       />
       <label
@@ -85,4 +86,5 @@ export default function FileDropElement({
 
 interface FileDropElementProps {
   handleFileChange: (file: File) => void;
+  multiple?: boolean;
 }
