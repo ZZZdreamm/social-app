@@ -10,7 +10,9 @@
   z-index: 30;
   background-color: var(--backColor);
   &-bar {
-    background-color: var(--navColor);
+    // background-color: var(--navColor);
+    background-color: var(--reverseToNavColor);
+    color: var(--navColor);
     display: flex;
     flex-direction: column;
     gap: 1rem;
@@ -21,7 +23,7 @@
       height: 6vh;
       padding: 0 1rem;
       gap: 1rem;
-      border-bottom: 1px solid var(--borderColor);
+      border-bottom: 1px solid #DDD;
     }
   }
   &-content {
@@ -49,4 +51,12 @@
     height: 100%;
     flex-direction: column;
   }
+}
+
+
+.navbar{
+  display: flex;
+  align-items: center;
+  height: 6vh;
+  gap: 1rem;
 }

@@ -1,5 +1,15 @@
-.navbar-typeahead {
-  width: 30%;
+@import "../../../styles/mixins";
+
+@include phone{
+  .navbar-typeahead {
+    width: 50vw;
+  }
+}
+
+@include abovePhone{
+  .navbar-typeahead {
+    width: 20vw;
+  }
 }
 
 @media screen and (min-width: 1200px) {
