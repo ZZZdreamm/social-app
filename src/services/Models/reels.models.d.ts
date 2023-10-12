@@ -4,6 +4,8 @@ export interface ReelsDto {
   CreationTime: Date;
   ExpirationTime: Date;
   AutorId: string;
+  AutorName: string;
+  AutorProfileImage: string;
 }
 
 export interface ReelsCreationDto {
