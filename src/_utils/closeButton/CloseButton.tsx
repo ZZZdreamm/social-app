@@ -2,10 +2,18 @@ import styled from "styled-components";
 import { ReadyImagesURL } from "../../globals/appUrls";
 import { useNavigate } from "react-router-dom";
 
-export function CloseButton() {
+const navigationWhere = {
+  landingPage: "/",
+  goBack: -1,
+};
+interface CloseButtonProps {
+  whereToGo?: "landingPage" | "goBack";
+}
+
+export function CloseButton({ whereToGo = "landingPage" }: CloseButtonProps) {
   const navigate = useNavigate();
   const handleClick = () => {
-    navigate(-1);
+    navigate(`${navigationWhere[whereToGo]}`);
   };
   return (
     <Container onClick={handleClick}>
