@@ -6,8 +6,8 @@ export function RightBarSkeleton() {
     <div className="bar bar-right">
       <h5 className="large-font">Friends</h5>
       <ul>
-        {numbers.map(() => (
-          <li data-testid="rightBarFriend">
+        {numbers.map((number) => (
+          <li key={number}>
             <div
               className="skeleton-circle"
               style={{ height: "2.4rem", aspectRatio: "1" }}
