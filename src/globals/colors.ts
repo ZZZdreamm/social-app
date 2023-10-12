@@ -1,6 +1,7 @@
 export const colors = {
   whiteMode: {
     navColor: "#ffffff",
+    reverseToNavColor: "#000000",
     backColor: "#f0f2f5",
     textGrey: "#7e7f81",
     lightGrey: "#d6d9dfdc",
@@ -18,13 +19,14 @@ export const colors = {
     typicalShadow: "rgba(0, 0, 0, 0.5)",
     shadowInset: "rgba(255, 255, 255, 0.5)",
     hoverColor: "#e4e6e9",
-    borderColor: "#ccc",
+    borderColor: "#DDD",
     lightBlue: "rgba(0, 132, 255, 1)",
     iconsBackColor: "placeholder",
     scrollColor: "#2f2f2f",
   },
   blackMode: {
     navColor: "#000000",
+    reverseToNavColor: "#ffffff",
     backColor: "#2f2f2f",
     textGrey: "#7e7f81",
     lightGrey: "#d6d9dfdc",
@@ -42,7 +44,7 @@ export const colors = {
     typicalShadow: "rgba(255, 255, 255, 0.5)",
     shadowInset: "rgba(255, 255, 255, 0.5)",
     hoverColor: "rgb(71, 72, 72)",
-    borderColor: "#999",
+    borderColor: "#444",
     lightBlue: "rgba(0, 132, 255, 1)",
     iconsBackColor: "#f0f0f0",
     scrollColor: "#e4e6e9",
