@@ -7,10 +7,10 @@ import MessagerFriendList from "../../components/MessageOnly/MessagerFriendList"
 import MessagerSearchTypeahead from "../../components/MessageOnly/MessagerSearchTypeahead";
 import MobileMessager from "../../components/MessageOnly/MobileMessager/MobileMessager";
 import { profileDTO } from "../../services/Models/profiles.models";
-import GoToMenuButton from "../../_utils/GoToMenuButton";
 import Portal from "../../_utils/Portal/Portal";
 import { useProfilesRelationsContext } from "../../services/Contexts/ProfileDataContext";
 import { useAuthenticationContext } from "../../services/Contexts/AuthenticationContext";
+import { LogoIcon } from "../../_utils/logoIcon/LogoIcon";
 
 export default function Messager() {
   const [choosenFriend, setChoosenFriend] = useState<profileDTO>();
@@ -54,7 +54,7 @@ export default function Messager() {
               </span>
             </nav>
             <span id="go-to-app">
-              <GoToMenuButton appName={"FriendLink"} />
+              <LogoIcon />
             </span>
             <article className="messager-content">
               <section className="messager-friends">
