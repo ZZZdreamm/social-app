@@ -4,30 +4,21 @@ import { useInfiniteReels } from "../../hooks/useInfiniteReels";
 import { useAuthenticationContext } from "../../services/Contexts/AuthenticationContext";
 import { ReelsList } from "../reelsList/ReelsList";
 import styled from "styled-components";
+import { useQuery } from "react-query";
 interface ReelsPanelProps {
   queryName: string;
 }
 
 export function ReelsPanel({ queryName }: ReelsPanelProps) {
-  const { profile } = useAuthenticationContext();
-
-  const { reels, fetchNextPage, isFetchedAfterMount } = useInfiniteReels(
-    getReels,
-    queryName
+  const { data: reels, isFetchedAfterMount } = useQuery(queryName, () =>
+    getReels(undefined, 10)
   );
 
-  useEffect(() => {
-    if (!profile?.Id) return;
-    if (reels && reels.length > 0) return;
-    fetchNextPage();
-  }, [profile]);
-
   return (
-    <>
+    <div>
       {(isFetchedAfterMount || (reels && reels.length > 0)) && (
         <ReelsList reels={reels} />
       )}
-    </>
+    </div>
   );
 }
-

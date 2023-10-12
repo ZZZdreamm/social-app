@@ -21,7 +21,7 @@ export function ReelsList({ reels }: ReelsListProps) {
           {reels && reels.length > 0 ? (
             <>
               {reels.map((reel) => (
-                <Reels reels={reel} />
+                <Reels key={reel.Id} reels={reel} />
               ))}
             </>
           ) : (
