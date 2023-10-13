@@ -40,7 +40,11 @@
   .page {
     flex-direction: column;
     &-bar {
-      display: none;
+      width: 100%;
+      height: 10vh;
+      &__nav{
+        height: 4vh;
+      }
     }
   }
 }

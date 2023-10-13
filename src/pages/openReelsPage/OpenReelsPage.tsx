@@ -114,6 +114,6 @@ const AllRelations = styled.article`
   flex-direction: column;
   gap: 1rem;
   width: 100%;
-  height: 85%;
+  height: 82%;
   overflow-y: auto;
 `;

@@ -66,7 +66,7 @@ export function CropImage({ setCroppedFile, file }: Props) {
           </CropContainer>
           <div style={{ display: "flex", justifyContent:'space-around' }}>
             <SliderContainer>
-              <span className="large-font">Zoom</span>
+              <span>Zoom</span>
               <Slider
                 value={zoom}
                 onChange={(value) => setZoom(value as number)}
@@ -76,7 +76,7 @@ export function CropImage({ setCroppedFile, file }: Props) {
               />
             </SliderContainer>
             <SliderContainer>
-              <span className="large-font">Rotate</span>
+              <span>Rotate</span>
               <Slider
                 value={rotation}
                 onChange={(value) => setRotation(value as number)}

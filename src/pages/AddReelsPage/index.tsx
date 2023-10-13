@@ -76,9 +76,8 @@ export function AddReelsPage() {
               className="reelsPage-form-preview shadow-around"
               style={{ position: "relative" }}
             >
-              <span>Preview</span>
+              <span className="large-font">Preview</span>
               <CropImage file={file} setCroppedFile={setCroppedFile} />
-
             </div>
           ) : (
             <div className="reelsPage-form-optionContainer">
