@@ -359,7 +359,7 @@ const ProfileDown = ({
   }, [scrolledPageBottom]);
 
   const nineFriends = friends?.slice(0, 9);
-  const windowSize = useWindowSizeChanged(() => {});
+  const windowSize = useWindowSizeChanged({ callback: () => {} });
 
   useEffect(() => {
     // gsap.set(".profile-down-posts-container", {
