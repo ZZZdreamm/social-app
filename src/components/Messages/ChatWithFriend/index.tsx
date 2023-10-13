@@ -27,6 +27,7 @@ import { useQueryClient } from "react-query";
 import { useMutation } from "react-query";
 import { testEndpoint } from "../../../apiFunctions/testEndpoint";
 import { ChatWithFriendSkeleton } from "./skeleton";
+import { isVisibleInViewport } from "../../../_utils/1Functions/IsVisibleInViewport";
 
 interface ChatWithFriendProps {
   friend: profileDTO;
@@ -145,13 +146,14 @@ const ChatBody = ({
   const [chatOpen, setChatOpen] = useState(false);
   const [additionalOptions, setAdditionalOptions] = useState("");
   const image = friend.ProfileImage || `${ReadyImagesURL}/noProfile.jpg`;
-  const messagesEndRef = useRef(null);
+  const messagesEndRef = useRef<HTMLSpanElement>(null);
 
   const {
     messages,
     fetchPreviousPage,
     isFetchingPreviousPage,
     isFetchedAfterMount,
+    hasPreviousPage,
   } = useInfiniteMessages(getMessages, `getMessages/${friend.Id}`, friend.Id);
 
   const { mutate: receiveMessage } = useMutation({
@@ -175,12 +177,20 @@ const ChatBody = ({
     if (!newestMessagesRef.current) return;
     newestMessagesRef.current.scrollIntoView();
   }, [newestMessagesRef, chatOpen]);
+  
   var scrolledChatUp = useIsInViewport(messagesEndRef, "0px");
   useEffect(() => {
     if (scrolledChatUp) {
       fetchPreviousPage();
     }
   }, [scrolledChatUp, fetchPreviousPage]);
+
+  useEffect(() => {
+    if (!messagesEndRef.current) return;
+    if (isVisibleInViewport(messagesEndRef.current) && hasPreviousPage) {
+      fetchPreviousPage();
+    }
+  }, [messagesEndRef, messages]);
 
   useEffect(() => {
     if (!profile?.Id || !newestMessagesRef || !friend.Id) return;
