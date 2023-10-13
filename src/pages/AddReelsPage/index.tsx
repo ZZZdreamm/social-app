@@ -8,26 +8,19 @@ import { postReels } from "../../apiFunctions/postReels";
 import { ONE_DAY } from "../../globals/constants";
 import { useNavigate } from "react-router-dom";
 import { BarAndContentDisplay } from "../../components/barAndContentDisplay/BarAndContentDisplay";
+import { CropImage } from "../../components/cropImage/CropImage";
+import Slider from "rc-slider";
 
 export function AddReelsPage() {
   const navigate = useNavigate();
   const { profile } = useAuthenticationContext();
   const [file, setFile] = useState<[File, string]>();
-  const handleFileChange = (file: File) => {
-    const reader = new FileReader();
-    reader.onload = () => {
-      const base64Data = reader.result;
-      setFile([file, base64Data as string]);
-    };
-    if (file) {
-      reader.readAsDataURL(file);
-    }
-  };
+  const [croppedFile, setCroppedFile] = useState<[File, string]>();
 
   const postStory = async () => {
-    if (profile?.Id && file) {
+    if (profile?.Id && croppedFile) {
       const post = await postReels({
-        MediaFile: file[0],
+        MediaFile: croppedFile[0],
         AutorId: profile?.Id,
         CreationTime: Date.now(),
         ExpirationTime: ONE_DAY,
@@ -37,7 +30,19 @@ export function AddReelsPage() {
   };
 
   const discardFile = () => {
+    setCroppedFile(undefined);
     setFile(undefined);
+  };
+
+  const handleFileChange = (file: File) => {
+    const reader = new FileReader();
+    reader.onload = () => {
+      const base64Data = reader.result;
+      setFile([file, base64Data as string]);
+    };
+    if (file) {
+      reader.readAsDataURL(file);
+    }
   };
 
   return (
@@ -51,7 +56,7 @@ export function AddReelsPage() {
               <div className="medium-font">{profile?.Email}</div>
             </div>
           </span>
-          {file && (
+          {file && croppedFile && (
             <span className="reelsPage-bar-formData">
               <div className="reelsPage-bar-formData__mediaFile"></div>
               <div className="reelsPage-bar-formData__buttons shadow-above">
@@ -67,11 +72,13 @@ export function AddReelsPage() {
       content={
         <>
           {file ? (
-            <div className="reelsPage-form-preview shadow-around">
+            <div
+              className="reelsPage-form-preview shadow-around"
+              style={{ position: "relative" }}
+            >
               <span>Preview</span>
-              <div className="reelsPage-form-preview__image">
-                <img src={file[1]} />
-              </div>
+              <CropImage file={file} setCroppedFile={setCroppedFile} />
+
             </div>
           ) : (
             <div className="reelsPage-form-optionContainer">
@@ -84,7 +91,6 @@ export function AddReelsPage() {
                   <span>Create story with media file</span>
                 </div>
               </div>
-              {/* <div className="reelsPage-form-option"></div> */}
             </div>
           )}
         </>
