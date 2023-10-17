@@ -25,7 +25,7 @@ const ProfileFriendInPosts = ({ friend }: ProfileFriendProps) => {
       )
     ).data;
     const newFriends = friends!.filter(
-      (tempFriend) => tempFriend.Id != deletedFriend.Id
+      (tempFriend) => tempFriend.Id !== deletedFriend.Id
     );
     setFriends(newFriends);
     navigate(0);
