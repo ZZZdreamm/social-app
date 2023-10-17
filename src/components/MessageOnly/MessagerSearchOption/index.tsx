@@ -21,10 +21,6 @@ export default function MessagerSearchOption({
           className="data-option medium-font"
           onClick={() => {
             setChoosenFriend(userProfile);
-            const typeahead = document.getElementById(
-              "user-search-typeahead"
-            ) as HTMLInputElement;
-            typeahead.value = "";
           }}
         >
           <span

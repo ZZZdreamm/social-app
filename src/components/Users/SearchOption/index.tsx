@@ -19,10 +19,6 @@ export default function SearchOption({ userProfile }: SearchOptionProps) {
           className="data-option medium-font"
           onClick={() => {
             navigate(`user-profile/${userProfile.Id}`);
-            const typeahead = document.getElementById(
-              "user-search-typeahead"
-            ) as HTMLInputElement;
-            typeahead.value = "";
           }}
         >
           <span
