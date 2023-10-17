@@ -16,6 +16,12 @@ import { OpenReelsPage } from "../pages/openReelsPage/OpenReelsPage";
 const routes = [
   { path: "/login", component: Login },
   { path: "/register", component: Register },
+
+  { path: "/", component: LandingPage },
+  { path: "*", component: LandingPage },
+];
+
+export const guardedRoutes = [
   { path: "/user-profile/:id", component: UserProfile },
   { path: "/user-profile/:id/user-friends", component: UserFriends },
   { path: "/user-friends/:id", component: UserFriends },
@@ -25,12 +31,7 @@ const routes = [
   { path: "/messaging-only/:id", component: Messager },
   { path: "/reels/create", component: AddReelsPage },
   { path: "/reels/:reelId", component: OpenReelsPage },
-
-  { path: "/", component: LandingPage },
-  { path: "*", component: LandingPage },
 ];
-
-export const guardedRoutes = [];
 
 export function RoutesProvider() {
   const { claims, gotClaims } = useAuthData();
