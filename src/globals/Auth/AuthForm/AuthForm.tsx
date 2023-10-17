@@ -29,7 +29,6 @@ export default function AuthForm(props: authFormProps, ifRegister: boolean) {
       onSubmit={handleSubmit}
       style={{ display: "flex", flexDirection: "column", alignItems: "center" }}
     >
-      {/* <label htmlFor="email">Email</label> */}
       <input
         autoComplete="on"
         style={{ textAlign: "left" }}
@@ -43,7 +42,6 @@ export default function AuthForm(props: authFormProps, ifRegister: boolean) {
       {touched.email && errors.email && (
         <div className="error">{errors.email}</div>
       )}
-      {/* <label htmlFor="password">Password</label> */}
       <input
         autoComplete="on"
         style={{ textAlign: "left" }}

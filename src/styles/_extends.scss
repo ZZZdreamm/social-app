@@ -18,7 +18,7 @@
 
   --shadowInset: rgba(255, 255, 255, 0.5);
   --hoverColor: #e4e6e9;
-  --borderColor: #DDD;
+  --borderColor: #ddd;
   --color: rgb(71, 72, 72);
 
   --textGrey: #7e7f81;
@@ -60,6 +60,17 @@
   box-shadow: 0 12px 28px 0 var(--shadow2), 0 2px 4px 0 var(--shadow1),
     inset 0 0 0 1px var(--shadowInset);
 }
+
+.big-shadow-notBottom {
+  box-shadow: 0 12px 28px 0 var(--shadow2), 0 2px 4px 0 var(--shadow1),
+    -12px 0 0 0 var(--shadowInset), 12px 0 0 0 var(--shadowInset);
+}
+
+.big-shadow-notTop {
+  box-shadow: 0 2px 4px 0 var(--shadow1), 0 0 0 1px var(--shadowInset),
+    12px 0 28px 0 var(--shadow2), -12px 0 28px 0 var(--shadow2);
+}
+
 .shadow-beneath {
   box-shadow: 0 0.05rem 0.2rem 0 var(--shadow2);
 }
@@ -171,9 +182,10 @@ button {
   width: fit-content;
 }
 label {
-  margin: 5% 0;
+  margin: 0% 0;
   text-align: center;
   display: flex;
+  font-weight: 600;
 }
 
 .error {
