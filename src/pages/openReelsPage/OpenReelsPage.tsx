@@ -1,20 +1,15 @@
 import { useQuery } from "react-query";
 import { useParams } from "react-router-dom";
-import { getOneReel } from "../../apiFunctions/getOneReel";
-import { ONE_HOUR } from "../../globals/constants";
 import styled from "styled-components";
 import { BarAndContentDisplay } from "../../components/barAndContentDisplay/BarAndContentDisplay";
-import { ScrollListWithArrows } from "../../_utils/scrollListWithArrows/ScrollListWithArrows";
-import { SetStateAction, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { getReels } from "../../apiFunctions/getReels";
-import { useInfiniteReels } from "../../hooks/useInfiniteReels";
 import { ChangeElementInListWithArrows } from "../../_utils/changeElemenetWithArrows/ChangeElementInListWithArrows";
-import { getManyUsersReelsByIds } from "../../apiFunctions/getManyReelsByAutorId";
 import { ReelInBar } from "./ReelsInBar";
 import { ReelsDto } from "../../services/Models/reels.models";
 
 const getIndexFromReelId = (reels: ReelsDto[], reelId: string) => {
-  const reel = reels?.find((reel) => reel.Id == reelId);
+  const reel = reels?.find((reel) => reel.Id === reelId);
   if (!reel) return 0;
   return reels?.indexOf(reel);
 };
@@ -49,8 +44,8 @@ export function OpenReelsPage() {
             {isFetchedAfterMount &&
               reels &&
               reels.map((reel, index) => {
-                if(index == currentReel){
-                  return <ReelInBar key={reel.Id} reel={reel} isChoosen/>;
+                if (index === currentReel) {
+                  return <ReelInBar key={reel.Id} reel={reel} isChoosen />;
                 }
                 return <ReelInBar key={reel.Id} reel={reel} />;
               })}
@@ -63,7 +58,7 @@ export function OpenReelsPage() {
             <div className="box">
               <MediaFile ref={containerRef}>
                 {isFetchedAfterMount && reels && (
-                  <img src={reels[currentReel!].MediaFile} />
+                  <img src={reels[currentReel!].MediaFile} alt=""/>
                 )}
               </MediaFile>
             </div>

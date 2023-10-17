@@ -8,7 +8,6 @@ import { getClaims, saveToken } from "../../globals/Auth/HandleJWT";
 import { axiosBase } from "../../globals/apiPaths";
 import { ExampleAccountLoginButton } from "../../components/exampleAccountLogin/ExampleAccountLoginButton";
 import { useAuthData } from "../../hooks/useAuthData";
-import axios from "axios";
 import { isHerokuServerAwake } from "../../_utils/getHerokuServerState/getHerokuState";
 
 export default function Login() {

@@ -15,9 +15,7 @@ export function ReelInBar({ reel, isChoosen = false }: ReelInBarProps) {
   return (
     <Container onClick={showThisReel} isChoosen={isChoosen}>
       <Image src={reel.MediaFile} alt="" />
-      <div>
-        <strong>{reel.AutorName}</strong> story
-      </div>
+      <strong>{reel.Name}</strong>
     </Container>
   );
 }
