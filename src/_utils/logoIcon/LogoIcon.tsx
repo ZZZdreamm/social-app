@@ -17,4 +17,5 @@ const Logo = styled.img`
   cursor: pointer;
   align-self: center;
   justify-self: center;
+  z-index: 100;
 `;
