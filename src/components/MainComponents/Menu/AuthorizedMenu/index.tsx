@@ -6,19 +6,28 @@ import "./style.scss";
 import NightModeSwitch from "../../../NightModeSwitch";
 import styled from "styled-components";
 import { LogoIcon } from "../../../../_utils/logoIcon/LogoIcon";
+import { UserSearchTypeaheadd } from "../../../userSearchTypeahead/UserSearchTypeahead";
+import { useAuthenticationContext } from "../../../../services/Contexts/AuthenticationContext";
+import { searchUsers } from "../../../../apiFunctions/searchUsers";
 
 export default function AuthorizedMenu() {
+  const { profile } = useAuthenticationContext();
+  const onUserSearch = async (query: string) => {
+    return await searchUsers(query, profile?.Id);
+  };
   return (
     <>
-      <span style={{ display: "flex", alignItems: "center" }}>
+      <LogoAndSearchContainer>
         <LogoContainer>
           <LogoIcon />
         </LogoContainer>
-        <UserSearchTypeahead />
-      </span>
+        {/* <UserSearchTypeahead /> */}
+        <div style={{ position: "relative", width: "19rem", right: "4rem" }}>
+          <UserSearchTypeaheadd onSearch={onUserSearch} />
+        </div>
+      </LogoAndSearchContainer>
       <span className="navbarIconsContainer">
         <NightModeSwitch />
-
         <MessagerIcon />
         <ProfileIcon />
       </span>
@@ -28,8 +37,14 @@ export default function AuthorizedMenu() {
 
 export interface MenuChildProps {}
 
+const LogoAndSearchContainer = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+`;
+
 const LogoContainer = styled.div`
   display: flex;
   align-items: center;
-  margin-left: 1rem;
+  margin-left: 0.5rem;
 `;
