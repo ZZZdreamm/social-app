@@ -21,7 +21,6 @@ export default function AuthorizedMenu() {
         <LogoContainer>
           <LogoIcon />
         </LogoContainer>
-        {/* <UserSearchTypeahead /> */}
         <div style={{ position: "relative", width: "19rem", right: "4rem" }}>
           <UserSearchTypeaheadd onSearch={onUserSearch} />
         </div>

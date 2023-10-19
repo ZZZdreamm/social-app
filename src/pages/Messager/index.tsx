@@ -37,6 +37,9 @@ export default function Messager() {
     setWindowSize(window.innerWidth);
   }, [window.innerWidth]);
 
+
+  
+
   return (
     <Portal>
       <div id="messager">

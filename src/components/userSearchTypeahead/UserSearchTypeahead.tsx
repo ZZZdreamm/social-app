@@ -6,16 +6,25 @@ import { profileDTO } from "../../services/Models/profiles.models";
 import useClickedNotOnElement from "../../_utils/2Hooks/useClickedNotOnElement";
 import { ReadyImagesURL } from "../../globals/appUrls";
 
+type Colors = "navColor" | "backColor";
+
+const StringToColors = {
+  navColor: { main: "var(--navColor)", second: "var(--reverseToNavColor)" },
+  backColor: { main: "var(--backColor)", second: "var(--navColor)" },
+};
+
 interface UserSearchTypeaheadProps {
   onSearch: (query: string) => any;
   searchOption?: (profile: profileDTO) => React.ReactElement;
   expand?: boolean;
+  color?: Colors;
 }
 
 export function UserSearchTypeaheadd({
   onSearch,
   searchOption,
   expand = true,
+  color = "backColor",
 }: UserSearchTypeaheadProps) {
   const [profiles, setProfiles] = useState<profileDTO[]>([]);
   const [isFocused, setIsFocused] = useState(false);
@@ -63,7 +72,7 @@ export function UserSearchTypeaheadd({
           onClick={reverseAnimation}
           isFocused={isFocused}
         />
-        <InputContainer>
+        <InputContainer color={color}>
           <MagnifierContainer
             ref={magnifyingGlassRef}
             onClick={focusOnInput}
@@ -75,6 +84,7 @@ export function UserSearchTypeaheadd({
             ref={inputRef}
             placeholder="Search users"
             onChange={(e) => searchProfiles(e.target.value)}
+            color={color}
           />
         </InputContainer>
       </ArrowAndInputContainer>
@@ -108,6 +118,10 @@ interface ExpandedTypeaheadProps extends TypeaheadProps {
   expand: boolean;
 }
 
+// interface TypeaheadWithColorProps extends TypeaheadProps {
+//   color: Colors;
+// }
+
 const Container = styled.div<TypeaheadProps>`
   position: relative;
   display: flex;
@@ -120,7 +134,7 @@ const Container = styled.div<TypeaheadProps>`
   align-items: flex-end;
   transition: all 0.2s ease-in-out;
   background-color: ${({ isFocused }) =>
-    isFocused ? "var(--navColor)" : "transparent"};
+    isFocused ? "var(--backColor)" : "transparent"};
   z-index: ${({ isFocused }) => (isFocused ? "200" : "0")};
 `;
 
@@ -135,13 +149,15 @@ const ArrowAndInputContainer = styled.div<ExpandedTypeaheadProps>`
   transition: all 0.2s ease-in-out;
 `;
 
-const InputContainer = styled.div`
+const InputContainer = styled.div<{
+  color: Colors;
+}>`
   display: flex;
   cursor: pointer;
   border-radius: 1rem;
   padding: 0.35rem 0.5rem;
   gap: 0.5rem;
-  background-color: var(--backColor);
+  background-color: ${({ color }) => StringToColors[color].main};
   width: 100%;
   box-sizing: border-box;
   position: relative;
@@ -154,10 +170,13 @@ const MagnifierContainer = styled.div<TypeaheadProps>`
   transition: all 0.2s ease-in-out;
 `;
 
-const Input = styled.input`
+const Input = styled.input<{
+  color: Colors;
+}>`
   outline: none;
   border: none;
   background-color: transparent;
+  color: ${({ color }) => StringToColors[color].second};
   width: 100%;
 `;
 
