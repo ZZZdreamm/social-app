@@ -24,7 +24,6 @@ export const axiosBase = axios.create({
   headers: headers,
 });
 
-const loginUrl = "/login";
 
 axiosBase.interceptors.response.use(
   (response) => response,
@@ -32,11 +31,11 @@ axiosBase.interceptors.response.use(
     if (process.env.NODE_ENV == `development`) {
       console.log(error.response);
     }
-    if (error.response.status === 403) {
+    if (error.response?.status === 403) {
       return;
-    } else if (error.response.status === 401) {
+    } else if (error.response?.status === 401) {
       logout();
-      window.location.href = loginUrl;
+      window.location.href = "/#/";
     }
     return;
   }
