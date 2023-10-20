@@ -28,7 +28,7 @@ export function LoadingModal({ isOpen, setIsOpen }: LoadingModalProps) {
 
   return (
     <DefaultModal isOpen={isOpen} toggleModal={() => {}}>
-      <Waiting message="Waiting for database to wake up..." />
+      <Waiting message="I don't have money for database so it needs to wake up 10 sec..." />
     </DefaultModal>
   );
 }

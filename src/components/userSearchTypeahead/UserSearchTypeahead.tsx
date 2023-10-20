@@ -131,7 +131,7 @@ const Container = styled.div<TypeaheadProps>`
   align-items: flex-end;
   transition: all 0.2s ease-in-out;
   background-color: ${({ isFocused }) =>
-    isFocused ? "var(--backColor)" : "transparent"};
+    isFocused ? "var(--navColor)" : "transparent"};
   z-index: ${({ isFocused }) => (isFocused ? "200" : "0")};
 `;
 
