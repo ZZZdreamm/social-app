@@ -15,11 +15,6 @@ export default function Register() {
   const navigate = useNavigate();
 
   async function register(credentials: userCredentials) {
-    const herokuState = await isHerokuServerAwake();
-    if (herokuState === false) {
-      alert("Heroku server need to wake up, wait 10 seconds and try again!");
-      return;
-    }
     try {
       setErrors([]);
       const userCredentials = {

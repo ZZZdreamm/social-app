@@ -12,11 +12,6 @@ export function ExampleAccountLoginButton() {
   const navigate = useNavigate();
 
   async function login(credentials: userCredentials) {
-    const herokuState = await isHerokuServerAwake();
-    if (herokuState === false) {
-      alert("Heroku server need to wake up, wait 10 seconds and try again!");
-      return;
-    }
     try {
       const { data } = await loginInDB(credentials);
       saveToken(data.token);

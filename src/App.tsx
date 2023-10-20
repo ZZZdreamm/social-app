@@ -14,12 +14,14 @@ import { OpenedChatsComponent } from "./components/openedChatsComponent/OpenedCh
 import { OpenedChatsProvider } from "./services/Contexts/OpenedChatsContext";
 import { RoutesProvider } from "./globals/routes";
 import { wakeUpDB } from "./apiFunctions/wakeUpDB";
+import { LoadingModal } from "./components/loadingModal/LoadingModal";
 
 export const socket = io(socketURL);
 export const queryClient = new QueryClient();
 
 function App() {
   const [online, setOnline] = useState(false);
+  const [databaseDown, setDatabaseDown] = useState(true);
 
   useEffect(() => {
     setOnline(navigator.onLine);
@@ -27,8 +29,7 @@ function App() {
 
   useEffect(() => {
     const wakeUp = async () => {
-      const wakeUpResult = await wakeUpDB();
-      console.log(wakeUpResult);
+      await wakeUpDB();
     };
     wakeUp();
   }, []);
@@ -40,16 +41,23 @@ function App() {
           <OpenedChatsProvider>
             <div className="App">
               {online ? (
-                <>
-                  <div className="navbar-placeholder"></div>
-                  <Menu />
-                  <Authorized isAuthorized={<LeftBar />} />
-                  <OpenedChatsComponent />
-                  <SocketCallModal />
-                  <section className="landing-page">
-                    <RoutesProvider />
-                  </section>
-                </>
+                !databaseDown ? (
+                  <>
+                    <div className="navbar-placeholder"></div>
+                    <Menu />
+                    <Authorized isAuthorized={<LeftBar />} />
+                    <OpenedChatsComponent />
+                    <SocketCallModal />
+                    <section className="landing-page">
+                      <RoutesProvider />
+                    </section>
+                  </>
+                ) : (
+                  <LoadingModal
+                    isOpen={databaseDown}
+                    setIsOpen={setDatabaseDown}
+                  />
+                )
               ) : (
                 <OfflineWebsite />
               )}

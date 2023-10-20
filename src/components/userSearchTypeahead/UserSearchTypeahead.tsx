@@ -118,9 +118,6 @@ interface ExpandedTypeaheadProps extends TypeaheadProps {
   expand: boolean;
 }
 
-// interface TypeaheadWithColorProps extends TypeaheadProps {
-//   color: Colors;
-// }
 
 const Container = styled.div<TypeaheadProps>`
   position: relative;
