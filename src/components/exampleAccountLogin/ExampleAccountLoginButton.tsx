@@ -40,7 +40,7 @@ const LoginButton = styled.button`
   background-color: #ff4b2b;
   color: #ffffff;
   font-weight: bold;
-  padding: 12px 50px;
+  /* padding: 12px 50px; */
   letter-spacing: 1px;
   text-transform: uppercase;
   transition: transform 80ms ease-in;
