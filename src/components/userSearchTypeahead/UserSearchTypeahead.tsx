@@ -10,7 +10,7 @@ type Colors = "navColor" | "backColor";
 
 const StringToColors = {
   navColor: { main: "var(--navColor)", second: "var(--reverseToNavColor)" },
-  backColor: { main: "var(--backColor)", second: "var(--navColor)" },
+  backColor: { main: "var(--backColor)", second: "var(--reverseToNavColor)" },
 };
 
 interface UserSearchTypeaheadProps {
@@ -191,6 +191,7 @@ const Options = styled.div`
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
+  background-color: var(--navColor);
 `;
 
 const GoBackArrow = styled.img<TypeaheadProps>`
