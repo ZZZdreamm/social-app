@@ -16,10 +16,13 @@ export default function Friend({ friend }: FriendProps) {
       `profiles/deleteFriend?userId=${profile?.Id}&friendId=${friend.Id}`
     );
     const deletedFriend = response.data;
+    console.log(deletedFriend);
     const newFriends = friends!.filter(
       (tempFriend) => tempFriend.Id != deletedFriend.Id
     );
+    console.log(newFriends);
     setFriends(newFriends);
+    window.location.reload();
   }
   return (
     <div className="friend">

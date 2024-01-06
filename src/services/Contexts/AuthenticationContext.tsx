@@ -10,6 +10,7 @@ interface ContextProps {
   profile: profileDTO | undefined;
   gotClaims: boolean;
   setProfile(profile: profileDTO): void;
+  loading: boolean;
 }
 
 interface Props {
@@ -22,11 +23,12 @@ const AuthenticationContext = createContext<ContextProps>({
   profile: undefined,
   gotClaims: false,
   setProfile: () => {},
+  loading: true,
 });
 
 export function AuthenticationDataProvider({ children }: Props) {
   const { claims, setClaims, gotClaims } = useAuthData();
-  const { profile, setProfile } = useProfile();
+  const { profile, setProfile, loading } = useProfile();
 
   const states = useMemo(
     () => ({
@@ -35,8 +37,9 @@ export function AuthenticationDataProvider({ children }: Props) {
       profile,
       gotClaims,
       setProfile,
+      loading,
     }),
-    [claims, setClaims, gotClaims, profile, setProfile]
+    [claims, setClaims, gotClaims, profile, setProfile, loading]
   );
   return (
     <AuthenticationContext.Provider value={states}>

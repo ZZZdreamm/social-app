@@ -14,7 +14,6 @@ export default function UserFriends() {
     () => getFriends(id ?? ""),
     {
       enabled: id != undefined,
-      staleTime: ONE_HOUR,
     }
   );
 

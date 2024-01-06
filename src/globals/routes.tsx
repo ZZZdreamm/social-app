@@ -2,7 +2,7 @@ import LandingPage from "../pages/LandingPage";
 import Messager from "../pages/Messager";
 import UserFriendRequests from "../pages/UserFriendRequests";
 import UserFriends from "../pages/UserFriends";
-import UserProfile from "../pages/UserProfile";
+import UserProfile, { PrivateUserProfile } from "../pages/UserProfile";
 import UserSentFriendRequests from "../pages/UserSentFriendRequests";
 import Calling from "../pages/Calling";
 import Login from "../pages/Login";
@@ -12,6 +12,7 @@ import { useAuthData } from "../hooks/useAuthData";
 import GuardedRoute from "../_utils/GuardedRoute/GuardedRoute";
 import { AddReelsPage } from "../pages/AddReelsPage";
 import { OpenReelsPage } from "../pages/openReelsPage/OpenReelsPage";
+import { withPrivateRoute } from "../hocComponents/PrivateRoute";
 
 const routes = [
   { path: "/login", component: Login },
@@ -22,7 +23,7 @@ const routes = [
 ];
 
 export const guardedRoutes = [
-  { path: "/user-profile/:id", component: UserProfile },
+  { path: "/user-profile/:id", component: PrivateUserProfile },
   { path: "/user-profile/:id/user-friends", component: UserFriends },
   { path: "/user-friends/:id", component: UserFriends },
   { path: "/user-friend-requests/:id", component: UserFriendRequests },

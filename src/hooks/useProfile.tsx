@@ -4,14 +4,15 @@ import { getProfile } from "../globals/Profile/HandleProfile";
 
 export function useProfile() {
   const [profile, setProfile] = useState<profileDTO>();
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    setProfile(getProfile());
+    const profile = getProfile()
+    setProfile(profile);
+    if (profile) {
+      setLoading(false);
+    }
   }, []);
 
-  useEffect(() => {
-    setProfile(getProfile());
-  }, [localStorage]);
-
-  return { profile, setProfile };
+  return { profile, setProfile, loading };
 }
