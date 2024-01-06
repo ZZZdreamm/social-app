@@ -2,7 +2,6 @@
 It is social media app. It uses Node.js CacarrotServer as it's backend server.
 
 <h2>App preview</h2>
-https://youtu.be/aftrqimy7iQ
 
 <h2>Online version</h2>
 Link to the website - https://zzzdreamm.github.io/social-app/
