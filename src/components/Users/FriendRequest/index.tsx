@@ -44,9 +44,10 @@ export default function FriendRequest({ friend, sent }: FriendProps) {
     } else {
       const deletedFriend = (
         await axiosBase.delete<{ Id: string }>(
-          `profiles/removeFriendRequest?userId=${profile?.Id}&friendId=${friend.Id}`
+          `profiles/removeFriendRequest?userId=${friend?.Id}&friendId=${profile?.Id}`
         )
       ).data;
+
       const newFriends = friendsRequests!.filter(
         (tempFriend) => tempFriend.Id != deletedFriend.Id
       );

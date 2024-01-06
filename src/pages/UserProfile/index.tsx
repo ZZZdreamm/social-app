@@ -9,6 +9,7 @@ import { useAuthenticationContext } from "../../services/Contexts/Authentication
 import { UserProfileSkeleton } from "./skeleton";
 import { ProfileDown } from "./ProfileDown";
 import { ProfileUp } from "./ProfileUp";
+import { withPrivateRoute } from "../../hocComponents/PrivateRoute";
 
 export default function UserProfile() {
   const { id } = useParams();
@@ -44,7 +45,7 @@ export default function UserProfile() {
   }, [checkIfInFriends]);
 
   const getData = useCallback(async () => {
-    if (!userProfile) return;
+    if (!userProfile?.Id) return;
     const response = await axiosBase.get<profileDTO[]>(
       `profiles/getFriends/${userProfile.Id}`
     );
@@ -57,6 +58,7 @@ export default function UserProfile() {
   }, [getData]);
 
   const getUserData = useCallback(async () => {
+    if (!id) return;
     const response = await axiosBase.get<profileDTO>(`profiles/one/${id}`);
     const user = response.data;
     setUserProfile(user);
@@ -103,3 +105,6 @@ export interface ProfileProps {
   userProfile: profileDTO;
   relationship?: usersRelation;
 }
+
+
+export const PrivateUserProfile = withPrivateRoute(UserProfile);
