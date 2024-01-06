@@ -48,11 +48,9 @@ export default function FriendRequest({ friend, sent }: FriendProps) {
         )
       ).data;
 
-      console.log(deletedFriend);
       const newFriends = friendsRequests!.filter(
         (tempFriend) => tempFriend.Id != deletedFriend.Id
       );
-      console.log(newFriends);
       setFriendsRequests(newFriends);
     }
   }
