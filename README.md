@@ -1,7 +1,8 @@
 <h1>FriendLink</h1>
 It is social media app. It uses Node.js CacarrotServer as it's backend server.
 
-<video width="560" height="315" src="https://youtu.be/aftrqimy7iQ" frameborder="0" allowfullscreen></video>
+<h2>App preview</h2>
+https://youtu.be/aftrqimy7iQ
 
 <h2>Online version</h2>
 Link to the website - https://zzzdreamm.github.io/social-app/
