@@ -12,7 +12,8 @@ import { useAuthData } from "../hooks/useAuthData";
 import GuardedRoute from "../_utils/GuardedRoute/GuardedRoute";
 import { AddReelsPage } from "../pages/AddReelsPage";
 import { OpenReelsPage } from "../pages/openReelsPage/OpenReelsPage";
-import { withPrivateRoute } from "../hocComponents/PrivateRoute";
+import { withPrivateRoute } from "../hocComponents/withPrivateRoute";
+import PrivateRoute from "./PrivateRoute";
 
 const routes = [
   { path: "/login", component: Login },
@@ -37,26 +38,20 @@ export const guardedRoutes = [
 export function RoutesProvider() {
   const { claims, gotClaims } = useAuthData();
   return (
-    <>
-      <Routes>
-        {routes.map((route) => (
+    <Routes>
+      {routes.map((route) => (
+        <Route key={route.path} path={route.path} Component={route.component} />
+      ))}
+
+      {gotClaims &&
+        guardedRoutes.map((route: any) => (
           <Route
             key={route.path}
-            path={route.path}
-            Component={route.component}
-          />
+            element={<PrivateRoute Component={route.component} />}
+          >
+            <Route Component={route.component} path={route.path} />
+          </Route>
         ))}
-
-        {gotClaims &&
-          guardedRoutes.map((route: any) => (
-            <Route
-              key={route.path}
-              element={<GuardedRoute isAuthenticated={claims.length > 0} />}
-            >
-              <Route Component={route.component} path={route.path} />
-            </Route>
-          ))}
-      </Routes>
-    </>
+    </Routes>
   );
 }

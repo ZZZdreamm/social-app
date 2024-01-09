@@ -9,7 +9,7 @@ import { useAuthenticationContext } from "../../services/Contexts/Authentication
 import { UserProfileSkeleton } from "./skeleton";
 import { ProfileDown } from "./ProfileDown";
 import { ProfileUp } from "./ProfileUp";
-import { withPrivateRoute } from "../../hocComponents/PrivateRoute";
+import { withPrivateRoute } from "../../hocComponents/withPrivateRoute";
 
 export default function UserProfile() {
   const { id } = useParams();
