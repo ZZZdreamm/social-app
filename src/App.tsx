@@ -18,7 +18,6 @@ import { LoadingModal } from "./components/loadingModal/LoadingModal";
 import ThemeProvider from "./globals/ThemeProvider";
 import { Providers } from "./services/Contexts/Providers";
 
-export const socket = io(socketURL);
 
 function App() {
   const [online, setOnline] = useState(false);

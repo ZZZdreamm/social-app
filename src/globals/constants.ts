@@ -1,5 +1,7 @@
 import { QueryClient } from "react-query";
+import { io } from "socket.io-client";
 import { css } from "styled-components";
+import { socketURL } from "./apiPaths";
 
 export const ONE_HOUR = 60 * 60 * 1000;
 export const ONE_DAY = 24 * ONE_HOUR;
@@ -39,3 +41,4 @@ export enum ButtonIconSize {
 }
 
 export const queryClient = new QueryClient();
+export const socket = io(socketURL);

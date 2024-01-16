@@ -43,9 +43,7 @@ export default function DefaultModal({
   return (
     <Portal>
       <Overlay isOpen={isOpen}>
-        {/* <StyledModal ref={elementRef}> */}
         {children}
-        {/* </StyledModal> */}
       </Overlay>
     </Portal>
   );
