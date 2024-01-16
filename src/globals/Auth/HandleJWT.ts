@@ -1,4 +1,4 @@
-import { claim } from "../../services/Models/auth.models";
+import { claim } from "../../models/auth.models";
 
 const tokenKey = "token";
 export function saveToken(token: string) {

@@ -1,5 +1,5 @@
 import { createContext, useContext, useMemo } from "react";
-import { profileDTO } from "../Models/profiles.models";
+import { profileDTO } from "../../models/profiles.models";
 import { useFriends } from "../../hooks/useFriends";
 import { useFriendsRequests } from "../../hooks/useFriendsRequests";
 import { useSentFriendsRequests } from "../../hooks/useSentFriendsRequests";

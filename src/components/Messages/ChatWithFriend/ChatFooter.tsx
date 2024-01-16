@@ -6,7 +6,7 @@ import { storageRef } from "../../../services/Firebase/FirebaseConfig";
 import {
   messageCreationDTO,
   messageResponseDTO,
-} from "../../../services/Models/message.models";
+} from "../../../models/message.models";
 
 import { removeOnlyText } from "../../../_utils/1Functions/DivControl";
 import { ReadyImagesURL } from "../../../globals/appUrls";

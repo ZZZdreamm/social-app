@@ -6,7 +6,7 @@ import { useEffect, useRef, useState } from "react";
 import { getReels } from "../../apiFunctions/getReels";
 import { ChangeElementInListWithArrows } from "../../_utils/changeElemenetWithArrows/ChangeElementInListWithArrows";
 import { ReelInBar } from "./ReelsInBar";
-import { ReelsDto } from "../../services/Models/reels.models";
+import { ReelsDto } from "../../models/reels.models";
 
 const getIndexFromReelId = (reels: ReelsDto[], reelId: string) => {
   const reel = reels?.find((reel) => reel.Id === reelId);

@@ -6,7 +6,7 @@ import MessagerChat from "../../components/MessageOnly/MessagerChat";
 import MessagerFriendList from "../../components/MessageOnly/MessagerFriendList";
 import MessagerSearchTypeahead from "../../components/MessageOnly/MessagerSearchTypeahead";
 import MobileMessager from "../../components/MessageOnly/MobileMessager/MobileMessager";
-import { profileDTO } from "../../services/Models/profiles.models";
+import { profileDTO } from "../../models/profiles.models";
 import Portal from "../../_utils/Portal/Portal";
 import { useProfilesRelationsContext } from "../../services/Contexts/ProfileDataContext";
 import { useAuthenticationContext } from "../../services/Contexts/AuthenticationContext";
@@ -38,7 +38,7 @@ export default function Messager() {
   }, [window.innerWidth]);
 
 
-  
+
 
   return (
     <Portal>

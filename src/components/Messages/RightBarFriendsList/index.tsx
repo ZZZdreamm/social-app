@@ -1,4 +1,4 @@
-import { profileDTO } from "../../../services/Models/profiles.models";
+import { profileDTO } from "../../../models/profiles.models";
 import GenericList from "../../../_utils/GenericList/GenericList";
 import Waiting from "../../../_utils/Waiting/indexxx";
 

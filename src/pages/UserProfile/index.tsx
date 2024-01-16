@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import "./style.scss";
-import { profileDTO } from "../../services/Models/profiles.models";
+import { profileDTO } from "../../models/profiles.models";
 import { axiosBase } from "../../globals/apiPaths";
 import { useInfinitePosts } from "../../hooks/useInfinitePosts";
 import { getUserPosts } from "../../apiFunctions/getUserPosts";

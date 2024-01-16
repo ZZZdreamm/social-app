@@ -1,6 +1,6 @@
 import { useInfiniteQuery } from "react-query";
 import { useAuthenticationContext } from "../services/Contexts/AuthenticationContext";
-import { messageDTO } from "../services/Models/message.models";
+import { messageDTO } from "../models/message.models";
 
 const PAGE_SIZE = 10;
 const FETCHING_TIME = 400;

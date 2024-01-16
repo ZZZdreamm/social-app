@@ -19,10 +19,12 @@ export function LoadingModal({ isOpen, setIsOpen }: LoadingModalProps) {
         console.log("Backend state: ", backendState);
         if (backendState) {
           setIsOpen(false);
+          sessionStorage.setItem("isHerokuServerAwake", "true");
           clearInterval(interval);
         }
       }, 1000);
     };
+    if(!sessionStorage.getItem("isHerokuServerAwake"))
     wakeUp();
   }, []);
 

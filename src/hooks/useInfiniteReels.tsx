@@ -1,6 +1,6 @@
 import { useInfiniteQuery } from "react-query";
 import { useAuthenticationContext } from "../services/Contexts/AuthenticationContext";
-import { ReelsDto } from "../services/Models/reels.models";
+import { ReelsDto } from "../models/reels.models";
 
 const PAGE_SIZE = 10;
 

@@ -1,5 +1,5 @@
 import { axiosBase } from "../globals/apiPaths";
-import { ReelsCreationDto } from "../services/Models/reels.models";
+import { ReelsCreationDto } from "../models/reels.models";
 
 export async function postReels(reelsCreationDto: ReelsCreationDto) {
   console.log(reelsCreationDto);

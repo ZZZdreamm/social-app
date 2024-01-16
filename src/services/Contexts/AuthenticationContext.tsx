@@ -1,8 +1,8 @@
 import { createContext, useContext, useMemo } from "react";
-import { claim } from "../Models/auth.models";
+import { claim } from "../../models/auth.models";
 import { useAuthData } from "../../hooks/useAuthData";
 import { useProfile } from "../../hooks/useProfile";
-import { profileDTO } from "../Models/profiles.models";
+import { profileDTO } from "../../models/profiles.models";
 
 interface ContextProps {
   claims: claim[];

@@ -69,11 +69,11 @@ export function AddReelsPage() {
               <div className="reelsPage-bar-formData__data">
                 <div className="reelsPage-bar-formData__data__input">
                   <label style={{ padding: "0 0.5rem" }}>Name your story</label>
-                  <Input
+                  {/* <Input
                     className="medium-font"
-                    setValue={setName}
+                    // setValue={setName}
                     error={errors?.name}
-                  />
+                  /> */}
                 </div>
               </div>
               <div className="reelsPage-bar-formData__buttons shadow-above">

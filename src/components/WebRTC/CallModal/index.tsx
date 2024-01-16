@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { ReadyImagesURL } from "../../../globals/appUrls";
-import { profileDTO } from "../../../services/Models/profiles.models";
+import { profileDTO } from "../../../models/profiles.models";
 import styled from "styled-components";
 import DefaultModal from "../../../_utils/defaultModal/DefaultModal";
 

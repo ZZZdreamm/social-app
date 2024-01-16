@@ -15,13 +15,17 @@ import { OpenedChatsProvider } from "./services/Contexts/OpenedChatsContext";
 import { RoutesProvider } from "./globals/routes";
 import { wakeUpDB } from "./apiFunctions/wakeUpDB";
 import { LoadingModal } from "./components/loadingModal/LoadingModal";
+import ThemeProvider from "./globals/ThemeProvider";
+import { Providers } from "./services/Contexts/Providers";
 
 export const socket = io(socketURL);
-export const queryClient = new QueryClient();
 
 function App() {
   const [online, setOnline] = useState(false);
-  const [databaseDown, setDatabaseDown] = useState(true);
+  const [databaseDown, setDatabaseDown] = useState(() => {
+    if (sessionStorage.getItem("isHerokuServerAwake")) return false;
+    return true;
+  });
 
   useEffect(() => {
     setOnline(navigator.onLine);
@@ -35,37 +39,38 @@ function App() {
   }, []);
 
   return (
-    <QueryClientProvider client={queryClient}>
-      <AuthenticationDataProvider>
-        <ProfileDataProvider>
-          <OpenedChatsProvider>
-            <div className="App">
-              {online ? (
-                !databaseDown ? (
-                  <>
-                    <div className="navbar-placeholder"></div>
-                    <Menu />
-                    <Authorized isAuthorized={<LeftBar />} />
-                    <OpenedChatsComponent />
-                    <SocketCallModal />
-                    <section className="landing-page">
-                      <RoutesProvider />
-                    </section>
-                  </>
-                ) : (
-                  <LoadingModal
-                    isOpen={databaseDown}
-                    setIsOpen={setDatabaseDown}
-                  />
-                )
-              ) : (
-                <OfflineWebsite />
-              )}
-            </div>
-          </OpenedChatsProvider>
-        </ProfileDataProvider>
-      </AuthenticationDataProvider>
-    </QueryClientProvider>
+    // <QueryClientProvider client={queryClient}>
+    //   <AuthenticationDataProvider>
+    //     <ProfileDataProvider>
+    //       <OpenedChatsProvider>
+    //         <ThemeProvider>
+    <Providers>
+      <div className="App">
+        {online ? (
+          !databaseDown ? (
+            <>
+              <div className="navbar-placeholder"></div>
+              <Menu />
+              <Authorized isAuthorized={<LeftBar />} />
+              <OpenedChatsComponent />
+              <SocketCallModal />
+              <section className="landing-page">
+                <RoutesProvider />
+              </section>
+            </>
+          ) : (
+            <LoadingModal isOpen={databaseDown} setIsOpen={setDatabaseDown} />
+          )
+        ) : (
+          <OfflineWebsite />
+        )}
+      </div>
+    </Providers>
+    //         </ThemeProvider>
+    //       </OpenedChatsProvider>
+    //     </ProfileDataProvider>
+    //   </AuthenticationDataProvider>
+    // </QueryClientProvider>
   );
 }
 

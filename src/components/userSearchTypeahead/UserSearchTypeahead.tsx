@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { MagnifyingGlassIcon } from "../../_utils/icons/MagnifyingGlassIcon";
 import { useRef, useState } from "react";
 import SearchOption from "../Users/SearchOption";
-import { profileDTO } from "../../services/Models/profiles.models";
+import { profileDTO } from "../../models/profiles.models";
 import useClickedNotOnElement from "../../_utils/2Hooks/useClickedNotOnElement";
 import { ReadyImagesURL } from "../../globals/appUrls";
 

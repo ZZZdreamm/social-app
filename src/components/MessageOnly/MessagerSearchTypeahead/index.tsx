@@ -1,5 +1,5 @@
 import "./style.scss";
-import { profileDTO } from "../../../services/Models/profiles.models";
+import { profileDTO } from "../../../models/profiles.models";
 import MessagerSearchOption from "../MessagerSearchOption";
 import SearchTypeahead from "../../../_utils/SearchTypeahead";
 import { axiosBase } from "../../../globals/apiPaths";

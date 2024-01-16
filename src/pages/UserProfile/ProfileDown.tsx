@@ -2,7 +2,7 @@ import { useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import PostsList from "../../components/Posts/PostsList";
 import "./style.scss";
-import { profileDTO } from "../../services/Models/profiles.models";
+import { profileDTO } from "../../models/profiles.models";
 import Waiting from "../../_utils/Waiting/indexxx";
 import useIsInViewport from "../../_utils/2Hooks/IsInViewPort";
 import FriendInProfile from "../../components/Users/FriendInProfile";

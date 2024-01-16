@@ -9,7 +9,7 @@ import { testEndpoint } from "../../../apiFunctions/testEndpoint";
 import { useMutation, useQueryClient } from "react-query";
 import { useInfiniteMessages } from "../../../hooks/useInfiniteMessages";
 import { getMessages } from "../../../apiFunctions/getMessages";
-import { messageResponseDTO } from "../../../services/Models/message.models";
+import { messageResponseDTO } from "../../../models/message.models";
 import { FriendProps } from ".";
 import { ReadyImagesURL } from "../../../globals/appUrls";
 import { useAuthenticationContext } from "../../../services/Contexts/AuthenticationContext";

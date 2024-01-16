@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { saveProfile } from "../../globals/Profile/HandleProfile";
-import { userCredentials } from "../../services/Models/auth.models";
+import { userCredentials } from "../../models/auth.models";
 import { getClaims, saveToken } from "../../globals/Auth/HandleJWT";
 import styled from "styled-components";
 import { useAuthData } from "../../hooks/useAuthData";

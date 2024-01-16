@@ -1,6 +1,6 @@
 import { createContext, useContext, useMemo } from "react";
 import { useOpenedChats } from "../../hooks/useOpenedChats";
-import { profileDTO } from "../Models/profiles.models";
+import { profileDTO } from "../../models/profiles.models";
 
 interface ContextProps {
   openedChats: profileDTO[];

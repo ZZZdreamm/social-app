@@ -1,4 +1,4 @@
-import { profileDTO } from "../../services/Models/profiles.models";
+import { profileDTO } from "../../models/profiles.models";
 import { ReadyImagesURL } from "../appUrls";
 
 export function saveProfile(
