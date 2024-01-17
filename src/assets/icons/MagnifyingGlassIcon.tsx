@@ -1,9 +1,17 @@
-export function MagnifyingGlassIcon() {
+import { ThemeColor } from "globals/constants";
+import styled from "styled-components";
+
+interface Props {
+  size?: string;
+  color?: ThemeColor;
+}
+
+export function MagnifyingGlassIcon({ size = "1rem", color = "reverseToNavColor" }: Props) {
   return (
-    <svg
-      fill="#000000"
-      height="1rem"
-      width="1rem"
+    <Svg
+      color={color}
+      height={size}
+      width={size}
       version="1.1"
       id="Capa_1"
       viewBox="0 0 451 451"
@@ -16,6 +24,12 @@ export function MagnifyingGlassIcon() {
 		s-74.1,165.4-165.3,165.4C101.15,357.7,26.95,283.5,26.95,192.3z"
         />
       </g>
-    </svg>
+    </Svg>
   );
 }
+
+const Svg = styled.svg<{
+  color: ThemeColor;
+}>`
+  fill: ${(props) => props.theme.colors[props.color]};
+`;

@@ -1,10 +1,11 @@
 import styled from "styled-components";
-import { MagnifyingGlassIcon } from "../../_utils/icons/MagnifyingGlassIcon";
+import { MagnifyingGlassIcon } from "../../assets/icons/MagnifyingGlassIcon";
 import { useRef, useState } from "react";
 import SearchOption from "../Users/SearchOption";
 import { profileDTO } from "../../models/profiles.models";
 import useClickedNotOnElement from "../../_utils/2Hooks/useClickedNotOnElement";
 import { ReadyImagesURL } from "../../globals/appUrls";
+import { GoBackArrowIcon } from "assets/icons/GoBackArrowIcon";
 
 type Colors = "navColor" | "backColor";
 
@@ -66,12 +67,9 @@ export function UserSearchTypeaheadd({
       isFocused={isFocused}
     >
       <ArrowAndInputContainer isFocused={isFocused} expand={expand}>
-        <GoBackArrow
-          src={`${ReadyImagesURL}/goBackArrow.png`}
-          alt=""
-          onClick={reverseAnimation}
-          isFocused={isFocused}
-        />
+        <GoBackArrow onClick={reverseAnimation} isFocused={isFocused}>
+          <GoBackArrowIcon color="reverseToNavColor" />
+        </GoBackArrow>
         <InputContainer color={color}>
           <MagnifierContainer
             ref={magnifyingGlassRef}
@@ -117,7 +115,6 @@ interface TypeaheadProps {
 interface ExpandedTypeaheadProps extends TypeaheadProps {
   expand: boolean;
 }
-
 
 const Container = styled.div<TypeaheadProps>`
   position: relative;
@@ -194,7 +191,7 @@ const Options = styled.div`
   background-color: var(--navColor);
 `;
 
-const GoBackArrow = styled.img<TypeaheadProps>`
+const GoBackArrow = styled.div<TypeaheadProps>`
   width: ${({ isFocused }) => (isFocused ? "1.5rem" : "0")};
   opacity: ${({ isFocused }) => (isFocused ? "1" : "0")};
   transition: all 0.2s ease-in-out;

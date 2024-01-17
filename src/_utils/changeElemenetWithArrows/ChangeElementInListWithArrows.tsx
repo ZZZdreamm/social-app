@@ -18,16 +18,16 @@ export function ChangeElementInListWithArrows({
   const [isScrolledToEnd, setIsScrolledToEnd] = useState("flex");
   const [isScrollAtStart, setIsScrollAtStart] = useState("none");
 
-
-  useEffect(() => {
-    if (!leftScrollRef.current || !rightScrollRef.current) return;
-    leftScrollRef.current.addEventListener("click", () => {
-      setIndex((prev) => prev! - 1);
-    });
-    rightScrollRef.current.addEventListener("click", () => {
-      setIndex((prev) => prev! + 1);
-    });
-  }, [leftScrollRef, rightScrollRef]);
+  // useEffect(() => {
+  //   if (!leftScrollRef.current || !rightScrollRef.current) return;
+  //   console.log(leftScrollRef.current);
+  //   leftScrollRef.current.addEventListener("click", () => {
+  //     setIndex((prev) => prev! - 1);
+  //   });
+  //   rightScrollRef.current.addEventListener("click", () => {
+  //     setIndex((prev) => prev! + 1);
+  //   });
+  // }, [leftScrollRef, rightScrollRef]);
 
   useEffect(() => {
     if (index == 0) setIsScrollAtStart("none");
@@ -41,6 +41,9 @@ export function ChangeElementInListWithArrows({
         ref={leftScrollRef}
         className="scroll scroll-left"
         style={{ display: `${isScrollAtStart}` }}
+        onClick={() => {
+          setIndex((prev) => prev! - 1);
+        }}
       >
         <img src={`${ReadyImagesURL}/goBackArrow.png`} alt="" />
       </div>
@@ -48,6 +51,9 @@ export function ChangeElementInListWithArrows({
         ref={rightScrollRef}
         className="scroll scroll-right"
         style={{ display: `${isScrolledToEnd}` }}
+        onClick={() => {
+          setIndex((prev) => prev! + 1);
+        }}
       >
         <img src={`${ReadyImagesURL}/goBackArrow.png`} alt="" />
       </div>

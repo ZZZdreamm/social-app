@@ -3,8 +3,8 @@ import styled from "styled-components";
 import { Input } from "./Input";
 import { ButtonIconSize } from "../../globals/constants";
 import { ButtonIcon } from "../buttonIcon/ButtonIcon";
-import { EyeIcon } from "../icons/EyeIcon";
-import { ClosedEyeIcon } from "../icons/ClosedEyeIcon";
+import { EyeIcon } from "../../assets/icons/EyeIcon";
+import { ClosedEyeIcon } from "../../assets/icons/ClosedEyeIcon";
 
 interface Props {
   name?: string;

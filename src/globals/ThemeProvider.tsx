@@ -1,10 +1,20 @@
-import { ThemeProvider as Provider } from 'styled-components'
-import { theme } from './constants'
-
+import { ThemeProvider as Provider } from "styled-components";
+import { darkTheme, theme } from "./constants";
+import { useEffect, useState } from "react";
+import { useNightModeContext } from "services/Contexts/NightModeContext";
 
 interface Props {
-  children: React.ReactNode
+  children: React.ReactNode;
 }
 export default function ThemeProvider({ children }: Props) {
-  return <Provider theme={theme}>{children}</Provider>
+  const { nightMode } = useNightModeContext();
+  const [currentTheme, setCurrentTheme] = useState(() => {
+    return nightMode ? darkTheme : theme;
+  });
+
+  useEffect(() => {
+    setCurrentTheme(nightMode ? darkTheme : theme);
+  }, [nightMode]);
+
+  return <Provider theme={currentTheme}>{children}</Provider>;
 }

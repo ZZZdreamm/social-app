@@ -10,6 +10,7 @@ import { useNavigate } from "react-router-dom";
 import { BarAndContentDisplay } from "../../components/barAndContentDisplay/BarAndContentDisplay";
 import { CropImage } from "../../components/cropImage/CropImage";
 import { Input } from "../../_utils/input/Input";
+import Form from "_utils/form/Form";
 
 export function AddReelsPage() {
   const navigate = useNavigate();
@@ -19,12 +20,12 @@ export function AddReelsPage() {
   const [name, setName] = useState("");
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
 
-  const postStory = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    if (!name) return setErrors({ name: "Name is required" });
+  const postStory = async (values: any) => {
+    // e.preventDefault();
+    // if (!name) return setErrors({ name: "Name is required" });
     if (!profile?.Id || !croppedFile) return;
     const post = await postReels({
-      Name: name,
+      Name: values.name,
       MediaFile: croppedFile[0],
       AutorId: profile?.Id,
       CreationTime: Date.now(),
@@ -62,18 +63,17 @@ export function AddReelsPage() {
             </div>
           </span>
           {file && croppedFile && (
-            <form
-              onSubmit={(e) => postStory(e)}
+            <Form
+              // onSubmit={(e) => postStory(e)}
+              handleOnSubmit={postStory}
               className="reelsPage-bar-formData"
             >
               <div className="reelsPage-bar-formData__data">
                 <div className="reelsPage-bar-formData__data__input">
                   <label style={{ padding: "0 0.5rem" }}>Name your story</label>
-                  {/* <Input
-                    className="medium-font"
-                    // setValue={setName}
-                    error={errors?.name}
-                  /> */}
+                  {/* <Form> */}
+                  <Input name="name" placeholder="Story name" />
+                  {/* </Form> */}
                 </div>
               </div>
               <div className="reelsPage-bar-formData__buttons shadow-above">
@@ -82,7 +82,7 @@ export function AddReelsPage() {
                   Post story
                 </Button>
               </div>
-            </form>
+            </Form>
           )}
         </>
       }

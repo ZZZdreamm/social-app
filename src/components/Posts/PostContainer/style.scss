@@ -4,7 +4,6 @@
   border-radius: 1rem;
   width: 100%;
   box-sizing: border-box;
-  padding: 0 1rem;
   &-profile {
     width: inherit;
     height: 4rem;
@@ -14,6 +13,8 @@
     word-break: break-all;
     font-weight: bold;
     position: relative;
+    padding: 0 1rem;
+    box-sizing: border-box;
     span {
       overflow: hidden;
       text-overflow: ellipsis;
@@ -24,7 +25,7 @@
       cursor: pointer;
       background-size: cover;
       position: absolute;
-      right: 0;
+      right: 1rem;
       top: 1rem;
       background-color: var(--backColor);
       &:hover {
@@ -80,13 +81,13 @@
     height: fit-content;
     display: flex;
     flex-direction: column;
-    margin: 0.5rem 0 1rem 0;
+    margin: 0 0 1rem 0;
     &-text {
       display: flex;
       align-items: flex-start;
       word-break: break-all;
       flex-direction: column;
-      padding: 0.3rem 0;
+      padding: 0.5rem 1rem;
       text-align: left;
     }
     img {
@@ -100,6 +101,8 @@
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    box-sizing: border-box;
     .option {
       display: flex;
       align-items: center;
@@ -151,7 +154,8 @@
   width: 100%;
   display: flex;
   flex-direction: column;
-  padding: 1rem 0;
+  padding: 1rem;
+  box-sizing: border-box;
 
   &-input {
     display: flex;

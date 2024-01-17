@@ -13,7 +13,7 @@ export async function postReels(reelsCreationDto: ReelsCreationDto) {
       "Content-Type": "multipart/form-data",
     },
   });
-  const createdReel = response.data;
+  const createdReel = response?.data;
   console.log(createdReel);
   return createdReel;
 }

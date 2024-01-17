@@ -48,7 +48,7 @@ export default function Register() {
         <AuthForm
           model={{ email: "", password: "" }}
           onSubmit={async (values) => await register(values)}
-          submitButtonName="Register"
+          formName="Register"
         />
       </div>
     </div>

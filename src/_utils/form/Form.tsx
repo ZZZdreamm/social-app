@@ -10,7 +10,7 @@ import styled from "styled-components";
 
 export type FormValues = FormRegister | FormLogin;
 
-interface FormProps<T> {
+interface FormProps<T> extends React.HTMLAttributes<HTMLFormElement> {
   children: React.ReactNode;
   handleOnSubmit?: (values: T) => void;
   defaultValues?: T;

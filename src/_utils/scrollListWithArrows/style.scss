@@ -25,9 +25,19 @@
     background-color: var(--blueColor);
   }
 }
+
+@include phone {
+  .scroll {
+    height: 2rem;
+  }
+}
+
+
 .scroll-left {
   left: 0.8rem;
 }
+
+
 
 .scroll-right {
   right: 0.8rem;
