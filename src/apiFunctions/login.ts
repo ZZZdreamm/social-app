@@ -1,5 +1,5 @@
 import { axiosBase } from "../globals/apiPaths";
-import { userCredentials } from "../services/Models/auth.models";
+import { userCredentials } from "../models/auth.models";
 
 export async function loginInDB(credentials: userCredentials) {
   const userCredentials = {

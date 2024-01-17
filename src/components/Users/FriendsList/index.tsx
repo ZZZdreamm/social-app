@@ -3,7 +3,7 @@ import "./style.scss";
 import Friend from "../Friend";
 import GenericList from "../../../_utils/GenericList/GenericList";
 import Waiting from "../../../_utils/Waiting/indexxx";
-import { profileDTO } from "../../../services/Models/profiles.models";
+import { profileDTO } from "../../../models/profiles.models";
 
 export default function FriendsList({ friends }: FriendsListProps) {
   return (

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { profileDTO } from "../services/Models/profiles.models";
+import { profileDTO } from "../models/profiles.models";
 import { getProfile } from "../globals/Profile/HandleProfile";
 
 export function useProfile() {

@@ -3,7 +3,7 @@ import uuid4 from "uuid4";
 import { ReadyImagesURL } from "../../globals/appUrls";
 import { storageRef } from "../../services/Firebase/FirebaseConfig";
 import "./style.scss";
-import { profileDTO } from "../../services/Models/profiles.models";
+import { profileDTO } from "../../models/profiles.models";
 import TopModal from "../../_utils/ModalAtTop/ModalAtTop";
 import FileInput from "../../_utils/FileInput/FileInput";
 import { axiosBase } from "../../globals/apiPaths";

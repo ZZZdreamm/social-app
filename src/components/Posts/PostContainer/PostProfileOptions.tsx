@@ -2,12 +2,12 @@ import { useEffect, useState } from "react";
 import { getStringBetweenPercentSigns } from "../../../_utils/1Functions/StringManipulations";
 import { ReadyImagesURL } from "../../../globals/appUrls";
 import OpenedPostForm from "../PostForm/OpenedForm";
-import { queryClient } from "../../../App";
 import { patchPost } from "../../../apiFunctions/patchPost";
 import { useMutation } from "react-query";
 import { deletePost } from "../../../apiFunctions/deletePost";
 import { useAuthenticationContext } from "../../../services/Contexts/AuthenticationContext";
 import { PostProfileProps } from ".";
+import { queryClient } from "../../../globals/constants";
 
 export const PostProfileOptions = ({ post, queryName }: PostProfileProps) => {
   const { profile } = useAuthenticationContext();

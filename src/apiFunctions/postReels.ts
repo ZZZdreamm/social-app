@@ -1,5 +1,5 @@
 import { axiosBase } from "../globals/apiPaths";
-import { ReelsCreationDto } from "../services/Models/reels.models";
+import { ReelsCreationDto } from "../models/reels.models";
 
 export async function postReels(reelsCreationDto: ReelsCreationDto) {
   console.log(reelsCreationDto);
@@ -13,7 +13,7 @@ export async function postReels(reelsCreationDto: ReelsCreationDto) {
       "Content-Type": "multipart/form-data",
     },
   });
-  const createdReel = response.data;
+  const createdReel = response?.data;
   console.log(createdReel);
   return createdReel;
 }

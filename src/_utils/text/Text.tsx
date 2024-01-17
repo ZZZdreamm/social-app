@@ -1,32 +1,56 @@
-import { styled } from "styled-components";
+import { styled } from 'styled-components'
+import { ThemeColor, theme } from '../../globals/constants'
 
-enum FontSize {
-  vsmall = "0.4rem",
-  small = "0.8rem",
-  medium = "1.2rem",
-  large = "1.6rem",
-  vlarge = "2rem",
+export interface TextProps {
+  fontSize?: number
+  fontWeight?: 'bold' | 'normal' | 'light'
+  color?: ThemeColor
+  lineHeight?: number
+  isUnderlined?: boolean
+  opacity?: number
+  children: React.ReactNode
 }
 
-interface TextProps {
-  fontSize?: FontSize;
-  opacity?: number;
-  children: string;
+const weight = {
+  bold: 800,
+  normal: 600,
+  light: 400,
 }
 
 export function Text({
-  children,
-  fontSize = FontSize.medium,
+  fontSize = 14,
+  fontWeight,
+  color,
+  lineHeight = 100,
+  isUnderlined = false,
   opacity = 1,
+  children,
+  ...props
 }: TextProps) {
   return (
-    <TextContainer fontSize={fontSize} opacity={opacity}>
+    <ContentContainer
+      fontSize={fontSize}
+      fontWeight={fontWeight}
+      color={color}
+      lineHeight={lineHeight}
+      isUnderlined={isUnderlined}
+      opacity={opacity}
+      {...props}
+    >
       {children}
-    </TextContainer>
-  );
+    </ContentContainer>
+  )
 }
 
-const TextContainer = styled.div<TextProps>`
-  font-size: ${({ fontSize }) => fontSize};
-  opacity: ${({ opacity }) => opacity};
-`;
+const ContentContainer = styled.div<TextProps>`
+  display: inline-block;
+  line-height: ${(props) => props.lineHeight}%;
+  font-size: ${(props) => props.fontSize}px;
+  font-weight: ${(props) => weight[props.fontWeight || 'normal']};
+  font-family:
+    PP Mori,
+    sans-serif;
+  color: ${({ color }) => (color ? theme.colors[color] : 'black')};
+  text-decoration: ${(props) => (props.isUnderlined ? 'underline' : 'none')};
+  opacity: ${(props) => props.opacity};
+`

@@ -1,38 +1,135 @@
-import styled from "styled-components";
+import styled from 'styled-components'
+import { forwardRef, useState } from 'react'
+import { useFormContext } from 'react-hook-form'
+import { ErrorMessage } from '@hookform/error-message'
+import { Text } from '../text/Text'
 
-interface InputProps extends React.HTMLAttributes<HTMLInputElement> {
-  setValue: (value: string) => void;
-  error?: string;
+type InputTypes = 'dropdown' | 'text'
+
+export interface InputOnlyProps {
+  name: string
+  typeOfInput?: 'text' | 'password'
+  placeholder?: string
+  inputOptions?: string[]
+  required?: boolean
 }
 
-export function Input({ setValue, error, ...props }: InputProps) {
-  return (
-    <InputContainer>
-      <InputField onChange={(e) => setValue(e.target.value)} {...props} />
-      {error && <Error>{error}</Error>}
-    </InputContainer>
-  );
+interface InputWithTypeProps extends InputOnlyProps {
+  type?: InputTypes
 }
 
-const InputContainer = styled.div`
+export interface InputProps
+  extends React.HTMLAttributes<HTMLInputElement>,
+    InputWithTypeProps {}
+
+export const Input = forwardRef(
+  (
+    {
+      type = 'text',
+      typeOfInput = 'text',
+      placeholder,
+      inputOptions = [],
+      name,
+      required = false,
+      ...props
+    }: InputProps,
+    ref: React.ForwardedRef<HTMLInputElement>
+  ) => {
+    const {
+      register,
+      setValue,
+      formState: { errors },
+    } = useFormContext()
+    // const [showOptions, setShowOptions] = useState(false)
+    // const toggleOptions = () => {
+    //   setShowOptions((showOptions) => !showOptions)
+    // }
+    // const chooseOption = (option: string) => {
+    //   setValue(`${name}`, option)
+    //   toggleOptions()
+    // }
+
+    // const blockWriting = type === 'dropdown'
+
+    return (
+      <InputWrapper {...register(name)}>
+        <LeftSide>
+          <InputStyled
+            ref={ref}
+            name={name}
+            type={typeOfInput}
+            placeholder={placeholder}
+            // readOnly={blockWriting}
+            {...props}
+          />
+          <ErrorMessage
+            errors={errors}
+            name={name}
+            render={({ message }) => (
+              <ErrorMessageContainer>
+                <Text fontSize={10} color="red" lineHeight={132}>
+                  {message}
+                </Text>
+              </ErrorMessageContainer>
+            )}
+          />
+        </LeftSide>
+        {/* {type === 'dropdown' && (
+          <>
+            <ButtonIcon
+              size={ButtonIconSize.large}
+              color="ecru"
+              icon={<ArrowIcon size={ButtonIconSize.vSmall} direction="down" />}
+              onClick={toggleOptions}
+              inCircle={false}
+            />
+            {showOptions && (
+              <DropdownOptionsList
+                inputOptions={inputOptions}
+                chooseOption={chooseOption}
+              />
+            )}
+          </>
+        )} */}
+      </InputWrapper>
+    )
+  }
+)
+
+
+const InputWrapper = styled.div`
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: ${({ theme }) => theme.colors.inputs};
+  border-radius: 8px;
+  padding-left: 12px;
+  width: 100%;
+  height: 48px;
+  box-sizing: border-box;
+`
+
+const LeftSide = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
   width: 100%;
-  height: 100%;
-  padding: 0.5rem;
-  box-sizing: border-box;
-  gap: 0.5rem;
-`;
+`
 
-const InputField = styled.input`
-  width: 100%;
-  height: 1.6rem;
-  border-radius: 0.5rem;
-`;
+const InputStyled = styled.input`
+  width: 90%;
+  background: transparent;
+  font-size: 14px;
+  line-height: 100%;
+  font-weight: 600;
+  color: ${({ theme }) => theme.colors.black};
+  cursor: auto;
+  border: none;
+  outline: none;
+`
 
-const Error = styled.div`
-  height: 1.6rem;
-  color: red;
-`;
+const ErrorMessageContainer = styled.div`
+  position: absolute;
+  bottom: 2px;
+  left: 12px;
+`

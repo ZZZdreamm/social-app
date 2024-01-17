@@ -16,20 +16,21 @@ export default function ScrollingMediaFiles({
       {mediaFiles && (
         <div className="box">
           <div ref={filesContainerRef} className="container">
-            {mediaFiles.map((oneFile) => (
-              <span key={oneFile} className="element">
-                {(oneFile.includes(".jpg") ||
-                  oneFile.includes(".jpeg") ||
-                  oneFile.includes(".png")) && (
-                  <img src={oneFile} alt="Loading" />
-                )}
-                {oneFile.includes(".mp4") && (
-                  <video controls>
-                    <source src={oneFile} type="video/mp4" />
-                  </video>
-                )}
-              </span>
-            ))}
+            {mediaFiles &&
+              mediaFiles.map((oneFile) => (
+                <span key={oneFile} className="element">
+                  {(oneFile.includes(".jpg") ||
+                    oneFile.includes(".jpeg") ||
+                    oneFile.includes(".png")) && (
+                    <img src={oneFile} alt="Loading" />
+                  )}
+                  {oneFile.includes(".mp4") && (
+                    <video controls>
+                      <source src={oneFile} type="video/mp4" />
+                    </video>
+                  )}
+                </span>
+              ))}
           </div>
           {mediaFiles.length > 1 && (
             <ScrollListWithArrows containerRef={filesContainerRef} />

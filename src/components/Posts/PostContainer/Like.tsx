@@ -11,7 +11,6 @@ import { getStringBetweenPercentSigns } from "../../../_utils/1Functions/StringM
 import { ProfileImage } from "../../ProfileImage/ProfileImage";
 import { axiosBase } from "../../../globals/apiPaths";
 import { useMutation } from "react-query";
-import { queryClient } from "../../../App";
 import { deletePost } from "../../../apiFunctions/deletePost";
 import { patchPost } from "../../../apiFunctions/patchPost";
 import { useAuthenticationContext } from "../../../services/Contexts/AuthenticationContext";

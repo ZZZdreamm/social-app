@@ -1,10 +1,10 @@
 import "./style.scss";
 import { useEffect, useRef, useState } from "react";
-import { socket } from "../../App";
 import { useParams } from "react-router-dom";
 import ReactDOM from "react-dom";
 import { ReadyImagesURL } from "../../globals/appUrls";
 import Portal from "../../_utils/Portal/Portal";
+import { socket } from "../../globals/constants";
 
 const config = {
   //   iceServers: [{ urls: ["stun.commpeak.com:3478", "stun.comtube.com:3478"] }],

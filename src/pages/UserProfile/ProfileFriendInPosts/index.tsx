@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { ReadyImagesURL } from "../../../globals/appUrls";
-import { profileDTO } from "../../../services/Models/profiles.models";
+import { profileDTO } from "../../../models/profiles.models";
 import OpenedOptions from "../../../_utils/OpenedOptions";
 import { axiosBase } from "../../../globals/apiPaths";
 import { useProfilesRelationsContext } from "../../../services/Contexts/ProfileDataContext";

@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { ReelsDto } from "../../services/Models/reels.models";
+import { ReelsDto } from "../../models/reels.models";
 import { useNavigate } from "react-router-dom";
 
 interface ReelsProps {

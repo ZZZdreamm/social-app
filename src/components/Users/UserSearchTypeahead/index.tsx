@@ -1,6 +1,6 @@
 import "./style.scss";
 import SearchOption from "../SearchOption";
-import { profileDTO } from "../../../services/Models/profiles.models";
+import { profileDTO } from "../../../models/profiles.models";
 import SearchTypeahead from "../../../_utils/SearchTypeahead";
 import { axiosBase } from "../../../globals/apiPaths";
 import { useAuthenticationContext } from "../../../services/Contexts/AuthenticationContext";

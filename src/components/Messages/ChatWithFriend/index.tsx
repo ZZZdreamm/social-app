@@ -1,7 +1,7 @@
 import "./style.scss";
 import { useRef, useState } from "react";
-import { messageResponseDTO } from "../../../services/Models/message.models";
-import { profileDTO } from "../../../services/Models/profiles.models";
+import { messageResponseDTO } from "../../../models/message.models";
+import { profileDTO } from "../../../models/profiles.models";
 import { ChatHeader } from "./ChatHeader";
 import { ChatBody } from "./ChatBody";
 import { ChatFooter } from "./ChatFooter";

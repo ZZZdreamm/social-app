@@ -1,12 +1,11 @@
 import "./style.scss";
 import { useRef, useState } from "react";
 import uuid4 from "uuid4";
-import { socket } from "../../../App";
 import { storageRef } from "../../../services/Firebase/FirebaseConfig";
 import {
   messageCreationDTO,
   messageResponseDTO,
-} from "../../../services/Models/message.models";
+} from "../../../models/message.models";
 
 import { removeOnlyText } from "../../../_utils/1Functions/DivControl";
 import { ReadyImagesURL } from "../../../globals/appUrls";
@@ -14,6 +13,7 @@ import MultipleFileInput from "../../Posts/MultipleFileInput";
 import RecordMessager from "../RecordMessager";
 import { useAuthenticationContext } from "../../../services/Contexts/AuthenticationContext";
 import { FriendProps } from ".";
+import { socket } from "../../../globals/constants";
 
 interface ChatFooterAttributes extends FriendProps {
   newestMessagesRef: any;

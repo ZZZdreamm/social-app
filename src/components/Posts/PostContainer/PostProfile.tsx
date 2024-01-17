@@ -12,6 +12,7 @@ export const PostProfile = ({ post, queryName }: PostProfileProps) => {
     }
   };
 
+
   return (
     <div className="post-profile">
       <ProfileImage imageURL={post.AutorProfileImage} onClick={goToProfile} />

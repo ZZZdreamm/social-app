@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import GenericList from "../../_utils/GenericList/GenericList";
 import Waiting from "../../_utils/Waiting/indexxx";
-import { ReelsDto } from "../../services/Models/reels.models";
+import { ReelsDto } from "../../models/reels.models";
 import { Reels } from "../reels/Reels";
 import { ScrollListWithArrows } from "../../_utils/scrollListWithArrows/ScrollListWithArrows";
 import { useRef } from "react";

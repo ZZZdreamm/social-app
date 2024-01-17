@@ -1,6 +1,9 @@
 import { useEffect, useRef, useState } from "react";
 import { ReadyImagesURL } from "../../globals/appUrls";
 import "./style.scss";
+import { GoBackArrowIcon } from "assets/icons/GoBackArrowIcon";
+import { FriendsIcon } from "assets/icons/FriendsIcon";
+import { HomePageIcon } from "assets/icons/HomePageIcon";
 
 interface ScrollingMediaFilesProps {
   containerRef: React.MutableRefObject<HTMLDivElement | null>;
@@ -60,12 +63,12 @@ export function ScrollListWithArrows({
     <>
       {!isScrollAtStart && (
         <div ref={leftScrollRef} className="scroll scroll-left">
-          <img src={`${ReadyImagesURL}/goBackArrow.png`} alt="" />
+          <GoBackArrowIcon />
         </div>
       )}
       {!isScrolledToEnd && (
         <div ref={rightScrollRef} className="scroll scroll-right">
-          <img src={`${ReadyImagesURL}/goBackArrow.png`} alt="" />
+          <GoBackArrowIcon />
         </div>
       )}
     </>

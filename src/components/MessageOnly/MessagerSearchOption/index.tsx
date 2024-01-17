@@ -1,4 +1,4 @@
-import { profileDTO } from "../../../services/Models/profiles.models";
+import { profileDTO } from "../../../models/profiles.models";
 import "./style.scss";
 import { ProfileImage } from "../../ProfileImage/ProfileImage";
 import { useProfilesRelationsContext } from "../../../services/Contexts/ProfileDataContext";

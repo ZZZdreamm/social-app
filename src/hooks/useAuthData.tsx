@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { claim } from "../services/Models/auth.models";
+import { claim } from "../models/auth.models";
 import { getClaims } from "../globals/Auth/HandleJWT";
 
 export function useAuthData() {

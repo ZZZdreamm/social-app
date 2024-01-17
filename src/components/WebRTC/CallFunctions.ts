@@ -1,5 +1,5 @@
 import { ReadyImagesURL } from "../../globals/appUrls";
-import { profileDTO } from "../../services/Models/profiles.models";
+import { profileDTO } from "../../models/profiles.models";
 
 export function openCallWindow(myProfile:profileDTO, friend:profileDTO, roomId:string, url:string){
     var width = window.innerWidth/4;

@@ -1,6 +1,6 @@
 import "./style.scss";
 import { useNavigate } from "react-router-dom";
-import { profileDTO } from "../../../services/Models/profiles.models";
+import { profileDTO } from "../../../models/profiles.models";
 
 import { ReadyImagesURL } from "../../../globals/appUrls";
 import { axiosBase } from "../../../globals/apiPaths";

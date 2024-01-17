@@ -3,12 +3,11 @@ import { useNavigate } from "react-router-dom";
 import AuthForm from "../../globals/Auth/AuthForm/AuthForm";
 import { saveProfile } from "../../globals/Profile/HandleProfile";
 import "./styles.scss";
-import { userCredentials } from "../../services/Models/auth.models";
+import { userCredentials } from "../../models/auth.models";
 import { getClaims, saveToken } from "../../globals/Auth/HandleJWT";
 import { axiosBase } from "../../globals/apiPaths";
 import { ExampleAccountLoginButton } from "../../components/exampleAccountLogin/ExampleAccountLoginButton";
 import { useAuthData } from "../../hooks/useAuthData";
-import { isHerokuServerAwake } from "../../_utils/getHerokuServerState/getHerokuState";
 
 export default function Login() {
   const [errors, setErrors] = useState<string[]>([]);
@@ -48,9 +47,8 @@ export default function Login() {
         <AuthForm
           model={{ email: "example@gmail.com", password: "Example1@" }}
           onSubmit={async (values) => await login(values)}
-          submitButtonName="Login"
         />
-        <div>Or</div>
+        <div style={{ marginTop: "20px" }}>Or</div>
         <ExampleAccountLoginButton />
         <div className="auth-link">
           <div>

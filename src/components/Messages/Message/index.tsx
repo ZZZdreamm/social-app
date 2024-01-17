@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import {
   messageDTO,
   messageResponseDTO,
-} from "../../../services/Models/message.models";
+} from "../../../models/message.models";
 
 import MessageOptions from "../../../components/Messages/Message/MessageOptions";
 import ShowFullImages from "../../../_utils/ShowFullImages";

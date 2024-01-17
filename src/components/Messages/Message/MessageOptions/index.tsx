@@ -2,12 +2,12 @@ import { ReadyImagesURL } from "../../../../globals/appUrls";
 import {
   messageDTO,
   messageResponseDTO,
-} from "../../../../services/Models/message.models";
+} from "../../../../models/message.models";
 import "./style.scss";
 import { useAuthenticationContext } from "../../../../services/Contexts/AuthenticationContext";
 import { useMutation } from "react-query";
 import { deleteMessage } from "../../../../apiFunctions/deleteMessage";
-import { queryClient } from "../../../../App";
+import { queryClient } from "../../../../globals/constants";
 
 interface MessageOptionsProps {
   message: messageDTO;

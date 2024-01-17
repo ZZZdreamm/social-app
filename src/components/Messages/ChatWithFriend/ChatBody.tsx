@@ -2,17 +2,17 @@ import { useEffect, useRef, useState } from "react";
 import Waiting from "../../../_utils/Waiting/indexxx";
 import ListOfMessages from "../ListOfMessages";
 import { ChatWithFriendSkeleton } from "./skeleton";
-import { socket } from "../../../App";
 import { isVisibleInViewport } from "../../../_utils/1Functions/IsVisibleInViewport";
 import useIsInViewport from "../../../_utils/2Hooks/IsInViewPort";
 import { testEndpoint } from "../../../apiFunctions/testEndpoint";
 import { useMutation, useQueryClient } from "react-query";
 import { useInfiniteMessages } from "../../../hooks/useInfiniteMessages";
 import { getMessages } from "../../../apiFunctions/getMessages";
-import { messageResponseDTO } from "../../../services/Models/message.models";
+import { messageResponseDTO } from "../../../models/message.models";
 import { FriendProps } from ".";
 import { ReadyImagesURL } from "../../../globals/appUrls";
 import { useAuthenticationContext } from "../../../services/Contexts/AuthenticationContext";
+import { socket } from "../../../globals/constants";
 
 interface ChatBodyProps extends FriendProps {
   setRespondTo: (message: messageResponseDTO | undefined) => void;

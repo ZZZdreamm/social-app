@@ -5,12 +5,12 @@ import ListOfComments from "../../Comments/ListOfComments";
 import "./style.scss";
 import { ProfileImage } from "../../ProfileImage/ProfileImage";
 import { useMutation } from "react-query";
-import { queryClient } from "../../../App";
 import { useAuthenticationContext } from "../../../services/Contexts/AuthenticationContext";
 import { useInfiniteComments } from "../../../hooks/useInfiniteComments";
 import { getComments } from "../../../apiFunctions/getComments";
 import Waiting from "../../../_utils/Waiting/indexxx";
 import { postComment } from "../../../apiFunctions/postComment";
+import { queryClient } from "../../../globals/constants";
 
 interface CommentsProps {
   post: postDTO;

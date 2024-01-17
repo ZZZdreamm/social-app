@@ -10,7 +10,6 @@
   z-index: 30;
   background-color: var(--backColor);
   &-bar {
-    // background-color: var(--navColor);
     background-color: var(--reverseToNavColor);
     color: var(--navColor);
     display: flex;
@@ -33,18 +32,33 @@
     justify-content: center;
     align-items: center;
     gap: 1rem;
+    z-index: 10;
   }
 }
 
 @include phone {
   .page {
     flex-direction: column;
-    &-bar {
+    // &-bar {
+    //   width: 100%;
+    //   height: 30vh;
+    //   display: flex;
+    //   flex-direction: column;
+    //   &__nav{
+    //     height: 4vh;
+    //   }
+    // }
+    &-bar{
+      display: none;
+    }
+    &-content {
       width: 100%;
-      height: 10vh;
-      &__nav{
-        height: 4vh;
-      }
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 1rem;
+      z-index: 10;
     }
   }
 }

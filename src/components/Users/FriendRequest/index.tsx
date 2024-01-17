@@ -1,5 +1,5 @@
 import "./style.scss";
-import { profileDTO } from "../../../services/Models/profiles.models";
+import { profileDTO } from "../../../models/profiles.models";
 import { ProfileImage } from "../../ProfileImage/ProfileImage";
 import { axiosBase } from "../../../globals/apiPaths";
 import { useProfilesRelationsContext } from "../../../services/Contexts/ProfileDataContext";

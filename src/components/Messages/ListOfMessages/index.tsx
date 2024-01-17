@@ -1,7 +1,7 @@
 import {
   messageDTO,
   messageResponseDTO,
-} from "../../../services/Models/message.models";
+} from "../../../models/message.models";
 import "./style.scss";
 import Message from "../Message";
 

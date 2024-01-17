@@ -1,5 +1,4 @@
 import uuid4 from "uuid4";
-import { socket } from "../../../App";
 import { ReadyImagesURL } from "../../../globals/appUrls";
 import { ProfileImage } from "../../ProfileImage/ProfileImage";
 import { openCallWindow } from "../../WebRTC/CallFunctions";
@@ -7,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { useAuthenticationContext } from "../../../services/Contexts/AuthenticationContext";
 import { useOpenedChatsContext } from "../../../services/Contexts/OpenedChatsContext";
 import { FriendProps } from ".";
+import { socket } from "../../../globals/constants";
 
 interface ChatHeaderProps extends FriendProps {
   smallChatClose?: JSX.Element | undefined;

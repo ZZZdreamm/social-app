@@ -1,5 +1,5 @@
 import { axiosBase } from "../globals/apiPaths";
-import { messageDTO } from "../services/Models/message.models";
+import { messageDTO } from "../models/message.models";
 
 export async function getMessageToMessageWithId(
   profileId: string,

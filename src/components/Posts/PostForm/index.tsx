@@ -3,12 +3,12 @@ import OpenedPostForm from "./OpenedForm";
 import "./style.scss";
 import { ProfileImage } from "../../ProfileImage/ProfileImage";
 import { useMutation } from "react-query";
-import { queryClient } from "../../../App";
 import { postPost } from "../../../apiFunctions/postPost";
 import { useAuthenticationContext } from "../../../services/Contexts/AuthenticationContext";
 import Button from "../../../_utils/Button";
 import { postReels } from "../../../apiFunctions/postReels";
 import { useNavigate } from "react-router-dom";
+import { queryClient } from "../../../globals/constants";
 
 export default function PostForm({ queryName }: { queryName: string }) {
   const { profile } = useAuthenticationContext();

@@ -1,8 +1,11 @@
 import { useEffect } from "react";
 import { colors } from "../../globals/colors";
 import "./style.scss";
+import { useNightModeContext } from "services/Contexts/NightModeContext";
 
 export default function NightModeSwitch() {
+  const { setNightMode } = useNightModeContext();
+
   useEffect(() => {
     const checkbox = document.getElementById(
       "hide-checkbox"
@@ -12,10 +15,13 @@ export default function NightModeSwitch() {
       if (nightMode == undefined) {
         localStorage.setItem("nightMode", "true");
         checkbox.checked = false;
+        setNightMode(true);
       } else if (nightMode === "true") {
         checkbox.checked = false;
+        setNightMode(true);
       } else {
         checkbox.checked = true;
+        setNightMode(false);
       }
       toggleNightMode(checkbox);
     }
@@ -29,6 +35,8 @@ export default function NightModeSwitch() {
       checkbox.checked = !checkbox.checked;
     }
     toggleNightMode(checkbox);
+    // @ts-ignore
+    setNightMode((nightMode: boolean) => !nightMode);
   }
   function toggleNightMode(checkbox: HTMLInputElement) {
     const root = document.documentElement;
