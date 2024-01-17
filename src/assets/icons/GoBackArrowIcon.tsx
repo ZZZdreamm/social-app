@@ -8,7 +8,7 @@ interface Props {
 }
 
 export function GoBackArrowIcon({
-  size = "16",
+  size = "1rem",
   color = "black",
   rotation = "0",
 }: Props) {

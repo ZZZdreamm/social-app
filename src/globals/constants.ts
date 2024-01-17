@@ -90,6 +90,10 @@ export const darkTheme = {
     iconsBackColor: "#f0f0f0",
     scrollColor: "#e4e6e9",
   },
+  shadows: {
+    light: "0px 4px 4px rgba(0, 0, 0, 0.25)",
+    dark: "0px 4px 4px rgba(0, 0, 0, 0.5)",
+  },
 };
 
 export enum ButtonIconSize {

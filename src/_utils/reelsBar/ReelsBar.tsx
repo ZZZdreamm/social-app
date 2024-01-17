@@ -43,7 +43,7 @@ const Strap = styled.div<{
   width: 100%;
   height: 0.5rem;
   background-color: ${(props) =>
-    props.choosen ? props.theme.colors.ecru : props.theme.colors.oliveAccent};
+    props.choosen ? props.theme.colors.lightBlue : props.theme.colors.reverseToNavColor};
   margin-bottom: 0.5rem;
   box-shadow: ${(props) => props.theme.shadows.light};
 `;
