@@ -22,6 +22,8 @@ export default function PostContainer({ post, queryName }: PostContainerProps) {
     setShowComments((showComments) => !showComments);
   }
 
+  
+
   return (
     <div className="post shadow-around">
       <PostProfile post={post} queryName={queryName} />

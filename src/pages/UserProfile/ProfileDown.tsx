@@ -74,26 +74,6 @@ export const ProfileDown = ({
   const windowSize = useWindowSizeChanged({ callback: () => {} });
 
   useEffect(() => {
-    // gsap.set(".profile-down-posts-container", {
-    //   zIndex: (i, target, targets) => targets.length - i,
-    // });
-    // var images: any[] = gsap.utils.toArray(
-    //   ".profile-down-posts-container"
-    // );
-    // images.forEach((image: any, i) => {
-    //   var tl = gsap.timeline({
-    //     scrollTrigger: {
-    //       trigger: "#profile-friends",
-    //       start: () => "top -" + window.innerHeight * (i + 0.5),
-    //       end: () => "+=" + window.innerHeight,
-    //       scrub: true,
-    //       toggleActions: "play none reverse none",
-    //       invalidateOnRefresh: true,
-    //     },
-    //   });
-    //   tl.to(image, { height: 0 });
-    // });
-
     ScrollTrigger.create({
       ...scrollTriggerProps,
     });

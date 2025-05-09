@@ -10,23 +10,7 @@ export type ThemeColor = keyof typeof theme.colors;
 
 export const theme = {
   colors: {
-    ecru: "#FAFAF0",
-    // mustard: "#fbe03c",
-    // blue: "#2E7CF6",
-    // ecruAccent: "#E1DCCD",
-    inputs: "#e1dfd5",
-    // brown: "#281914",
-    black: "#000000",
-    white: "#ffffff",
-    red: "#FB4F29",
-    // coolGray: "#A0AFB4",
-    // lightGray: "#938C89",
-    // darkTeal: "#1E2D2D",
-    // olive: "#232805",
-    // oliveAccent: "#413C1E",
-    // gray: "#C8C7BE",
-    // lightBlack: "#1D1D1D",
-    // darkGray: "#373737",
+
     navColor: "#ffffff",
     reverseToNavColor: "#000000",
     backColor: "#f0f2f5",
@@ -51,6 +35,13 @@ export const theme = {
     lightBlue: "rgba(0, 132, 255, 1)",
     iconsBackColor: "placeholder",
     scrollColor: "#2f2f2f",
+
+    blue: "#0056cd",
+    black: "#000000",
+    white: "#ffffff",
+    ecru: "#FAFAF0",
+    inputs: "#e1dfd5",
+    red: "#FB4F29",
   },
   shadows: {
     light: "0px 4px 4px rgba(0, 0, 0, 0.25)",
@@ -60,11 +51,6 @@ export const theme = {
 
 export const darkTheme = {
   colors: {
-    black: "#000000",
-    white: "#ffffff",
-    ecru: "#FAFAF0",
-    inputs: "#e1dfd5",
-    red: "#FB4F29",
     navColor: "#000000",
     reverseToNavColor: "#ffffff",
     backColor: "#2f2f2f",
@@ -78,7 +64,6 @@ export const darkTheme = {
     textColor1: "#f2f2f2",
     textColor2: "#ffffff",
     testColor3: "rgba(0, 132, 255, 1)",
-    blueColor: "#0084ff",
     shadow1: "rgba(255, 255, 255, 0.1)",
     shadow2: "rgba(255, 255, 255, 0.2)",
     shadow3: "rgba(255, 255, 255, 0.3)",
@@ -89,6 +74,14 @@ export const darkTheme = {
     lightBlue: "rgba(0, 132, 255, 1)",
     iconsBackColor: "#f0f0f0",
     scrollColor: "#e4e6e9",
+    blueColor: "#0084ff",
+
+    blue: "#0056cd",
+    black: "#000000",
+    white: "#ffffff",
+    ecru: "#FAFAF0",
+    inputs: "#e1dfd5",
+    red: "#FB4F29",
   },
   shadows: {
     light: "0px 4px 4px rgba(0, 0, 0, 0.25)",

@@ -53,6 +53,8 @@ export default function LandingPage() {
   }, []);
 
   const showRightBar = windowSize > 700 ? true : false;
+
+  console.log(posts)
   return (
     <>
       <Authorized
